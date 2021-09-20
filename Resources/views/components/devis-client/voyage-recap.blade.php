@@ -22,7 +22,11 @@
     <div style="background-color: #ebf3f7" class="m-4 p-4 space-y-6 text-base">
         <div>Bonjour {{ $devis->dossier->client->format_name ?? '' }},</div>
         <div>C'est avec plaisir que nous vous envoyons notre offre pour votre trajet au départ de
-            <span class="font-bold">{{ $devis->data['aller_distance']['origin_formatted'] ?? '' }}, le {{ \Carbon\Carbon::createFromTimeString($devis->data['aller_date_depart'] ?? '')->translatedFormat('l d F Y') }}.</span>
+            @if($devis->data['aller_distance']['origin_formatted'] ?? false)
+                <span class="font-bold">{{ $devis->data['aller_distance']['origin_formatted'] ?? '' }}, le {{ \Carbon\Carbon::createFromTimeString($devis->data['aller_date_depart'] ?? '')->translatedFormat('l d F Y') }}.</span>
+            @else
+                <span class="font-bold">Aucune date</span>
+            @endif
         </div>
         <div>En cliquant sur « Réservez le trajet en Autocar » , vous serez redirigé sur notre site
             internet
@@ -42,14 +46,35 @@
                 <span>vers </span>
                 <span class="font-bold">{{ $devis->data['aller_distance']['destination_formatted'] ?? '' }} </span>
             </div>
-            <div>Date : {{ \Carbon\Carbon::createFromTimeString($devis->data['aller_date_depart'] ?? '')->translatedFormat('d/m/Y') }}</div>
+            <div>
+                Date :
+                @if($devis->data['aller_date_depart'] ?? false)
+                    {{ \Carbon\Carbon::createFromTimeString($devis->data['aller_date_depart'] ?? '')->translatedFormat('d/m/Y') }}
+                @else
+                    Aucune date
+                @endif
+            </div>
             <div>
                 <span>Heure de Départ : </span>
-                <span class="font-bold">{{ \Carbon\Carbon::createFromTimeString($devis->data['aller_date_depart'] ?? '')->format('h:i') }}</span>
+                <span class="font-bold">
+                     @if($devis->data['aller_date_depart'] ?? false)
+                        {{ \Carbon\Carbon::createFromTimeString($devis->data['aller_date_depart'] ?? '')->format('h:i') }}
+                    @else
+                        Aucune heure
+                    @endif
+
+                </span>
             </div>
         </div>
         <div class="mt-8">
-            <div>Retour le : {{ \Carbon\Carbon::createFromTimeString($devis->data['retour_date_depart'] ?? '')->translatedFormat('d/m/Y') }}</div>
+            <div>
+                Retour le :
+                @if($devis->data['retour_date_depart'] ?? false)
+                    {{ \Carbon\Carbon::createFromTimeString($devis->data['retour_date_depart'] ?? '')->translatedFormat('d/m/Y') }}
+                @else
+                    Aucune date de retour
+                @endif
+            </div>
             <div>
                 <span>Départ de </span>
                 <span class="font-bold">{{ $devis->data['aller_distance']['destination_formatted'] ?? '' }} </span>
@@ -58,7 +83,13 @@
             </div>
             <div>
                 <span>Heure de Départ : </span>
-                <span class="font-bold">{{ \Carbon\Carbon::createFromTimeString($devis->data['retour_date_depart'] ?? '')->format('h:i') }}</span>
+                <span class="font-bold">
+                    @if($devis->data['retour_date_depart'] ?? false)
+                        {{ \Carbon\Carbon::createFromTimeString($devis->data['retour_date_depart'] ?? '')->format('h:i') }}
+                    @else
+                        Aucune date de retour
+                    @endif
+                </span>
             </div>
         </div>
 

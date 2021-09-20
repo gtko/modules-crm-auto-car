@@ -27,6 +27,7 @@ class CrmAutoCarServiceProvider extends ServiceProvider
         $this->mapWebRoutes();
         Blade::componentNamespace('Modules\CrmAutoCar\View\Components', $this->moduleNameLower);
         $this->registerViews();
+        $this->loadMigrationsFrom(module_path($this->moduleName,'Database/Migrations'));
     }
 
     /**
