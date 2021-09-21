@@ -16,7 +16,7 @@ Route::prefix('/')
     ->group(function () {
 
         Route::get('/mail', function () {
-            \Illuminate\Support\Facades\Mail::to('aurelienverdeau@gmail.com')->send(new \Modules\CrmAutoCar\Mail\SendLinkDevisClientMail());
+            \Illuminate\Support\Facades\Mail::to('aurelienverdeau@gmail.com')->send(new \Modules\CrmAutoCar\Mail\AccepteDevisConseillerMail());
         });
 
         Route::resource('cuves', CuveController::class)->only('index', 'destroy', 'show');
