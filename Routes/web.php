@@ -15,6 +15,10 @@ Route::prefix('/')
     ->middleware(['auth:web', 'verified'])
     ->group(function () {
 
+        Route::get('/mail', function () {
+            \Illuminate\Support\Facades\Mail::to('aurelienverdeau@gmail.com')->send(new \Modules\CrmAutoCar\Mail\SendLinkDevisClientMail());
+        });
+
         Route::resource('cuves', CuveController::class)->only('index', 'destroy', 'show');
 //        Route::resource('brands', BrandController::class);
 //        Route::resource('templates', TemplatesController::class)->except('show');
