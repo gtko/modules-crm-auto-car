@@ -1,5 +1,5 @@
 <div>
-    <x-modal wire:model="isOpen" maxWidth="sm">
+    <x-jet-modal wire:model="isOpen" max-width="lg">
         <div class="flex flex-col items-center w-full pb-4" style="background-color: #e8e9eb">
             <img src="/assets/img/logo_devis.png"
                  alt=""
@@ -144,6 +144,5 @@
                 </p>
             </div>
         </form>
-    </x-modal>
-
+    </x-jet-modal>
 </div>
