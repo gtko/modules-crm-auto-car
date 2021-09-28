@@ -1,12 +1,17 @@
 @component('mail::message')
-# Introduction
 
-The body of your message.
 
-@component('mail::button', ['url' => ''])
-Button Text
-@endcomponent
+<div style="color: black">
+<div style="text-align: center">
+<img
+alt="Logo"
+src="{{asset('/assets/img/logo-centrale-autocar.png')}}"
+style="width: 350px; padding-bottom: 50px"
+>
+</div>
 
-Thanks,<br>
-{{ config('app.name') }}
+{{$message}}
+
+
+</div>
 @endcomponent

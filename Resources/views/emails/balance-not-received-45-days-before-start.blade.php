@@ -1,12 +1,4 @@
 @component('mail::message')
-# Introduction
 
-The body of your message.
-
-@component('mail::button', ['url' => ''])
-Button Text
-@endcomponent
-
-Thanks,<br>
-{{ config('app.name') }}
+Le paiement du solde pour le devis #12454 au depar de Reins le 12/05/2022 n'a pas etait reçu.
 @endcomponent

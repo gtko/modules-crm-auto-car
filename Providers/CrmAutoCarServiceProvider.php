@@ -5,6 +5,9 @@ namespace Modules\CrmAutoCar\Providers;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
+use Modules\BaseCore\Contracts\Services\CompositeurThemeContract;
+use Modules\BaseCore\Entities\TypeView;
+use Modules\CoreCRM\Contracts\Views\Dossiers\DossierAfterSidebarContract;
 
 class CrmAutoCarServiceProvider extends ServiceProvider
 {
@@ -28,6 +31,10 @@ class CrmAutoCarServiceProvider extends ServiceProvider
         Blade::componentNamespace('Modules\CrmAutoCar\View\Components', $this->moduleNameLower);
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName,'Database/Migrations'));
+
+        app(CompositeurThemeContract::class)->setViews(DossierAfterSidebarContract::class, [
+            new TypeView(TypeView::TYPE_LIVEWIRE, 'crmautocar::block-fournisseur')
+        ]);
     }
 
     /**
