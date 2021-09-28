@@ -3,21 +3,13 @@
 namespace Modules\CrmAutoCar\Http\Livewire\DevisClient;
 
 use Livewire\Component;
+use Modules\BaseCore\Http\Livewire\AbstractModal;
 
-class PopupValition extends Component
+class PopupValition extends AbstractModal
 {
-    /**
-     * Get the views / contents that represent the component.
-     *
-     * @return \Illuminate\View\View|string
-     */
-    public $isOpen = false;
-
-    protected $listeners = ['isOpen' => 'open'];
-
-    public function open()
+    public function getKey(): string
     {
-        $this->isOpen = !$this->isOpen;
+        return 'popup-valition';
     }
 
     public function render()

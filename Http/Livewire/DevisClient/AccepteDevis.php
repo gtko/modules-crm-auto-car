@@ -27,7 +27,7 @@ class AccepteDevis extends Component
     {
         if($this->accepte)
         {
-            $this->emit('isOpen');
+            $this->emit('popup-valition:open');
         } else {
             $this->addError('accepte', 'Vous devez accepter les CGV pour pouvoir valider votre trajet.');
         }
