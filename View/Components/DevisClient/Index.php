@@ -2,6 +2,7 @@
 
 namespace Modules\CrmAutoCar\View\Components\DevisClient;
 
+use Modules\BaseCore\Entities\TypeView;
 use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
 use Illuminate\View\Component;
 

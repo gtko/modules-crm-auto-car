@@ -2,7 +2,12 @@
 
 @section('content')
 
-    <livewire:crmautocar::devis-client.popup-valition/>
+    <livewire:basecore::modal
+        name="popup-valition"
+        :type="Modules\BaseCore\Entities\TypeView::TYPE_LIVEWIRE"
+        path='crmautocar::devis-client.popup-valition'
+    >
+
     <div class="bg-white h-full w-full" style="font-family: 'Lato', sans-serif;">
 
         <x-crmautocar::devis-client.header class="shadow py-4 px-4" />

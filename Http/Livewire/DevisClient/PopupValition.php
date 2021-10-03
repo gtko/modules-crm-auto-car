@@ -5,12 +5,8 @@ namespace Modules\CrmAutoCar\Http\Livewire\DevisClient;
 use Livewire\Component;
 use Modules\BaseCore\Http\Livewire\AbstractModal;
 
-class PopupValition extends AbstractModal
+class PopupValition extends Component
 {
-    public function getKey(): string
-    {
-        return 'popup-valition';
-    }
 
     public function render()
     {
