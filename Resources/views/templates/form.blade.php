@@ -2,31 +2,22 @@
 
 
 <div class="flex flex-wrap">
-    <x-inputs.group class="w-full">
-        <x-inputs.text
-            name="name"
+    <x-basecore::inputs.group class="w-full">
+        <x-basecore::inputs.text
+            name="title"
             label="Nom"
-            value="{{ old('name', ($editing ? $template->name : '')) }}"
+            value="{{ old('name', ($editing ? $template->title : '')) }}"
             maxlength="255"
             required
-        ></x-inputs.text>
-    </x-inputs.group>
-    <x-inputs.group class="w-full">
-        <x-inputs.text
-            name="subject"
-            label="Sujet"
-            value="{{ old('subject', ($editing ? $template->subject : '')) }}"
-            maxlength="255"
-            required
-        ></x-inputs.text>
-    </x-inputs.group>
-    <x-inputs.group class="w-full">
-        <x-inputs.wysiwyg
+        ></x-basecore::inputs.text>
+    </x-basecore::inputs.group>
+    <x-basecore::inputs.group class="w-full">
+        <x-basecore::inputs.wysiwyg
             name="content"
             label="Template"
             value="{{ old('content', ($editing ? $template->content : '')) }}"
             required
             :livewire="false"
-        ></x-inputs.wysiwyg>
-    </x-inputs.group>
+        ></x-basecore::inputs.wysiwyg>
+    </x-basecore::inputs.group>
 </div>

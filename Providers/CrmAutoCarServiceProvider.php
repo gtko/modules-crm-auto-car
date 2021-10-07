@@ -9,8 +9,10 @@ use Modules\BaseCore\Contracts\Services\CompositeurThemeContract;
 use Modules\BaseCore\Entities\TypeView;
 use Modules\CoreCRM\Contracts\Views\Dossiers\DossierAfterSidebarContract;
 use Modules\CrmAutoCar\Contracts\Repositories\InvoicesRepositoryContract;
+use Modules\CrmAutoCar\Contracts\Repositories\TemplatesRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Service\DistanceApiContract;
 use Modules\CrmAutoCar\Repositories\InvoicesRepository;
+use Modules\CrmAutoCar\Repositories\TemplateRepository;
 use Modules\CrmAutoCar\Services\Google\DistanceMatrixApi;
 
 class CrmAutoCarServiceProvider extends ServiceProvider
@@ -35,6 +37,7 @@ class CrmAutoCarServiceProvider extends ServiceProvider
 
         $this->app->bind(InvoicesRepositoryContract::class, InvoicesRepository::class);
         $this->app->bind(DistanceApiContract::class, DistanceMatrixApi::class);
+        $this->app->bind(TemplatesRepositoryContract::class, TemplateRepository::class);
 
         $this->mapWebRoutes();
         Blade::componentNamespace('Modules\CrmAutoCar\View\Components', $this->moduleNameLower);

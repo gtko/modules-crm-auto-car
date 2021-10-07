@@ -34,22 +34,13 @@ class BlockFournisseur extends Component
         $this->dossier = $dossier;
         $this->fournisseurs = $repFournisseur->getAllList();
 
-
-
     }
 
-    public function send(FournisseurRepositoryContract $repFournisseur, DevisRepositoryContract $repDevi)
+    public function send()
     {
         $this->validate();
 
-        $deviModel = $repDevi->fetchById($this->devi_id);
-        $fournisseurModel = $repFournisseur->fetchById($this->fournisseur_id);
-
-        Mail::to(['d@gmail.com', 'test@test.com'])->send(new RequestFournisseurMail($this->dossier, 'test'));
-
-        $repDevi->sendPriceFournisseur($deviModel, $fournisseurModel, $this->prix, Carbon::now());
-
-        $this->emit('update');
+        $this->emit('popup-mail:open', ['fournisseur_id' => $this->fournisseur_id, 'devi_id' => $this->devi_id, 'dossier' => $this->dossier, 'prix' => $this->prix]);
     }
 
     public function validateDemande(int $devisId, int $fournisseurId, FournisseurRepositoryContract $repFournisseur, DevisRepositoryContract $repDevi)
