@@ -4,7 +4,12 @@ namespace Modules\CrmAutoCar\Contracts\Repositories;
 
 use Modules\BaseCore\Interfaces\RepositoryFetchable;
 
-interface StatistiqueRepositoryContract extends RepositoryFetchable
+interface StatistiqueRepositoryContract
 {
-        public function getLeadByPeriode():float;
+        public function getNombreLead(): float;
+        public function getNombreFormulaire(): int;
+        public function getTauxConversion(): int;
+        public function getMargeMoyenne(): float;
+        public function getChiffreAffaireMoyenByClient(): float;
+
 }
