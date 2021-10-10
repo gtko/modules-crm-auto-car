@@ -10,7 +10,9 @@ use Modules\BaseCore\Policies\PersonnePolicy;
 use Modules\BaseCore\Policies\UserPolicy;
 use Modules\CoreCRM\Contracts\Entities\DevisEntities;
 use Modules\CoreCRM\Policies\DeviPolicy;
+use Modules\CrmAutoCar\Models\Brand;
 use Modules\CrmAutoCar\Models\Invoice;
+use Modules\CrmAutoCar\Policies\BrandPolicy;
 use Modules\CrmAutoCar\Policies\InvoicePolicy;
 
 class AuthServiceProvider extends ServiceProvider
@@ -22,6 +24,7 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Invoice::class => InvoicePolicy::class,
+        Brand::class => BrandPolicy::class
     ];
 
     /**
