@@ -1,8 +1,8 @@
-<x-app-layout>
+<x-basecore::app-layout>
     <x-slot name="breadcrumb">
-        <x-breadcrumb-item>Marques</x-breadcrumb-item>
+        <x-basecore::breadcrumb-item>Marques</x-basecore::breadcrumb-item>
     </x-slot>
-    <x-layout.panel-full>
-        <x-data-list :title="'Marques'" :datas="$brands" :type="new App\DataListTypes\BrandDataList()"/>
-    </x-layout.panel-full>
-</x-app-layout>
+    <x-basecore::layout.panel-full>
+        <livewire:datalistcrm::data-list :title="'Marques'" :type="\Modules\CrmAutoCar\DataLists\BrandDataList::class"/>
+    </x-basecore::layout.panel-full>
+</x-basecore::app-layout>

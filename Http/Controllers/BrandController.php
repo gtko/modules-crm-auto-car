@@ -4,40 +4,44 @@ namespace Modules\CrmAutoCar\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Modules\CoreCRM\Http\Controllers\Controller;
+use Modules\CrmAutoCar\Http\Requests\BrandStoreRequest;
+use Modules\CrmAutoCar\Http\Requests\BrandUpdateRequest;
+use Modules\CrmAutoCar\Models\Brand;
 
 class BrandController extends Controller
 {
     /**
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function index(Request $request)
     {
         $this->authorize('view-any', Brand::class);
 
-        $search = $request->get('search', '');
-
-        $brands = Brand::search($search)
-            ->latest()
+        $search = '';
+        $brands = Brand::latest()
             ->paginate(5);
 
-        return view('app.brands.index', compact('brands', 'search'));
+        return view('crmautocar::brands.index', compact('brands', 'search'));
     }
 
     /**
      * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function create(Request $request)
     {
         $this->authorize('create', Brand::class);
 
-        return view('app.brands.create');
+        return view('crmautocar::brands.create');
     }
 
     /**
-     * @param \App\Http\Requests\BrandStoreRequest $request
+     * @param \Modules\CrmAutoCar\Http\Requests\BrandStoreRequest $request
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function store(BrandStoreRequest $request)
     {
@@ -54,32 +58,35 @@ class BrandController extends Controller
 
     /**
      * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Brand $brand
-     * @return \Illuminate\Http\Response
+     * @param \Modules\CrmAutoCar\Models\Brand $brand
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function show(Request $request, Brand $brand)
     {
         $this->authorize('view', $brand);
 
-        return view('app.brands.show', compact('brand'));
+        return view('crmautocar::brands.show', compact('brand'));
     }
 
     /**
      * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Brand $brand
-     * @return \Illuminate\Http\Response
+     * @param \Modules\CrmAutoCar\Models\Brand $brand
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function edit(Request $request, Brand $brand)
     {
         $this->authorize('update', $brand);
 
-        return view('app.brands.edit', compact('brand'));
+        return view('crmautocar::brands.edit', compact('brand'));
     }
 
     /**
-     * @param \App\Http\Requests\BrandUpdateRequest $request
-     * @param \App\Models\Brand $brand
+     * @param \Modules\CrmAutoCar\Http\Requests\BrandUpdateRequest $request
+     * @param \Modules\CrmAutoCar\Models\Brand $brand
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(BrandUpdateRequest $request, Brand $brand)
     {
@@ -96,8 +103,9 @@ class BrandController extends Controller
 
     /**
      * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Brand $brand
+     * @param \Modules\CrmAutoCar\Models\Brand $brand
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function destroy(Request $request, Brand $brand)
     {
