@@ -14,7 +14,8 @@ class InvoicesList extends Component
 
     public function create(InvoicesRepositoryContract $invoiceRep, DevisEntities $devis){
 
-        dd($devis->data);
+
+        dd($devis);
 
         DB::beginTransaction();
 

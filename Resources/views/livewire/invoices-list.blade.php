@@ -1,10 +1,12 @@
 <div>
 
     <button wire:click="create(1)">Créer un facture</button>
-    ICI ma liste des facture
+
+
+
     <ul>
     @foreach($invoices as $invoice)
-        <li>{{$invoice->id}}</li>
+        <li>{{$invoice->id}} - {{$invoice->devis->getTotal()}}€</li>
     @endforeach
     </ul>
 </div>
