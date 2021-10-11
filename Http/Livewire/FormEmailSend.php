@@ -44,14 +44,14 @@ class FormEmailSend extends Component
         $this->fournisseurModel = $repFournisseur->fetchById($fournisseur_id);
         $this->templates = $repTemplate->getAll();
 
-
-
         $this->subjectMail = 'Demande de transfert (n°' . $this->dossierModel->ref . ')';
     }
 
     public function updatedTemplate()
     {
-        $this->content = $this->template;
+        $repTemplate = app(TemplatesRepositoryContract::class);
+        $this->content = $repTemplate->fetchById( $this->template)->content ?? '';
+        $this->emit('refresh:editor');
     }
 
     public function store (DevisRepositoryContract $repDevi)

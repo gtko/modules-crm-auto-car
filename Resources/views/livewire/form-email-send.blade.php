@@ -13,10 +13,10 @@
         <x-basecore::inputs.select name="template" required="required" wire:model="template" label="Template :" class="mb-4">
             <option selected="selected" value="">Template</option>
             @foreach($templates as $template)
-                <option value="{{ $template->content }}">{{ $template->title }}</option>
+                <option value="{{ $template->id }}">{{ $template->title }}</option>
             @endforeach
         </x-basecore::inputs.select>
-          
+
         <x-basecore::inputs.wysiwyg name="content" label="" class="mb-4" :livewire="true"/>
 
         <x-basecore::button type="submit" class="my-3">Envoyer</x-basecore::button>
