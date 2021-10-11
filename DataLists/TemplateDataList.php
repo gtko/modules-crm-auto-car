@@ -32,8 +32,9 @@ class TemplateDataList extends DataListType
     public function getActions(): array
     {
        return [
+           //@todo gérer les type de request HTTP (GET, POST, PUT, DELETE)
 //           'destroy' => [
-//               'permission' => ['view', Template::class],
+//               'permission' => ['destroy', Template::class],
 //               'route' => function($params){
 //                   return route('templates.destroy', $params);
 //               },
