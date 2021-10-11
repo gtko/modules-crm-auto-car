@@ -16,9 +16,8 @@
                 <option value="{{ $template->content }}">{{ $template->title }}</option>
             @endforeach
         </x-basecore::inputs.select>
-
-        <x-basecore::inputs.wysiwyg name="content" label="" wire:model="content" class="mb-4"/>
-
+          
+        <x-basecore::inputs.wysiwyg name="content" label="" class="mb-4" :livewire="true"/>
 
         <x-basecore::button type="submit" class="my-3">Envoyer</x-basecore::button>
     </form>
