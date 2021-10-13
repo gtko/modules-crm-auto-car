@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Modules\BaseCore\Contracts\Services\CompositeurThemeContract;
 use Modules\BaseCore\Entities\TypeView;
+use Modules\CoreCRM\Contracts\Views\Dossiers\DossierAfterBlockFournisseur;
 use Modules\CoreCRM\Contracts\Views\Dossiers\DossierAfterSidebarContract;
 use Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\InvoicesRepositoryContract;
@@ -51,8 +52,10 @@ class CrmAutoCarServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(module_path($this->moduleName,'Database/Migrations'));
 
         app(CompositeurThemeContract::class)->setViews(DossierAfterSidebarContract::class, [
-            new TypeView(TypeView::TYPE_LIVEWIRE, 'crmautocar::block-fournisseur')
+            new TypeView(TypeView::TYPE_LIVEWIRE, 'crmautocar::block-fournisseur'),
+            new TypeView(TypeView::TYPE_LIVEWIRE, 'crmautocar::block-paiment-fournisseur')
         ]);
+
     }
 
     /**
