@@ -4,6 +4,8 @@ namespace Modules\CrmAutoCar\Http\Livewire;
 
 use Livewire\Component;
 use Modules\CrmAutoCar\Models\Invoice;
+use Modules\CrmAutoCar\Repositories\BrandsRepository;
+use Modules\DevisAutoCar\Entities\DevisPrice;
 
 class InvoicesListItem extends Component
 {
@@ -16,6 +18,14 @@ class InvoicesListItem extends Component
 
 
     public function editer(){
+
+        $devis = $this->invoice->devis;
+        dd(config('crmautocar.brand_default'));
+        $brand = app(BrandsRepository::class)->fetchById(config('crmautocar.brand_default'));
+        $devisPrice = new DevisPrice($devis, $brand);
+
+        dd($devisPrice->getPriceTTC(), $devisPrice->getPriceHT(), $devisPrice->getTVA(), $devisPrice->getPriceTVA());
+
         dd('editer');
     }
 

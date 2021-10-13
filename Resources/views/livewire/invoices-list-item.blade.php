@@ -1,4 +1,4 @@
-<div>
+<tr>
         <td class="w-40">
             {{$invoice->number}}
         </td>

@@ -49,6 +49,7 @@ class CrmAutoCarServiceProvider extends ServiceProvider
         $this->mapWebRoutes();
         Blade::componentNamespace('Modules\CrmAutoCar\View\Components', $this->moduleNameLower);
         $this->registerViews();
+        $this->registerConfig();
         $this->loadMigrationsFrom(module_path($this->moduleName,'Database/Migrations'));
 
         app(CompositeurThemeContract::class)->setViews(DossierAfterSidebarContract::class, [
@@ -74,6 +75,20 @@ class CrmAutoCarServiceProvider extends ServiceProvider
         ], ['views', $this->moduleNameLower . '-module-views']);
 
         $this->loadViewsFrom($sourcePath, $this->moduleNameLower);
+    }
+
+
+    /**
+     * Register config
+     */
+    protected function registerConfig(): void
+    {
+        $this->publishes([
+            module_path($this->moduleName, 'Config/config.php') => config_path($this->moduleNameLower . '.php'),
+        ], 'config');
+        $this->mergeConfigFrom(
+            module_path($this->moduleName, 'Config/config.php'), $this->moduleNameLower
+        );
     }
 
     /**
