@@ -1,7 +1,6 @@
 <div class="intro-y box mt-5 p-2">
 
 
-
     <div class="flex justify-start items-center p-4">
         <span>@icon('creditCard', 30, 'mr-2')</span>
         <span class="text-lg">Paiement Fournisseur</span>

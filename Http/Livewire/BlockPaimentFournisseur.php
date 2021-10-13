@@ -24,7 +24,7 @@ class BlockPaimentFournisseur extends Component
 
     }
 
-    public function updateDeviId()
+    public function updatedDeviId()
     {
         dd('salut');
     }
