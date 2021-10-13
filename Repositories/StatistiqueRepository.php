@@ -36,18 +36,55 @@ class StatistiqueRepository implements StatistiqueRepositoryContract
     {
         $repCommercial = app(CommercialRepositoryContract::class);
 
-        if($debut == null && $fin == null)
-        {
+        if ($debut == null && $fin == null) {
             return $repCommercial->getDossiers($commercial)
                 ->count();
 
         } else {
             return $repCommercial->getDossiers($commercial)
-                ->where('created_at', '>=' ,$debut->startOfDay())
-                ->where('created_at', '<=' , $fin->endOfDay())
+                ->where('created_at', '>=', $debut->startOfDay())
+                ->where('created_at', '<=', $fin->endOfDay())
                 ->count();
         }
+    }
 
+    public function getNombreLeadTotal(?Carbon $debut = null, ?Carbon $fin = null): int
+    {
+        $repCommercial = app(CommercialRepositoryContract::class);
 
+        if ($debut == null && $fin == null) {
+            $commercials = $repCommercial->fetchAll();
+            $leadCount = 0;
+            foreach ($commercials as $commercial) {
+                $leadCount = $leadCount + $repCommercial->getDossiers($commercial)->count();
+            }
+        } else {
+            $commercials = $repCommercial->fetchAll();
+            $leadCount = 0;
+            foreach ($commercials as $commercial) {
+                $leadCount = $leadCount + $repCommercial->getDossiers($commercial)
+                        ->where('created_at', '>=', $debut->startOfDay())
+                        ->where('created_at', '<=', $fin->endOfDay())
+                        ->count();
+            }
+        }
+
+        return $leadCount;
+
+    }
+
+    public function getTauxConversionTotal(): float
+    {
+        return mt_rand(10.00, 100.00);
+    }
+
+    public function getMargeMoyenneTotal(): float
+    {
+        return mt_rand(1000.00, 9000.00);
+    }
+
+    public function getChiffreAffaireMoyenByClientTotal(): float
+    {
+        return mt_rand(1000.00, 9000.00);
     }
 }

@@ -3,7 +3,9 @@
         <x-basecore::breadcrumb-item>Statistiques</x-basecore::breadcrumb-item>
     </x-slot>
 
-    <livewire:crmautocar::stats-admin-card/>
+    <livewire:crmautocar::stats-filter-date-global/>
+    <livewire:crmautocar::stats-admin-card-global/>
+
 
 
     <div class="grid grid-cols-12 gap-6 mt-8">
