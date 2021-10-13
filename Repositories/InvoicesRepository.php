@@ -19,11 +19,12 @@ class InvoicesRepository extends \Modules\BaseCore\Repositories\AbstractReposito
 
     public function getNextNumber(): string
     {
-        $invoice = Invoice::orderBy('created_at', 'DESC')->first();
+        $invoice = Invoice::orderBy('id', 'DESC')->first();
         $number = last(explode('-', $invoice->number ?? ''));
         if(!$number){
             $number = 0;
         }
+
         return Carbon::now()->format('Y').'-'.Carbon::now()->format('m').'-'.(++$number);
     }
 
