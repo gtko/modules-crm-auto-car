@@ -3,11 +3,16 @@
 namespace Modules\CrmAutoCar\Contracts\Repositories;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Modules\CoreCRM\Contracts\Entities\DevisEntities;
+use Modules\CoreCRM\Models\Dossier;
 use Modules\CoreCRM\Models\Fournisseur;
 use Modules\CrmAutoCar\Models\Decaissement;
+
 
 interface DecaissementRepositoryContract
 {
     public function create(DevisEntities $devi, Fournisseur $fournisseur, float $payer, float $reste, Carbon $date): Decaissement;
+    public function getPayer(DevisEntities $devi, Fournisseur $fournisseur): ?float;
+    public function getByDossier(Dossier $dossier): Collection;
 }

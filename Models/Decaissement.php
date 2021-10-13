@@ -9,7 +9,7 @@ use Modules\CoreCRM\Contracts\Entities\DevisEntities;
 use Modules\CoreCRM\Models\Fournisseur;
 
 /**
- * @property float $reste
+ * @property float $restant
  * @property float $payer
  * @property Carbon $date
  * @property Carbon $created_at
@@ -21,7 +21,7 @@ use Modules\CoreCRM\Models\Fournisseur;
 
 class Decaissement extends Model
 {
-    public function devi():BelongsTo
+    public function devis():BelongsTo
     {
         return $this->belongsTo(app(DevisEntities::class)::class, 'devis_id', 'id');
     }

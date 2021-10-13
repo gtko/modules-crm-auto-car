@@ -10,7 +10,7 @@ class CreateTableDecaissements extends Migration
     {
         Schema::create('decaissements', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('devi_id');
+            $table->unsignedBigInteger('devis_id');
             $table->unsignedBigInteger('fournisseur_id');
             $table->float('payer');
             $table->float('restant');
