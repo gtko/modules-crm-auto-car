@@ -16,21 +16,12 @@ class InvoicesListItem extends Component
         $this->invoice = $invoice;
     }
 
-
     public function editer(){
-
-        $devis = $this->invoice->devis;
-        dd(config('crmautocar.brand_default'));
-        $brand = app(BrandsRepository::class)->fetchById(config('crmautocar.brand_default'));
-        $devisPrice = new DevisPrice($devis, $brand);
-
-        dd($devisPrice->getPriceTTC(), $devisPrice->getPriceHT(), $devisPrice->getTVA(), $devisPrice->getPriceTVA());
-
         dd('editer');
     }
 
     public function avoir(){
-        dd("créer un avoir dans la facture");
+        $this->emit('avoir_'.$this->invoice->id.':open', ['invoice' => $this->invoice]);
     }
 
     public function pdf(){
@@ -53,6 +44,11 @@ class InvoicesListItem extends Component
      */
     public function render()
     {
-        return view('crmautocar::livewire.invoices-list-item');
+        $devis = $this->invoice->devis;
+        $brand = app(BrandsRepository::class)->fetchById(config('crmautocar.brand_default'));
+
+        return view('crmautocar::livewire.invoices-list-item', [
+            'price' => new DevisPrice($devis, $brand)
+        ]);
     }
 }
