@@ -10,11 +10,13 @@ use Modules\BaseCore\Entities\TypeView;
 use Modules\CoreCRM\Contracts\Views\Dossiers\DossierAfterBlockFournisseur;
 use Modules\CoreCRM\Contracts\Views\Dossiers\DossierAfterSidebarContract;
 use Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract;
+use Modules\CrmAutoCar\Contracts\Repositories\DecaissementRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\InvoicesRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\StatistiqueRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\TemplatesRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Service\DistanceApiContract;
 use Modules\CrmAutoCar\Repositories\BrandsRepository;
+use Modules\CrmAutoCar\Repositories\DecaissementRepository;
 use Modules\CrmAutoCar\Repositories\InvoicesRepository;
 use Modules\CrmAutoCar\Repositories\StatistiqueRepository;
 use Modules\CrmAutoCar\Repositories\TemplateRepository;
@@ -45,6 +47,7 @@ class CrmAutoCarServiceProvider extends ServiceProvider
         $this->app->bind(TemplatesRepositoryContract::class, TemplateRepository::class);
         $this->app->bind(BrandsRepositoryContract::class, BrandsRepository::class);
         $this->app->bind(StatistiqueRepositoryContract::class, StatistiqueRepository::class);
+        $this->app->bind(DecaissementRepositoryContract::class, DecaissementRepository::class);
 
         $this->mapWebRoutes();
         Blade::componentNamespace('Modules\CrmAutoCar\View\Components', $this->moduleNameLower);
