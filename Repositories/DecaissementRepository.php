@@ -21,7 +21,7 @@ class DecaissementRepository implements DecaissementRepositoryContract
         $decaissement->payer = $payer;
         $decaissement->restant = $reste;
         $decaissement->date = $date;
-        $decaissement->devi()->associate($devi);
+        $decaissement->devis()->associate($devi);
         $decaissement->fournisseur()->associate($fournisseur);
         $decaissement->save();
 

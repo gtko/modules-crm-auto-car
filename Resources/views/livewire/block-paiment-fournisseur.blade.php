@@ -31,6 +31,18 @@
         </div>
 
         @if ($this->fournisseur_id)
+
+            <div class="px-2 pt-2">
+                <x-basecore::inputs.date
+                    name="date"
+                    label="Date du paiment"
+                    required="required"
+                    wire:model="date"
+
+                >
+                </x-basecore::inputs.date>
+            </div>
+
             <div class="px-2 pt-2">
                 <x-basecore::inputs.number
                     name="payer"
@@ -46,6 +58,7 @@
                     label="Reste à payer"
                     required="required"
                     wire:model="reste"
+                    disabled
                 >
                 </x-basecore::inputs.number>
             </div>
@@ -79,7 +92,7 @@
                 </th>
 
                 <th scope="col" class="py-3  text-xs font-medium uppercase tracking-wider">
-                    A payé
+                    Reste à payé
                 </th>
                 <th scope="col" class=" text-xs font-medium  uppercase tracking-wider">
                     Total
@@ -89,7 +102,10 @@
             </thead>
             <tbody>
             <!-- Odd row -->
+            @php $total = 0 @endphp
             @foreach($paiements as $paiement)
+
+                @php $total = $total + $paiement->payer @endphp
                 <tr class="bg-white">
                     <td class="py-4 whitespace-nowrap text-sm font-medium text-center">
                         {{$paiement->devis->ref }}
@@ -98,10 +114,10 @@
                         {{$paiement->fournisseur->formatName }}
                     </td>
                     <td class="py-4 whitespace-nowrap text-sm text-center">
-                        {{ $paiement->restant }}
+                        {{ $paiement->restant }}€
                     </td>
                     <td class="py-4 whitespace-nowrap text-sm text-center">
-                        {{ $paiement->restant + $paiement->payer }}
+                        {{ $total + $paiement->restant }}€
                     </td>
 
                 </tr>

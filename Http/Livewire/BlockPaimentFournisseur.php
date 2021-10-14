@@ -4,6 +4,7 @@ namespace Modules\CrmAutoCar\Http\Livewire;
 
 use Carbon\Carbon;
 use Livewire\Component;
+use Modules\BaseCore\Actions\Dates\DateStringToCarbon;
 use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\FournisseurRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\DecaissementRepositoryContract;
@@ -18,13 +19,15 @@ class BlockPaimentFournisseur extends Component
     public $reste;
     public $total;
     public $paiements;
+    public $date;
 
     protected $rules = [
         'fournisseur_id' => 'required',
         'devi_id' => 'required',
         'fournisseur_id' => 'required',
         'reste' => '',
-        'payer' => 'required|min:1',
+        'payer' => 'required|numeric|min:1',
+        'date' => 'required'
     ];
 
     public function mount($client, $dossier)
@@ -68,7 +71,12 @@ class BlockPaimentFournisseur extends Component
 
         $deviModel = $repDevi->fetchById($this->devi_id);
         $fourniModel = $repFourni->fetchById($this->fournisseur_id);
-        $repDecaissement->create($deviModel, $fourniModel, $this->payer, $this->reste, Carbon::now());
+
+        $this->reste = $this->reste - $this->payer ;
+
+        $date = (new DateStringToCarbon())->handle($this->date);
+
+        $repDecaissement->create($deviModel, $fourniModel, $this->payer, $this->reste, $date);
 
         $this->fournisseur_id = '';
         $this->devi_id = '';
