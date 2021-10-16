@@ -15,4 +15,6 @@ interface DecaissementRepositoryContract
     public function create(DevisEntities $devi, Fournisseur $fournisseur, float $payer, float $reste, Carbon $date): Decaissement;
     public function getPayer(DevisEntities $devi, Fournisseur $fournisseur): ?float;
     public function getByDossier(Dossier $dossier): Collection;
+    public function getByDevis(): \Illuminate\Support\Collection;
+    public function getByFiltre(Fournisseur|string $fournisseur, bool|string $resteAPayer, Carbon|string $periodeStart, Carbon|string $periodeEnd, Carbon|string $deparStart): \Illuminate\Support\Collection;
 }
