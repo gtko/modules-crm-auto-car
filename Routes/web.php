@@ -21,7 +21,7 @@ Route::prefix('/')
     ->middleware(['auth:web', 'verified'])
     ->group(function () {
         Route::resource('cuves', CuveController::class)->only('index', 'destroy', 'show');
-        Route::resource('invoices', InvoicesController::class)->only('index', 'destroy', 'show');
+        Route::resource('invoices', InvoicesController::class)->only('index', 'destroy');
         Route::resource('templates', TemplateController::class)->except('show');
         Route::get('statistiques', [StatistiqueController::class, 'index'])->name('statistiques');
         Route::get('statistiques-fournisseur', [StatistiqueFournisseurController::class, 'index'])->name('statistiques-fournisseur');

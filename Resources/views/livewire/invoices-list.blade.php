@@ -109,7 +109,6 @@
                         <th class="text-center whitespace-nowrap">TVA</th>
                         <th class="text-center whitespace-nowrap">Montant TTC</th>
                         <th class="text-center whitespace-nowrap">Reste TTC</th>
-                        <th class="text-center whitespace-nowrap">Nbr Paiements</th>
                         <th class="text-center whitespace-nowrap">Status</th>
                         <th class="text-center whitespace-nowrap"></th>
                     </tr>

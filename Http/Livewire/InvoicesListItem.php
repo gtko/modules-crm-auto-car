@@ -32,10 +32,6 @@ class InvoicesListItem extends Component
         dd('Voir la facture proformat');
     }
 
-    public function paiements(){
-        dd("Ouvrir la liste des paiements de la factures en modal");
-    }
-
 
     /**
      * Get the view / contents that represent the component.
