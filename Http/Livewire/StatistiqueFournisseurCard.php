@@ -16,11 +16,20 @@ class StatistiqueFournisseurCard extends Component
         'updateCardTotal'
     ];
 
+    public function mount() {
+
+        $repDecaissement = app(DecaissementRepositoryContract::class);
+        $modelDecaissement = $repDecaissement->getByDevis();
+        $this->resteARegler = $repDecaissement->getTotalResteARegler($modelDecaissement->toArray());
+        $this->dejaRegler = $repDecaissement->getTotalDejaRegler($modelDecaissement->toArray());
+    }
+
     public function updateCardTotal($value)
     {
         $repDecaissement = app(DecaissementRepositoryContract::class);
         $this->resteARegler = $repDecaissement->getTotalResteARegler($value);
         $this->dejaRegler = $repDecaissement->getTotalDejaRegler($value);
+
     }
 
     public function render()

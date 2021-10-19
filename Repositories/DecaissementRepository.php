@@ -62,7 +62,6 @@ class DecaissementRepository extends AbstractRepository implements DecaissementR
 
             $newList->push($listFiltre->last());
         }
-
         return $newList;
     }
 
@@ -90,10 +89,18 @@ class DecaissementRepository extends AbstractRepository implements DecaissementR
 
         if ($deparStart !== '') {
 
-            dd('no');
+            $newList = collect();
+            foreach ($list as $listFiltre) {
+                if (isset($listFiltre->devis->data['aller_date_depart']) && Carbon::createFromTimeString($listFiltre->devis->data['aller_date_depart'])->startOfDay() == $deparStart) {
 
+                    $newList->push($listFiltre);
+
+                }
+
+            }
+
+            $list = $newList;
         }
-
         return $list;
     }
 
@@ -101,8 +108,7 @@ class DecaissementRepository extends AbstractRepository implements DecaissementR
     {
         $resteARegler = 0;
 
-        foreach ($decaissements as $rest)
-        {
+        foreach ($decaissements as $rest) {
             $resteARegler = $rest['restant'] + $resteARegler;
         }
 
@@ -113,9 +119,8 @@ class DecaissementRepository extends AbstractRepository implements DecaissementR
     {
         $dejaRegler = 0;
 
-        foreach ($decaissements as $rest)
-        {
-            $dejaRegler  = $rest['payer'] + $dejaRegler;
+        foreach ($decaissements as $rest) {
+            $dejaRegler = $rest['payer'] + $dejaRegler;
         }
 
         return $dejaRegler;
@@ -123,7 +128,7 @@ class DecaissementRepository extends AbstractRepository implements DecaissementR
 
     public function getCountNombrePaiement(Decaissement $decaissement): int
     {
-       return Decaissement::where('fournisseur_id', $decaissement->fournisseur_id)->where('devis_id', $decaissement->devis_id)->count();
+        return Decaissement::where('fournisseur_id', $decaissement->fournisseur_id)->where('devis_id', $decaissement->devis_id)->count();
     }
 
     public function getDetailPaiement(Decaissement $decaissement): Collection

@@ -59,6 +59,7 @@ class StatistiqueFournisseurFiltre extends Component
         $this->resteARegler = "";
         $this->fournisseursFiltre = "";
 
+        $this->filtre();
         $this->emit('updateList');
     }
 
