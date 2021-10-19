@@ -10,9 +10,9 @@
                 Ici les destinations aller / retour
             </div>
         </td>
-        <td class="text-center">1000€</td>
-        <td class="text-center">200€</td>
-        <td class="text-center">1200€</td>
+        <td class="text-center">@marge($price->getPriceHT())€</td>
+        <td class="text-center">@marge($price->getPriceTVA())€ ({{$price->getTauxTVA()}}%)</td>
+        <td class="text-center">@marge($price->getPriceTTC())€</td>
         <td class="text-center text-red-800">-600€</td>
         <td class="text-center">
             <span class="flex justify-center items-center cursor-pointer" wire:click="paiements()">
@@ -40,6 +40,15 @@
                 <span class="flex items-center" wire:click="pdf()">
                     @icon('pdf', null, 'mr-2') Télécharger
                 </span>
+
+                @push('modals')
+                    <livewire:basecore::modal
+                        name="avoir_{{$invoice->id}}"
+                        :type="Modules\BaseCore\Entities\TypeView::TYPE_LIVEWIRE"
+                        path='crmautocar::create-avoir'
+                        :arguments="['invoice' => $invoice]"
+                    />
+                @endpush
             </div>
         </td>
 </tr>
