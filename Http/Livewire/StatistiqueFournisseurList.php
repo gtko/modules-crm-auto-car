@@ -22,8 +22,9 @@ class StatistiqueFournisseurList extends Component
     public function updateList() {
         $repDecaissement = app(DecaissementRepositoryContract::class);
         $this->decaissements = $repDecaissement->getByDevis();
-    }
 
+
+    }
 
     public function filtre(DecaissementRepositoryContract $repDecaissement,FournisseurRepositoryContract $repFournisseur , $resteARegler, $fournisseur, $periodeStart, $periodeEnd, $dateDepart)
     {
@@ -49,6 +50,8 @@ class StatistiqueFournisseurList extends Component
         }
 
        $this->decaissements =  $repDecaissement->getByFiltre($fournisseur, $resteARegler, $periodeStart, $periodeEnd, $dateDepart);
+
+        $this->emit('updateCardTotal', $this->decaissements);
     }
 
 

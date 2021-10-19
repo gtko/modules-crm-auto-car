@@ -3,8 +3,11 @@
 namespace Modules\CrmAutoCar\Repositories;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Livewire\HydrationMiddleware\HydratePublicProperties;
+use Modules\BaseCore\Repositories\AbstractRepository;
 use Modules\CoreCRM\Contracts\Entities\DevisEntities;
 use Modules\CoreCRM\Contracts\Repositories\DossierRepositoryContract;
 use Modules\CoreCRM\Models\Dossier;
@@ -12,7 +15,7 @@ use Modules\CoreCRM\Models\Fournisseur;
 use Modules\CrmAutoCar\Contracts\Repositories\DecaissementRepositoryContract;
 use Modules\CrmAutoCar\Models\Decaissement;
 
-class DecaissementRepository implements DecaissementRepositoryContract
+class DecaissementRepository extends AbstractRepository implements DecaissementRepositoryContract
 {
 
     public function create(DevisEntities $devi, Fournisseur $fournisseur, float $payer, float $reste, Carbon $date): Decaissement
@@ -92,5 +95,49 @@ class DecaissementRepository implements DecaissementRepositoryContract
         }
 
         return $list;
+    }
+
+    public function getTotalResteARegler(array $decaissements): float
+    {
+        $resteARegler = 0;
+
+        foreach ($decaissements as $rest)
+        {
+            $resteARegler = $rest['restant'] + $resteARegler;
+        }
+
+        return $resteARegler;
+    }
+
+    public function getTotalDejaRegler(array $decaissements): float
+    {
+        $dejaRegler = 0;
+
+        foreach ($decaissements as $rest)
+        {
+            $dejaRegler  = $rest['payer'] + $dejaRegler;
+        }
+
+        return $dejaRegler;
+    }
+
+    public function getCountNombrePaiement(Decaissement $decaissement): int
+    {
+       return Decaissement::where('fournisseur_id', $decaissement->fournisseur_id)->where('devis_id', $decaissement->devis_id)->count();
+    }
+
+    public function getDetailPaiement(Decaissement $decaissement): Collection
+    {
+        return Decaissement::where('fournisseur_id', $decaissement->fournisseur_id)->where('devis_id', $decaissement->devis_id)->get();
+    }
+
+    public function getModel(): Model
+    {
+        return new Decaissement();
+    }
+
+    public function searchQuery(Builder $query, string $value, mixed $parent = null): Builder
+    {
+        // TODO: Implement searchQuery() method.
     }
 }
