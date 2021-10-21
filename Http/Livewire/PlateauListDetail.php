@@ -14,7 +14,7 @@ class PlateauListDetail extends Component
     public function mount(CommercialRepositoryContract $repCommercial, PlateauRepositoryContract $repPlateau, $commercialId)
     {
         $this->commercial = $repCommercial->fetchById($commercialId);
-        $commercialByStatus = $repPlateau->
+        $commercialByStatus = $repPlateau->filterByStatus($this->commercial);
     }
 
     public function render()
