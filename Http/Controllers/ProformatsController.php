@@ -14,7 +14,7 @@ class ProformatsController extends \Modules\CoreCRM\Http\Controllers\Controller
      */
     public function index()
     {
-
+        return view('crmautocar::proformats.index');
     }
 
     /**
