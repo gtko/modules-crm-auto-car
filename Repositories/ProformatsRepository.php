@@ -26,7 +26,7 @@ class ProformatsRepository extends \Modules\BaseCore\Repositories\AbstractReposi
             $number = 0;
         }
 
-        return Carbon::now()->format('Y').'-'.Carbon::now()->format('m').'-'.(++$number);
+        return Carbon::now()->format('Y').'-'.Carbon::now()->format('m').'-pf_'.(++$number);
     }
 
     public function create(DevisEntities $devis, float $total, string $number): Proformat

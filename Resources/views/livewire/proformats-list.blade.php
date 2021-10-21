@@ -67,6 +67,7 @@
                             <th class="whitespace-nowrap">Date Départ</th>
                             <th class="whitespace-nowrap">Date Retour</th>
                             <th class="whitespace-nowrap">A encaisser</th>
+                            <th class="whitespace-nowrap"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -85,6 +86,7 @@
                             <th class="whitespace-nowrap">Date Départ</th>
                             <th class="whitespace-nowrap">Date Retour</th>
                             <th class="whitespace-nowrap">A encaisser</th>
+                            <th class="whitespace-nowrap"></th>
                         </tr>
                     </tfoot>
                 </table>
