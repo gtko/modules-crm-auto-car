@@ -9,6 +9,7 @@ use Modules\BaseCore\Contracts\Services\CompositeurThemeContract;
 use Modules\BaseCore\Entities\TypeView;
 use Modules\CoreCRM\Contracts\Views\Dossiers\DossierAfterBlockFournisseur;
 use Modules\CoreCRM\Contracts\Views\Dossiers\DossierAfterSidebarContract;
+use Modules\CoreCRM\Contracts\Views\Dossiers\SelectTagDossier;
 use Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\DecaissementRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\InvoicesRepositoryContract;
@@ -61,6 +62,9 @@ class CrmAutoCarServiceProvider extends ServiceProvider
         app(CompositeurThemeContract::class)->setViews(DossierAfterSidebarContract::class, [
             new TypeView(TypeView::TYPE_LIVEWIRE, 'crmautocar::block-fournisseur'),
             new TypeView(TypeView::TYPE_LIVEWIRE, 'crmautocar::block-paiment-fournisseur')
+        ]);
+        app(CompositeurThemeContract::class)->setViews(SelectTagDossier::class, [
+            new TypeView(TypeView::TYPE_LIVEWIRE, 'crmautocar::select-tags'),
         ]);
 
     }

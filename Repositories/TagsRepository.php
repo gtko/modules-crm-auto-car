@@ -4,6 +4,7 @@ namespace Modules\CrmAutoCar\Repositories;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Modules\BaseCore\Repositories\AbstractRepository;
 use Modules\CoreCRM\Models\Dossier;
 use Modules\CrmAutoCar\Contracts\Repositories\TagsRepositoryContract;
@@ -49,9 +50,22 @@ class TagsRepository extends AbstractRepository implements TagsRepositoryContrac
 
     public function attachDossier(Dossier $dossier, Tag $tag): Tag
     {
-      $tag->dossiers()->attach($dossier);
+      $tag->dossiers()->sync($dossier);
       $tag->save();
 
       return $tag;
+    }
+
+    public function getByDossier(Dossier $dossier): Collection
+    {
+        return $dossier->tags;
+    }
+
+    public function detachTag(Dossier $dossier, Tag $tag): Tag
+    {
+        $tag->dossiers()->detach($dossier);
+        $tag->save();
+
+        return $tag;
     }
 }
