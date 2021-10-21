@@ -13,6 +13,7 @@ use Modules\CoreCRM\Contracts\Views\Dossiers\SelectTagDossier;
 use Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\DecaissementRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\InvoicesRepositoryContract;
+use Modules\CrmAutoCar\Contracts\Repositories\ProformatsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\StatistiqueRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\TagsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\TemplatesRepositoryContract;
@@ -20,6 +21,7 @@ use Modules\CrmAutoCar\Contracts\Service\DistanceApiContract;
 use Modules\CrmAutoCar\Repositories\BrandsRepository;
 use Modules\CrmAutoCar\Repositories\DecaissementRepository;
 use Modules\CrmAutoCar\Repositories\InvoicesRepository;
+use Modules\CrmAutoCar\Repositories\ProformatsRepository;
 use Modules\CrmAutoCar\Repositories\StatistiqueRepository;
 use Modules\CrmAutoCar\Repositories\TagsRepository;
 use Modules\CrmAutoCar\Repositories\TemplateRepository;
@@ -46,6 +48,7 @@ class CrmAutoCarServiceProvider extends ServiceProvider
         $this->register(AuthServiceProvider::class);
 
         $this->app->bind(InvoicesRepositoryContract::class, InvoicesRepository::class);
+        $this->app->bind(ProformatsRepositoryContract::class, ProformatsRepository::class);
         $this->app->bind(DistanceApiContract::class, DistanceMatrixApi::class);
         $this->app->bind(TemplatesRepositoryContract::class, TemplateRepository::class);
         $this->app->bind(BrandsRepositoryContract::class, BrandsRepository::class);
