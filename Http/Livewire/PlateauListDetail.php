@@ -4,21 +4,27 @@ namespace Modules\CrmAutoCar\Http\Livewire;
 
 use Livewire\Component;
 use Modules\CoreCRM\Contracts\Repositories\CommercialRepositoryContract;
-use Modules\CoreCRM\Models\Commercial;
 use Modules\CrmAutoCar\Contracts\Repositories\PlateauRepositoryContract;
 
 class PlateauListDetail extends Component
 {
-    public $commercial;
 
-    public function mount(CommercialRepositoryContract $repCommercial, PlateauRepositoryContract $repPlateau, $commercialId)
+    public $commercial_id;
+
+
+    public function mount($commercialId)
     {
-        $this->commercial = $repCommercial->fetchById($commercialId);
-        $commercialByStatus = $repPlateau->filterByStatus($this->commercial);
+        $this->commercial_id = $commercialId;
+
     }
 
-    public function render()
+    public function render(CommercialRepositoryContract $repCommercial, PlateauRepositoryContract $repPlateau)
     {
-        return view('crmautocar::livewire.plateau-list-detail');
+        $commercialByStatus = collect();
+        $modelCommercial = $repCommercial->fetchById($this->commercial_id);
+        $commercialByStatus = $repPlateau->filterByStatus($modelCommercial);
+
+
+        return view('crmautocar::livewire.plateau-list-detail', compact('commercialByStatus'));
     }
 }

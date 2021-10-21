@@ -11,6 +11,7 @@ class PlateauRepository implements PlateauRepositoryContract
 
     public function filterByStatus(Commercial $commercial): Collection
     {
-        dd($commercial);
+        return $commercial->dossiers->groupBy("status.label");
+
     }
 }

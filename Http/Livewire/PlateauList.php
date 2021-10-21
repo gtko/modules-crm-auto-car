@@ -3,18 +3,18 @@
 namespace Modules\CrmAutoCar\Http\Livewire;
 
 use Livewire\Component;
-use Modules\BaseCore\Contracts\Repositories\UserRepositoryContract;
-use Modules\CoreCRM\Contracts\Repositories\ClientRepositoryContract;
+use Modules\CoreCRM\Contracts\Repositories\CommercialRepositoryContract;
 
 class PlateauList extends Component
 {
     public $commercials;
 
 
-    public function render(ClientRepositoryContract $repCommercial)
+    public function render(CommercialRepositoryContract $repCommercial)
     {
         $this->commercials = $repCommercial->all();
 
         return view('crmautocar::livewire.plateau-list');
     }
 }
+
