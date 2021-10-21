@@ -13,12 +13,14 @@ use Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\DecaissementRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\InvoicesRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\StatistiqueRepositoryContract;
+use Modules\CrmAutoCar\Contracts\Repositories\TagsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\TemplatesRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Service\DistanceApiContract;
 use Modules\CrmAutoCar\Repositories\BrandsRepository;
 use Modules\CrmAutoCar\Repositories\DecaissementRepository;
 use Modules\CrmAutoCar\Repositories\InvoicesRepository;
 use Modules\CrmAutoCar\Repositories\StatistiqueRepository;
+use Modules\CrmAutoCar\Repositories\TagsRepository;
 use Modules\CrmAutoCar\Repositories\TemplateRepository;
 use Modules\CrmAutoCar\Services\Google\DistanceMatrixApi;
 
@@ -48,6 +50,7 @@ class CrmAutoCarServiceProvider extends ServiceProvider
         $this->app->bind(BrandsRepositoryContract::class, BrandsRepository::class);
         $this->app->bind(StatistiqueRepositoryContract::class, StatistiqueRepository::class);
         $this->app->bind(DecaissementRepositoryContract::class, DecaissementRepository::class);
+        $this->app->bind(TagsRepositoryContract::class, TagsRepository::class);
 
         $this->mapWebRoutes();
         Blade::componentNamespace('Modules\CrmAutoCar\View\Components', $this->moduleNameLower);
