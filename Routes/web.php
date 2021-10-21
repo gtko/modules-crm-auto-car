@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Modules\CrmAutoCar\Http\Controllers\BrandController;
 use Modules\CrmAutoCar\Http\Controllers\CuveController;
 use Modules\CrmAutoCar\Http\Controllers\InvoicesController;
+use Modules\CrmAutoCar\Http\Controllers\ProformatsController;
 use Modules\CrmAutoCar\Http\Controllers\StatistiqueController;
 use Modules\CrmAutoCar\Http\Controllers\StatistiqueFournisseurController;
 use Modules\CrmAutoCar\Http\Controllers\TagController;
@@ -22,7 +23,8 @@ Route::prefix('/')
     ->middleware(['auth:web', 'verified'])
     ->group(function () {
         Route::resource('cuves', CuveController::class)->only('index', 'destroy', 'show');
-        Route::resource('invoices', InvoicesController::class)->only('index', 'destroy');
+        Route::resource('invoices', InvoicesController::class)->only('index', 'show');
+        Route::resource('proformats', ProformatsController::class)->only('index', 'show');
         Route::resource('templates', TemplateController::class)->except('show');
         Route::get('statistiques', [StatistiqueController::class, 'index'])->name('statistiques');
         Route::get('statistiques-fournisseur', [StatistiqueFournisseurController::class, 'index'])->name('statistiques-fournisseur');

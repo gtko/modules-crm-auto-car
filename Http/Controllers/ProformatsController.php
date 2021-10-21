@@ -3,11 +3,9 @@
 namespace Modules\CrmAutoCar\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Modules\BaseCore\Http\Controllers\Controller;
-use Modules\CoreCRM\Contracts\Entities\DevisEntities;
-use Modules\CrmAutoCar\Models\Invoice;
+use Modules\CrmAutoCar\Models\Proformat;
 
-class InvoicesController extends Controller
+class ProformatsController extends \Modules\CoreCRM\Http\Controllers\Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,16 +14,16 @@ class InvoicesController extends Controller
      */
     public function index()
     {
-        return view('crmautocar::invoices.index');
+
     }
 
     /**
      * Display the specified resource.
      *
-     * @param Invoice $invoices
+     * @param Proformat $proformat
      * @return \Illuminate\Http\Response
      */
-    public function show(Invoice $invoices)
+    public function show(Proformat $proformat)
     {
         //
     }

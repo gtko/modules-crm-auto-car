@@ -5,7 +5,7 @@
 {{--    @endsection--}}
 
     <x-slot name="breadcrumb">
-        <x-basecore::breadcrumb-item>Cuves</x-basecore::breadcrumb-item>
+        <x-basecore::breadcrumb-item>Factures</x-basecore::breadcrumb-item>
     </x-slot>
 
 
