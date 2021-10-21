@@ -10,6 +10,7 @@ class PlateauList extends Component
 {
     public $commercials;
 
+
     public function render(ClientRepositoryContract $repCommercial)
     {
         $this->commercials = $repCommercial->all();

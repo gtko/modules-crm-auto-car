@@ -13,6 +13,7 @@ use Modules\CoreCRM\Contracts\Views\Dossiers\SelectTagDossier;
 use Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\DecaissementRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\InvoicesRepositoryContract;
+use Modules\CrmAutoCar\Contracts\Repositories\PlateauRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\ProformatsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\StatistiqueRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\TagsRepositoryContract;
@@ -21,6 +22,7 @@ use Modules\CrmAutoCar\Contracts\Service\DistanceApiContract;
 use Modules\CrmAutoCar\Repositories\BrandsRepository;
 use Modules\CrmAutoCar\Repositories\DecaissementRepository;
 use Modules\CrmAutoCar\Repositories\InvoicesRepository;
+use Modules\CrmAutoCar\Repositories\PlateauRepository;
 use Modules\CrmAutoCar\Repositories\ProformatsRepository;
 use Modules\CrmAutoCar\Repositories\StatistiqueRepository;
 use Modules\CrmAutoCar\Repositories\TagsRepository;
@@ -55,6 +57,7 @@ class CrmAutoCarServiceProvider extends ServiceProvider
         $this->app->bind(StatistiqueRepositoryContract::class, StatistiqueRepository::class);
         $this->app->bind(DecaissementRepositoryContract::class, DecaissementRepository::class);
         $this->app->bind(TagsRepositoryContract::class, TagsRepository::class);
+        $this->app->bind(PlateauRepositoryContract::class, PlateauRepository::class);
 
         $this->mapWebRoutes();
         Blade::componentNamespace('Modules\CrmAutoCar\View\Components', $this->moduleNameLower);
