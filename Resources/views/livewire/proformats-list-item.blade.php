@@ -53,10 +53,10 @@
 
     <td class="table-report__action w-56">
         <div class="flex justify-center items-center">
-            <span class="flex items-center mr-3" wire:click="show()">
+            <span class="flex items-center mr-3 cursor-pointer" wire:click="show()">
                 @icon('show', null, 'mr-2')
             </span>
-            <span class="flex items-center" wire:click="pdf()">
+            <span class="flex items-center cursor-pointer" wire:click="pdf()">
                 @icon('pdf', null, 'mr-2')
             </span>
 
