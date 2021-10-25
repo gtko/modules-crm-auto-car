@@ -25,14 +25,22 @@
         </x-basecore::inputs.select>
     </div>
     <div class="px-2 pt-2">
-        <x-basecore::inputs.select name="fournisseur_id" label="" required="required"
-                                   wire:model.defer="fournisseur_id">
-            <option selected="selected">Fournisseur</option>
-            @foreach($fournisseurs as $fourni)
-                <option
-                    value="{{ $fourni->id}}">{{ $fourni->personne->firstname . ' ' . $fourni->personne->lastname }}</option>
-            @endforeach
-        </x-basecore::inputs.select>
+{{--        <x-basecore::inputs.select name="fournisseur_id" label="" required="required"--}}
+{{--                                   wire:model.defer="fournisseur_id">--}}
+{{--            <option selected="selected">Fournisseur</option>--}}
+{{--            @foreach($fournisseurs as $fourni)--}}
+{{--                <option--}}
+{{--                    value="{{ $fourni->id}}">{{ $fourni->formatName }}</option>--}}
+{{--            @endforeach--}}
+{{--        </x-basecore::inputs.select>--}}
+        <x-basecore::tom-select
+            name="fournisseur_id"
+            :collection="$fournisseurs"
+            label="formatName"
+            placeholder="Fournisseurs"
+        />
+
+
     </div>
     <div class="px-2 pt-2">
         <x-basecore::inputs.number name="prix" label="" placeholder="Prix" required
