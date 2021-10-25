@@ -15,7 +15,7 @@ class SelectTags extends Component
     public $listeners = ['refresh' => '$refresh'];
 
     protected $rules = [
-        'tagSelect' => 'required'
+        'tagSelect' => 'required',
     ];
 
     public function mount($client, $dossier)
@@ -26,11 +26,16 @@ class SelectTags extends Component
     public function addTag(TagsRepositoryContract $repTag)
     {
         $this->validate();
-        $tag = $repTag->fetchById($this->tagSelect);
-        $repTag->attachDossier($this->dossier, $tag);
 
+        foreach ($this->tagSelect as $tag)
+        {
+            $modelTag = $repTag->fetchById($tag);
+            $repTag->attachDossier($this->dossier, $modelTag);
+        }
+
+
+        $this->tagSelect = [];
         $this->emit('refresh');
-        $this->tagSelect = '';
     }
 
     public function deleteTag(TagsRepositoryContract $repTag, $idTag)
