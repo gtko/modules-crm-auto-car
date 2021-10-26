@@ -6,11 +6,13 @@ use Illuminate\Support\Facades\Route;
 use Modules\CrmAutoCar\Http\Controllers\BrandController;
 use Modules\CrmAutoCar\Http\Controllers\CuveController;
 use Modules\CrmAutoCar\Http\Controllers\InvoicesController;
+use Modules\CrmAutoCar\Http\Controllers\PlateauListUserByStatusController;
 use Modules\CrmAutoCar\Http\Controllers\ProformatsController;
 use Modules\CrmAutoCar\Http\Controllers\StatistiqueController;
 use Modules\CrmAutoCar\Http\Controllers\StatistiqueFournisseurController;
 use Modules\CrmAutoCar\Http\Controllers\TagController;
 use Modules\CrmAutoCar\Http\Controllers\TemplateController;
+use Modules\CrmAutoCar\Http\Controllers\VuePlateauController;
 use Modules\CrmAutoCar\View\Components\DevisClient\Index;
 
 
@@ -31,6 +33,8 @@ Route::prefix('/')
         Route::resource('brands', BrandController::class);
         Route::resource('tags', TagController::class);
 //        Route::resource('templates', TemplatesController::class)->except('show');
+        Route::get('vue-plateau', [VuePlateauController::class, 'index'])->name('vue-plateau');
+        Route::get('vue-plateau/{commercial_id}/{status_id}', [PlateauListUserByStatusController::class, 'index']);
     });
 
 

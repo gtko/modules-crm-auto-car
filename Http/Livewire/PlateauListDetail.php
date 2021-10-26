@@ -25,6 +25,6 @@ class PlateauListDetail extends Component
         $commercialByStatus = $repPlateau->filterByStatus($modelCommercial);
 
 
-        return view('crmautocar::livewire.plateau-list-detail', compact('commercialByStatus'));
+        return view('crmautocar::livewire.plateau-list-detail', compact(['commercialByStatus', 'modelCommercial']));
     }
 }
