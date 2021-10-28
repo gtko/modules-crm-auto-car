@@ -15,10 +15,6 @@
                 :url="route('devis.edit', [$flow->datas->getDevis()->dossier->client, $flow->datas->getDevis()->dossier, $flow->datas->getDevis()])">
                 devis #{{$flow->datas->getDevis()->ref}}
             </x-corecrm::timeline.timeline-item-link>
-            sur un
-            <span class="text-green-600">
-            total de {{ $flow->datas->getDecaissement()->payer + $flow->datas->getDecaissement()->restant }}€
-            </span>
             par
             <x-corecrm::timeline.timeline-item-link :url="route('users.show', $flow->datas->getUser())">
                 {{$flow->datas->getUser()->format_name}}
