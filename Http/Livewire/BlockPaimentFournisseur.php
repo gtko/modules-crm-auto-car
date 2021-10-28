@@ -3,11 +3,15 @@
 namespace Modules\CrmAutoCar\Http\Livewire;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Modules\BaseCore\Actions\Dates\DateStringToCarbon;
 use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\FournisseurRepositoryContract;
+use Modules\CoreCRM\Services\FlowCRM;
 use Modules\CrmAutoCar\Contracts\Repositories\DecaissementRepositoryContract;
+use Modules\CrmAutoCar\Flow\Attributes\ClientDossierDemandeFournisseurDelete;
+use Modules\CrmAutoCar\Flow\Attributes\ClientDossierPaiementFournisseurSend;
 
 class BlockPaimentFournisseur extends Component
 {
@@ -76,10 +80,12 @@ class BlockPaimentFournisseur extends Component
 
         $date = (new DateStringToCarbon())->handle($this->date);
 
-        $repDecaissement->create($deviModel, $fourniModel, $this->payer, $this->reste, $date);
+        $decaissement = $repDecaissement->create($deviModel, $fourniModel, $this->payer, $this->reste, $date);
 
         $this->fournisseur_id = '';
         $this->devi_id = '';
+
+        (new FlowCRM())->add($this->dossier , new ClientDossierPaiementFournisseurSend(Auth::user(), $deviModel, $fourniModel, $decaissement));
     }
 
     public function render()

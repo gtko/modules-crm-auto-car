@@ -3,13 +3,17 @@
 namespace Modules\CrmAutoCar\Http\Livewire;
 
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\DossierRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\FournisseurRepositoryContract;
+use Modules\CoreCRM\Flow\Attributes\ClientDossierNoteCreate;
+use Modules\CoreCRM\Services\FlowCRM;
 use Modules\CrmAutoCar\Actions\SendRequestFournisseurMail;
 use Modules\CrmAutoCar\Contracts\Repositories\TemplatesRepositoryContract;
+use Modules\CrmAutoCar\Flow\Attributes\ClientDossierDemandeFournisseurSend;
 use Modules\CrmAutoCar\Mail\RequestFournisseurMail;
 
 class FormEmailSend extends Component
@@ -52,23 +56,25 @@ class FormEmailSend extends Component
         $this->emit('refresh:editor');
     }
 
-    public function store(DevisRepositoryContract $repDevi, FournisseurRepositoryContract $repFournisseur)
+    public function store(DevisRepositoryContract $repDevi, FournisseurRepositoryContract $repFournisseur, DossierRepositoryContract $repDossier)
     {
         $this->validate();
 
+        $dossier = $repDossier->fetchById($this->dossier['id']);
         $deviModel = $repDevi->fetchById($this->devi_id);
 
-        foreach ($this->fourniseur_ids as $fournis_id)
-        {
 
+        \DB::beginTransaction();
+        foreach ($this->fourniseur_ids as $fournis_id) {
             $this->fournisseurModel = $repFournisseur->fetchById($fournis_id);
             (new SendRequestFournisseurMail())->send($this->fournisseurModel->email, $this->dossierModel, $this->content, $this->subjectMail);
             $repDevi->sendPriceFournisseur($deviModel, $this->fournisseurModel, $this->prix, Carbon::now());
+
+            (new FlowCRM())->add($dossier, new ClientDossierDemandeFournisseurSend(Auth::user(), $deviModel, $this->fournisseurModel, $this->prix));
         }
 
-
-
         $this->emit('update');
+        \DB::commit();
 
         session()->flash('success', 'Email envoyé');
 

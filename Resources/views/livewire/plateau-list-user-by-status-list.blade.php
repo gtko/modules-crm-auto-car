@@ -20,7 +20,7 @@
                         <a href="/clients/{{ $dossier->client->id }}/dossiers/{{ $dossier->id }}">{{ $dossier->ref }}</a>
                     </td>
                     <td>
-                        <a href="/clients/{{ $dossier->client->id }}/dossiers/{{ $dossier->id }}">{{ $dossier->client->format_name }}}</a>
+                        <a href="/clients/{{ $dossier->client->id }}/dossiers/{{ $dossier->id }}">{{ $dossier->client->format_name }}</a>
                     </td>
 
                     <td class="text-center">
