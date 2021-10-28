@@ -10,6 +10,7 @@ use Modules\BaseCore\Entities\TypeView;
 use Modules\CoreCRM\Contracts\Views\Dossiers\DossierAfterBlockFournisseur;
 use Modules\CoreCRM\Contracts\Views\Dossiers\DossierAfterSidebarContract;
 use Modules\CoreCRM\Contracts\Views\Dossiers\SelectTagDossier;
+use Modules\CoreCRM\Notifications\Kernel;
 use Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\DecaissementRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\InvoicesRepositoryContract;
@@ -19,6 +20,7 @@ use Modules\CrmAutoCar\Contracts\Repositories\StatistiqueRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\TagsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\TemplatesRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Service\DistanceApiContract;
+use Modules\CrmAutoCar\Notifications\ClientDossierDemandeFournisseurSendNotification;
 use Modules\CrmAutoCar\Repositories\BrandsRepository;
 use Modules\CrmAutoCar\Repositories\DecaissementRepository;
 use Modules\CrmAutoCar\Repositories\InvoicesRepository;
@@ -73,6 +75,16 @@ class CrmAutoCarServiceProvider extends ServiceProvider
             new TypeView(TypeView::TYPE_LIVEWIRE, 'crmautocar::select-tags'),
         ]);
 
+        $this->registerNotif();
+
+    }
+
+
+    public function registerNotif()
+    {
+        Kernel::add([
+            ClientDossierDemandeFournisseurSendNotification::class,
+        ]);
     }
 
     /**
@@ -80,6 +92,7 @@ class CrmAutoCarServiceProvider extends ServiceProvider
      *
      * @return void
      */
+
     public function registerViews(): void
     {
         $viewPath = resource_path('views/modules/' . $this->moduleNameLower);

@@ -2,13 +2,14 @@
 
 namespace Modules\CrmAutoCar\Http\Livewire;
 
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
-use Modules\CoreCRM\Contracts\Entities\DevisEntities;
 use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\FournisseurRepositoryContract;
-use Modules\CrmAutoCar\Mail\RequestFournisseurMail;
+use Modules\CoreCRM\Services\FlowCRM;
+use Modules\CrmAutoCar\Flow\Attributes\ClientDossierDemandeFournisseurDelete;
+use Modules\CrmAutoCar\Flow\Attributes\ClientDossierDemandeFournisseurValidate;
+
 
 class BlockFournisseur extends Component
 {
@@ -49,6 +50,9 @@ class BlockFournisseur extends Component
         $fournisseurModel = $repFournisseur->fetchById($fournisseurId);
 
         $repDevi->validateFournisseur($deviModel, $fournisseurModel);
+        $prix = $repDevi->getPrice($deviModel, $fournisseurModel);
+
+        (new FlowCRM())->add($this->dossier , new ClientDossierDemandeFournisseurValidate(Auth::user(), $deviModel, $fournisseurModel, $prix));
 
         $this->emit('update');
     }
@@ -58,7 +62,11 @@ class BlockFournisseur extends Component
         $deviModel = $repDevi->fetchById($devisId);
         $fournisseurModel = $repFournisseur->fetchById($fournisseurId);
 
+        $prix = $repDevi->getPrice($deviModel, $fournisseurModel);
+
+
         $repDevi->detachFournisseur($deviModel, $fournisseurModel);
+        (new FlowCRM())->add($this->dossier , new ClientDossierDemandeFournisseurDelete(Auth::user(), $deviModel, $fournisseurModel, $prix));
 
         $this->emit('update');
     }
