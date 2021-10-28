@@ -3,10 +3,16 @@
 namespace Modules\CrmAutoCar\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Modules\CrmAutoCar\Contracts\Repositories\ProformatsRepositoryContract;
 use Modules\CrmAutoCar\Models\Proformat;
 
 class ProformatsController extends \Modules\CoreCRM\Http\Controllers\Controller
 {
+
+    public function __construct(
+        public ProformatsRepositoryContract $proformatRep
+    ){}
+
     /**
      * Display a listing of the resource.
      *
@@ -21,10 +27,10 @@ class ProformatsController extends \Modules\CoreCRM\Http\Controllers\Controller
      * Display the specified resource.
      *
      * @param Proformat $proformat
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function show(Proformat $proformat)
     {
-        //
+        return view('crmautocar::proformats.show', compact('proformat'));
     }
 }
