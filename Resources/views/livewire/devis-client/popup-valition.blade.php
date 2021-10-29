@@ -10,7 +10,7 @@
             <span class="font-bold">N°12460/16388</span>
         </div>
     </div>
-    <form class="space-y-8 divide-y divide-gray-200 p-6" style="background-color: #f5f5f7">
+    <form class="space-y-8 divide-y divide-gray-200 p-6" style="background-color: #f5f5f7" wire:submit.prevent="store">
         <div class="space-y-8 divide-y divide-gray-200 sm:space-y-5 px-auto">
             <div class="flex justify-center flex-col items-start">
 
@@ -24,8 +24,13 @@
                                      class="rounded-l-md border border-r-0 sm:text-sm w-2/6 bg-bleu text-white flex items-center justify-center">
                                      Votre nom
                                  </span>
-                                <input type="text" name="nom" id="nom" autocomplete="nom" placeholder="Votre nom"
-                                       class="flex-1 block w-full focus:ring-indigo-500 focus:border-indigo-500 min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300">
+                                <input
+                                    type="text"
+                                    name="nom"
+                                    id="nom"
+                                    autocomplete="nom"
+                                    placeholder="Votre nom"
+                                    class="flex-1 block w-full focus:ring-indigo-500 focus:border-indigo-500 min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300">
                             </div>
                         </div>
                     </div>

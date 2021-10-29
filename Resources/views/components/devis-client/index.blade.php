@@ -6,6 +6,7 @@
         name="popup-valition"
         :type="Modules\BaseCore\Entities\TypeView::TYPE_LIVEWIRE"
         path='crmautocar::devis-client.popup-valition'
+        :arguments="['devis' => $devis]"
     >
 
     <div class="bg-white h-full w-full" style="font-family: 'Lato', sans-serif;">

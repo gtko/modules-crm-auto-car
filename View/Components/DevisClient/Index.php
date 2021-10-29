@@ -2,9 +2,12 @@
 
 namespace Modules\CrmAutoCar\View\Components\DevisClient;
 
-use Modules\BaseCore\Entities\TypeView;
+
 use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
 use Illuminate\View\Component;
+use Modules\CoreCRM\Services\FlowCRM;
+use Modules\CrmAutoCar\Flow\Attributes\ClientDevisExterneConsultation;
+use Request;
 
 class Index extends Component
 {
@@ -15,12 +18,19 @@ class Index extends Component
      */
 
 
+
+
     public function index($devisId, DevisRepositoryContract $devisRep, $token)
     {
 
         $devis = $devisRep->fetchById($devisId);
 
+
+        (new FlowCRM())->add($devis->dossier , new ClientDevisExterneConsultation($devis, Request::ip()));
+
+
         return view('crmautocar::components.devis-client.index', compact('devis'));
+
     }
 
     public function render()

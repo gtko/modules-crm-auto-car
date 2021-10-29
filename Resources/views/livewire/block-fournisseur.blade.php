@@ -88,7 +88,7 @@
                              wire:click="validateDemande({{ $devi->id }}, {{ $fourni->id }})"
                              class="cursor-pointer"
                              title="Valider la demande fournisseur"
-                         >@icon('check', 20, 'mr-2')
+                         >@icon('checkCircle', 20, 'mr-2')
                          </span>
                       </span>
                         </td>
