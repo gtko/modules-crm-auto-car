@@ -2,20 +2,30 @@
 
 namespace Modules\CrmAutoCar\Http\Livewire\DevisClient;
 
+
+use Illuminate\Support\Facades\Request;
 use Livewire\Component;
-use Modules\BaseCore\Http\Livewire\AbstractModal;
+use Modules\CoreCRM\Contracts\Entities\DevisEntities;
 use Modules\CoreCRM\Services\FlowCRM;
-use Modules\CrmAutoCar\Flow\Attributes\ClientDevisExterneConsultation;
+use Modules\CrmAutoCar\Flow\Attributes\ClientDevisExterneValidation;
 
 class PopupValition extends Component
 {
-//    protected $rules = [
-//
-//    ];
+    public $devis;
+    public $name;
+    public $societe;
+    public $adresse;
 
-    public function mount($devis)
+    protected $rules = [
+        'name' => '',
+        'societe' => '',
+        'adresse' => '',
+    ];
+
+
+    public function mount(DevisEntities $devis)
     {
-        dd($devis);
+
     }
 
     public function render()
@@ -25,8 +35,9 @@ class PopupValition extends Component
 
     public function store()
     {
-//        $this->validate();
-
-//        (new FlowCRM())->add($devis->dossier , new ClientDevisExterneConsultation($devis, Request::ip()));
+        $this->validate();
+        dd($this->devi->dossier, $this->devi, Request::ip())
+        (new FlowCRM())->add($this->devi->dossier, new ClientDevisExterneValidation($this->devi, Request::ip()));
+        dd('devis validé');
     }
 }

@@ -28,6 +28,7 @@
                                     type="text"
                                     name="nom"
                                     id="nom"
+                                    wire:model="name"
                                     autocomplete="nom"
                                     placeholder="Votre nom"
                                     class="flex-1 block w-full focus:ring-indigo-500 focus:border-indigo-500 min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300">
@@ -47,6 +48,7 @@
                                  </span>
                                 <input type="text" name="societe" id="societe" autocomplete="societe"
                                        placeholder="Société"
+                                       wire:model="societe"
                                        class="flex-1 block w-full focus:ring-indigo-500 focus:border-indigo-500 min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300">
                             </div>
                         </div>
@@ -64,6 +66,7 @@
                                  </span>
                                 <input type="text" name="address" id="address" autocomplete="address"
                                        placeholder="Adresse, Cp et Ville"
+                                       wire:model="adresse"
                                        class="flex-1 block w-full focus:ring-indigo-500 focus:border-indigo-500 min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300">
                             </div>
                         </div>
