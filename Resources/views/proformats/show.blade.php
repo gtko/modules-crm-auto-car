@@ -18,6 +18,26 @@
 
     <!-- Custom Stylesheet -->
     <link type="text/css" rel="stylesheet" href="/crmautocar/assets/css/style.css">
+    <style>
+        @page {
+            size: 1400px 1980px!important;
+            /* this affects the margin in the printer settings */
+            margin: 0px 0px 0px 0px;
+        }
+        @media print {
+            body, .invoice-content {
+                position:relative;
+                max-width:100%!important;
+                width:100% !important;
+                margin:0;
+            }
+            .container, .row {
+                padding: 0px;
+                width: 100%!important;
+                max-width: 100%!important;
+            }
+        }
+    </style>
 </head>
 <body>
 

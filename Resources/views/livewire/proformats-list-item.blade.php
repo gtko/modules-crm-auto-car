@@ -54,12 +54,12 @@
 
     <td class="table-report__action w-56">
         <div class="flex justify-center items-center">
-            <span class="flex items-center mr-3 cursor-pointer" wire:click="show()">
+            <a class="flex items-center mr-3 cursor-pointer" target="_blank" href="{{route('proformats.show', $proformat->id)}}">
                 @icon('show', null, 'mr-2')
-            </span>
-            <span class="flex items-center cursor-pointer" wire:click="pdf()">
+            </a>
+            <a class="flex items-center cursor-pointer" target="_blank"  href="{{route('proformats.pdf', $proformat->id)}}">
                 @icon('pdf', null, 'mr-2')
-            </span>
+            </a>
 
         </div>
     </td>

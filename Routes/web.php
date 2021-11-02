@@ -19,14 +19,18 @@ use Modules\CrmAutoCar\View\Components\DevisClient\Index;
 Route::middleware(['secure.devis'])->group(function () {
     Route::get('/devis/{devis}/{token}',[Index::class, 'index'])->name('devis-view');
     Route::get('/devis/pdf/{devis}/{token}',[Index::class, 'index'])->name('devis-pdf');
+
 });
+Route::get('proformats/{proformat}', [ProformatsController::class, 'show'])->name('proformats.show');
+Route::get('proformats/{proformat}/pdf', [ProformatsController::class, 'pdf'])->name('proformats.pdf');
+
 
 Route::prefix('/')
     ->middleware(['auth:web', 'verified'])
     ->group(function () {
         Route::resource('cuves', CuveController::class)->only('index', 'destroy', 'show');
         Route::resource('invoices', InvoicesController::class)->only('index', 'show');
-        Route::resource('proformats', ProformatsController::class)->only('index', 'show');
+        Route::resource('proformats', ProformatsController::class)->only('index');
         Route::resource('templates', TemplateController::class)->except('show');
         Route::get('statistiques', [StatistiqueController::class, 'index'])->name('statistiques');
         Route::get('statistiques-fournisseur', [StatistiqueFournisseurController::class, 'index'])->name('statistiques-fournisseur');

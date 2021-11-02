@@ -88,6 +88,6 @@
             <span>** Ce devis est valable 7 jours à compter de sa date d'envoi et sous réserve de disponibilité. Au-delà, le tarif sera soumis à révision.</span>
         </div>
     @else
-        <livewire:crmautocar::devis-client.accepte-devis/>
+        <livewire:crmautocar::devis-client.accepte-devis class="no-print"/>
     @endif
 </div>

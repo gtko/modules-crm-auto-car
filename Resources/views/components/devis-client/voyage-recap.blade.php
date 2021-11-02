@@ -11,7 +11,7 @@
                             <span class="mr-4">Devis
                                 <span class="font-bold">{{$devis->ref}}</span>
                             </span>
-                            <span class="flex flex-row items-center cursor-pointer">
+                            <span class="flex flex-row items-center cursor-pointer no-print">
                                 <span>@icon('print', '18')</span>
                                 <span class="ml-1"> Imprimer</span>
                             </span>
@@ -28,7 +28,7 @@
                 <span class="font-bold">Aucune date</span>
             @endif
         </div>
-        <div>En cliquant sur « Réservez le trajet en Autocar » , vous serez redirigé sur notre site
+        <div class="no-print">En cliquant sur « Réservez le trajet en Autocar » , vous serez redirigé sur notre site
             internet
             où vous pourrez réserver votre bus en toute simplicité.
         </div>
