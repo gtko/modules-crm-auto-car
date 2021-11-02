@@ -25,7 +25,7 @@ class PopupValition extends Component
 
     public function mount(DevisEntities $devis)
     {
-
+        $this->devis = $devis;
     }
 
     public function render()
@@ -36,8 +36,7 @@ class PopupValition extends Component
     public function store()
     {
         $this->validate();
-        dd($this->devi->dossier, $this->devi, Request::ip())
-        (new FlowCRM())->add($this->devi->dossier, new ClientDevisExterneValidation($this->devi, Request::ip()));
+        (new FlowCRM())->add($this->devis->dossier, new ClientDevisExterneValidation($this->devis, Request::ip()));
         dd('devis validé');
     }
 }
