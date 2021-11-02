@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zxx">
 <head>
-    <title>INVO - Invoice HTML5 Template</title>
+    <title>Facture proformat: {{$proformat->number}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
 
@@ -21,157 +21,138 @@
 </head>
 <body>
 
-<!-- Invoice 3 start -->
-<div class="invoice-3 invoice-content">
+<div class="invoice-4 invoice-content">
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <div class="invoice-inner">
-                    <div class="invoice-info" id="invoice_wrapper">
+                <div class="invoice-inner" id="invoice_wrapper">
+                    <div class="invoice-info">
                         <div class="invoice-top">
-                            <div class="row">
-                                <div class="col-sm-6">
-                                    <div class="invoice">
-                                        <h4 class="inv-header-1 color-white">Facture proformat: {{$proformat->number}}</h4>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="invoice-name text-end">
-                                        <div class="logo">
-                                            <img class="logo" src="https://www.centrale-autocars.fr/images/logo-centrale-autocar.png" alt="logo">
+                            <div>
+                                <div class="row">
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="logo-name">
+                                            <div class="info">
+                                                <img class='mb-3' src="https://www.centrale-autocars.fr/images/logo-centrale-autocar.png" alt="logo">
+                                                <p><a href="mailto:{{$proformat->devis->dossier->commercial->email ?? '--'}}">{{$proformat->devis->dossier->commercial->email ?? '--'}}</a>
+                                                <p class="mb-0"><a href="tel:{{$proformat->devis->dossier->commercial->format_phone ?? '--'}}">{{$proformat->devis->dossier->commercial->format_phone ?? '--'}}</a></p>
+                                            </div>
                                         </div>
-                                        <p>Cecilia Chapman, 711-2880 Nulla St, Mankato</p>
-                                        <p class="mb-0">Mississippi 96522</p>
                                     </div>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row">
-                                <div class="col-sm-4">
-                                    <div class="informeshon">
-                                        <p class="inv-title-1">Date</p>
-                                        <p>Invoice Data: Aug 27, 2020</p>
-                                        <p>Due Data: Aug 27, 2020</p>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="informeshon">
-                                        <p class="inv-title-1">Invoice To.</p>
-                                        <p class="invo-addr-1">
-                                            Theme Vessel <br/>
-                                            info@themevessel.com <br/>
-                                            21-12 Green Street, Meherpur, Bangladesh <br/>
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="informeshon text-end">
-                                        <p class="inv-title-1">Bill To.</p>
-                                        <p class="invo-addr-1">
-                                            Apexo Inc  <br/>
-                                            billing@apexo.com <br/>
-                                            169 Teroghoria, Bangladesh <br/>
-                                        </p>
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <div class="invoice-name text-end">
+                                            <h4 class="name color-white inv-header-1">Facture proformat <br>n°{{$proformat->number}}</h4>
+                                            <p class="mb-0">Date d'émission: {{$proformat->created_at->format('d/m/Y')}}</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="invoice-center">
-                            <div class="table-section table-responsive clearfix">
-                                <table class="table caption-top invoice-table">
-                                    <thead class="bg-active">
-                                    <tr>
-                                        <th>Item Item</th>
-                                        <th class="text-center">Price</th>
-                                        <th class="text-center">Quantity</th>
-                                        <th class="text-right">Totals</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>
-                                            <div class="item-desc-1">
-                                                <span>BS-200</span>
-                                                <small>Customize web application</small>
-                                            </div>
-                                        </td>
-                                        <td class="text-center">$10.99</td>
-                                        <td class="text-center">1</td>
-                                        <td class="text-right">$10.99</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="item-desc-1">
-                                                <span>BS-201</span>
-                                                <small>Website development and customization for themevessel</small>
-                                            </div>
-                                        </td>
-                                        <td class="text-center">$20.00</td>
-                                        <td class="text-center">3</td>
-                                        <td class="text-right">$60.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="item-desc-1">
-                                                <span>BS-233</span>
-                                                <small>Website SEO improvement of themevessel.com</small>
-                                            </div>
-                                        </td>
-                                        <td class="text-center">$640.00</td>
-                                        <td class="text-center">1</td>
-                                        <td class="text-right">$640.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="3" class="text-end">SubTotal</td>
-                                        <td class="text-right">$710.99</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="3" class="text-end">Tax</td>
-                                        <td class="text-right">$85.99</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="3" class="text-end fw-bold">Grand Total</td>
-                                        <td class="text-right fw-bold">$795.99</td>
-                                    </tr>
-                                    </tbody>
-                                </table>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="client-name mb-30">
+                                        <div class="info">
+                                            <p class="inv-title-1">A l'attention de :</p>
+                                            <p class="invo-addr-1">
+                                                {{$proformat->devis->dossier->client->format_name}} <br/>
+                                                {{$proformat->devis->dossier->client->full_address}}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-6">
+                                    <div class="project-description mb-30 text-end">
+                                        <h5 class="inv-title-1">Description</h5>
+                                        <p class="mb-0">
+                                         Organisation d'un trajet en bus
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        <div class="invoice-bottom">
-                            <div class="row">
-                                <div class="col-sm-8">
-                                    <div class="bank-transfer">
-                                        <h3 class="inv-title-1">  Modalités et conditions de règlement :</h3>
-                                        <ul class="bank-transfer-list-1">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="table-section clearfix">
+                                    <div class="table-responsive">
+                                        <table class="table invoice-table">
+                                            <thead class="bg-active">
+                                            <tr>
+                                                <th>Description</th>
+                                                <th class="text-center">Qtité</th>
+                                                <th class="text-center">Prix</th>
+                                                <th class="text-right">Total</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td>
+                                                   <livewire:crmautocar::devis-client.voyage :devis="$proformat->devis"/>
+                                                </td>
+                                                <td class="text-center">1</td>
+                                                <td class="text-center text-nowrap">@marge($price->getPriceHT())€</td>
+                                                <td class="text-right text-nowrap">@marge($price->getPriceHT())€</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3" class="text-end">Montant total (HT)</td>
+                                                <td class="text-right text-nowrap">@marge($price->getPriceHT())€</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3" class="text-end">TVA 10 %</td>
+                                                <td class="text-right text-nowrap">@marge($price->getPriceTVA())</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3" class="text-end fw-bold">Montant Total (TTC)</td>
+                                                <td class="text-right fw-bold text-nowrap">@marge($price->getPriceTTC())</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3" class="text-end">Déjà Réglé</td>
+                                                <td class="text-right text-nowrap">@marge($price->getTotalPayment())€</td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3" class="text-end">Reste à Régler</td>
+                                                <td class="text-right text-nowrap">@marge($price->getRestant())€</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="invoice-center ic2">
+                            <div class="d-flex justify-content-between">
+                                <div class="">
+                                    <div class="payment-info text-start mb-30" style="max-width:600px;">
+                                        <h3 class="inv-title-1">Conditions de règlement :</h3>
+                                        <p class="mb-0">
+                                            Pour rappel la validation en ligne implique une acceptation totale <br>
+                                            de nos conditions générales de ventes et donc des conditions d'annulations ci dessous:
+                                        </p>
+                                        <ul class="mb-0 important-notes-list-1">
+                                            <li>30 % du prix du service si l’annulation intervient à plus de 30 jours avant le départ</li>
+                                            <li>50 % du prix du service si l’annulation intervient entre 30 et 14 jours avant le départ</li>
+                                            <li>70 % du prix du service si l’annulation intervient entre 13 et 7 jours avant le départ</li>
+                                            <li>100 % du prix du service si l’annulation intervient moins de 7 jours avant le départ.</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="">
+                                    <div class="mb-30 ">
+                                        <h3 class="inv-title-1">Modalités de règlement :</h3>
+                                        <ul class="mb-0 important-notes-list-1">
                                             <li> Par carte bancaire ou par virement bancaire</li>
                                             <li><strong>Rib:</strong>FR76 3000 4015 9600 0101 0820 195</li>
                                             <li><strong>BIC:</strong>BNPAFRPPXXX</li>
                                             <li>
-                                                30% à la réservation<br>
-                                                Le solde 45 jours avant votre départ
+                                                <p class="mb-0">
+                                                    30% à la réservation<br>
+                                                    Le solde 45 jours avant votre départ
+                                                </p>
                                             </li>
                                         </ul>
                                     </div>
                                 </div>
-                                <div class="col-sm-4">
-                                    <div class="amount text-end">
-                                        <h3 class="inv-title-1">Total Amount</h3>
-                                        <h1>$795.99</h1>
-                                        <p class="mb-0">Taxes Included</p>
-                                    </div>
-                                </div>
                             </div>
-
-                            <div class="col-sm-12">
-                                <p>Pour rappel la validation en ligne implique une acceptation totale de nos conditions générales de ventes et donc des conditions d'annulations ci dessous:</p>
-                                <p>
-                                    - 30 % du prix du service si l’annulation intervient à plus de 30 jours avant le départ<br>
-                                    - 50 % du prix du service si l’annulation intervient entre 30 et 14 jours avant le départ<br>
-                                    - 70 % du prix du service si l’annulation intervient entre 13 et 7 jours avant le départ<br>
-                                    - 100 % du prix du service si l’annulation intervient moins de 7 jours avant le départ.<br>
-                                </p>
-                            </div>
-
                             <div class="note mt-3">
                                 <p class="text-muted text-center">
                                     Centrale Autocar - Société par Actions Simplifiées<br>
@@ -181,18 +162,24 @@
                             </div>
                         </div>
                     </div>
-                    <div class="invoice-btn-section clearfix d-print-none">
-                        <a href="javascript:window.print()" class="btn btn-lg btn-print">
-                            <i class="fa fa-print"></i> Imprimer
-                        </a>
-                        <a id="invoice_download_btn" class="btn btn-lg btn-download">
-                            <i class="fa fa-download"></i> Télécharge le PDF
-                        </a>
-                    </div>
+                </div>
+                <div class="invoice-btn-section clearfix d-print-none">
+                    <a href="javascript:window.print()" class="btn btn-lg btn-print">
+                        <i class="fa fa-print"></i> Print Invoice
+                    </a>
+                    <a id="invoice_download_btn" class="btn btn-lg btn-download">
+                        <i class="fa fa-download"></i> Download Invoice
+                    </a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<!-- Invoice 4 end -->
+
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/jspdf.min.js"></script>
+<script src="assets/js/html2canvas.js"></script>
+<script src="assets/js/app.js"></script>
 </body>
 </html>

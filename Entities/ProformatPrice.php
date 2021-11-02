@@ -26,7 +26,15 @@ class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
     public function getPriceAchat(){
         $price = 0;
         $decaissement = app(DecaissementRepositoryContract::class)->getByDossier($this->proformat->devis->dossier);
-        return $decaissement->sum('payer') + $decaissement->last()->restant;
+        return $decaissement->sum('payer') + ($decaissement->last()->restant ?? 0);
+    }
+
+    public function getTotalPayment(){
+        return 0; //@todo implementer le total paiement
+    }
+
+    public function getRestant(){
+        return $this->getPriceTTC() - $this->getTotalPayment();
     }
 
 

@@ -4,7 +4,9 @@ namespace Modules\CrmAutoCar\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Modules\CrmAutoCar\Contracts\Repositories\ProformatsRepositoryContract;
+use Modules\CrmAutoCar\Entities\ProformatPrice;
 use Modules\CrmAutoCar\Models\Proformat;
+use Modules\CrmAutoCar\Repositories\BrandsRepository;
 
 class ProformatsController extends \Modules\CoreCRM\Http\Controllers\Controller
 {
@@ -31,6 +33,9 @@ class ProformatsController extends \Modules\CoreCRM\Http\Controllers\Controller
      */
     public function show(Proformat $proformat)
     {
-        return view('crmautocar::proformats.show', compact('proformat'));
+        $brand = app(BrandsRepository::class)->fetchById(config('crmautocar.brand_default'));
+        $price = (new ProformatPrice($proformat, $brand));
+
+        return view('crmautocar::proformats.show', compact('proformat', 'price'));
     }
 }
