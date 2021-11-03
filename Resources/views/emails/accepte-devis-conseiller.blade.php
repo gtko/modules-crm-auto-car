@@ -11,9 +11,10 @@ style="width: 350px; padding-bottom: 50px"
 </div>
 Bonjour<br><br>
 
-Votre client jean client a validé le devis n°16336 au départ de Reims 51000 le 10/04/2021.<br>
+Votre client {{ $devis->dossier->client->formatName }} a validé le devis n°{{ $devis->ref }} au départ de {{ $devis->data['addresse_ramassage'] . ' ' . $devis->data['aller_point_depart'] }} le
+    {{ \Carbon\Carbon::createFromTimeString($devis->data['aller_date_depart'] ?? '')->translatedFormat('d/m/Y') }}.<br>
 
-Devis validé le ***12/12/2020*** avec l'ip ***10.58.22.55.21***
+Devis validé le *** {{ \Carbon\Carbon::now()->format('d/m/Y') }} *** avec l'ip ***{{$ip}}***
 
 </div>
 @endcomponent
