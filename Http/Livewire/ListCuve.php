@@ -5,6 +5,7 @@ namespace Modules\CrmAutoCar\Http\Livewire;
 use Livewire\Component;
 use Modules\CoreCRM\Contracts\Repositories\DossierRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\SourceRepositoryContract;
+use Modules\CoreCRM\Models\Commercial;
 
 class ListCuve extends Component
 {
@@ -18,6 +19,12 @@ class ListCuve extends Component
     public function dossierSelected($value)
     {
         $this->selection[] = $value;
+    }
+
+
+    public function attribuer(){
+        //@todo envoyer le commercial selectionner
+        $this->emit('listcuve:attribuer', 6);
     }
 
     public function render()

@@ -1,6 +1,10 @@
 <div class="grid grid-cols-12 gap-6 mt-8">
 
     <div class="col-span-12 lg:col-span-3 xxl:col-span-2">
+
+
+
+
         <!-- BEGIN: Inbox Menu -->
         <div class="intro-y box bg-theme-1 p-5 mt-6">
             <div class="pt-3 text-white">
@@ -68,8 +72,17 @@
                         </svg>
                     </a>
                 </div>
+
+                <div>
+                    <select>
+                        <option>Commercial</option>
+                    </select>
+                    <button wire:click="attribuer">
+                        Attribuer test
+                    </button>
+                </div>
+
                 <div class="flex items-center sm:ml-auto">
-                    @dump($selection)
                     <div class="dark:text-gray-300">1 - 50 sur {{$total}}</div>
                     <a href="{{$prev}}" class="w-5 h-5 ml-5 flex items-center justify-center dark:text-gray-300">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
