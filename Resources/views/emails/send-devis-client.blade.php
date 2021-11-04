@@ -18,7 +18,7 @@ au départ de {{ $devis->data['addresse_ramassage']. ' ' . $devis->data['aller_p
 en ligne en cliquant sur le boutton ci-joint.
 <br>
 @component('mail::button', ['url' => $link, 'color' => 'success'] )
-    Voir de devis
+    Voir le devis
 @endcomponent
 
 Vous trouverez en piéce jointe le devis au format pdf et les condition général de vente.<br>

@@ -2,6 +2,9 @@
 
 namespace Modules\CrmAutoCar\Notifications;
 
+use Illuminate\Support\Carbon;
+use Modules\BaseCore\Contracts\Services\PdfContract;
+use Modules\CoreCRM\Actions\Devis\GenerateLinkDevis;
 use Modules\CoreCRM\Flow\Notification\Notif;
 use Modules\CrmAutoCar\Flow\Attributes\DevisSendClient;
 use Modules\CrmAutoCar\Mail\DevisSendClientMail;
@@ -29,8 +32,18 @@ class DevisSendClientNotification extends Notif
 
     public function toMail($notifiable)
     {
+        $devis = $this->flow->datas->getDevis();
+        $pdfService = app(PdfContract::class);
+        $pdfService->setUrl((new GenerateLinkDevis)->GenerateLinkPDF($devis));
+        $pdf = $pdfService->getContentPdf();
+
         return (new DevisSendClientMail($this->flow->datas->getDevis()))
-            ->to($notifiable->email);
+            ->to($notifiable->email)
+            ->attachData($pdf,'devis-'.$devis->ref.'-'.Carbon::now()->format('d_m_y-hm').'.pdf',
+                [
+                    'mime' => 'application/pdf',
+                ]
+            );
     }
 
     public function toArray($notifiable){

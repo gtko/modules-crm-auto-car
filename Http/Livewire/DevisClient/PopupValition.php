@@ -5,10 +5,13 @@ namespace Modules\CrmAutoCar\Http\Livewire\DevisClient;
 
 use Illuminate\Support\Facades\Request;
 use Livewire\Component;
+use Modules\CoreCRM\Actions\Devis\GenerateLinkDevis;
 use Modules\CoreCRM\Contracts\Entities\DevisEntities;
 use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
 use Modules\CoreCRM\Services\FlowCRM;
+use Modules\CrmAutoCar\Contracts\Repositories\ProformatsRepositoryContract;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDevisExterneValidation;
+use Modules\CrmAutoCar\Flow\Attributes\CreateProformatClient;
 
 class PopupValition extends Component
 {
@@ -36,7 +39,7 @@ class PopupValition extends Component
         return view('crmautocar::livewire.devis-client.popup-valition');
     }
 
-    public function store(DevisRepositoryContract $repDevi)
+    public function store(DevisRepositoryContract $repDevi, ProformatsRepositoryContract $repInvoice)
     {
         $this->validate();
 
@@ -45,12 +48,19 @@ class PopupValition extends Component
             'name_validation' => $this->name,
             'societe_validation' => $this->societe,
             'address_validation' => $this->adresse,
-
+            'ip_validation' => Request::ip()
         ];
         $repDevi->validatedDevis($this->devis, $data);
 
+        //on créer la proformat
+        $total = $this->devis->getTotal();
+        $number = $repInvoice->getNextNumber();
+        $proformat = $repInvoice->create($this->devis, $total, $number);
+
+        (new FlowCRM())->add($this->devis->dossier, new CreateProformatClient($proformat));
         (new FlowCRM())->add($this->devis->dossier, new ClientDevisExterneValidation($this->devis, Request::ip(), $data));
-//
+
+        return redirect((new GenerateLinkDevis())->GenerateLink($this->devis));
 
     }
 }

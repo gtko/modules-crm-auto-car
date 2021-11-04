@@ -88,7 +88,7 @@
                         <div class="max-w-lg">
                             <div class="mt-4 space-y-2 ml-2">
                                 <div class="flex">
-                                    <input id="push-everything" name="virement" value="virement" type="radio" wire:model="paiementType"
+                                    <input id="push-everything" name="virement" value="virement" type="radio" wire:model.defer="paiementType"
                                            class="focus:ring-indigo-500 h-3 w-3 text-indigo-600">
                                     <label for="push-everything"
                                            class="ml-3 block text-sm font-medium text-gray-700">
@@ -96,7 +96,7 @@
                                     </label>
                                 </div>
                                 <div class="flex items-center">
-                                    <input id="push-email" name="cheque" value="cheque" type="radio" wire:model="paiementType"
+                                    <input id="push-email" name="cheque" value="cheque" type="radio" wire:model.defer="paiementType"
                                            class="focus:ring-indigo-500 h-3 w-3 text-indigo-600">
                                     <label for="push-email"
                                            class="ml-3 block text-sm font-medium text-gray-700">
@@ -104,7 +104,7 @@
                                     </label>
                                 </div>
                                 <div class="flex items-center">
-                                    <input id="push-nothing" name="carte" value="carte" type="radio" wire:model="paiementType"
+                                    <input id="push-nothing" name="carte" value="carte" type="radio" wire:model.defer="paiementType"
                                            class="focus:ring-indigo-500 h-3 w-3 text-indigo-600">
                                     <label for="push-nothing"
                                            class="ml-3 block text-sm font-medium text-gray-700">
@@ -115,9 +115,12 @@
                         </div>
                     </div>
                     <div class="w-full flex items-center justify-center">
-                        <button type="submit" class="text-2xl text-white px-4 py-2 w-72 rounded mt-4 font-bold"
-                                style="background-color: #ffa500;">J'accepte le devis
-                        </button>
+                        <x-basecore::loading-replace label="Acceptation du devis en cours" size="30" class="mt-3">
+                            <button type="submit" class="text-2xl text-white px-4 py-2 w-72 rounded mt-4 font-bold"
+                                    style="background-color: #ffa500;">
+                                    J'accepte le devis
+                            </button>
+                        </x-basecore::loading-replace>
                     </div>
 
                 </div>

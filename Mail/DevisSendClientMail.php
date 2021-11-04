@@ -10,11 +10,12 @@ class DevisSendClientMail extends Mailable
 {
 
 
-    public function __construct(public DevisEntities $devis, $subject = 'Proposition de tarif'){}
+    public function __construct(public DevisEntities $devis,
+                                public string $subjectMail = 'Proposition de tarif'){}
 
     public function build()
     {
-        return $this->subject($this->subject)
+        return $this->subject($this->subjectMail)
             ->markdown('crmautocar::emails.send-devis-client',[
                 'link' => (new GenerateLinkDevis())->GenerateLink($this->devis)
             ]);

@@ -58,7 +58,6 @@ class ClientDevisExterneValidationNotification extends Notif
     {
         $flowAttributes = $this->flow->datas;
 
-
         if ($notifiable instanceof Commercial) {
             return (new AccepteDevisConseillerMail($flowAttributes->getDevis(), $flowAttributes->getIp()))->to($notifiable->email);
         } else {
@@ -67,9 +66,16 @@ class ClientDevisExterneValidationNotification extends Notif
             $pdfService->setUrl((new GenerateLinkDevis)->GenerateLinkPDF($flowAttributes->getDevis()));
             $pdf = $pdfService->getContentPdf();
 
+            $pdfService->setUrl(route('proformats.show', [$flowAttributes->getDevis()->proformat]));
+            $proformatPdf = $pdfService->getContentPdf();
+
             return (new AccepteDevisClientMail($flowAttributes->getDevis(), $flowAttributes->getIp()))
                 ->to($notifiable->email)
-                ->attachData($pdf, 'devis-central-autocar.pdf',
+                ->attachData($pdf, 'devis-valide-central-autocar.pdf',
+                    [
+                        'mime' => 'application/pdf',
+                    ]
+                )->attachData($proformatPdf, 'proformat-central-autocar.pdf',
                     [
                         'mime' => 'application/pdf',
                     ]
