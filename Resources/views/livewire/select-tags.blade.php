@@ -1,23 +1,28 @@
 <div>
-    <hr class="mx-2">
-    <div class="ml-4 mr-auto my-2">
-        @foreach($tagsDossier as $tagDossier)
-            <span class="bg-gray-600 text-white m-1 p-1 rounded">
-               {{$tagDossier->label}}
-                <span class="cursor-pointer ml-1" wire:click="deleteTag({{$tagDossier->id}})">X</span>
-            </span>
+    <div class="p-5 border-t border-gray-200 dark:border-dark-5">
 
-        @endforeach
-    </div>
+        <div class="flex justify-start items-center mb-2">
+            @foreach($tagsDossier as $tagDossier)
+                <div class="group cursor-pointer flex items-center hover:bg-red-600 hover:text-white justify-between bg-blue-400 text-white mr-1 px-2 py-1 rounded" wire:click="deleteTag({{$tagDossier->id}})">
+                    <span>{{$tagDossier->label}}</span>
+                    <span class="ml-1" >
+                       @icon('delete', 14)
+                    </span>
+                </div>
 
-    <div class="space-y-2 m-2">
-        <x-basecore::tom-select
-            name="tagSelect"
-            :collection="$tags"
-            label="label"
-            placeholder="Selectionner le(s) tag(s)"
-        />
-        <button class="btn-sm btn btn-primary" wire:click="addTag()">Ajouter</button>
+            @endforeach
+        </div>
+
+        <div class="flex w-full items-center ">
+            <x-basecore::tom-select
+                name="tagSelect"
+                class="flex-grow"
+                :collection="$tags"
+                label="label"
+                placeholder="Selectionner le(s) tag(s)"
+            />
+            <button class="btn-sm btn btn-primary ml-2" wire:click="addTag()">Ajouter</button>
+        </div>
+
     </div>
 </div>
-
