@@ -9,6 +9,17 @@ use Modules\CoreCRM\Contracts\Repositories\SourceRepositoryContract;
 class ListCuve extends Component
 {
 
+    public $selection;
+
+    protected $listeners = [
+        'dossierSelected'
+    ];
+
+    public function dossierSelected($value)
+    {
+        $this->selection[] = $value;
+    }
+
     public function render()
     {
         $dossierRep = app(DossierRepositoryContract::class);

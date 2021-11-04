@@ -13,7 +13,7 @@ class ElementListCuve extends Component
 
     public function updatedSelection()
     {
-        dd($this->selection);
+        $this->emit('dossierSelected', $this->selection);
     }
 
     public function mount(Dossier $dossier)
