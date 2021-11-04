@@ -1,7 +1,7 @@
 <x-corecrm::timeline-item>
     <div class="flex items-center">
         <x-slot name="image">
-            @icon('checkCircle', null)
+            @icon('checkCircle', 20)
         </x-slot>
         <div class="font-medium">
             Devis

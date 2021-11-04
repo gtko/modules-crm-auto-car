@@ -22,6 +22,7 @@ use Modules\CrmAutoCar\Contracts\Repositories\TemplatesRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Service\DistanceApiContract;
 use Modules\CrmAutoCar\Notifications\ClientDevisExterneValidationNotification;
 use Modules\CrmAutoCar\Notifications\ClientDossierDemandeFournisseurSendNotification;
+use Modules\CrmAutoCar\Notifications\DevisSendClientNotification;
 use Modules\CrmAutoCar\Repositories\BrandsRepository;
 use Modules\CrmAutoCar\Repositories\DecaissementRepository;
 use Modules\CrmAutoCar\Repositories\InvoicesRepository;
@@ -86,6 +87,7 @@ class CrmAutoCarServiceProvider extends ServiceProvider
         Kernel::add([
             ClientDossierDemandeFournisseurSendNotification::class,
             ClientDevisExterneValidationNotification::class,
+            DevisSendClientNotification::class
         ]);
     }
 
