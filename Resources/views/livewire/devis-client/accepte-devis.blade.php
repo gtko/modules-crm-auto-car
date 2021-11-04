@@ -18,8 +18,8 @@
                 Devis validé
         </span>
         <p class="text-green-600 text-center mt-2 text-normal">
-            le {{$devi->updated_at->format('d/m/Y H:i')}}  
-            par {{$devi->data['name_validation']}} {{$devis->data['ip_validation'] ?? '--'}}
+            le {{$devi->updated_at->format('d/m/Y H:i')}}
+            par {{$devi->data['name_validation']}} {{$devi->data['ip_validation'] ?? '--'}}
         </p>
     @endif
 </div>
