@@ -1,4 +1,3 @@
-<div>
     <tr>
         <td class="border-b dark:border-dark-5">
 
@@ -28,5 +27,3 @@
             {{$dossier->created_at->diffForHumans()}}
         </td>
     </tr>
-
-</div>

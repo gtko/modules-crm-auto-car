@@ -20,7 +20,7 @@ class ClientDevisExterneValidation extends Attributes
     protected DevisEntities $devis;
     protected string $ip;
 
-    public function __construct(DevisEntities $devis, string $ip, array $data)
+    public function __construct(DevisEntities $devis, string $ip, array $data = [])
     {
         parent::__construct();
 

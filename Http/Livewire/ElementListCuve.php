@@ -10,14 +10,11 @@ class ElementListCuve extends Component
     public $dossier;
     public $selection = false;
 
-//    protected $rules = [
-//        'selection' => ''
-//    ];
-//
-//    public function updatedSelection()
-//    {
-//        dd($this->selection);
-//    }
+
+    public function updatedSelection()
+    {
+        dd($this->selection);
+    }
 
     public function mount(Dossier $dossier)
     {
