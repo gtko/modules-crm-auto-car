@@ -19,21 +19,14 @@ class CuveController extends Controller
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function index(DossierRepositoryContract $dossierRep, SourceRepositoryContract $sourceRep)
+    public function index()
     {
         $this->authorize('view-any', Dossier::class);
 
-        $dossierRep->setQuery($dossierRep->newQuery()->with(['client.personne.emails', 'client.personne.address.country','commercial.personne', 'source'])
-            ->orderByDesc('created_at'));
 
-        $dossiers = $dossierRep->fetchAll();
-        return view('crmautocar::cuves.index', [
-            'dossiers' => $dossiers,
-            'total' => $dossiers->total(),
-            'next' => $dossiers->nextPageUrl(),
-            'prev' => $dossiers->previousPageUrl(),
-            'sources' => $sourceRep->fetchAll()
-        ]);
+
+
+        return view('crmautocar::cuves.index');
     }
 
     /**

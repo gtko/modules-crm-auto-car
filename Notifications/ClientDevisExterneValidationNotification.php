@@ -41,8 +41,7 @@ class ClientDevisExterneValidationNotification extends Notif
      */
     public function via($notifiable)
     {
-        if($notifiable instanceof Commercial)
-        {
+        if ($notifiable instanceof Commercial) {
             return ['database', 'mail'];
         }
         return ['mail'];
@@ -60,21 +59,21 @@ class ClientDevisExterneValidationNotification extends Notif
         $flowAttributes = $this->flow->datas;
 
 
-
-        if($notifiable instanceof Commercial)
-        {
-            return  (new AccepteDevisConseillerMail($flowAttributes->getDevis(), $flowAttributes->getIp()))->to($notifiable->email);
+        if ($notifiable instanceof Commercial) {
+            return (new AccepteDevisConseillerMail($flowAttributes->getDevis(), $flowAttributes->getIp()))->to($notifiable->email);
         } else {
 
             $pdfService = app(PdfContract::class);
             $pdfService->setUrl((new GenerateLinkDevis)->GenerateLinkPDF($flowAttributes->getDevis()));
             $pdf = $pdfService->getContentPdf();
 
-            return (new AccepteDevisClientMail($flowAttributes->getDevis(), $flowAttributes->getIp()))->to($notifiable->email)->attachData($pdf, 'name.pdf', [
-                'mime' => 'application/pdf',
-            ])->attachData($pdf, 'name.pdf', [
-                'mime' => 'application/pdf',
-            ]);
+            return (new AccepteDevisClientMail($flowAttributes->getDevis(), $flowAttributes->getIp()))
+                ->to($notifiable->email)
+                ->attachData($pdf, 'devis-central-autocar.pdf',
+                    [
+                        'mime' => 'application/pdf',
+                    ]
+                );
         }
 
     }

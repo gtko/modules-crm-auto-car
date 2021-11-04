@@ -17,7 +17,7 @@ Votre devis n°{{ $devis->ref }} pour votre transfert en autocar pour le {{ \Car
 
 Vous trouverez en piéce jointe le devis au format pdf et les condition général de vente.<br>
 
-    Devis validé le *** {{ \Carbon\Carbon::now()->format('d/m/Y') }} *** avec l'ip ***{{$ip}}***
+    Devis validé le {{ \Carbon\Carbon::now()->format('d/m/Y') }}  avec l'ip {{$ip}}
 
 Je reste à votre entière disposition pour tout renseignement complémentaire.<br>
 
@@ -26,6 +26,6 @@ Cordialement,<br>
 
 ***{{ $devis->dossier->commercial->format_name }}***<br>
     {{$devis->dossier->commercial->format_phone}}<br>
-<{{ $devis->dossier->commercial->mail }}><br>
+{{ $devis->dossier->commercial->email }}<br>
 </div>
 @endcomponent

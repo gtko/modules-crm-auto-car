@@ -14,11 +14,13 @@ class AccepteDevis extends Component
     public $accepte = false;
     public $sidebar;
     public $class;
+    public $devi;
 
 
 
-    public function mount($sidebar = false, $class = '')
+    public function mount($devi, $sidebar = false, $class = '')
     {
+        $this->devi = $devi;
         $this->class = $class;
         $this->sidebar = $sidebar;
     }

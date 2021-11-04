@@ -1,6 +1,7 @@
 <x-corecrm::timeline-item>
     <div class="flex items-center">
         <x-slot name="image">
+            @icon('checkCircle', null)
         </x-slot>
         <div class="font-medium">
             Devis
@@ -15,8 +16,15 @@
             <span class="text-yellow-600">
             {{ $flow->datas->getIp() }}
             </span>
-
-
+            <div>
+                Avec les infos suivante :
+               <ul>
+                   <li>Nom : <span class="text-yellow-600">{{ $flow->datas->getData()['name_validation'] }}</span></li>
+                   <li>Société : <span class="text-yellow-600">{{ $flow->datas->getData()['societe_validation'] }}</span></li>
+                   <li>Adresse : <span class="text-yellow-600">{{ $flow->datas->getData()['address_validation'] }}</span></li>
+                   <li>Type de paiment : <span class="text-yellow-600">{{ $flow->datas->getData()['paiement_type_validation'] }}</span></li>
+               </ul>
+            </div>
         </div>
         <div class="text-xs text-gray-500 ml-auto">{{$flow->created_at->format('H:i')}}</div>
     </div>
