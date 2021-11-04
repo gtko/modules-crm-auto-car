@@ -14,16 +14,22 @@ class ElementListCuve extends Component
     public $selection = false;
 
 
-    protected $listeners = ['listcuve:attribuer' => 'attribuer'];
+    protected $listeners = [
+        'listcuve:attribuer' => 'attribuer',
+        'cuveRefresh'
+    ];
+
+    public function cuveRefresh()
+    {
+        $this->selection = false;
+    }
 
     public function attribuer($commercial_id){
 
         if($this->selection){
-            //@todo attribuer le commercial au dossier
             $commercial  = app(CommercialRepositoryContract::class)->fetchById($commercial_id);
             app(DossierRepositoryContract::class)->changeCommercial($this->dossier, $commercial);
         }
-
     }
 
 

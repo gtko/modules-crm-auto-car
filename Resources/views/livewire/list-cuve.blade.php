@@ -3,12 +3,10 @@
     <div class="col-span-12 lg:col-span-3 xxl:col-span-2">
 
 
-
-
         <!-- BEGIN: Inbox Menu -->
         <div class="intro-y box bg-theme-1 p-5 mt-6">
             <div class="pt-3 text-white">
-                <a href="" class="flex items-center px-3 py-2 rounded-md bg-theme-25 dark:bg-dark-1 font-medium">
+                <span wire:click="changeFiltre('attente')" class="flex items-center px-3 py-2 rounded-md dark:bg-dark-1 cursor-pointer @if($filtre == 'attente')  bg-theme-25 @endif font-medium">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                          stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
                          class="feather feather-mail w-4 h-4 mr-2">
@@ -17,8 +15,8 @@
                         <polyline points="22,6 12,13 2,6"></polyline>
                     </svg>
                     En attente
-                </a>
-                <a href="" class="flex items-center px-3 py-2 mt-2 rounded-md">
+                </span>
+                <span wire:click="changeFiltre('distribuer')" class="flex items-center px-3 py-2 mt-2 rounded-md dark:bg-dark-1 cursor-pointer @if($filtre == 'distribuer') bg-theme-25 @endif">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                          stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
                          class="feather feather-send w-4 h-4 mr-2">
@@ -26,8 +24,8 @@
                         <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
                     </svg>
                     Distribué
-                </a>
-                <a href="" class="flex items-center px-3 py-2 mt-2 rounded-md">
+                </span>
+                <span wire:click="changeFiltre('corbeille')" class="flex items-center px-3 py-2 mt-2 rounded-md dark:bg-dark-1 cursor-pointer @if($filtre == 'corbeille') bg-theme-25  @endif">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                          stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
                          class="feather feather-trash w-4 h-4 mr-2">
@@ -36,7 +34,7 @@
                             d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
                     </svg>
                     Corbeille
-                </a>
+                </span>
             </div>
 
 
@@ -56,30 +54,17 @@
 
         <!-- BEGIN: Inbox Content -->
         <div class="intro-y inbox box mt-5">
-            <div
-                class="p-5 flex flex-col-reverse sm:flex-row text-gray-600 border-b border-gray-200 dark:border-dark-1">
-                <div
-                    class="flex items-center mt-3 sm:mt-0 border-t sm:border-0 border-gray-200 pt-5 sm:pt-0 mt-5 sm:mt-0 -mx-5 sm:mx-0 px-5 sm:px-0">
-                    <input class="form-check-input" type="checkbox">
-
-                    <a href="javascript:;" class="w-5 h-5 ml-5 flex items-center justify-center dark:text-gray-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                             fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                             stroke-linejoin="round" class="feather feather-refresh-cw w-4 h-4">
-                            <polyline points="23 4 23 10 17 10"></polyline>
-                            <polyline points="1 20 1 14 7 14"></polyline>
-                            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
-                        </svg>
-                    </a>
-                </div>
-
-                <div>
-                    <select>
-                        <option>Commercial</option>
+            <div class="p-5 flex flex-col-reverse sm:flex-row text-gray-600 border-b border-gray-200 dark:border-dark-1">
+                <div class="flex flex-row">
+                    <select wire:model="commercial" class="form-select form-select-sm">
+                        <option value="">Commercial</option>
+                        @foreach($commercials as $commercial)
+                            <option value="{{$commercial->id}}"> {{ $commercial->formatName }}</option>
+                        @endforeach
                     </select>
-                    <button wire:click="attribuer">
-                        Attribuer test
-                    </button>
+                    <span wire:click="attribuer" class="bg-blue-600 p-2 w-32 text-center text-white rounded ml-2 cursor-pointer">
+                        Attribuer
+                    </span>
                 </div>
 
                 <div class="flex items-center sm:ml-auto">
