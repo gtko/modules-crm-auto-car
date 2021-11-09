@@ -37,11 +37,10 @@ class FormEmailSend extends Component
 
         ];
 
-    public function mount(DossierRepositoryContract $repDossier, TemplatesRepositoryContract $repTemplate, $devi_id, $fournisseur_id, $dossier, $prix)
+    public function mount(DossierRepositoryContract $repDossier, TemplatesRepositoryContract $repTemplate, $devi_id, $fournisseur_id, $dossier)
     {
 
         $this->devi_id = $devi_id;
-        $this->prix = $prix;
         $this->dossierModel = $repDossier->fetchById($dossier['id']);
         $this->fourniseur_ids = $fournisseur_id;
         $this->templates = $repTemplate->getAll();
@@ -68,7 +67,7 @@ class FormEmailSend extends Component
         foreach ($this->fourniseur_ids as $fournis_id) {
             $this->fournisseurModel = $repFournisseur->fetchById($fournis_id);
             (new SendRequestFournisseurMail())->send($this->fournisseurModel->email, $this->dossierModel, $this->content, $this->subjectMail);
-            $repDevi->sendPriceFournisseur($deviModel, $this->fournisseurModel, $this->prix, Carbon::now());
+            $repDevi->sendPriceFournisseur($deviModel, $this->fournisseurModel, Carbon::now());
 
             (new FlowCRM())->add($dossier, new ClientDossierDemandeFournisseurSend(Auth::user(), $deviModel, $this->fournisseurModel, $this->prix));
         }

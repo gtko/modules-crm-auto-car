@@ -33,11 +33,6 @@
         />
     </div>
     <div class="px-2 pt-2">
-        <x-basecore::inputs.number name="prix" label="" placeholder="Prix" required
-                                   wire:model.defer="prix"></x-basecore::inputs.number>
-    </div>
-
-    <div class="px-2 pt-2">
         <button wire:click="send" class="btn btn-primary ">Envoyer</button>
     </div>
 
@@ -75,6 +70,7 @@
                             {{ $fourni->formatName }}
                         </td>
                         <td class="py-4 whitespace-nowrap text-sm text-center">
+                            <input type="number" class="w-24">
                             {{ $fourni->pivot->prix }}
                         </td>
                         <td class="whitespace-nowrap text-sm text-right">
@@ -89,6 +85,12 @@
                              class="cursor-pointer"
                              title="Valider la demande fournisseur"
                          >@icon('checkCircle', 20, 'mr-2')
+                         </span>
+                           <span
+                               wire:click="savePrix({{ $devi->id }}, {{ $fourni->id }})"
+                               class="cursor-pointer"
+                               title="Save prix"
+                           >@icon('checkCircle', 20, 'mr-2')
                          </span>
                       </span>
                         </td>

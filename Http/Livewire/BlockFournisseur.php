@@ -17,7 +17,7 @@ class BlockFournisseur extends Component
     public $fournisseurs;
     public $fournisseur_id;
     public $devi_id;
-    public $prix;
+    public $prix = null;
 
 
     protected $listeners = ['update' => '$refresh'];
@@ -26,7 +26,6 @@ class BlockFournisseur extends Component
 
         'fournisseur_id' => 'required',
         'devi_id' => 'required',
-        'prix' => 'required',
 
     ];
 
@@ -41,13 +40,22 @@ class BlockFournisseur extends Component
     {
         $this->validate();
 
-        $this->emit('popup-mail:open', ['fournisseur_id' => $this->fournisseur_id, 'devi_id' => $this->devi_id, 'dossier' => $this->dossier, 'prix' => $this->prix]);
+        $this->emit('popup-mail:open', ['fournisseur_id' => $this->fournisseur_id, 'devi_id' => $this->devi_id, 'dossier' => $this->dossier]);
+    }
+
+    public function savePrix(int $devisId, int $fournisseurId) {
+        if($this->prix != null)
+        {
+            dd('');
+        }
     }
 
     public function validateDemande(int $devisId, int $fournisseurId, FournisseurRepositoryContract $repFournisseur, DevisRepositoryContract $repDevi)
     {
+        if($this->prix != null)
         $deviModel = $repDevi->fetchById($devisId);
         $fournisseurModel = $repFournisseur->fetchById($fournisseurId);
+
 
         $repDevi->validateFournisseur($deviModel, $fournisseurModel);
         $prix = $repDevi->getPrice($deviModel, $fournisseurModel);
@@ -66,7 +74,7 @@ class BlockFournisseur extends Component
 
 
         $repDevi->detachFournisseur($deviModel, $fournisseurModel);
-        (new FlowCRM())->add($this->dossier , new ClientDossierDemandeFournisseurDelete(Auth::user(), $deviModel, $fournisseurModel, $prix));
+        (new FlowCRM())->add($this->dossier , new ClientDossierDemandeFournisseurDelete(Auth::user(), $deviModel, $fournisseurModel));
 
         $this->emit('update');
     }
