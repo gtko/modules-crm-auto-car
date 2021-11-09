@@ -60,7 +60,8 @@ class PopupValition extends Component
         (new FlowCRM())->add($this->devis->dossier, new CreateProformatClient($proformat));
         (new FlowCRM())->add($this->devis->dossier, new ClientDevisExterneValidation($this->devis, Request::ip(), $data));
 
-        return redirect((new GenerateLinkDevis())->GenerateLink($this->devis));
+        session()->flash('success', 'Votre devis a été validé');
 
+        return redirect((new GenerateLinkDevis())->GenerateLink($this->devis));
     }
 }

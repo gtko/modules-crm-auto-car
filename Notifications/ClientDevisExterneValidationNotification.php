@@ -69,6 +69,11 @@ class ClientDevisExterneValidationNotification extends Notif
             $pdfService->setUrl(route('proformats.show', [$flowAttributes->getDevis()->proformat]));
             $proformatPdf = $pdfService->getContentPdf();
 
+            $pdfService->setUrl(route('cgv'));
+            $cgvPdf = $pdfService->getContentPdf();
+
+
+
             return (new AccepteDevisClientMail($flowAttributes->getDevis(), $flowAttributes->getIp()))
                 ->to($notifiable->email)
                 ->attachData($pdf, 'devis-valide-central-autocar.pdf',
@@ -76,6 +81,10 @@ class ClientDevisExterneValidationNotification extends Notif
                         'mime' => 'application/pdf',
                     ]
                 )->attachData($proformatPdf, 'proformat-central-autocar.pdf',
+                    [
+                        'mime' => 'application/pdf',
+                    ]
+                )->attachData($cgvPdf, 'cgv-central-autocar.pdf',
                     [
                         'mime' => 'application/pdf',
                     ]

@@ -42,6 +42,8 @@ Route::prefix('/')
     });
 
 
+Route::get('/cgv', [\Modules\CrmAutoCar\View\Components\Cgv::class, 'render'])->name('cgv');
+
 Route::get('/mail', function ()
 {
 //    Mail::to(['d@gmail.com', 'test@test.com'])->send(new RoadmapMail());
