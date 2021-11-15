@@ -70,8 +70,13 @@
                             {{ $fourni->formatName }}
                         </td>
                         <td class="py-4 whitespace-nowrap text-sm text-center">
-                            <input type="number" class="w-24">
-                            {{ $fourni->pivot->prix }}
+
+                            @if(!$fourni->pivot->validate)
+                                <input type="number" class="w-24" wire:model="price.{{$fourni->id}}">
+                            @else
+                                {{ $fourni->pivot->prix }} €
+                            @endif
+
                         </td>
                         <td class="whitespace-nowrap text-sm text-right">
                       <span class="flex flex-row justify-center">
@@ -79,19 +84,20 @@
                              wire:click="delete({{ $devi->id }}, {{ $fourni->id }})"
                              class="cursor-pointer"
                              title="Supprimer"
-                         >@icon('delete', 20, 'mr-2')</span>
+                         >@icon('delete', 20)</span>
+                          <span
+                              wire:click="savePrice({{ $devi->id }}, {{ $fourni->id }})"
+                              class="cursor-pointer"
+                              title="Sauvegarder le prix prix"
+                          >@icon('cash', null)
+                         </span>
                          <span
                              wire:click="validateDemande({{ $devi->id }}, {{ $fourni->id }})"
                              class="cursor-pointer"
                              title="Valider la demande fournisseur"
                          >@icon('checkCircle', 20, 'mr-2')
                          </span>
-                           <span
-                               wire:click="savePrix({{ $devi->id }}, {{ $fourni->id }})"
-                               class="cursor-pointer"
-                               title="Save prix"
-                           >@icon('checkCircle', 20, 'mr-2')
-                         </span>
+
                       </span>
                         </td>
                     </tr>

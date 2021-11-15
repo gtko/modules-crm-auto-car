@@ -17,7 +17,7 @@ class BlockFournisseur extends Component
     public $fournisseurs;
     public $fournisseur_id;
     public $devi_id;
-    public $prix = null;
+    public $price = null;
 
 
     protected $listeners = ['update' => '$refresh'];
@@ -34,6 +34,14 @@ class BlockFournisseur extends Component
         $this->dossier = $dossier;
         $this->fournisseurs = $repFournisseur->getAllList();
 
+        foreach ($dossier->devis as $devi)
+        {
+            foreach ($devi->fournisseurs as $fourni)
+            {
+                $this->price[$fourni->id] = $fourni->pivot->prix;
+            }
+        }
+
     }
 
     public function send()
@@ -43,16 +51,21 @@ class BlockFournisseur extends Component
         $this->emit('popup-mail:open', ['fournisseur_id' => $this->fournisseur_id, 'devi_id' => $this->devi_id, 'dossier' => $this->dossier]);
     }
 
-    public function savePrix(int $devisId, int $fournisseurId) {
-        if($this->prix != null)
+    public function savePrice(DevisRepositoryContract $repDevi, FournisseurRepositoryContract $repFournisseur, int $devisId, int $fournisseurId) {
+
+
+        if($this->price != null)
         {
-            dd('');
+            $devi = $repDevi->fetchById($devisId);
+            $fournisseur = $repFournisseur->fetchById($fournisseurId);
+
+            $repDevi->savePriceFournisseur($devi, $fournisseur, $this->price[$fournisseurId]);
         }
     }
 
     public function validateDemande(int $devisId, int $fournisseurId, FournisseurRepositoryContract $repFournisseur, DevisRepositoryContract $repDevi)
     {
-        if($this->prix != null)
+        if($this->price != null)
         $deviModel = $repDevi->fetchById($devisId);
         $fournisseurModel = $repFournisseur->fetchById($fournisseurId);
 

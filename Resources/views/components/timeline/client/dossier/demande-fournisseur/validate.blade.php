@@ -9,7 +9,7 @@
               devis #{{$flow->datas->getDevis()->ref}}
             </x-corecrm::timeline.timeline-item-link>
             au prix de
-            {{$flow->datas->getPrix()}}€
+            {{$flow->datas->getPrice()}}€
             est <span class="text-green-600">validée</span>
             par
             <x-corecrm::timeline.timeline-item-link :url="route('users.show', $flow->datas->getUser())">
