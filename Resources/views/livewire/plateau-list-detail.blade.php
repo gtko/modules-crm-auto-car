@@ -7,7 +7,7 @@
     @endif
     @foreach($commercialByStatus as $status)
         <div class="text-gray-600 text-xs flex flex-row justify-between items-center py-1">
-            <a href="/vue-plateau/{{$modelCommercial->id}}/{{$status->first()->status->id}}">{{ $status->first()->status->label }}</a>
+            <a target="_blank" href="/vue-plateau/{{$modelCommercial->id}}/{{$status->first()->status->id}}">{{ $status->first()->status->label }}</a>
             <div class="text-white p-1 rounded-full">{{ count($status)}}</div>
         </div>
 

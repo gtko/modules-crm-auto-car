@@ -10,12 +10,11 @@ class StatsAdminListCommercial extends Component
 
     protected $commercials;
     public $commercial_id;
-    public $selectedCommercial = false;
 
     public function selectCommercial(CommercialRepositoryContract $repCommercial, $commercialId)
     {
+
         $this->commercial_id = $commercialId;
-        $this->selectedCommercial = true;
         $commercial = $repCommercial->fetchById($commercialId);
         $this->emit('updateSelectCommercial', $commercial);
     }
