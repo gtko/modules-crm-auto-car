@@ -4,8 +4,10 @@ namespace Modules\CrmAutoCar\Repositories;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Modules\CoreCRM\Contracts\Entities\DevisEntities;
+use Modules\CoreCRM\Models\Commercial;
 use Modules\CrmAutoCar\Models\Invoice;
 use Modules\CrmAutoCar\Models\Proformat;
 use Modules\SearchCRM\Entities\SearchResult;
@@ -50,5 +52,10 @@ class ProformatsRepository extends \Modules\BaseCore\Repositories\AbstractReposi
     public function searchQuery(Builder $query, string $value, mixed $parent = null): Builder
     {
         return $query->where('number', 'LIKE', '%'.$value.'%');
+    }
+
+    public function searchByCommercialAndMonth(Commercial $comercial, int $mount): Collection
+    {
+        // TODO: Implement searchByCommercialAndMonth() method.
     }
 }
