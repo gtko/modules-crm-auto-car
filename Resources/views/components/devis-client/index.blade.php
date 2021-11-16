@@ -43,10 +43,11 @@
             <div
                 class="bg-gray-200 lg:px-12 pt-4 pb-5 max-w-7xl mx-auto sm:px-6 lg:px-8 px-4 lg:grid lg:grid-cols-3 lg:gap-4 ">
                 <div class="flex-col flex lg:col-span-2">
-                    <x-crmautocar::devis-client.voyage-recap :devis="$devis" class="my-6 pb-4 bg-white"/>
+                    <x-crmautocar::devis-client.voyage-recap :devis="$devis" :brand="$brand" class="my-6 pb-4 bg-white"/>
 
                     <livewire:crmautocar::devis-client.recap-devis
                         :devis="$devis"
+                        :brand="$brand"
                         :class="'bg-white p-4 grid justify-items-stretch border border-2 border-gray-400'"
                     />
 
@@ -66,6 +67,7 @@
 
                     <livewire:crmautocar::devis-client.recap-devis
                         :devis="$devis"
+                        :brand="$brand"
                         :class="'bg-white p-4 grid justify-items-stretch border border-2 border-gray-400 lg:order-2 mb-4'"
                         :sidebar="true"/>
                 </div>

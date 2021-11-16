@@ -21,19 +21,34 @@
     </div>
     <div style="background-color: #ebf3f7" class="m-4 p-4 space-y-6 text-base">
         <div>Bonjour {{ $devis->dossier->client->format_name ?? '' }},</div>
-        <div>C'est avec plaisir que nous vous envoyons notre offre pour votre trajet au départ de
-            @if($devis->data['aller_distance']['origin_formatted'] ?? false)
-                <span class="font-bold">{{ $devis->data['aller_distance']['origin_formatted'] ?? '' }}, le {{ \Carbon\Carbon::createFromTimeString($devis->data['aller_date_depart'] ?? '')->translatedFormat('l d F Y') }}.</span>
+        <div>
+            C'est avec plaisir que nous vous envoyons notre offre pour
+            @if($devis->isMultiple)
+              vos trajets
             @else
-                <span class="font-bold">Aucune date</span>
+              votre trajet
             @endif
+            au départ de :
+            <ul>
+            @foreach($devis->data['trajets'] as $trajet)
+                <li>
+                    @if(($trajet['aller_distance']['origin_formatted'] ?? false) && ($trajet['aller_date_depart'] ?? false))
+                        <span class="font-bold">{{ $trajet['aller_distance']['origin_formatted'] ?? '' }}, le {{ \Carbon\Carbon::createFromTimeString($trajet['aller_date_depart'] ?? '')->translatedFormat('l d F Y') }}.</span>
+                    @else
+                        <span class="font-bold">Aucune date</span>
+                    @endif
+                </li>
+            @endforeach
+            </ul>
         </div>
+
+
         <div class="no-print">En cliquant sur « Réservez le trajet en Autocar » , vous serez redirigé sur notre site
             internet
             où vous pourrez réserver votre autocar en toute simplicité.
         </div>
     </div>
 
-    <livewire:crmautocar::devis-client.voyage :devis="$devis"/>
+    <livewire:crmautocar::devis-client.voyage :devis="$devis" :brand="$brand"/>
 
 </div>

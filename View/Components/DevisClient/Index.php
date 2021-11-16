@@ -7,6 +7,7 @@ use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
 use Illuminate\View\Component;
 use Modules\CoreCRM\Services\FlowCRM;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDevisExterneConsultation;
+use Modules\CrmAutoCar\Models\Brand;
 use Request;
 
 class Index extends Component
@@ -17,19 +18,17 @@ class Index extends Component
      * @return \Illuminate\View\View|string
      */
 
-
-
-
     public function index($devisId, DevisRepositoryContract $devisRep, $token)
     {
 
         $devis = $devisRep->fetchById($devisId);
+        $brand = Brand::first();
 
 
         (new FlowCRM())->add($devis->dossier , new ClientDevisExterneConsultation($devis, Request::ip()));
 
 
-        return view('crmautocar::components.devis-client.index', compact('devis'));
+        return view('crmautocar::components.devis-client.index', compact('devis', 'brand'));
 
     }
 

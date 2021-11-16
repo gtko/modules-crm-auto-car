@@ -4,6 +4,7 @@ namespace Modules\CrmAutoCar\View\Components\DevisClient;
 
 use Modules\CoreCRM\Contracts\Entities\DevisEntities;
 use Illuminate\View\Component;
+use Modules\CrmAutoCar\Models\Brand;
 
 class VoyageRecap extends Component
 {
@@ -14,9 +15,11 @@ class VoyageRecap extends Component
      */
 
     public DevisEntities $devis;
+    public Brand $brand;
 
-    public function __construct($devis) {
+    public function __construct($devis, $brand) {
         $this->devis = $devis;
+        $this->brand = $brand;
     }
 
     public function render()
