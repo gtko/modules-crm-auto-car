@@ -85,7 +85,7 @@
                                     <div class="project-description mb-30 text-end">
                                         <h5 class="inv-title-1">Description</h5>
                                         <p class="mb-0">
-                                         Organisation d'un trajet en bus
+                                         Organisation d'un trajet en autocar
                                         </p>
                                     </div>
                                 </div>
