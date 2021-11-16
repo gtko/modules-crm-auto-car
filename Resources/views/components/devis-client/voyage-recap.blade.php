@@ -30,7 +30,7 @@
         </div>
         <div class="no-print">En cliquant sur « Réservez le trajet en Autocar » , vous serez redirigé sur notre site
             internet
-            où vous pourrez réserver votre bus en toute simplicité.
+            où vous pourrez réserver votre autocar en toute simplicité.
         </div>
     </div>
 
