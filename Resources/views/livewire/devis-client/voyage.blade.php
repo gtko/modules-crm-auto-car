@@ -11,7 +11,7 @@
         <hr class="text-bleu">
     </div>
 
-    @foreach($devis->data['trajets'] as $idTrajet => $trajet)
+    @foreach(($devis->data['trajets'] ?? []) as $idTrajet => $trajet)
         <div class="grid grid-cols-3 md:mt-4 mt-2">
             <div class="col-span-3 md:col-span-1 p-3 md:border-t border-bleu">
                 <div>

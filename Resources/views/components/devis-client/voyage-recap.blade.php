@@ -30,7 +30,7 @@
             @endif
             au départ de :
             <ul>
-            @foreach($devis->data['trajets'] as $trajet)
+            @foreach(($devis->data['trajets'] ?? []) as $trajet)
                 <li>
                     @if(($trajet['aller_distance']['origin_formatted'] ?? false) && ($trajet['aller_date_depart'] ?? false))
                         <span class="font-bold">{{ $trajet['aller_distance']['origin_formatted'] ?? '' }}, le {{ \Carbon\Carbon::createFromTimeString($trajet['aller_date_depart'] ?? '')->translatedFormat('l d F Y') }}.</span>
