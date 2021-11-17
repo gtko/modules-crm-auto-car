@@ -9,9 +9,9 @@
                     <span class="flex justify-between px-4 pt-6 pb-2 text-gray-700">
                         <span class="flex items-center">
                             <span class="mr-4">Devis
-                                <span class="font-bold">{{$devis->ref}}</span>
+                                <span class="font-bold">#{{$devis->ref}}</span>
                             </span>
-                            <span class="flex flex-row items-center cursor-pointer no-print">
+                            <span onclick="window.print()" class="flex flex-row items-center cursor-pointer no-print">
                                 <span>@icon('print', '18')</span>
                                 <span class="ml-1"> Imprimer</span>
                             </span>
