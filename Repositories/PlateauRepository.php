@@ -14,12 +14,12 @@ class PlateauRepository implements PlateauRepositoryContract
         return $commercial->dossiers->groupBy("status.label");
     }
 
-    public function filterTagByStatus(Commercial $commercial, string $status): Collection
+
+    public function filterByTags(Commercial $commercial): Collection
     {
-        $collection = $commercial->dossiers->where('status.label', $status);
-//        $collection = $collection->groupby('tags.label');
-//        dd($collection);
-        return $collection;
+        $tags = $commercial->dossiers->groupBy("tags.label");
+
+
 
     }
 }

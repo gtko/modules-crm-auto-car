@@ -11,7 +11,6 @@ class PlateauListDetailTag extends Component
     public function mount(PlateauRepositoryContract $repPlateau, CommercialRepositoryContract $repCommercial, $commercialId, $status)
     {
         $commercial = $repCommercial->fetchById($commercialId);
-        $listTag = $repPlateau->filterTagByStatus($commercial, $status);
     }
 
     public function render()
