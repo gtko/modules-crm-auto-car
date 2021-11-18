@@ -7,10 +7,12 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Modules\BaseCore\Contracts\Services\CompositeurThemeContract;
 use Modules\BaseCore\Entities\TypeView;
+use Modules\CoreCRM\Contracts\Repositories\PipelineRepositoryContract;
 use Modules\CoreCRM\Contracts\Views\Dossiers\DossierAfterBlockFournisseur;
 use Modules\CoreCRM\Contracts\Views\Dossiers\DossierAfterSidebarContract;
 use Modules\CoreCRM\Contracts\Views\Dossiers\SelectTagDossier;
 use Modules\CoreCRM\Notifications\Kernel;
+use Modules\CoreCRM\Repositories\PipelineRepository;
 use Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\DecaissementRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\InvoicesRepositoryContract;
@@ -52,6 +54,7 @@ class CrmAutoCarServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->register(AuthServiceProvider::class);
+
 
         $this->app->bind(InvoicesRepositoryContract::class, InvoicesRepository::class);
         $this->app->bind(ProformatsRepositoryContract::class, ProformatsRepository::class);
