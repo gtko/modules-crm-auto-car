@@ -49,6 +49,4 @@
         </div>
     </div>
 
-    <livewire:crmautocar::devis-client.voyage :devis="$devis" :brand="$brand"/>
-
 </div>

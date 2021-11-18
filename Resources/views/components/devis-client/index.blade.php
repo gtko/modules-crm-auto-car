@@ -9,6 +9,19 @@
             margin: 0px 0px 0px 0px;
         }
         @media print {
+
+            .print-col-span-3{
+                grid-column: span 3 / span 3!important;
+            }
+
+            .notcut {
+                position: relative;
+                break-inside: avoid;
+                page-break-inside: avoid;
+                -webkit-region-break-inside: avoid;
+            }
+
+
             body, .invoice-content {
                 position:relative;
                 max-width:100%!important;
@@ -42,19 +55,41 @@
             <x-crmautocar::devis-client.header class="shadow py-4 px-4"/>
             <div
                 class="bg-gray-200 lg:px-12 pt-4 pb-5 max-w-7xl mx-auto sm:px-6 lg:px-8 px-4 lg:grid lg:grid-cols-3 lg:gap-4 ">
-                <div class="flex-col flex lg:col-span-2">
-                    <x-crmautocar::devis-client.voyage-recap :devis="$devis" :brand="$brand" class="my-6 pb-4 bg-white"/>
+                <div class="print-col-span-3 flex-col flex lg:col-span-2">
+                    <x-crmautocar::devis-client.voyage-recap :devis="$devis" :brand="$brand" class="my-6 pb-4 bg-white border border-gray-400"/>
+
+                    @foreach(($devis->data['trajets'] ?? []) as $idTrajet => $trajet)
+                        <div class="my-6 pb-4 bg-white border border-gray-400 notcut">
+                            <livewire:crmautocar::devis-client.voyage :devis="$devis" :trajet-id="$idTrajet" :brand="$brand"/>
+                        </div>
+                    @endforeach
+
+                    <div class="bg-white mb-4 p-4 grid notcut justify-items-stretch border border-gray-400">
+                        <div class="mb-4">
+                            <h5 class="text-bleu my-2 pl-2 font-bold text-xl">Informations complémentaires</h5>
+                            <hr class="text-bleu">
+                        </div>
+                        <div>
+                            <span>Nombre d'autocar(s) : </span>
+                            <span class="font-bold">{{ $devis->data['nombre_bus'] ?? ''}}</span>
+                        </div>
+                        <div>
+                            <span>Nombre de conducteur(s) : </span>
+                            <span class="font-bold">{{ $devis->data['nombre_chauffeur'] ?? ''}}</span>
+                        </div>
+
+                    </div>
 
                     <livewire:crmautocar::devis-client.recap-devis
                         :devis="$devis"
                         :brand="$brand"
-                        :class="'bg-white p-4 grid justify-items-stretch border border-2 border-gray-400'"
+                        :class="'bg-white p-4 grid notcut justify-items-stretch border border-2 border-gray-400'"
                     />
 
                     <x-crmautocar::devis-client.cgv
                         class="bg-white border border-2 border-gray-400  lg:mb-6 mb-0 mt-6 p-4 lg:order-5 no-print"/>
                 </div>
-                <div class="col-span-1 flex flex-col">
+                <div class="col-span-1 flex flex-col no-print">
                     <x-crmautocar::devis-client.client-information
                         :devis="$devis"
                         class="my-6 lg:order-1"

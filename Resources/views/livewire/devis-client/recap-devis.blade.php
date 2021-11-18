@@ -11,7 +11,9 @@
                 @marge($price->getPriceHT())€
             </td>
         </tr>
-        @if (($devis->data['inclus_peages'] ?? 0) > 0)
+
+
+        @if (($trajet['inclus_peages'] ?? false))
             <tr>
                 <th scope="row"
                     class="text-left p-3 text-gray-600 border border-gray-600 border-collapse">
@@ -22,6 +24,40 @@
                 </td>
             </tr>
         @endif
+        @if($trajet['inclus_parking'] ?? false)
+            <tr>
+                <th scope="row"
+                     class="text-left p-3 text-gray-600 border border-gray-600 border-collapse">
+                    Parking
+                </th>
+                <td class="text-right pr-4 font-bold text-base border border-gray-600 border-collapse">
+                    Inclus
+                </td>
+            </tr>
+        @endif
+        @if ($trajet['inclus_hebergement'] ?? false)
+            <tr>
+                <th scope="row"
+                    class="text-left p-3 text-gray-600 border border-gray-600 border-collapse">
+                    Hébergement
+                </th>
+                <td class="text-right pr-4 font-bold text-base border border-gray-600 border-collapse">
+                    Inclus
+                </td>
+            </tr>
+        @endif
+        @if ($trajet['inclus_repas_chauffeur'] ?? false)
+            <tr>
+                <th scope="row"
+                    class="text-left p-3 text-gray-600 border border-gray-600 border-collapse">
+                    Repas chauffeur
+                </th>
+                <td class="text-right pr-4 font-bold text-base border border-gray-600 border-collapse">
+                    Inclus
+                </td>
+            </tr>
+        @endif
+
         <tr>
             <th scope="row"
                 class="w-1/3 text-left p-3 text-gray-600 border border-gray-600 border-collapse">
@@ -33,7 +69,7 @@
         </tr>
 
 
-        @if ($devis->tva_applicable ?? false)
+        @if ($price->getPriceTVA() > 0)
             <tr class="bg-gray-200">
                 <th scope="row"
                     class="w-1/3 text-left p-3 text-gray-600 border border-gray-600 border-collapse">

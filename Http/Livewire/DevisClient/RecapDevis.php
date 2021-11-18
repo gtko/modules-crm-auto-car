@@ -4,6 +4,7 @@ namespace Modules\CrmAutoCar\Http\Livewire\DevisClient;
 
 use Livewire\Component;
 use Modules\DevisAutoCar\Entities\DevisPrice;
+use Modules\DevisAutoCar\Entities\DevisTrajetPrice;
 
 class RecapDevis extends Component
 {
@@ -19,18 +20,27 @@ class RecapDevis extends Component
     public  $devis;
     public  $brand;
 
-    public function mount($devis, $brand,  $sidebar = false, $class = '', )
+    public  $trajetid;
+    public  $trajet;
+
+    public function mount($devis, $brand, $trajetId = null,  $sidebar = false, $class = '', )
     {
         $this->sidebar = $sidebar;
         $this->class = $class;
         $this->devis = $devis;
         $this->brand = $brand;
+        $this->trajetid = $trajetId;
+        $this->trajet = $this->devis->data['trajets'][$this->trajetid] ?? null;
     }
 
 
     public function render()
     {
-        $price = (new DevisPrice($this->devis, $this->brand));
+        if($this->trajet){
+            $price = (new DevisTrajetPrice($this->devis, $this->trajetid, $this->brand));
+        }else {
+            $price = (new DevisPrice($this->devis, $this->brand));
+        }
         return view('crmautocar::livewire.devis-client.recap-devis', compact('price'));
     }
 }
