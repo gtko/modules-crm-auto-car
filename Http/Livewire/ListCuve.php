@@ -5,6 +5,7 @@ namespace Modules\CrmAutoCar\Http\Livewire;
 use Livewire\Component;
 use Modules\CoreCRM\Contracts\Repositories\CommercialRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\DossierRepositoryContract;
+use Modules\CoreCRM\Contracts\Repositories\PipelineRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\SourceRepositoryContract;
 use Modules\CoreCRM\Models\Commercial;
 
@@ -14,6 +15,7 @@ class ListCuve extends Component
     public $selection;
     public $commercial;
     public $filtre = 'attente';
+    public $all;
 
     protected $listeners = [
         'dossierSelected',
@@ -24,6 +26,13 @@ class ListCuve extends Component
     ];
 
 
+
+    public function updatedAll()
+    {
+
+        $this->emit('allSelect' , $this->all);
+}
+
     public function changeFiltre($value)
     {
         $this->filtre = $value;
@@ -31,7 +40,9 @@ class ListCuve extends Component
 
     public function dossierSelected($value)
     {
+
         $this->selection[] = $value;
+
     }
 
 
@@ -47,8 +58,8 @@ class ListCuve extends Component
     public function render()
     {
         $dossierRep = app(DossierRepositoryContract::class);
-        $sourceRep = app(SourceRepositoryContract::class);
         $commercials = app(CommercialRepositoryContract::class)->fetchAll();
+        $pipelines = app(PipelineRepositoryContract::class)->fetchall();
 
         $dossierRep->setQuery($dossierRep->newQuery()->with(['client.personne.emails', 'client.personne.address.country', 'commercial.personne', 'source'])
             ->orderByDesc('created_at'));
@@ -78,8 +89,6 @@ class ListCuve extends Component
             $prev = '';
         }
 
-        $sources = $sourceRep->fetchAll();
-
-        return view('crmautocar::livewire.list-cuve', compact(['dossiers', 'total', 'next', 'prev', 'sources', 'commercials']));
+        return view('crmautocar::livewire.list-cuve', compact(['dossiers', 'total', 'next', 'prev', 'commercials', 'pipelines']));
     }
 }

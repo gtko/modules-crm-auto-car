@@ -12,30 +12,56 @@ class ElementListCuve extends Component
 {
     public $dossier;
     public $selection = false;
-
+    public $filtre;
 
     protected $listeners = [
         'listcuve:attribuer' => 'attribuer',
-        'cuveRefresh'
+        'cuveRefresh',
+        'allSelect'
     ];
+
+    public function allSelect($value)
+    {
+        if (!$value) {
+            $this->selection = false;
+        } else {
+            $this->selection = true;
+        }
+    }
+
+    public function restore($id)
+    {
+        $dossier = app(DossierRepositoryContract::class)->fetchById($id);
+        $dossier->delete();
+        $this->cuveRefresh();
+    }
+
+    public function delete($id)
+    {
+        $dossier = app(DossierRepositoryContract::class)->fetchById($id);
+        $dossier->restore();
+        $this->cuveRefresh();
+    }
 
     public function cuveRefresh()
     {
         $this->selection = false;
     }
 
-    public function attribuer($commercial_id){
+    public function attribuer($commercial_id)
+    {
 
-        if($this->selection){
-            $commercial  = app(CommercialRepositoryContract::class)->fetchById($commercial_id);
+        if ($this->selection) {
+            $commercial = app(CommercialRepositoryContract::class)->fetchById($commercial_id);
             app(DossierRepositoryContract::class)->changeCommercial($this->dossier, $commercial);
         }
     }
 
 
-    public function mount(Dossier $dossier)
+    public function mount(Dossier $dossier, $filtre)
     {
         $this->dossier = $dossier;
+        $this->filtre = $filtre;
     }
 
     public function render()
