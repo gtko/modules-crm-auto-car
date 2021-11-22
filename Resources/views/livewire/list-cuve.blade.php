@@ -37,7 +37,7 @@
     <div class="col-span-12 lg:col-span-9 xxl:col-span-10">
 
         <!-- BEGIN: Inbox Content -->
-        <div class="intro-y inbox box mt-5">
+        <div class="inbox box mt-5">
             <div
                 class="p-5 flex flex-col-reverse sm:flex-row text-gray-600 border-b border-gray-200 dark:border-dark-1">
                 <div class="flex flex-row">
@@ -59,28 +59,29 @@
                     </select>
                 </div>
 
-                <div class="flex items-center sm:ml-auto">
-
-
-                    <div class="dark:text-gray-300">1 - 50 sur {{$total}}</div>
-                    <a href="{{$prev}}" class="w-5 h-5 ml-5 flex items-center justify-center dark:text-gray-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                             fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                             stroke-linejoin="round" class="feather feather-chevron-left w-4 h-4">
-                            <polyline points="15 18 9 12 15 6"></polyline>
-                        </svg>
-                    </a>
-                    <a href="{{$next}}" class="w-5 h-5 ml-5 flex items-center justify-center dark:text-gray-300">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                             fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
-                             stroke-linejoin="round" class="feather feather-chevron-right w-4 h-4">
-                            <polyline points="9 18 15 12 9 6"></polyline>
-                        </svg>
-                    </a>
-                </div>
+                @if($dossiers->lastPage() > 1)
+                    <div class="flex items-center sm:ml-auto">
+                        <div class="dark:text-gray-300">1 - 50 sur {{$dossiers->total()}}</div>
+                        <a href="{{$dossiers->appends(request()->input())->previousPageUrl()}}" class="w-5 h-5 ml-5 flex items-center justify-center dark:text-gray-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                 stroke-linejoin="round" class="feather feather-chevron-left w-4 h-4">
+                                <polyline points="15 18 9 12 15 6"></polyline>
+                            </svg>
+                        </a>
+                        <a href="{{$dossiers->appends(request()->input())->nextPageUrl()}}" class="w-5 h-5 ml-5 flex items-center justify-center dark:text-gray-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                 stroke-linejoin="round" class="feather feather-chevron-right w-4 h-4">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                        </a>
+                    </div>
+                @endif
             </div>
             <div class="overflow-x-auto sm:overflow-x-visible">
 
+                @if($dossiers->count() > 0)
                 <table class="table table--sm">
                     <thead>
                     <tr>
@@ -96,26 +97,35 @@
                     </tr>
                     </thead>
                     <tbody>
-
-                    @forelse($dossiers as $dossier)
+                    @foreach($dossiers as $dossier)
                         <livewire:crmautocar::element-list-cuve :dossier="$dossier" :key="$dossier->id" :filtre="$filtre"/>
-                    @empty
-                        <!-- This example requires Tailwind CSS v2.0+ -->
-                        <button type="button"
-                                class="relative block w-full  p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor"
-                                 viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                      d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path>
-                            </svg>
-                            <span class="mt-2 block text-sm font-medium text-gray-900">
-                                Aucun dossier en attente
-                            </span>
-                        </button>
-                    @endforelse
-
+                    @endforeach
                     </tbody>
                 </table>
+                @else
+                    <button type="button"
+                            class="relative block w-full  p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor"
+                             viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                  d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"></path>
+                        </svg>
+                        <span class="mt-2 block text-sm font-medium text-gray-900">
+                                Aucun dossier
+                                @switch($filtre)
+                                    @case("attente")
+                                        en attente
+                                    @break
+                                    @case("distribuer")
+                                        de distribué
+                                    @break
+                                    @case("corbeille")
+                                        dans la corbeille
+                                    @break
+                                @endswitch
+                            </span>
+                    </button>
+                @endif
             </div>
             <div class="p-5 flex flex-col sm:flex-row items-center text-center sm:text-left text-gray-600">
                 @if($dossiers->first())

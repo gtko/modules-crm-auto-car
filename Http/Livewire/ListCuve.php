@@ -2,6 +2,7 @@
 
 namespace Modules\CrmAutoCar\Http\Livewire;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use Livewire\Component;
 use Modules\CoreCRM\Contracts\Repositories\CommercialRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\DossierRepositoryContract;
@@ -17,6 +18,8 @@ class ListCuve extends Component
     public $filtre = 'attente';
     public $all;
 
+    public $queryString = ['filtre'];
+
     protected $listeners = [
         'dossierSelected',
         'refresh' => '$refresh',
@@ -30,9 +33,8 @@ class ListCuve extends Component
 
     public function updatedAll()
     {
-
         $this->emit('allSelect' , $this->all);
-}
+    }
 
     public function changeFiltre($value)
     {
@@ -79,17 +81,14 @@ class ListCuve extends Component
             $dossiers = $dossierRep->getDossierTrashed();
         }
 
-        if(empty($dossiers))
+        if($dossiers)
         {
-            $total = $dossiers->total();
-            $next = $dossiers->nextPageUrl();
-            $prev = $dossiers->previousPageUrl();
-        } else {
-            $total = '';
-            $next = '';
-            $prev = '';
+            $currentPage = LengthAwarePaginator::resolveCurrentPage();
+            $perPage = 5000;
+            $currentItems = $dossiers->slice($perPage * ($currentPage - 1), $perPage);
+            $dossiers = (new LengthAwarePaginator($currentItems, count($dossiers), $perPage, $currentPage));
         }
 
-        return view('crmautocar::livewire.list-cuve', compact(['dossiers', 'total', 'next', 'prev', 'commercials', 'pipelines']));
+        return view('crmautocar::livewire.list-cuve', compact(['dossiers', 'commercials', 'pipelines']));
     }
 }

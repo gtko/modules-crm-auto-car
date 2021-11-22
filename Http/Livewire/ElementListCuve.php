@@ -31,7 +31,7 @@ class ElementListCuve extends Component
 
     public function restore($id)
     {
-        $dossier = app(DossierRepositoryContract::class)->fetchById($id);
+        $dossier = app(DossierRepositoryContract::class)->newQuery()->onlyTrashed()->find($id);
         $dossier->restore();
         $this->emit('refresh');
     }
@@ -41,19 +41,21 @@ class ElementListCuve extends Component
         $dossier = app(DossierRepositoryContract::class)->fetchById($id);
         $dossier->delete();
         $this->cuveRefresh();
+        $this->emit('refresh');
     }
 
     public function cuveRefresh()
     {
         $this->selection = false;
+
     }
 
     public function attribuer($commercial_id)
     {
-
         if ($this->selection) {
             $commercial = app(CommercialRepositoryContract::class)->fetchById($commercial_id);
             app(DossierRepositoryContract::class)->changeCommercial($this->dossier, $commercial);
+            $this->emit('refresh');
         }
     }
 
