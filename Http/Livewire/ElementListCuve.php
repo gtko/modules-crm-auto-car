@@ -32,14 +32,14 @@ class ElementListCuve extends Component
     public function restore($id)
     {
         $dossier = app(DossierRepositoryContract::class)->fetchById($id);
-        $dossier->delete();
-        $this->cuveRefresh();
+        $dossier->restore();
+        $this->emit('refresh');
     }
 
     public function delete($id)
     {
         $dossier = app(DossierRepositoryContract::class)->fetchById($id);
-        $dossier->restore();
+        $dossier->delete();
         $this->cuveRefresh();
     }
 

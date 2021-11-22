@@ -19,6 +19,7 @@ class ListCuve extends Component
 
     protected $listeners = [
         'dossierSelected',
+        'refresh' => '$refresh',
     ];
 
     protected $rules = [
