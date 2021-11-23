@@ -44,7 +44,10 @@
                     <select wire:model="commercial" class="form-select form-select-sm">
                         <option value="">Commercial</option>
                         @foreach($commercials as $commercial)
-                            <option value="{{$commercial->id}}"> {{ $commercial->formatName }}</option>
+                            @if ($commercial->id != 1)
+                                <option value="{{$commercial->id}}"> {{ $commercial->formatName }}</option>
+                            @endif
+
                         @endforeach
                     </select>
                     <span wire:click="attribuer"
@@ -91,6 +94,7 @@
                         </th>
                         <th class="border-b-2 dark:border-dark-5 whitespace-nowrap">Source</th>
                         <th class="border-b-2 dark:border-dark-5 whitespace-nowrap">Email</th>
+                        <th class="border-b-2 dark:border-dark-5 whitespace-nowrap">Commercial</th>
                         <th class="border-b-2 dark:border-dark-5 whitespace-nowrap">Téléphone</th>
                         <th class="border-b-2 dark:border-dark-5 whitespace-nowrap">Date de réception</th>
                         <th class="border-b-2 dark:border-dark-5 whitespace-nowrap">Action</th>

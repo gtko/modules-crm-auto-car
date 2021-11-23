@@ -21,6 +21,14 @@
         </a>
     </td>
     <td class="border-b dark:border-dark-5">
+        @if($dossier->commercial->id != 1)
+            {{$dossier->commercial->format_name}}
+        @else
+            Pas attribué
+        @endif
+
+    </td>
+    <td class="border-b dark:border-dark-5">
         <a href="{{route('dossiers.show', [$dossier->client, $dossier])}}">
             {{$dossier->client->phone}}
         </a>
