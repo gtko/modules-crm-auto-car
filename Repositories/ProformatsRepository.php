@@ -58,4 +58,5 @@ class ProformatsRepository extends \Modules\BaseCore\Repositories\AbstractReposi
     {
         // TODO: Implement searchByCommercialAndMonth() method.
     }
+
 }

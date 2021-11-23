@@ -12,12 +12,9 @@ use Modules\SearchCRM\Interfaces\SearchableRepository;
 
 interface ProformatsRepositoryContract extends SearchableRepository, RepositoryFetchable, RepositoryQueryCustom
 {
-
     public function getNextNumber():string;
-
     public function create(DevisEntities $devis, float $total, string $number):Proformat;
     public function edit(Proformat $proformat, float $total):Proformat;
     public function updateNumber(Proformat $proformat,string $number):Proformat;
     public function searchByCommercialAndMonth(Commercial $comercial, int $mount): Collection;
-
 }
