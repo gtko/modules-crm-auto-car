@@ -11,6 +11,7 @@ use Modules\CoreCRM\Contracts\Repositories\PipelineRepositoryContract;
 use Modules\CoreCRM\Contracts\Views\Dossiers\DossierAfterBlockFournisseur;
 use Modules\CoreCRM\Contracts\Views\Dossiers\DossierAfterSidebarContract;
 use Modules\CoreCRM\Contracts\Views\Dossiers\SelectTagDossier;
+use Modules\CoreCRM\Flow\Works\WorkflowKernel;
 use Modules\CoreCRM\Notifications\Kernel;
 use Modules\CoreCRM\Repositories\PipelineRepository;
 use Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract;
@@ -22,6 +23,7 @@ use Modules\CrmAutoCar\Contracts\Repositories\StatistiqueRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\TagsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\TemplatesRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Service\DistanceApiContract;
+use Modules\CrmAutoCar\Flow\Works\Events\EventDevisSendClient;
 use Modules\CrmAutoCar\Notifications\ClientDevisExterneValidationNotification;
 use Modules\CrmAutoCar\Notifications\ClientDossierDemandeFournisseurSendNotification;
 use Modules\CrmAutoCar\Notifications\DevisSendClientNotification;
@@ -81,7 +83,15 @@ class CrmAutoCarServiceProvider extends ServiceProvider
         ]);
 
         $this->registerNotif();
+        $this->registerWorkFlowEvents();
 
+    }
+
+    public function registerWorkFlowEvents(){
+
+        app(WorkflowKernel::class)->addEvents([
+            EventDevisSendClient::class
+        ]);
     }
 
 

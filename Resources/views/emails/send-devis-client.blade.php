@@ -10,12 +10,20 @@
 Bonjour {{ $devis->dossier->client->formatName }}<br><br>
 
 Je vous remercie de l'intérêt que vous portez à Centrale Autocar, votre complice pour tous vos transferts.<br>
+Retrouvez sur le devis devis n°{{ $devis->ref }} :
 
-Retrouvez sur le devis devis n°{{ $devis->ref }}
-pour votre transfert en autocar pour
-le {{ \Carbon\Carbon::createFromTimeString($devis->data['aller_date_depart'] ?? '')->translatedFormat('d/m/Y') }}
-au départ de {{ $devis->data['addresse_ramassage']. ' ' . $devis->data['aller_point_depart'] }}
-en ligne en cliquant sur le boutton ci-joint.
+
+pour @if($devis->isMultiple) vos transferts @else votre transfert @endif en autocar pour :
+<ul>
+    @foreach($devis->data['trajets'] as $trajet)
+    <li>
+        le {{ \Carbon\Carbon::parse($trajet['aller_date_depart'] ?? '')->translatedFormat('d/m/Y') }}
+        au départ de {{ $trajet['addresse_ramassage'] ?? ''. ' ' . $trajet['aller_point_depart'] }}
+    </li>
+    @endforeach
+</ul>
+
+Retrouvez votre devis en ligne en cliquant sur le boutton ci-joint.
 <br>
 @component('mail::button', ['url' => $link, 'color' => 'success'] )
     Voir le devis
