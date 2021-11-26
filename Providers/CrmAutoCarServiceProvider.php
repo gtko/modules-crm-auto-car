@@ -23,6 +23,7 @@ use Modules\CrmAutoCar\Contracts\Repositories\StatistiqueRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\TagsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\TemplatesRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Service\DistanceApiContract;
+use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierDemandeFournisseurSend;
 use Modules\CrmAutoCar\Flow\Works\Events\EventDevisSendClient;
 use Modules\CrmAutoCar\Notifications\ClientDevisExterneValidationNotification;
 use Modules\CrmAutoCar\Notifications\ClientDossierDemandeFournisseurSendNotification;
@@ -90,7 +91,8 @@ class CrmAutoCarServiceProvider extends ServiceProvider
     public function registerWorkFlowEvents(){
 
         app(WorkflowKernel::class)->addEvents([
-            EventDevisSendClient::class
+            EventDevisSendClient::class,
+            EventClientDossierDemandeFournisseurSend::class
         ]);
     }
 
