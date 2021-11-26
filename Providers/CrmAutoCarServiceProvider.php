@@ -23,8 +23,14 @@ use Modules\CrmAutoCar\Contracts\Repositories\StatistiqueRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\TagsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\TemplatesRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Service\DistanceApiContract;
-use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierDemandeFournisseurSend;
+use Modules\CrmAutoCar\Flow\Works\Events\EventClientDevisExterneConsultation;
+use Modules\CrmAutoCar\Flow\Works\Events\EventClientDevisExterneValidation;
+use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierPaiementFournisseurSend;
+use Modules\CrmAutoCar\Flow\Works\Events\EventCreateProformatClient;
 use Modules\CrmAutoCar\Flow\Works\Events\EventDevisSendClient;
+use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierDemandeFournisseurDelete;
+use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierDemandeFournisseurSend;
+use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierDemandeFournisseurValidate;
 use Modules\CrmAutoCar\Notifications\ClientDevisExterneValidationNotification;
 use Modules\CrmAutoCar\Notifications\ClientDossierDemandeFournisseurSendNotification;
 use Modules\CrmAutoCar\Notifications\DevisSendClientNotification;
@@ -92,7 +98,13 @@ class CrmAutoCarServiceProvider extends ServiceProvider
 
         app(WorkflowKernel::class)->addEvents([
             EventDevisSendClient::class,
-            EventClientDossierDemandeFournisseurSend::class
+            EventClientDevisExterneConsultation::class,
+            EventClientDevisExterneValidation::class,
+            EventClientDossierDemandeFournisseurDelete::class,
+            EventClientDossierDemandeFournisseurSend::class,
+            EventClientDossierDemandeFournisseurValidate::class,
+            EventClientDossierPaiementFournisseurSend::class,
+            EventCreateProformatClient::class,
         ]);
     }
 

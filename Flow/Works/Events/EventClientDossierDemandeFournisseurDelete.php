@@ -3,23 +3,22 @@
 namespace Modules\CrmAutoCar\Flow\Works\Events;
 
 use Modules\CoreCRM\Flow\Attributes\Attributes;
-use Modules\CoreCRM\Flow\Works\Actions\ActionsAddNote;
 use Modules\CoreCRM\Flow\Works\Actions\ActionsAjouterTag;
 use Modules\CoreCRM\Flow\Works\Actions\ActionsChangeStatus;
-use Modules\CoreCRM\Flow\Works\Events\WorkFlowEvent as WorkFlowEventAlias;
-use Modules\CrmAutoCar\Flow\Attributes\ClientDossierDemandeFournisseurSend;
+use Modules\CoreCRM\Flow\Works\Events\WorkFlowEvent;
+use Modules\CrmAutoCar\Flow\Attributes\ClientDossierDemandeFournisseurDelete;
 
-class EventClientDossierDemandeFournisseurSend extends WorkFlowEventAlias
+class EventClientDossierDemandeFournisseurDelete extends WorkFlowEvent
 {
 
     public function name(): string
     {
-        return 'Demande fournisseur envoyée.';
+        return 'Demande fournisseur supprimer';
     }
 
     public function describe(): string
     {
-        return 'Se déclenche quand une demande fournisseur est envoyé.';
+        return 'Se declanche quand une demande fournisseur est supprimer';
     }
 
     protected function prepareData(Attributes $flowAttribute): array
@@ -35,16 +34,15 @@ class EventClientDossierDemandeFournisseurSend extends WorkFlowEventAlias
     public function listen(): array
     {
         return [
-           ClientDossierDemandeFournisseurSend::class,
+            ClientDossierDemandeFournisseurDelete::class
         ];
     }
 
     public function actions(): array
     {
         return [
-           ActionsChangeStatus::class,
-           ActionsAjouterTag::class,
-           ActionsAddNote::class
+            ActionsChangeStatus::class,
+            ActionsAjouterTag::class,
         ];
     }
 }

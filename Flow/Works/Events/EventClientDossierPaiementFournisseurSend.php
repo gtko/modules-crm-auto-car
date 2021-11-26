@@ -3,23 +3,21 @@
 namespace Modules\CrmAutoCar\Flow\Works\Events;
 
 use Modules\CoreCRM\Flow\Attributes\Attributes;
-use Modules\CoreCRM\Flow\Works\Actions\ActionsAddNote;
 use Modules\CoreCRM\Flow\Works\Actions\ActionsAjouterTag;
 use Modules\CoreCRM\Flow\Works\Actions\ActionsChangeStatus;
-use Modules\CoreCRM\Flow\Works\Events\WorkFlowEvent as WorkFlowEventAlias;
-use Modules\CrmAutoCar\Flow\Attributes\ClientDossierDemandeFournisseurSend;
+use Modules\CrmAutoCar\Flow\Attributes\ClientDossierPaiementFournisseurSend;
 
-class EventClientDossierDemandeFournisseurSend extends WorkFlowEventAlias
+class EventClientDossierPaiementFournisseurSend extends \Modules\CoreCRM\Flow\Works\Events\WorkFlowEvent
 {
 
     public function name(): string
     {
-        return 'Demande fournisseur envoyée.';
+        return 'Paiement fournisseur envoyé.';
     }
 
     public function describe(): string
     {
-        return 'Se déclenche quand une demande fournisseur est envoyé.';
+        return 'Ce déclenche quand un paiement est envoyer au fournisseur';
     }
 
     protected function prepareData(Attributes $flowAttribute): array
@@ -28,23 +26,23 @@ class EventClientDossierDemandeFournisseurSend extends WorkFlowEventAlias
             'devis' => $flowAttribute->getDevis(),
             'user' => $flowAttribute->getUser(),
             'fournisseur' => $flowAttribute->getFournisseur(),
-            'dossier' => $flowAttribute->getDevis()->dossier
+            'dossier' => $flowAttribute->getDevis()->dossier,
+            'Decaissement' =>  $flowAttribute->getDecaissement()->dossier,
         ];
     }
 
     public function listen(): array
     {
         return [
-           ClientDossierDemandeFournisseurSend::class,
+          ClientDossierPaiementFournisseurSend::class,
         ];
     }
 
     public function actions(): array
     {
         return [
-           ActionsChangeStatus::class,
-           ActionsAjouterTag::class,
-           ActionsAddNote::class
+            ActionsChangeStatus::class,
+            ActionsAjouterTag::class,
         ];
     }
 }
