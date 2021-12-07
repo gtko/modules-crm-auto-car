@@ -20,18 +20,19 @@ use Modules\CoreCRM\Flow\Works\Variables\CommercialVariable;
 use Modules\CoreCRM\Flow\Works\Variables\DossierVariable;
 use Modules\CoreCRM\Flow\Works\Variables\UserVariable;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDossierAttribuer;
+use Modules\CrmAutoCar\Flow\Attributes\ClientDossierRappeler;
 
-class EventClientDossierAttribuer extends WorkFlowEvent
+class EventClientDossierRappeler extends WorkFlowEvent
 {
 
     public function name(): string
     {
-        return 'Attribuer un dossier';
+        return 'Client à rappeler';
     }
 
     public function describe(): string
     {
-        return 'Se declenche quand on attribue un dossier a un commercial';
+        return 'Se declenche quand le client dois être rapeler';
     }
 
     public function category(): string
@@ -45,7 +46,6 @@ class EventClientDossierAttribuer extends WorkFlowEvent
             'dossier' => $flowAttribute->getDossier(),
             'client' => $flowAttribute->getDossier()->client,
             'commercial' => $flowAttribute->getCommercial(),
-            'user' => $flowAttribute->getAttributeur(),
         ];
     }
 
@@ -54,7 +54,6 @@ class EventClientDossierAttribuer extends WorkFlowEvent
         return [
             (new DossierVariable($this)),
             (new CommercialVariable($this)),
-            (new UserVariable($this)),
             (new ClientVariable($this)),
         ];
     }
@@ -72,7 +71,7 @@ class EventClientDossierAttribuer extends WorkFlowEvent
     public function listen(): array
     {
        return [
-           ClientDossierAttribuer::class
+           ClientDossierRappeler::class
        ];
     }
 

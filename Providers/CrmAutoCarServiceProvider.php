@@ -10,6 +10,7 @@ use Modules\BaseCore\Entities\TypeView;
 use Modules\CoreCRM\Contracts\Repositories\PipelineRepositoryContract;
 use Modules\CoreCRM\Contracts\Views\Dossiers\DossierAfterBlockFournisseur;
 use Modules\CoreCRM\Contracts\Views\Dossiers\DossierAfterSidebarContract;
+use Modules\CoreCRM\Contracts\Views\Dossiers\DossierSidebarAddActionsViewContract;
 use Modules\CoreCRM\Contracts\Views\Dossiers\SelectTagDossier;
 use Modules\CoreCRM\Flow\Works\WorkflowKernel;
 use Modules\CoreCRM\Notifications\Kernel;
@@ -27,6 +28,7 @@ use Modules\CrmAutoCar\Flow\Works\Events\EventClientDevisExterneConsultation;
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDevisExterneValidation;
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierAttribuer;
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierPaiementFournisseurSend;
+use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierRappeler;
 use Modules\CrmAutoCar\Flow\Works\Events\EventCreateProformatClient;
 use Modules\CrmAutoCar\Flow\Works\Events\EventDevisSendClient;
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierDemandeFournisseurDelete;
@@ -90,9 +92,14 @@ class CrmAutoCarServiceProvider extends ServiceProvider
             new TypeView(TypeView::TYPE_LIVEWIRE, 'crmautocar::select-tags'),
         ]);
 
+        app(CompositeurThemeContract::class)->setViews(DossierSidebarAddActionsViewContract::class,
+            [
+                new TypeView(TypeView::TYPE_LIVEWIRE, 'crmautocar::arappeler')
+            ]
+        );
+
         $this->registerNotif();
         $this->registerWorkFlowEvents();
-
     }
 
     public function registerWorkFlowEvents(){
@@ -106,7 +113,8 @@ class CrmAutoCarServiceProvider extends ServiceProvider
             EventClientDossierDemandeFournisseurValidate::class,
             EventClientDossierPaiementFournisseurSend::class,
             EventCreateProformatClient::class,
-            EventClientDossierAttribuer::class
+            EventClientDossierAttribuer::class,
+            EventClientDossierRappeler::class
         ]);
     }
 
