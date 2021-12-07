@@ -13,7 +13,10 @@ use Modules\CoreCRM\Flow\Works\Conditions\ConditionCountDossier;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionStatus;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionTag;
 use Modules\CoreCRM\Flow\Works\Events\WorkFlowEvent;
+use Modules\CoreCRM\Flow\Works\Variables\ClientVariable;
+use Modules\CoreCRM\Flow\Works\Variables\CommercialVariable;
 use Modules\CoreCRM\Flow\Works\Variables\DossierVariable;
+use Modules\CoreCRM\Flow\Works\Variables\UserVariable;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDossierAttribuer;
 
 class EventClientDossierAttribuer extends WorkFlowEvent
@@ -38,8 +41,9 @@ class EventClientDossierAttribuer extends WorkFlowEvent
     {
         return [
             'dossier' => $flowAttribute->getDossier(),
+            'client' => $flowAttribute->getDossier()->client,
             'commercial' => $flowAttribute->getCommercial(),
-            'attributeur' => $flowAttribute->getAttributeur()
+            'user' => $flowAttribute->getAttributeur(),
         ];
     }
 
@@ -47,7 +51,9 @@ class EventClientDossierAttribuer extends WorkFlowEvent
     {
         return [
             (new DossierVariable($this)),
-
+            (new CommercialVariable($this)),
+            (new UserVariable($this)),
+            (new ClientVariable($this)),
         ];
     }
 
