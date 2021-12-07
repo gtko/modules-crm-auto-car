@@ -2,11 +2,14 @@
 
 namespace Modules\CrmAutoCar\Http\Livewire;
 
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Modules\CoreCRM\Contracts\Repositories\CommercialRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\DossierRepositoryContract;
+use Modules\CoreCRM\Contracts\Services\FlowContract;
 use Modules\CoreCRM\Models\Dossier;
 use Modules\CoreCRM\Repositories\CommercialRepository;
+use Modules\CrmAutoCar\Flow\Attributes\ClientDossierAttribuer;
 
 class ElementListCuve extends Component
 {
@@ -55,6 +58,12 @@ class ElementListCuve extends Component
         if ($this->selection) {
             $commercial = app(CommercialRepositoryContract::class)->fetchById($commercial_id);
             app(DossierRepositoryContract::class)->changeCommercial($this->dossier, $commercial);
+
+            app(FlowContract::class)->add(
+                $this->dossier,
+                (new ClientDossierAttribuer($this->dossier, $commercial, Auth::user()))
+            );
+
             $this->emit('refresh');
         }
     }

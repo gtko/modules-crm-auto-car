@@ -5,6 +5,7 @@ namespace Modules\CrmAutoCar\Flow\Works\Events;
 use Modules\CoreCRM\Flow\Attributes\Attributes;
 use Modules\CoreCRM\Flow\Works\Actions\ActionsAjouterTag;
 use Modules\CoreCRM\Flow\Works\Actions\ActionsChangeStatus;
+use Modules\CoreCRM\Flow\Works\CategoriesEventEnum;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionCountDevis;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionCountDossier;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionStatus;
@@ -22,7 +23,7 @@ class EventDevisSendClient extends WorkFlowEvent
 
     public function category():string
     {
-        return 'Devis';
+        return CategoriesEventEnum::DEVIS;
     }
 
     public function describe(): string
