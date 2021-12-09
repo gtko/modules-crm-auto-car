@@ -21,7 +21,7 @@ class StatsAdminListCommercial extends Component
 
     public function render(CommercialRepositoryContract $repCommercial)
     {
-        $this->commercials = $repCommercial->fetchAll();
+            $this->commercials = $repCommercial->fetchAll();
 
         return view('crmautocar::livewire.stats-admin-list-commercial');
     }
