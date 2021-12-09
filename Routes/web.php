@@ -26,8 +26,8 @@ Route::middleware(['secure.devis'])->group(function () {
 
 });
 
-Route::get('/central-auto-car/devis/{devis}', [CentralAutoCarDevisController::class, 'index'])->name('mon-auto-car-devis');
-Route::get('/mon-auto-car/devis/{devis}', [MonAutoCarController::class, 'index'])->name('central-auto-car-devis');
+Route::get('/brand1/devis/{devis}', [CentralAutoCarDevisController::class, 'index'])->name('brand1');
+Route::get('/brand2/devis/{devis}', [MonAutoCarController::class, 'index'])->name('brand2');
 //Route::get('/mon-autocar/devis/{devis}', [MonAutoCarDevisController::class, 'index'])->name('mon-auto-car-devis');
 
 Route::get('proformats/{proformat}', [ProformatsController::class, 'show'])->name('proformats.show');
