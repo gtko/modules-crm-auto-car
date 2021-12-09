@@ -20,6 +20,9 @@ use Modules\CoreCRM\Flow\Works\Variables\CommercialVariable;
 use Modules\CoreCRM\Flow\Works\Variables\DossierVariable;
 use Modules\CoreCRM\Flow\Works\Variables\UserVariable;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDossierAttribuer;
+use Modules\CrmAutoCar\Flow\Works\Files\CguPdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Files\DevisPdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Files\ProformatPdfFiles;
 
 class EventClientDossierAttribuer extends WorkFlowEvent
 {
@@ -46,6 +49,13 @@ class EventClientDossierAttribuer extends WorkFlowEvent
             'client' => $flowAttribute->getDossier()->client,
             'commercial' => $flowAttribute->getCommercial(),
             'user' => $flowAttribute->getAttributeur(),
+        ];
+    }
+
+    public function files():array
+    {
+        return [
+            (new CguPdfFiles($this)),
         ];
     }
 

@@ -16,6 +16,9 @@ use Modules\CoreCRM\Flow\Works\Conditions\ConditionStatus;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionTag;
 use Modules\CoreCRM\Flow\Works\Events\WorkFlowEvent;
 use Modules\CrmAutoCar\Flow\Attributes\DevisSendClient;
+use Modules\CrmAutoCar\Flow\Works\Files\CguPdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Files\DevisPdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Files\ProformatPdfFiles;
 
 class EventDevisSendClient extends WorkFlowEvent
 {
@@ -50,6 +53,14 @@ class EventDevisSendClient extends WorkFlowEvent
         return [
             'devis' => $flowAttribute->getDevis(),
             'dossier' => $flowAttribute->getDevis()->dossier
+        ];
+    }
+
+    public function files():array
+    {
+        return [
+            (new DevisPdfFiles($this)),
+            (new CguPdfFiles($this)),
         ];
     }
 

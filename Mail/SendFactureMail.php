@@ -13,6 +13,8 @@ class SendFactureMail extends Mailable
 
     public function build()
     {
-        return $this->from('facturation@centrale-autocar.com')->subject($this->subjectMail)->markdown('crmautocar::emails.send-facture');
+        return $this->from('facturation@centrale-autocar.com')
+            ->subject($this->subjectMail)
+            ->markdown('crmautocar::emails.send-facture');
     }
 }

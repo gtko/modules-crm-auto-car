@@ -21,6 +21,9 @@ use Modules\CoreCRM\Flow\Works\Variables\DossierVariable;
 use Modules\CoreCRM\Flow\Works\Variables\UserVariable;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDossierAttribuer;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDossierRappeler;
+use Modules\CrmAutoCar\Flow\Works\Files\CguPdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Files\DevisPdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Files\ProformatPdfFiles;
 use Modules\TaskCalendarCRM\Flow\Works\Actions\ActionsAddTask;
 
 class EventClientDossierRappeler extends WorkFlowEvent
@@ -47,6 +50,14 @@ class EventClientDossierRappeler extends WorkFlowEvent
             'dossier' => $flowAttribute->getDossier(),
             'client' => $flowAttribute->getDossier()->client,
             'commercial' => $flowAttribute->getCommercial(),
+        ];
+    }
+
+    public function files():array
+    {
+        return [
+            (new DevisPdfFiles($this)),
+            (new CguPdfFiles($this)),
         ];
     }
 
