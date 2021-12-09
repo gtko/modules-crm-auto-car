@@ -3,6 +3,11 @@
 @section('content')
 
     <style>
+
+        html, body{
+            background:white;
+        }
+
         @page {
             size: 1400px 1980px !important;
             /* this affects the margin in the printer settings */
