@@ -121,11 +121,11 @@ class CrmAutoCarServiceProvider extends ServiceProvider
 
     public function registerNotif()
     {
-        Kernel::add([
-            ClientDossierDemandeFournisseurSendNotification::class,
-            ClientDevisExterneValidationNotification::class,
-            DevisSendClientNotification::class
-        ]);
+//        Kernel::add([
+//            ClientDossierDemandeFournisseurSendNotification::class,
+//            ClientDevisExterneValidationNotification::class,
+//            DevisSendClientNotification::class
+//        ]);
     }
 
     /**

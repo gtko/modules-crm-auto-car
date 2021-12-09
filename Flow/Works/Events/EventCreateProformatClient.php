@@ -14,6 +14,9 @@ use Modules\CoreCRM\Flow\Works\Conditions\ConditionCountDossier;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionStatus;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionTag;
 use Modules\CrmAutoCar\Flow\Attributes\CreateProformatClient;
+use Modules\CrmAutoCar\Flow\Works\Files\CguPdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Files\DevisPdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Files\ProformatPdfFiles;
 
 class EventCreateProformatClient extends \Modules\CoreCRM\Flow\Works\Events\WorkFlowEvent
 {
@@ -49,6 +52,15 @@ class EventCreateProformatClient extends \Modules\CoreCRM\Flow\Works\Events\Work
             'proformat' => $flowAttribute->getProformat(),
             'devis' => $flowAttribute->getProformat()->devis,
             'dossier' =>  $flowAttribute->getProformat()->devis->dossier,
+        ];
+    }
+
+    public function files():array
+    {
+        return [
+            (new DevisPdfFiles($this)),
+            (new CguPdfFiles($this)),
+            (new ProformatPdfFiles($this)),
         ];
     }
 

@@ -21,6 +21,9 @@ use Modules\CoreCRM\Flow\Works\Variables\DossierVariable;
 use Modules\CoreCRM\Flow\Works\Variables\FournisseurVariable;
 use Modules\CoreCRM\Flow\Works\Variables\UserVariable;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDossierDemandeFournisseurDelete;
+use Modules\CrmAutoCar\Flow\Works\Files\CguPdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Files\DevisPdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Files\ProformatPdfFiles;
 
 class EventClientDossierDemandeFournisseurDelete extends WorkFlowEvent
 {
@@ -60,6 +63,14 @@ class EventClientDossierDemandeFournisseurDelete extends WorkFlowEvent
             'dossier' => $flowAttribute->getDevis()->dossier,
             'client' => $flowAttribute->getDevis()->dossier->client,
             'commercial' => $flowAttribute->getDevis()->dossier->commercial
+        ];
+    }
+
+    public function files():array
+    {
+        return [
+            (new DevisPdfFiles($this)),
+            (new CguPdfFiles($this)),
         ];
     }
 

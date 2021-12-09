@@ -14,6 +14,9 @@ use Modules\CoreCRM\Flow\Works\Conditions\ConditionCountDossier;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionStatus;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionTag;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDossierPaiementFournisseurSend;
+use Modules\CrmAutoCar\Flow\Works\Files\CguPdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Files\DevisPdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Files\ProformatPdfFiles;
 
 class EventClientDossierPaiementFournisseurSend extends \Modules\CoreCRM\Flow\Works\Events\WorkFlowEvent
 {
@@ -51,6 +54,14 @@ class EventClientDossierPaiementFournisseurSend extends \Modules\CoreCRM\Flow\Wo
             'fournisseur' => $flowAttribute->getFournisseur(),
             'dossier' => $flowAttribute->getDevis()->dossier,
             'Decaissement' =>  $flowAttribute->getDecaissement()->dossier,
+        ];
+    }
+
+    public function files():array
+    {
+        return [
+            (new DevisPdfFiles($this)),
+            (new CguPdfFiles($this)),
         ];
     }
 

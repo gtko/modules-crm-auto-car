@@ -15,7 +15,15 @@ use Modules\CoreCRM\Flow\Works\Conditions\ConditionCountDossier;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionStatus;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionTag;
 use Modules\CoreCRM\Flow\Works\Events\WorkFlowEvent;
+use Modules\CoreCRM\Flow\Works\Variables\ClientVariable;
+use Modules\CoreCRM\Flow\Works\Variables\CommercialVariable;
+use Modules\CoreCRM\Flow\Works\Variables\DeviVariable;
+use Modules\CoreCRM\Flow\Works\Variables\DossierVariable;
 use Modules\CrmAutoCar\Flow\Attributes\DevisSendClient;
+use Modules\CrmAutoCar\Flow\Works\Files\CguPdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Files\DevisPdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Files\ProformatPdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Variables\ProformatVariable;
 
 class EventDevisSendClient extends WorkFlowEvent
 {
@@ -47,9 +55,30 @@ class EventDevisSendClient extends WorkFlowEvent
 
     protected function prepareData(Attributes $flowAttribute): array
     {
+        $devis = $flowAttribute->getDevis();
         return [
-            'devis' => $flowAttribute->getDevis(),
-            'dossier' => $flowAttribute->getDevis()->dossier
+            'devis' => $devis,
+            'dossier' => $devis->dossier,
+            'commercial' => $devis->dossier->commercial,
+            'client' => $devis->dossier->client
+        ];
+    }
+
+    public function files():array
+    {
+        return [
+            (new DevisPdfFiles($this)),
+            (new CguPdfFiles($this)),
+        ];
+    }
+
+    public function variables():array
+    {
+        return [
+            (new DossierVariable($this)),
+            (new DeviVariable($this)),
+            (new CommercialVariable($this)),
+            (new ClientVariable($this)),
         ];
     }
 

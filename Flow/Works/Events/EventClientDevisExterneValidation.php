@@ -20,6 +20,9 @@ use Modules\CoreCRM\Flow\Works\Variables\CommercialVariable;
 use Modules\CoreCRM\Flow\Works\Variables\DeviVariable;
 use Modules\CoreCRM\Flow\Works\Variables\DossierVariable;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDevisExterneValidation;
+use Modules\CrmAutoCar\Flow\Works\Files\CguPdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Files\DevisPdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Files\ProformatPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Variables\ProformatVariable;
 
 class EventClientDevisExterneValidation extends WorkFlowEvent
@@ -58,6 +61,15 @@ class EventClientDevisExterneValidation extends WorkFlowEvent
             'client' => $flowAttribute->getDevis()->dossier->client,
             'commercial' => $flowAttribute->getDevis()->dossier->commercial,
             'proformat' => $flowAttribute->getDevis()->proformat,
+        ];
+    }
+
+    public function files():array
+    {
+        return [
+            (new DevisPdfFiles($this)),
+            (new CguPdfFiles($this)),
+            (new ProformatPdfFiles($this)),
         ];
     }
 
