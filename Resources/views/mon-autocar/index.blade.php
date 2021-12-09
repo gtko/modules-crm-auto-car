@@ -27,6 +27,12 @@
                 -webkit-region-break-inside: avoid;
             }
 
+            .bg-gray-200{
+                background:white;
+            }
+
+            .newpage { page-break-before: always;}
+            .margintopprint {margin-top:80px;}
 
             body, .invoice-content {
                 position: relative;
@@ -156,7 +162,9 @@
                 </div>
             </div>
 
+            <div class="newpage"></div>
 
+            <div class="pt-5 w-full"></div>
             <div class="space-y-6 text-xs">
                 <div class="w-full border border-black py-1 text-center font-extrabold mt-8">
                     CONDITIONS GENERALES DE VENTE

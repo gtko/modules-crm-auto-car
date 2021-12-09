@@ -15,6 +15,8 @@ use Modules\CoreCRM\Flow\Works\Conditions\ConditionStatus;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionTag;
 use Modules\CrmAutoCar\Flow\Attributes\CreateProformatClient;
 use Modules\CrmAutoCar\Flow\Works\Files\CguPdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Files\DevisBrand1PdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Files\DevisBrand2PdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\ProformatPdfFiles;
 
@@ -61,6 +63,8 @@ class EventCreateProformatClient extends \Modules\CoreCRM\Flow\Works\Events\Work
             (new DevisPdfFiles($this)),
             (new CguPdfFiles($this)),
             (new ProformatPdfFiles($this)),
+            (new DevisBrand1PdfFiles($this)),
+            (new DevisBrand2PdfFiles($this)),
         ];
     }
 

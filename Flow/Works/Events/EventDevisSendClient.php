@@ -21,6 +21,8 @@ use Modules\CoreCRM\Flow\Works\Variables\DeviVariable;
 use Modules\CoreCRM\Flow\Works\Variables\DossierVariable;
 use Modules\CrmAutoCar\Flow\Attributes\DevisSendClient;
 use Modules\CrmAutoCar\Flow\Works\Files\CguPdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Files\DevisBrand1PdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Files\DevisBrand2PdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\ProformatPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Variables\ProformatVariable;
@@ -69,6 +71,8 @@ class EventDevisSendClient extends WorkFlowEvent
         return [
             (new DevisPdfFiles($this)),
             (new CguPdfFiles($this)),
+            (new DevisBrand1PdfFiles($this)),
+            (new DevisBrand2PdfFiles($this)),
         ];
     }
 

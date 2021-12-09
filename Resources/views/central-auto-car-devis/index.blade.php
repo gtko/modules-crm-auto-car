@@ -27,6 +27,8 @@
                 -webkit-region-break-inside: avoid;
             }
 
+            .newpage { page-break-before: always;}
+            .margintopprint {margin-top:80px;}
 
             body, .invoice-content {
                 position: relative;
@@ -49,7 +51,7 @@
     </style>
     {{--        @dd($devis->data)--}}
     <div class="bg-white h-full w-full h-screen flex flex-col justify-between" style="font-family: 'Lato', sans-serif;">
-        <div class="max-w-7xl w-full mx-auto pt-32 bg-gray-200 px-8 pb-16">
+        <div class="max-w-7xl w-full mx-auto pt-32 px-8 pb-16">
 
             <div class="grid grid-cols-3 gap-2">
                 <div class="col-start-3 flex-col flex">
@@ -202,6 +204,9 @@
                 </div>
             </div>
 
+            <div class="newpage"></div>
+
+            <div class="pt-5 w-full"></div>
             <div class="space-y-6 text-xs">
                 <div class="w-full border border-black py-1 text-center font-extrabold mt-8">
                     CONDITIONS GENERALES DE VENTE
