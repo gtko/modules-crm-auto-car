@@ -23,4 +23,8 @@ class ParamsCall extends WorkFlowParams
     }
 
 
+    function nameView(): string
+    {
+        return "crmautocar::workflows.call";
+    }
 }

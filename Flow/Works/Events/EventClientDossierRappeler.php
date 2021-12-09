@@ -21,6 +21,7 @@ use Modules\CoreCRM\Flow\Works\Variables\DossierVariable;
 use Modules\CoreCRM\Flow\Works\Variables\UserVariable;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDossierAttribuer;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDossierRappeler;
+use Modules\TaskCalendarCRM\Flow\Works\Actions\ActionsAddTask;
 
 class EventClientDossierRappeler extends WorkFlowEvent
 {
@@ -83,7 +84,8 @@ class EventClientDossierRappeler extends WorkFlowEvent
             ActionsSendNotification::class,
             ActionsAddNote::class,
             ActionsSupprimerTag::class,
-            ActionsAddCall::class
+            ActionsAddCall::class,
+            ActionsAddTask::class
         ];
     }
 }
