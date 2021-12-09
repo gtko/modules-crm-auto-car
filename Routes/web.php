@@ -4,9 +4,11 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\CrmAutoCar\Http\Controllers\BrandController;
+use Modules\CrmAutoCar\Http\Controllers\CentralAutoCarDevisController;
 use Modules\CrmAutoCar\Http\Controllers\CuveController;
 use Modules\CrmAutoCar\Http\Controllers\InvoicesController;
-use Modules\CrmAutoCar\Http\Controllers\MonAutoCarDevisController;
+
+use Modules\CrmAutoCar\Http\Controllers\MonAutoCarController;
 use Modules\CrmAutoCar\Http\Controllers\PlateauListUserByStatusController;
 use Modules\CrmAutoCar\Http\Controllers\ProformatsController;
 use Modules\CrmAutoCar\Http\Controllers\StatistiqueController;
@@ -24,7 +26,9 @@ Route::middleware(['secure.devis'])->group(function () {
 
 });
 
-Route::get('/mon-auto-car/devis/{devis}', [MonAutoCarDevisController::class, 'index'])->name('mon-auto-car-devis');
+Route::get('/central-auto-car/devis/{devis}', [CentralAutoCarDevisController::class, 'index'])->name('mon-auto-car-devis');
+Route::get('/mon-auto-car/devis/{devis}', [MonAutoCarController::class, 'index'])->name('central-auto-car-devis');
+//Route::get('/mon-autocar/devis/{devis}', [MonAutoCarDevisController::class, 'index'])->name('mon-auto-car-devis');
 
 Route::get('proformats/{proformat}', [ProformatsController::class, 'show'])->name('proformats.show');
 Route::get('proformats/{proformat}/pdf', [ProformatsController::class, 'pdf'])->name('proformats.pdf');

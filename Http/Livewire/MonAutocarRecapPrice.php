@@ -6,7 +6,7 @@ use Livewire\Component;
 use Modules\DevisAutoCar\Entities\DevisPrice;
 use Modules\DevisAutoCar\Entities\DevisTrajetPrice;
 
-class MonAutoCarRecapDevis extends Component
+class MonAutocarRecapPrice extends Component
 {
     public $accepte = false;
 
@@ -31,7 +31,6 @@ class MonAutoCarRecapDevis extends Component
         }else {
             $price = (new DevisPrice($this->devis, $this->brand));
         }
-
-        return view('crmautocar::livewire.mon-auto-car-recap-devis' ,compact('price')) ;
+        return view('crmautocar::livewire.mon-autocar-recap-price' ,compact('price'));
     }
 }

@@ -3,15 +3,13 @@
 namespace Modules\CrmAutoCar\Http\Controllers;
 
 
+use Modules\BaseCore\Http\Controllers\Controller;
 use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
-use Modules\CoreCRM\Http\Controllers\Controller;
-use Modules\CoreCRM\Services\FlowCRM;
-use Modules\CrmAutoCar\Flow\Attributes\ClientDevisExterneConsultation;
 use Modules\CrmAutoCar\Models\Brand;
 use Modules\DevisAutoCar\Entities\DevisPrice;
 use Modules\DevisAutoCar\Entities\DevisTrajetPrice;
 
-class MonAutoCarDevisController extends Controller
+class MonAutoCarController extends Controller
 {
     public function index($devisId, DevisRepositoryContract $devisRep,)
     {
@@ -25,7 +23,6 @@ class MonAutoCarDevisController extends Controller
         }else {
             $price = (new DevisPrice($devis, $brand));
         }
-
-        return view('crmautocar::mon-auto-car-devis.index', compact('devis', 'brand', 'price'));
+        return (view('crmautocar::mon-autocar.index', compact('devis', 'brand', 'price')));
     }
 }
