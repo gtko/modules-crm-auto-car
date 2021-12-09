@@ -120,7 +120,7 @@
                                 <tbody>
 
                                 @foreach(($devis->data['trajets'] ?? []) as $index => $trajet)
-                                    <tr class="bg-white">
+                                    <tr class="bg-gray-200">
                                         <td class="px-6 py-2 whitespace-nowrap text-sm font-medium font-extrabold ">
                                             Voyage n°{{$index + 1}}
                                         </td>
@@ -132,7 +132,7 @@
                                         </td>
                                     </tr>
 
-                                    <tr class="bg-white">
+                                    <tr class="bg-gray-200">
                                         <td class="px-6 whitespace-nowrap text-sm font-medium border-black border font-bold">
                                             Départ aller
                                         </td>
@@ -145,7 +145,7 @@
                                         </td>
                                     </tr>
 
-                                    <tr class="bg-white">
+                                    <tr class="bg-gray-200">
                                         <td class="px-6 whitespace-nowrap text-sm font-medium border-black border font-bold">
                                             Arrivée aller
                                         </td>
@@ -157,7 +157,7 @@
                                         </td>
                                     </tr>
 
-                                    <tr class="bg-white">
+                                    <tr class="bg-gray-200">
                                         <td class="px-6 whitespace-nowrap text-sm border-black border font-bold">
                                             Départ retour
                                         </td>
@@ -169,7 +169,7 @@
                                         </td>
                                     </tr>
 
-                                    <tr class="bg-white">
+                                    <tr class="bg-gray-200">
                                         <td class="px-6 whitespace-nowrap text-sm font-medium border-black border font-bold">
                                             Arrivée retour
                                         </td>
