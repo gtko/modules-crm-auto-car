@@ -21,7 +21,7 @@ class ClientDevisExterneValidationNotification extends Notif
     public function listenFlow(): array
     {
         return [
-            ClientDevisExterneValidation::class
+//            ClientDevisExterneValidation::class
         ];
     }
 

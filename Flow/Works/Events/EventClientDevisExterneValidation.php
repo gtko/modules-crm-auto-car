@@ -3,15 +3,24 @@
 namespace Modules\CrmAutoCar\Flow\Works\Events;
 
 use Modules\CoreCRM\Flow\Attributes\Attributes;
+use Modules\CoreCRM\Flow\Works\Actions\ActionsAddCall;
+use Modules\CoreCRM\Flow\Works\Actions\ActionsAddNote;
 use Modules\CoreCRM\Flow\Works\Actions\ActionsAjouterTag;
 use Modules\CoreCRM\Flow\Works\Actions\ActionsChangeStatus;
+use Modules\CoreCRM\Flow\Works\Actions\ActionsSendNotification;
+use Modules\CoreCRM\Flow\Works\Actions\ActionsSupprimerTag;
 use Modules\CoreCRM\Flow\Works\CategoriesEventEnum;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionCountDevis;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionCountDossier;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionStatus;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionTag;
 use Modules\CoreCRM\Flow\Works\Events\WorkFlowEvent;
+use Modules\CoreCRM\Flow\Works\Variables\ClientVariable;
+use Modules\CoreCRM\Flow\Works\Variables\CommercialVariable;
+use Modules\CoreCRM\Flow\Works\Variables\DeviVariable;
+use Modules\CoreCRM\Flow\Works\Variables\DossierVariable;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDevisExterneValidation;
+use Modules\CrmAutoCar\Flow\Works\Variables\ProformatVariable;
 
 class EventClientDevisExterneValidation extends WorkFlowEvent
 {
@@ -45,7 +54,21 @@ class EventClientDevisExterneValidation extends WorkFlowEvent
     {
         return [
             'devis' => $flowAttribute->getDevis(),
-            'dossier' => $flowAttribute->getDevis()->dossier
+            'dossier' => $flowAttribute->getDevis()->dossier,
+            'client' => $flowAttribute->getDevis()->dossier->client,
+            'commercial' => $flowAttribute->getDevis()->dossier->commercial,
+            'proformat' => $flowAttribute->getDevis()->proformat,
+        ];
+    }
+
+    public function variables():array
+    {
+        return [
+            (new DossierVariable($this)),
+            (new DeviVariable($this)),
+            (new CommercialVariable($this)),
+            (new ClientVariable($this)),
+            (new ProformatVariable($this))
         ];
     }
 
@@ -60,7 +83,11 @@ class EventClientDevisExterneValidation extends WorkFlowEvent
     {
         return [
             ActionsChangeStatus::class,
-            ActionsAjouterTag::class
+            ActionsAjouterTag::class,
+            ActionsSendNotification::class,
+            ActionsAddNote::class,
+            ActionsSupprimerTag::class,
+            ActionsAddCall::class
         ];
     }
 }

@@ -3,8 +3,12 @@
 namespace Modules\CrmAutoCar\Flow\Works\Events;
 
 use Modules\CoreCRM\Flow\Attributes\Attributes;
+use Modules\CoreCRM\Flow\Works\Actions\ActionsAddCall;
+use Modules\CoreCRM\Flow\Works\Actions\ActionsAddNote;
 use Modules\CoreCRM\Flow\Works\Actions\ActionsAjouterTag;
 use Modules\CoreCRM\Flow\Works\Actions\ActionsChangeStatus;
+use Modules\CoreCRM\Flow\Works\Actions\ActionsSendNotification;
+use Modules\CoreCRM\Flow\Works\Actions\ActionsSupprimerTag;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionCountDevis;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionCountDossier;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionStatus;
@@ -62,6 +66,10 @@ class EventClientDossierPaiementFournisseurSend extends \Modules\CoreCRM\Flow\Wo
         return [
             ActionsChangeStatus::class,
             ActionsAjouterTag::class,
+            ActionsSendNotification::class,
+            ActionsAddNote::class,
+            ActionsSupprimerTag::class,
+            ActionsAddCall::class
         ];
     }
 }

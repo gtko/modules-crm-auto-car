@@ -3,14 +3,23 @@
 namespace Modules\CrmAutoCar\Flow\Works\Events;
 
 use Modules\CoreCRM\Flow\Attributes\Attributes;
+use Modules\CoreCRM\Flow\Works\Actions\ActionsAddCall;
+use Modules\CoreCRM\Flow\Works\Actions\ActionsAddNote;
 use Modules\CoreCRM\Flow\Works\Actions\ActionsAjouterTag;
 use Modules\CoreCRM\Flow\Works\Actions\ActionsChangeStatus;
+use Modules\CoreCRM\Flow\Works\Actions\ActionsSendNotification;
+use Modules\CoreCRM\Flow\Works\Actions\ActionsSupprimerTag;
 use Modules\CoreCRM\Flow\Works\CategoriesEventEnum;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionCountDevis;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionCountDossier;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionStatus;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionTag;
 use Modules\CoreCRM\Flow\Works\Events\WorkFlowEvent;
+use Modules\CoreCRM\Flow\Works\Variables\ClientVariable;
+use Modules\CoreCRM\Flow\Works\Variables\CommercialVariable;
+use Modules\CoreCRM\Flow\Works\Variables\DeviVariable;
+use Modules\CoreCRM\Flow\Works\Variables\DossierVariable;
+use Modules\CoreCRM\Flow\Works\Variables\UserVariable;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDevisExterneConsultation;
 
 class EventClientDevisExterneConsultation extends WorkFlowEvent
@@ -45,7 +54,19 @@ class EventClientDevisExterneConsultation extends WorkFlowEvent
     {
         return [
             'devis' => $flowAttribute->getDevis(),
-            'dossier' => $flowAttribute->getDevis()->dossier
+            'dossier' => $flowAttribute->getDevis()->dossier,
+            'client' => $flowAttribute->getDevis()->dossier->client,
+            'commercial' => $flowAttribute->getDevis()->dossier->commercial,
+        ];
+    }
+
+    public function variables():array
+    {
+        return [
+            (new DossierVariable($this)),
+            (new DeviVariable($this)),
+            (new CommercialVariable($this)),
+            (new ClientVariable($this)),
         ];
     }
 
@@ -59,8 +80,12 @@ class EventClientDevisExterneConsultation extends WorkFlowEvent
     public function actions(): array
     {
            return [
-                    ActionsChangeStatus::class,
-                    ActionsAjouterTag::class
-                ];
+               ActionsChangeStatus::class,
+               ActionsAjouterTag::class,
+               ActionsSendNotification::class,
+               ActionsAddNote::class,
+               ActionsSupprimerTag::class,
+               ActionsAddCall::class
+           ];
     }
 }
