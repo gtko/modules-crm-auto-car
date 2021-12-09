@@ -39,9 +39,9 @@ class ProformatsController extends \Modules\CoreCRM\Http\Controllers\Controller
         $brand = app(BrandsRepository::class)->fetchById(config('crmautocar.brand_default'));
         $price = (new ProformatPrice($proformat, $brand));
 
-        return view('crmautocar::proformats.show', compact('proformat', 'price'));
+        return view('crmautocar::proformats.show', compact('proformat', 'price', 'brand'));
     }
- 
+
     public function pdf(Proformat $proformat){
 
         $pdfService = app(PdfContract::class);

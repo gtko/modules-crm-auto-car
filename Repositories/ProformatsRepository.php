@@ -24,6 +24,7 @@ class ProformatsRepository extends \Modules\BaseCore\Repositories\AbstractReposi
     {
         $proformat = Proformat::orderBy('id', 'DESC')->first();
         $number = last(explode('-', $proformat->number ?? ''));
+        $number = (int) str_replace('pf_', '', $number);
         if(!$number){
             $number = 0;
         }
