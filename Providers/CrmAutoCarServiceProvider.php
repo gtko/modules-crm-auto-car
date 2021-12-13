@@ -46,6 +46,7 @@ use Modules\CrmAutoCar\Repositories\StatistiqueRepository;
 use Modules\CrmAutoCar\Repositories\TagsRepository;
 use Modules\CrmAutoCar\Repositories\TemplateRepository;
 use Modules\CrmAutoCar\Services\Google\DistanceMatrixApi;
+use Modules\CrmAutoCar\Services\Paytweak\Paytweak;
 
 class CrmAutoCarServiceProvider extends ServiceProvider
 {
@@ -77,6 +78,10 @@ class CrmAutoCarServiceProvider extends ServiceProvider
         $this->app->bind(DecaissementRepositoryContract::class, DecaissementRepository::class);
         $this->app->bind(TagsRepositoryContract::class, TagsRepository::class);
         $this->app->bind(PlateauRepositoryContract::class, PlateauRepository::class);
+
+        $this->app->bind(Paytweak::class, function(){
+            return (new Paytweak(env('PAYTWEAK_PUBLIC', ''), env('PAYTWEAK_PRIVATE', '')));
+        });
 
         $this->mapWebRoutes();
         Blade::componentNamespace('Modules\CrmAutoCar\View\Components', $this->moduleNameLower);

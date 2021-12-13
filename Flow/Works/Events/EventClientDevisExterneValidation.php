@@ -25,6 +25,7 @@ use Modules\CrmAutoCar\Flow\Works\Files\DevisBrand1PdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisBrand2PdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\ProformatPdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Variables\PaiementVariable;
 use Modules\CrmAutoCar\Flow\Works\Variables\ProformatVariable;
 
 class EventClientDevisExterneValidation extends WorkFlowEvent
@@ -84,7 +85,8 @@ class EventClientDevisExterneValidation extends WorkFlowEvent
             (new DeviVariable($this)),
             (new CommercialVariable($this)),
             (new ClientVariable($this)),
-            (new ProformatVariable($this))
+            (new ProformatVariable($this)),
+            (new PaiementVariable($this))
         ];
     }
 

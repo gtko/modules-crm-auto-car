@@ -13,12 +13,18 @@ use Modules\CoreCRM\Flow\Works\Conditions\ConditionCountDevis;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionCountDossier;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionStatus;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionTag;
+use Modules\CoreCRM\Flow\Works\Variables\ClientVariable;
+use Modules\CoreCRM\Flow\Works\Variables\CommercialVariable;
+use Modules\CoreCRM\Flow\Works\Variables\DeviVariable;
+use Modules\CoreCRM\Flow\Works\Variables\DossierVariable;
 use Modules\CrmAutoCar\Flow\Attributes\CreateProformatClient;
 use Modules\CrmAutoCar\Flow\Works\Files\CguPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisBrand1PdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisBrand2PdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\ProformatPdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Variables\PaiementVariable;
+use Modules\CrmAutoCar\Flow\Works\Variables\ProformatVariable;
 
 class EventCreateProformatClient extends \Modules\CoreCRM\Flow\Works\Events\WorkFlowEvent
 {
@@ -54,6 +60,8 @@ class EventCreateProformatClient extends \Modules\CoreCRM\Flow\Works\Events\Work
             'proformat' => $flowAttribute->getProformat(),
             'devis' => $flowAttribute->getProformat()->devis,
             'dossier' =>  $flowAttribute->getProformat()->devis->dossier,
+            'commercial' => $flowAttribute->getProformat()->devis->commercial,
+            'client' => $flowAttribute->getProformat()->devis->dossier->client,
         ];
     }
 
@@ -67,6 +75,19 @@ class EventCreateProformatClient extends \Modules\CoreCRM\Flow\Works\Events\Work
             (new DevisBrand2PdfFiles($this)),
         ];
     }
+
+    public function variables():array
+    {
+        return [
+            (new DossierVariable($this)),
+            (new DeviVariable($this)),
+            (new CommercialVariable($this)),
+            (new ClientVariable($this)),
+            (new ProformatVariable($this)),
+            (new PaiementVariable($this))
+        ];
+    }
+
 
     public function listen(): array
     {
