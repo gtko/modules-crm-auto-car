@@ -16,6 +16,7 @@ use Modules\CoreCRM\Flow\Works\WorkflowKernel;
 use Modules\CoreCRM\Notifications\Kernel;
 use Modules\CoreCRM\Repositories\PipelineRepository;
 use Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract;
+use Modules\CrmAutoCar\Contracts\Repositories\ConfigsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\DecaissementRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\InvoicesRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\PlateauRepositoryContract;
@@ -38,6 +39,7 @@ use Modules\CrmAutoCar\Notifications\ClientDevisExterneValidationNotification;
 use Modules\CrmAutoCar\Notifications\ClientDossierDemandeFournisseurSendNotification;
 use Modules\CrmAutoCar\Notifications\DevisSendClientNotification;
 use Modules\CrmAutoCar\Repositories\BrandsRepository;
+use Modules\CrmAutoCar\Repositories\ConfigRepository;
 use Modules\CrmAutoCar\Repositories\DecaissementRepository;
 use Modules\CrmAutoCar\Repositories\InvoicesRepository;
 use Modules\CrmAutoCar\Repositories\PlateauRepository;
@@ -77,6 +79,7 @@ class CrmAutoCarServiceProvider extends ServiceProvider
         $this->app->bind(DecaissementRepositoryContract::class, DecaissementRepository::class);
         $this->app->bind(TagsRepositoryContract::class, TagsRepository::class);
         $this->app->bind(PlateauRepositoryContract::class, PlateauRepository::class);
+        $this->app->bind(ConfigsRepositoryContract::class, ConfigRepository::class);
 
         $this->mapWebRoutes();
         Blade::componentNamespace('Modules\CrmAutoCar\View\Components', $this->moduleNameLower);
