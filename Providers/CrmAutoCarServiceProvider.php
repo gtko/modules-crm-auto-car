@@ -11,6 +11,8 @@ use Modules\CoreCRM\Contracts\Repositories\PipelineRepositoryContract;
 use Modules\CoreCRM\Contracts\Views\Dossiers\DossierAfterBlockFournisseur;
 use Modules\CoreCRM\Contracts\Views\Dossiers\DossierAfterSidebarContract;
 use Modules\CoreCRM\Contracts\Views\Dossiers\DossierSidebarAddActionsViewContract;
+use Modules\CoreCRM\Contracts\Views\Dossiers\DossierTabLabelViewContract;
+use Modules\CoreCRM\Contracts\Views\Dossiers\DossierTabViewContract;
 use Modules\CoreCRM\Contracts\Views\Dossiers\SelectTagDossier;
 use Modules\CoreCRM\Flow\Works\WorkflowKernel;
 use Modules\CoreCRM\Notifications\Kernel;
@@ -104,7 +106,15 @@ class CrmAutoCarServiceProvider extends ServiceProvider
             [
                 new TypeView(TypeView::TYPE_LIVEWIRE, 'crmautocar::arappeler')
             ]
-        );
+        )
+            ->setViews(DossierTabLabelViewContract::class, [
+                new TypeView(TypeView::TYPE_BLADE_COMPONENT, 'crmautocar::proformat-label-tab')
+            ])
+            ->setViews(DossierTabViewContract::class, [
+                new TypeView(TypeView::TYPE_BLADE_COMPONENT, 'crmautocar::proformat-view-tab')
+            ]);
+
+
 
         $this->registerNotif();
         $this->registerWorkFlowEvents();

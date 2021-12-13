@@ -10,6 +10,7 @@ use Modules\CrmAutoCar\Http\Controllers\InfomationVogageController;
 use Modules\CrmAutoCar\Http\Controllers\InvoicesController;
 
 use Modules\CrmAutoCar\Http\Controllers\MonAutoCarController;
+use Modules\CrmAutoCar\Http\Controllers\PaiementWebhookController;
 use Modules\CrmAutoCar\Http\Controllers\PlateauListUserByStatusController;
 use Modules\CrmAutoCar\Http\Controllers\ProformatsController;
 use Modules\CrmAutoCar\Http\Controllers\StatistiqueController;
@@ -19,6 +20,8 @@ use Modules\CrmAutoCar\Http\Controllers\TemplateController;
 use Modules\CrmAutoCar\Http\Controllers\VuePlateauController;
 use Modules\CrmAutoCar\View\Components\Cgv;
 use Modules\CrmAutoCar\View\Components\DevisClient\Index;
+
+Route::any('/webhook/paiement', [PaiementWebhookController::class, 'listen'])->name('webhook-paiement');
 
 
 Route::middleware(['secure.devis'])->group(function () {
