@@ -61,7 +61,7 @@
 
                 <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
                     <div class="flex flex-row">
-                        <x-basecore::inputs.number name="priceLead" wire:model="priceLeads" class="form-control-sm"/>
+                        <x-basecore::inputs.number name="priceLead" wire:model="priceLead" class="form-control-sm"/>
                         <span class="btn-primary p-2 rounded ml-1 cursor-pointer" wire:click="changePriceLead">Save</span>
                     </div>
                 </dd>
