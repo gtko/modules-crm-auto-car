@@ -17,7 +17,7 @@ class Paytweak
     public function __construct($public_key, $private_key){
         $this->public_key = $public_key;
         $this->private_key =$private_key;
-        $this->connect();
+        //$this->connect();
     }
 
     public function __destruct(){
@@ -51,27 +51,8 @@ class Paytweak
 
     public function connect(){
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $this->uri."hello/");
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array("Paytweak-API-KEY: $this->public_key"));
-        curl_setopt($ch,CURLOPT_RETURNTRANSFER , true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER , false);
-        curl_setopt($ch, CURLOPT_HTTPGET , true);
-
-        $result = curl_exec($ch);
-
-        /* catch errors */
-
-        if($result === false) {
-            echo "Error Number:".curl_errno($ch);
-            echo "Error String:".curl_error($ch);
-        }
-
-        dd($result);
-
         /* Connect to hello */
         $result = $this->get('hello');
-        dd($result);
         $this->generateUserToken($result["Paytweak-Security-Token"] ?? '');
         $result = $this->get('verify');
         $this->token_key = $result['Paytweak-Work-Token'] ?? '';
@@ -86,14 +67,16 @@ class Paytweak
 
     public function createLink($devis_id, $amount , ClientEntity $client, $life = 30)
     {
-        return $this->post('links', [
-            "order_id" => $devis_id,
-            "amount" => $amount,
-            'freetext' => 'Création du lien de paiement sur le CRM le ' .now()->format('d/m/Y H:i:s'),
-            'firstname' => $client->firstname,
-            'lastname' => $client->lastname,
-            'life' => $life
-        ]);
+
+           return 'http://lien.test';
+//        return $this->post('links', [
+//            "order_id" => $devis_id,
+//            "amount" => $amount,
+//            'freetext' => 'Création du lien de paiement sur le CRM le ' .now()->format('d/m/Y H:i:s'),
+//            'firstname' => $client->firstname,
+//            'lastname' => $client->lastname,
+//            'life' => $life
+//        ]);
     }
 
     protected function get($endpoint,$queryUri = ''){
@@ -110,8 +93,6 @@ class Paytweak
         if($queryUri){
             $queryUri = '?'.$queryUri;
         }
-
-        dump($this->resolveToken(), $enpoint);
 
         curl_setopt($ch, CURLOPT_URL, $this->endpoint($enpoint).$queryUri);
         curl_setopt($ch, CURLOPT_HTTPHEADER, $this->resolveToken());
