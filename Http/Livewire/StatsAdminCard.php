@@ -10,12 +10,17 @@ use Modules\TimerCRM\Contracts\Repositories\TimerRepositoryContract;
 
 class StatsAdminCard extends Component
 {
-    public $nombreLeads = 0;
+    public $nombeHeureTravail = 0;
+    public $tauxHoraire = 0;
+    public $nombreLead = 0;
+    public $nombreContrat = 0;
     public $tauxConversion = 0;
-    public $margeMoyenne = 0;
-    public $chiffreAffaireMoyenClient = 0;
-    public $nombreFormulaire = 0;
-    public $totalTemps = '0';
+    public $margeTtc = 0;
+    public $margeNet = 0;
+    public $panierMoyenTtc = 0;
+    public $panierMoyenNet = 0;
+    public $margeNetAfterHoraire = 0;
+    public $panierMoyenAfterHoraire = 0;
 
     public $commercial;
     public $debut;
@@ -39,21 +44,25 @@ class StatsAdminCard extends Component
     {
         $this->commercial = $commercial;
 
-        if($debut && $fin)
-        {
-            $this->debut =( new DateStringToCarbon())->handle($debut);
-            $this->fin =( new DateStringToCarbon())->handle($fin);
+        if ($debut && $fin) {
+            $this->debut = (new DateStringToCarbon())->handle($debut);
+            $this->fin = (new DateStringToCarbon())->handle($fin);
         }
     }
 
     public function render(StatistiqueRepositoryContract $repStat, TimerRepositoryContract $repTimer)
     {
         if ($this->commercial) {
-            $this->nombreLeads = $repStat->getNombreLead($this->commercial, $this->debut, $this->fin);
-            $this->tauxConversion = $repStat->getTauxConversion();
-            $this->margeMoyenne = $repStat->getMargeMoyenne();
-            $this->chiffreAffaireMoyenClient = $repStat->getChiffreAffaireMoyenByClient();
-            $this->totalTemps = $repTimer->getTotalTimeByCommercialPeriode($this->commercial, $this->debut, $this->fin);
+            $this->nombeHeureTravail = $repTimer->getTotalTimeByCommercialPeriode($this->commercial, $this->debut, $this->fin);
+            $this->tauxHoraire = $repStat->getTauxHoraireByCommercial();
+            $this->nombreLead = $repStat->getNombreLead($this->commercial, $this->debut, $this->fin);;
+            $this->nombreContrat = $repStat->getNombreContactByCommercial();
+            $this->margeTtc = $repStat->getMargeTtcByCommercial();
+            $this->margeNet = $repStat->getMargeNetAfterHoraireByCommercial();
+            $this->panierMoyenTtc = $repStat->getPanierMoyenTtcByCommercial();
+            $this->panierMoyenNet = $repStat->getPanierMoyenNetByCommercial();
+            $this->margeNetAfterHoraire = $repStat->getMargeNetAfterHoraireByCommercial();
+            $this->panierMoyenAfterHoraire = $repStat->getPanierMoyenNetAfterHoraire();
         }
 
         return view('crmautocar::livewire.stats-admin-card');
