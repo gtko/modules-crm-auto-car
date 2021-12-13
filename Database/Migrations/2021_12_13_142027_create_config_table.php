@@ -12,6 +12,8 @@ class CreateConfigTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->json('data');
+
+            $table->timestamps();
         });
     }
 

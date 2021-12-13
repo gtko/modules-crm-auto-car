@@ -20,7 +20,8 @@ class StatsAdminCardGlobal extends Component
 
     public $debut;
     public $fin;
-    public $priceLeads;
+    public $priceLead;
+    public $leadPrice;
     public $editPriceLeadActive = false;
 
     protected $listeners = ['dateRangeGlobal', 'resetCardGlobal'];
@@ -39,15 +40,31 @@ class StatsAdminCardGlobal extends Component
     public function editPriceLead()
     {
         $this->editPriceLeadActive = true;
+        $this->priceLead = $this->leadPrice;
     }
 
     public function changePriceLead()
     {
-        $modelConfig = app(ConfigsRepositoryContract::class)->getByName('price_lead');
-        dd($modelConfig);
+        $repConfig = app(ConfigsRepositoryContract::class);
+        $modelConfig = $repConfig->getByName('price_lead');
+
+        $this->validate();
+
+        $data = [
+            'price_lead' => $this->priceLead
+        ];
+
+        if ($modelConfig) {
+            $repConfig->update($modelConfig, $data);
+        } else {
+            $repConfig->create('price_lead', $data);
+        }
+        $this->editPriceLeadActive = false;
+
     }
 
-    public function dateRangeGlobal($debut, $fin)
+    public
+    function dateRangeGlobal($debut, $fin)
     {
         if ($debut && $fin) {
             $this->debut = (new DateStringToCarbon())->handle($debut);
@@ -55,9 +72,10 @@ class StatsAdminCardGlobal extends Component
         }
     }
 
-    public function render(StatistiqueRepositoryContract $repStat, TimerRepositoryContract $repTimer, ConfigsRepositoryContract $repConfig)
+    public
+    function render(StatistiqueRepositoryContract $repStat, TimerRepositoryContract $repTimer, ConfigsRepositoryContract $repConfig)
     {
-        $leadPrice = $repConfig->getByName('price_lead');
+        $this->leadPrice = $repConfig->getByName('price_lead')->data['price_lead'];
 
         $this->nombreLeads = $repStat->getNombreLeadTotal($this->debut, $this->fin);
         $this->tauxConversion = $repStat->getTauxConversionTotal();
@@ -65,9 +83,6 @@ class StatsAdminCardGlobal extends Component
         $this->chiffreAffaireMoyenClient = $repStat->getChiffreAffaireMoyenByClientTotal();
 
 
-        return view('crmautocar::livewire.stats-admin-card-global',
-            [
-                'leadPrice' => $leadPrice
-            ]);
+        return view('crmautocar::livewire.stats-admin-card-global');
     }
 }

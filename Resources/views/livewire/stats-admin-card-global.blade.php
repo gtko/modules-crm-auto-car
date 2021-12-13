@@ -1,5 +1,5 @@
 <div>
-    <dl class="mt-5 grid grid-cols-1 rounded-lg bg-white overflow-hidden shadow divide-y divide-gray-200 md:grid-cols-6 md:divide-y-0 md:divide-x">
+    <dl class="mt-5 grid grid-cols-1 rounded-lg bg-white overflow-hidden shadow divide-y divide-gray-200 md:grid-cols-4 md:divide-y-0 md:divide-x">
 
         <div class="px-4 py-5 sm:p-6">
             <dt class="text-base font-normal text-gray-900">
@@ -12,9 +12,21 @@
             </dd>
         </div>
 
+
         <div class="px-4 py-5 sm:p-6">
             <dt class="text-base font-normal text-gray-900">
-                Taux conversion
+                Nombre de contrats
+            </dt>
+            <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
+                <div class="flex items-baseline text-center text-2xl font-semibold text-primary-1">
+                    N-A
+                </div>
+            </dd>
+        </div>
+
+        <div class="px-4 py-5 sm:p-6">
+            <dt class="text-base font-normal text-gray-900">
+                Taux conversion leads / contract
             </dt>
             <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
                 <div class="flex items-baseline text-2xl font-semibold text-primary-1">
@@ -25,25 +37,37 @@
 
         <div class="px-4 py-5 sm:p-6">
             <dt class="text-base font-normal text-gray-900">
-                Marge moyenne
+                Marge TTC
             </dt>
             <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
                 <div class="flex items-baseline text-2xl font-semibold text-primary-1">
-                    {{ $this->margeMoyenne }} €
+                    --
                 </div>
             </dd>
         </div>
 
         <div class="px-4 py-5 sm:p-6">
             <dt class="text-base font-normal text-gray-900">
-                CA moyen/client
+                Marge Net
             </dt>
             <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
                 <div class="flex items-baseline text-2xl font-semibold text-primary-1">
-                    {{ $this->chiffreAffaireMoyenClient }} €
+                    --
                 </div>
             </dd>
         </div>
+
+        <div class="px-4 py-5 sm:p-6">
+            <dt class="text-base font-normal text-gray-900">
+                Pannier Moyen TTC
+            </dt>
+            <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
+                <div class="flex items-baseline text-2xl font-semibold text-primary-1">
+                   --
+                </div>
+            </dd>
+        </div>
+
         <div class="px-4 py-5 sm:p-6">
             <dt class="text-base font-normal text-gray-900">
                 Prix moyen du lead
@@ -61,7 +85,7 @@
 
                 <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
                     <div class="flex flex-row">
-                        <x-basecore::inputs.number name="priceLead" wire:model="priceLeads" class="form-control-sm"/>
+                        <x-basecore::inputs.number name="priceLead" wire:model="priceLead" class="form-control-sm"/>
                         <span class="btn-primary p-2 rounded ml-1 cursor-pointer" wire:click="changePriceLead">Save</span>
                     </div>
                 </dd>

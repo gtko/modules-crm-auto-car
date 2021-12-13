@@ -21,7 +21,7 @@ use Modules\DevisAutoCar\Models\Devi;
 
 class Config extends Model
 {
-    protected $cats = [
+    protected $casts = [
         'data' => 'array'
     ];
 
