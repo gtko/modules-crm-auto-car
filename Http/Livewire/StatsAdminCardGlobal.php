@@ -11,12 +11,14 @@ use Modules\TimerCRM\Contracts\Repositories\TimerRepositoryContract;
 
 class StatsAdminCardGlobal extends Component
 {
-    public $nombreLeads = 0;
+
+
+    public $nombreLead = 0;
+    public $nombreContact = 0;
     public $tauxConversion = 0;
-    public $margeMoyenne = 0;
-    public $chiffreAffaireMoyenClient = 0;
-    public $nombreFormulaire = 0;
-    public $totalTemps = '0';
+    public $margeTtc = 0;
+    public $margeNet = 0;
+    public $panierMoyenTtc = 0;
 
     public $debut;
     public $fin;
@@ -78,9 +80,11 @@ class StatsAdminCardGlobal extends Component
         $this->leadPrice = $repConfig->getByName('price_lead')->data['price_lead'];
 
         $this->nombreLeads = $repStat->getNombreLeadTotal($this->debut, $this->fin);
+        $this->nombreContact = $repStat->getNombreContactTotal();
         $this->tauxConversion = $repStat->getTauxConversionTotal();
-        $this->margeMoyenne = $repStat->getMargeMoyenneTotal();
-        $this->chiffreAffaireMoyenClient = $repStat->getChiffreAffaireMoyenByClientTotal();
+        $this->margeTtc = $repStat->getMargeTtcTotal();
+        $this->margeNet = $repStat->getMargeNetTotal();
+        $this->panierMoyenTtc = $repStat->getPannierMoyenTotal();
 
 
         return view('crmautocar::livewire.stats-admin-card-global');

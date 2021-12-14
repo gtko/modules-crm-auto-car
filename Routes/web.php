@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Modules\CrmAutoCar\Http\Controllers\BrandController;
 use Modules\CrmAutoCar\Http\Controllers\CentralAutoCarDevisController;
 use Modules\CrmAutoCar\Http\Controllers\CuveController;
+use Modules\CrmAutoCar\Http\Controllers\InfomationVogageController;
 use Modules\CrmAutoCar\Http\Controllers\InvoicesController;
 
 use Modules\CrmAutoCar\Http\Controllers\MonAutoCarController;
@@ -31,6 +32,7 @@ Route::middleware(['secure.devis'])->group(function () {
 
 Route::get('/brand1/devis/{devis}', [CentralAutoCarDevisController::class, 'index'])->name('brand1');
 Route::get('/brand2/devis/{devis}', [MonAutoCarController::class, 'index'])->name('brand2');
+Route::get('/information-voyage/{devis}', [InfomationVogageController::class, 'index'])->name('info-voyage');
 //Route::get('/mon-autocar/devis/{devis}', [MonAutoCarDevisController::class, 'index'])->name('mon-auto-car-devis');
 
 Route::get('proformats/{proformat}', [ProformatsController::class, 'show'])->name('proformats.show');

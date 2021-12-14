@@ -15,23 +15,6 @@ use Modules\CrmAutoCar\Contracts\Repositories\StatistiqueRepositoryContract;
 
 class StatistiqueRepository implements StatistiqueRepositoryContract
 {
-
-
-    public function getTauxConversion(): float
-    {
-        return mt_rand(1.00, 90.00);
-    }
-
-    public function getMargeMoyenne(): float
-    {
-        return mt_rand(100.00, 900.00);
-    }
-
-    public function getChiffreAffaireMoyenByClient(): float
-    {
-        return mt_rand(1000.00, 9000.00);
-    }
-
     public function getNombreLead(Commercial $commercial, Carbon|null $debut = null, Carbon|null $fin = null): int
     {
         $repCommercial = app(CommercialRepositoryContract::class);
@@ -70,21 +53,81 @@ class StatistiqueRepository implements StatistiqueRepositoryContract
         }
 
         return $leadCount;
+    }
 
+
+    public function getNombreHeureByCommercial(): string
+    {
+        return mt_rand(1.00, 500.00);
+    }
+
+    public function getTauxHoraireByCommercial(): float
+    {
+        return mt_rand(8.00, 9.00);
+    }
+
+    public function getNombreContactByCommercial(): int
+    {
+        return mt_rand(9, 30);
+    }
+
+    public function getTauxConversionByCommercial(): int
+    {
+        return mt_rand(1.00, 500.00);
+    }
+
+    public function getMargeTtcByCommercial(): float
+    {
+        return mt_rand(1.00, 500.00);
+    }
+
+    public function getMargeNetByCommercial(): float
+    {
+        return mt_rand(1.00, 500.00);
+    }
+
+    public function getPanierMoyenTtcByCommercial(): float
+    {
+        return mt_rand(1.00, 500.00);
+    }
+
+    public function getPanierMoyenNetByCommercial(): float
+    {
+        return mt_rand(1.00, 500.00);
+    }
+
+    public function getMargeNetAfterHoraireByCommercial(): float
+    {
+        return mt_rand(1.00, 500.00);
+    }
+
+    public function getPanierMoyenNetAfterHoraire(): float
+    {
+        return mt_rand(1.00, 500.00);
+    }
+
+    public function getNombreContactTotal(): int
+    {
+        return mt_rand(1.00, 500.00);
     }
 
     public function getTauxConversionTotal(): float
     {
-        return mt_rand(10.00, 100.00);
+        return mt_rand(1.00, 500.00);
     }
 
-    public function getMargeMoyenneTotal(): float
+    public function getMargeTtcTotal(): float
     {
-        return mt_rand(1000.00, 9000.00);
+        return mt_rand(1.00, 500.00);
     }
 
-    public function getChiffreAffaireMoyenByClientTotal(): float
+    public function getMargeNetTotal(): float
     {
-        return mt_rand(1000.00, 9000.00);
+        return mt_rand(1.00, 500.00);
+    }
+
+    public function getPannierMoyenTotal(): float
+    {
+        return mt_rand(1.00, 500.00);
     }
 }
