@@ -18,11 +18,14 @@ use Modules\CoreCRM\Flow\Works\Variables\CommercialVariable;
 use Modules\CoreCRM\Flow\Works\Variables\DeviVariable;
 use Modules\CoreCRM\Flow\Works\Variables\DossierVariable;
 use Modules\CrmAutoCar\Flow\Attributes\CreateProformatClient;
+use Modules\CrmAutoCar\Flow\Works\Conditions\ConditionClientTypeValidation;
+use Modules\CrmAutoCar\Flow\Works\Conditions\ConditionDateDepartDevis;
 use Modules\CrmAutoCar\Flow\Works\Files\CguPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisBrand1PdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisBrand2PdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\ProformatPdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Variables\ClientValidationVariable;
 use Modules\CrmAutoCar\Flow\Works\Variables\PaiementVariable;
 use Modules\CrmAutoCar\Flow\Works\Variables\ProformatVariable;
 
@@ -50,7 +53,9 @@ class EventCreateProformatClient extends \Modules\CoreCRM\Flow\Works\Events\Work
             ConditionCountDevis::class,
             ConditionCountDossier::class,
             ConditionStatus::class,
-            ConditionTag::class
+            ConditionTag::class,
+            ConditionDateDepartDevis::class,
+            ConditionClientTypeValidation::class
         ];
     }
 
@@ -84,7 +89,8 @@ class EventCreateProformatClient extends \Modules\CoreCRM\Flow\Works\Events\Work
             (new CommercialVariable($this)),
             (new ClientVariable($this)),
             (new ProformatVariable($this)),
-            (new PaiementVariable($this))
+            (new PaiementVariable($this)),
+            (new ClientValidationVariable($this)),
         ];
     }
 

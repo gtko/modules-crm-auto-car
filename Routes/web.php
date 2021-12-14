@@ -1,7 +1,7 @@
 <?php
 
 
-
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 use Modules\CrmAutoCar\Http\Controllers\BrandController;
 use Modules\CrmAutoCar\Http\Controllers\CentralAutoCarDevisController;
@@ -20,6 +20,22 @@ use Modules\CrmAutoCar\Http\Controllers\TemplateController;
 use Modules\CrmAutoCar\Http\Controllers\VuePlateauController;
 use Modules\CrmAutoCar\View\Components\Cgv;
 use Modules\CrmAutoCar\View\Components\DevisClient\Index;
+use Modules\DevisAutoCar\Models\Devi;
+
+
+Route::get('/testgreg', function(){
+
+    $data['devis'] = Devi::get()->last();
+
+    $trajets = collect($data['devis']->data['trajets']);
+
+    //on cherche le plus petit nombre de jours
+    $jours = $trajets->map(function($item) {
+        return ['diff' => now()->diffInDays(Carbon::parse($item['aller_date_depart']))];
+    });
+
+    return $jours->min('diff');
+});
 
 Route::any('/webhook/paiement', [PaiementWebhookController::class, 'listen'])->name('webhook-paiement');
 

@@ -12,16 +12,38 @@ class PaiementVariable extends \Modules\CoreCRM\Flow\Works\Variables\WorkFlowVar
         return 'paiement';
     }
 
-    public function data(): array
+    public function data(array $params = []): array
     {
         $datas = $this->event->getData();
         $devis = $datas['devis'];
 
         $paytweak = app(Paytweak::class);
-        $link = $paytweak->createLink($devis->id, $devis->getTotal(), $devis->dossier->client);
+        $paytweak->connect();
+        $links = $paytweak->getLink($devis->id);
+        $active = false;
+        if($links){
+            foreach($links as $link){
+                if(($link['active'] ?? '0') == 1){
+                    $active = $link;
+                    $active['url'] = $active['link_url'];
+                }
+            }
+        }
+
+        if(($params[1] ?? false)){
+            $price = $devis->getTotal() - ($devis->getTotal() / (($params[1]/100) + 1));
+        }else{
+            $price = $devis->getTotal();
+        }
+
+        if(!$active) {
+            $active = $paytweak->createLink($devis->id, $price, $devis->dossier->client);
+        }
+
+        $paytweak->disconnect();
 
         return [
-          'lien' => $link['url'],
+          'lien' => $active['url'],
         ];
     }
 

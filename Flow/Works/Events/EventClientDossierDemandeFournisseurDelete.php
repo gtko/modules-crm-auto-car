@@ -21,6 +21,7 @@ use Modules\CoreCRM\Flow\Works\Variables\DossierVariable;
 use Modules\CoreCRM\Flow\Works\Variables\FournisseurVariable;
 use Modules\CoreCRM\Flow\Works\Variables\UserVariable;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDossierDemandeFournisseurDelete;
+use Modules\CrmAutoCar\Flow\Works\Conditions\ConditionDateDepartDevis;
 use Modules\CrmAutoCar\Flow\Works\Files\CguPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\ProformatPdfFiles;
@@ -45,7 +46,8 @@ class EventClientDossierDemandeFournisseurDelete extends WorkFlowEvent
             ConditionCountDevis::class,
             ConditionCountDossier::class,
             ConditionStatus::class,
-            ConditionTag::class
+            ConditionTag::class,
+            ConditionDateDepartDevis::class
         ];
     }
 

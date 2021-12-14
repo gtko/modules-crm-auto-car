@@ -63,9 +63,16 @@ class Paytweak
         $this->reset();
     }
 
+    public function getLink($devis_id){
+        return $this->get('links', "order_id=$devis_id");
+    }
+
+    public function deleteLink($id){
+        return $this->get("links/$id", );
+    }
+
     public function createLink($devis_id, $amount , ClientEntity $client, $life = 30)
     {
-        $this->connect();
         $link = $this->post('links', [
             "order_id" => $devis_id,
             "amount" => $amount,
@@ -74,7 +81,6 @@ class Paytweak
             'lastname' => $client->lastname,
             'life' => $life
         ]);
-        $this->disconnect();
 
         return $link;
     }
@@ -85,6 +91,10 @@ class Paytweak
 
     protected function post($endpoint, $params = [], $queryUri = ''){
         return $this->request($endpoint, 'POST', $params, $queryUri);
+    }
+
+    protected function delete($endpoint, $params = [], $queryUri = ''){
+        return $this->request($endpoint, 'DELETE', $params, $queryUri);
     }
 
     protected function request($enpoint, $type, $params, $queryUri = ''){
@@ -104,6 +114,10 @@ class Paytweak
             curl_setopt($ch, CURLOPT_POST, 1);
             $query = http_build_query($params);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $query);
+        }
+
+        if($type === 'DELETE'){
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
         }
 
         $result = curl_exec($ch);

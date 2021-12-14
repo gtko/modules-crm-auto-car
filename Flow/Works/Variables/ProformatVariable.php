@@ -12,7 +12,7 @@ class ProformatVariable extends WorkFlowVariable
         return 'proformat';
     }
 
-    public function data(): array
+    public function data(array $params = []): array
     {
         /** @var \Modules\CrmAutoCar\Models\Proformat $proformat */
         $proformat = $this->event->getData()['proformat'];

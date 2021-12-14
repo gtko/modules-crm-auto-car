@@ -14,6 +14,7 @@ use Modules\CoreCRM\Flow\Works\Conditions\ConditionCountDossier;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionStatus;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionTag;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDossierPaiementFournisseurSend;
+use Modules\CrmAutoCar\Flow\Works\Conditions\ConditionDateDepartDevis;
 use Modules\CrmAutoCar\Flow\Works\Files\CguPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\ProformatPdfFiles;
@@ -42,7 +43,8 @@ class EventClientDossierPaiementFournisseurSend extends \Modules\CoreCRM\Flow\Wo
             ConditionCountDevis::class,
             ConditionCountDossier::class,
             ConditionStatus::class,
-            ConditionTag::class
+            ConditionTag::class,
+            ConditionDateDepartDevis::class
         ];
     }
 
