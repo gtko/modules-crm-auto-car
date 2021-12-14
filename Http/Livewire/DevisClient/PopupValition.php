@@ -62,6 +62,6 @@ class PopupValition extends Component
 
         session()->flash('success', 'Votre devis a été validé');
 
-        return redirect((new GenerateLinkDevis())->GenerateLink($this->devis));
+        return redirect()->secure((new GenerateLinkDevis())->GenerateLink($this->devis));
     }
 }
