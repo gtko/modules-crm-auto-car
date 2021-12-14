@@ -23,11 +23,9 @@ use Modules\CrmAutoCar\View\Components\DevisClient\Index;
 
 Route::any('/webhook/paiement', [PaiementWebhookController::class, 'listen'])->name('webhook-paiement');
 
-
 Route::middleware(['secure.devis'])->group(function () {
     Route::get('/devis/{devis}/{token}',[Index::class, 'index'])->name('devis-view');
     Route::get('/devis/pdf/{devis}/{token}',[Index::class, 'index'])->name('devis-pdf');
-
 });
 
 Route::get('/brand1/devis/{devis}', [CentralAutoCarDevisController::class, 'index'])->name('brand1');
@@ -37,7 +35,6 @@ Route::get('/information-voyage/{devis}', [InfomationVogageController::class, 'i
 
 Route::get('proformats/{proformat}', [ProformatsController::class, 'show'])->name('proformats.show');
 Route::get('proformats/{proformat}/pdf', [ProformatsController::class, 'pdf'])->name('proformats.pdf');
-
 
 Route::prefix('/')
     ->middleware(['auth:web', 'verified'])
@@ -54,7 +51,6 @@ Route::prefix('/')
         Route::get('vue-plateau', [VuePlateauController::class, 'index'])->name('vue-plateau');
         Route::get('vue-plateau/{commercial_id}/{status_id}', [PlateauListUserByStatusController::class, 'index']);
     });
-
 
 Route::get('/cgv', [Cgv::class, 'render'])->name('cgv');
 

@@ -12,8 +12,6 @@ class PaiementVariable extends \Modules\CoreCRM\Flow\Works\Variables\WorkFlowVar
         return 'paiement';
     }
 
-
-
     public function data(): array
     {
         $datas = $this->event->getData();
