@@ -16,8 +16,10 @@ use Modules\CoreCRM\Flow\Works\Conditions\ConditionTag;
 use Modules\CoreCRM\Flow\Works\Events\WorkFlowEvent;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDossierDemandeFournisseurValidate;
 use Modules\CrmAutoCar\Flow\Works\Conditions\ConditionDateDepartDevis;
+use Modules\CrmAutoCar\Flow\Works\Conditions\ConditionFournisseurBPA;
 use Modules\CrmAutoCar\Flow\Works\Files\CguPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisPdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Files\InformationVoyagePdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\ProformatPdfFiles;
 
 class EventClientDossierDemandeFournisseurValidate extends WorkFlowEvent
@@ -46,7 +48,8 @@ class EventClientDossierDemandeFournisseurValidate extends WorkFlowEvent
             ConditionCountDossier::class,
             ConditionStatus::class,
             ConditionTag::class,
-            ConditionDateDepartDevis::class
+            ConditionDateDepartDevis::class,
+            ConditionFournisseurBPA::class
         ];
     }
 
@@ -65,6 +68,7 @@ class EventClientDossierDemandeFournisseurValidate extends WorkFlowEvent
         return [
             (new DevisPdfFiles($this)),
             (new CguPdfFiles($this)),
+            (new InformationVoyagePdfFiles($this)),
         ];
     }
 

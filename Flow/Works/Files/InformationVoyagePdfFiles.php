@@ -3,21 +3,25 @@
 namespace Modules\CrmAutoCar\Flow\Works\Files;
 
 use Modules\BaseCore\Contracts\Services\PdfContract;
+use Modules\CoreCRM\Actions\Devis\GenerateLinkDevis;
+use Modules\CoreCRM\Flow\Works\Files\WorkFlowFiles;
 
-class CguPdfFiles extends \Modules\CoreCRM\Flow\Works\Files\WorkFlowFiles
+class InformationVoyagePdfFiles extends WorkFlowFiles
 {
 
     public function content(): string
     {
+        $devis = $this->event->getData()['devis'];
+
         $pdfService = app(PdfContract::class);
-        $pdfService->setUrl(route('cgv'));
+        $pdfService->setUrl(route('info-voyage', $devis));
 
         return $pdfService->getContentPdf();
     }
 
     public function filename(): string
     {
-        return 'cgv.pdf';
+        return 'information-voyage.pdf';
     }
 
     public function mimetype(): string
@@ -27,11 +31,11 @@ class CguPdfFiles extends \Modules\CoreCRM\Flow\Works\Files\WorkFlowFiles
 
     public function name(): string
     {
-        return 'CGV PDF';
+        return 'Information voyages PDF';
     }
 
     public function description(): string
     {
-        return 'Condition général en fichier PDF';
+        return 'génération du fichier des informations voyage en PDF';
     }
 }

@@ -9,6 +9,7 @@ use Modules\CoreCRM\Flow\Works\Actions\ActionsAjouterTag;
 use Modules\CoreCRM\Flow\Works\Actions\ActionsChangeStatus;
 use Modules\CoreCRM\Flow\Works\Actions\ActionsSendNotification;
 use Modules\CoreCRM\Flow\Works\Actions\ActionsSupprimerTag;
+use Modules\CoreCRM\Flow\Works\CategoriesEventEnum;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionCountDevis;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionCountDossier;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionStatus;
@@ -21,22 +22,22 @@ use Modules\CrmAutoCar\Flow\Works\Files\DevisPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\InformationVoyagePdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\ProformatPdfFiles;
 
-class EventClientDossierPaiementFournisseurSend extends \Modules\CoreCRM\Flow\Works\Events\WorkFlowEvent
+class EventClientDossierFournisseurBpa extends \Modules\CoreCRM\Flow\Works\Events\WorkFlowEvent
 {
 
     public function name(): string
     {
-        return 'Paiement fournisseur envoyé.';
+        return 'Fournisseur BPA.';
     }
 
     public function category():string
     {
-        return 'Paiement';
+        return 'Fournisseur';
     }
 
     public function describe(): string
     {
-        return 'Ce déclenche quand un paiement est envoyer au fournisseur';
+        return 'Ce déclenche quand un BPA fournisseur est reçu';
     }
 
     public function conditions():array
@@ -58,7 +59,6 @@ class EventClientDossierPaiementFournisseurSend extends \Modules\CoreCRM\Flow\Wo
             'user' => $flowAttribute->getUser(),
             'fournisseur' => $flowAttribute->getFournisseur(),
             'dossier' => $flowAttribute->getDevis()->dossier,
-            'Decaissement' =>  $flowAttribute->getDecaissement()->dossier,
         ];
     }
 

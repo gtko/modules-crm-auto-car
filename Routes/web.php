@@ -3,6 +3,8 @@
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
+use Modules\CoreCRM\Models\Dossier;
+use Modules\CoreCRM\Models\Fournisseur;
 use Modules\CrmAutoCar\Http\Controllers\BrandController;
 use Modules\CrmAutoCar\Http\Controllers\CentralAutoCarDevisController;
 use Modules\CrmAutoCar\Http\Controllers\CuveController;
@@ -20,21 +22,21 @@ use Modules\CrmAutoCar\Http\Controllers\TemplateController;
 use Modules\CrmAutoCar\Http\Controllers\VuePlateauController;
 use Modules\CrmAutoCar\View\Components\Cgv;
 use Modules\CrmAutoCar\View\Components\DevisClient\Index;
-use Modules\DevisAutoCar\Models\Devi;
 
 
 Route::get('/testgreg', function(){
 
-    $data['devis'] = Devi::get()->last();
+    $data['dossier'] = Dossier::where('id' , '16')->first();
+    $fournisseurs = \Modules\CrmAutoCar\Models\Fournisseur::whereHas('devis' , function($query) use($data){
+        $query->whereHas('dossier', function($query) use($data){
+            $query->where('id', $data['dossier']->id);
+        });
+    })->get();
 
-    $trajets = collect($data['devis']->data['trajets']);
 
-    //on cherche le plus petit nombre de jours
-    $jours = $trajets->map(function($item) {
-        return ['diff' => now()->diffInDays(Carbon::parse($item['aller_date_depart']))];
-    });
+    dd($fournisseurs->count() == $fournisseurs->where('bpa', true)->count());
 
-    return $jours->min('diff');
+
 });
 
 Route::any('/webhook/paiement', [PaiementWebhookController::class, 'listen'])->name('webhook-paiement');

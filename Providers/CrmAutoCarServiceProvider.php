@@ -30,8 +30,10 @@ use Modules\CrmAutoCar\Contracts\Service\DistanceApiContract;
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDevisExterneConsultation;
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDevisExterneValidation;
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierAttribuer;
+use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierFournisseurBpa;
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierPaiementFournisseurSend;
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierRappeler;
+use Modules\CrmAutoCar\Flow\Works\Events\EventCreatePaiementClient;
 use Modules\CrmAutoCar\Flow\Works\Events\EventCreateProformatClient;
 use Modules\CrmAutoCar\Flow\Works\Events\EventDevisSendClient;
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierDemandeFournisseurDelete;
@@ -132,7 +134,9 @@ class CrmAutoCarServiceProvider extends ServiceProvider
             EventClientDossierPaiementFournisseurSend::class,
             EventCreateProformatClient::class,
             EventClientDossierAttribuer::class,
-            EventClientDossierRappeler::class
+            EventClientDossierRappeler::class,
+            EventCreatePaiementClient::class,
+            EventClientDossierFournisseurBpa::class
         ]);
     }
 

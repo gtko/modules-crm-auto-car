@@ -25,6 +25,7 @@ use Modules\CrmAutoCar\Flow\Works\Files\CguPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisBrand1PdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisBrand2PdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisPdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Files\InformationVoyagePdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\ProformatPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Variables\ProformatVariable;
 
@@ -75,6 +76,7 @@ class EventDevisSendClient extends WorkFlowEvent
             (new CguPdfFiles($this)),
             (new DevisBrand1PdfFiles($this)),
             (new DevisBrand2PdfFiles($this)),
+            (new InformationVoyagePdfFiles($this)),
         ];
     }
 

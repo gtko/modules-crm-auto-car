@@ -24,6 +24,7 @@ use Modules\CrmAutoCar\Flow\Attributes\ClientDevisExterneConsultation;
 use Modules\CrmAutoCar\Flow\Works\Conditions\ConditionDateDepartDevis;
 use Modules\CrmAutoCar\Flow\Works\Files\CguPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisPdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Files\InformationVoyagePdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\ProformatPdfFiles;
 
 class EventClientDevisExterneConsultation extends WorkFlowEvent
@@ -70,6 +71,7 @@ class EventClientDevisExterneConsultation extends WorkFlowEvent
         return [
             (new DevisPdfFiles($this)),
             (new CguPdfFiles($this)),
+            (new InformationVoyagePdfFiles($this)),
         ];
     }
 
