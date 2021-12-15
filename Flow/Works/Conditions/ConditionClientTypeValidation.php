@@ -18,6 +18,7 @@ class ConditionClientTypeValidation extends WorkFlowCondition
     public function getValue()
     {
         $data = $this->event->getData();
+
         return $data['devis']->data['paiement_type_validation'] ?? '';
     }
 

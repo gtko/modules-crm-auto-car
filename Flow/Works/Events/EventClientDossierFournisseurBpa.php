@@ -14,6 +14,7 @@ use Modules\CoreCRM\Flow\Works\Conditions\ConditionCountDevis;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionCountDossier;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionStatus;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionTag;
+use Modules\CrmAutoCar\Flow\Attributes\ClientDossierFournisseurBpa;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDossierPaiementFournisseurSend;
 use Modules\CrmAutoCar\Flow\Works\Conditions\ConditionDateDepartDevis;
 use Modules\CrmAutoCar\Flow\Works\Conditions\ConditionFournisseurBPA;
@@ -74,7 +75,7 @@ class EventClientDossierFournisseurBpa extends \Modules\CoreCRM\Flow\Works\Event
     public function listen(): array
     {
         return [
-          ClientDossierPaiementFournisseurSend::class,
+          ClientDossierFournisseurBpa::class,
         ];
     }
 

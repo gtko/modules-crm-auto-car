@@ -17,6 +17,7 @@ use Modules\CoreCRM\Flow\Works\Variables\ClientVariable;
 use Modules\CoreCRM\Flow\Works\Variables\CommercialVariable;
 use Modules\CoreCRM\Flow\Works\Variables\DeviVariable;
 use Modules\CoreCRM\Flow\Works\Variables\DossierVariable;
+use Modules\CrmAutoCar\Flow\Attributes\CreatePaiementClient;
 use Modules\CrmAutoCar\Flow\Attributes\CreateProformatClient;
 use Modules\CrmAutoCar\Flow\Works\Conditions\ConditionClientTypeValidation;
 use Modules\CrmAutoCar\Flow\Works\Conditions\ConditionDateDepartDevis;
@@ -102,7 +103,7 @@ class EventCreatePaiementClient extends \Modules\CoreCRM\Flow\Works\Events\WorkF
     public function listen(): array
     {
         return [
-            CreateProformatClient::class
+            CreatePaiementClient::class
         ];
     }
 
