@@ -18,8 +18,12 @@ use function Symfony\Component\String\b;
 class Payment extends Model
 {
 
+    protected $fillable = [
+        'invoice_id', 'total', 'data'
+    ];
+
     protected $cats = [
-        'data' => 'array'
+        'data' => 'array',
     ];
 
     public function invoice():BelongsTo

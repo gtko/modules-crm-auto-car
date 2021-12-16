@@ -23,24 +23,6 @@ use Modules\CrmAutoCar\Http\Controllers\VuePlateauController;
 use Modules\CrmAutoCar\View\Components\Cgv;
 use Modules\CrmAutoCar\View\Components\DevisClient\Index;
 
-
-Route::get('/testgreg', function(){
-
-    $data['dossier'] = Dossier::where('id' , '16')->first();
-    $fournisseurs = \Modules\CrmAutoCar\Models\Fournisseur::whereHas('devis' , function($query) use($data){
-        $query->whereHas('dossier', function($query) use($data){
-            $query->where('id', $data['dossier']->id);
-        });
-    })->get();
-
-
-    dd($fournisseurs->count() == $fournisseurs->where('bpa', true)->count());
-
-
-});
-
-Route::any('/webhook/paiement', [PaiementWebhookController::class, 'listen'])->name('webhook-paiement');
-
 Route::middleware(['secure.devis'])->group(function () {
     Route::get('/devis/{devis}/{token}',[Index::class, 'index'])->name('devis-view');
     Route::get('/devis/pdf/{devis}/{token}',[Index::class, 'index'])->name('devis-pdf');

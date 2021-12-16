@@ -23,6 +23,7 @@ use Modules\CrmAutoCar\Contracts\Repositories\ConfigsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\DecaissementRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\DevisAutocarRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\InvoicesRepositoryContract;
+use Modules\CrmAutoCar\Contracts\Repositories\PaymentRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\PlateauRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\ProformatsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\StatistiqueRepositoryContract;
@@ -49,6 +50,7 @@ use Modules\CrmAutoCar\Repositories\ConfigRepository;
 use Modules\CrmAutoCar\Repositories\DecaissementRepository;
 use Modules\CrmAutoCar\Repositories\DevisAutocarRepository;
 use Modules\CrmAutoCar\Repositories\InvoicesRepository;
+use Modules\CrmAutoCar\Repositories\PaymentRepository;
 use Modules\CrmAutoCar\Repositories\PlateauRepository;
 use Modules\CrmAutoCar\Repositories\ProformatsRepository;
 use Modules\CrmAutoCar\Repositories\StatistiqueRepository;
@@ -91,6 +93,8 @@ class CrmAutoCarServiceProvider extends ServiceProvider
 
         $this->app->bind(DevisRepositoryContract::class, DevisAutocarRepository::class);
         $this->app->bind(DevisAutocarRepositoryContract::class, DevisAutocarRepository::class);
+
+        $this->app->bind(PaymentRepositoryContract::class, PaymentRepository::class);
 
         $this->app->bind(Paytweak::class, function(){
             return (new Paytweak(env('PAYTWEAK_PUBLIC', ''), env('PAYTWEAK_PRIVATE', '')));
@@ -200,5 +204,8 @@ class CrmAutoCarServiceProvider extends ServiceProvider
     {
         Route::middleware('web')
             ->group(module_path($this->moduleName, '/Routes/web.php'));
+
+        Route::middleware('api')
+            ->group(module_path($this->moduleName, '/Routes/webhook.php'));
     }
 }
