@@ -18,12 +18,12 @@ class BlockFournisseur extends Component
     public $fournisseur_id;
     public $devi_id;
     public $price = null;
+    public $editPrice = false;
 
 
     protected $listeners = ['update' => '$refresh'];
 
     protected $rules = [
-
         'fournisseur_id' => 'required',
         'devi_id' => 'required',
 
@@ -52,14 +52,9 @@ class BlockFournisseur extends Component
     }
 
     public function savePrice(DevisRepositoryContract $repDevi, FournisseurRepositoryContract $repFournisseur, int $devisId, int $fournisseurId) {
-
-
         if($this->price != null)
         {
-            $devi = $repDevi->fetchById($devisId);
-            $fournisseur = $repFournisseur->fetchById($fournisseurId);
-
-            $repDevi->savePriceFournisseur($devi, $fournisseur, $this->price[$fournisseurId]);
+            $repDevi->savePriceFournisseur($this->devis, $this->fournisseur, $this->price[$fournisseurId]);
         }
     }
 
@@ -94,6 +89,8 @@ class BlockFournisseur extends Component
 
     public function render()
     {
+
+
         return view('crmautocar::livewire.block-fournisseur');
     }
 }

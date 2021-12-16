@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Modules\BaseCore\Contracts\Services\CompositeurThemeContract;
 use Modules\BaseCore\Entities\TypeView;
+use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\PipelineRepositoryContract;
 use Modules\CoreCRM\Contracts\Views\Dossiers\DossierAfterBlockFournisseur;
 use Modules\CoreCRM\Contracts\Views\Dossiers\DossierAfterSidebarContract;
@@ -20,6 +21,7 @@ use Modules\CoreCRM\Repositories\PipelineRepository;
 use Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\ConfigsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\DecaissementRepositoryContract;
+use Modules\CrmAutoCar\Contracts\Repositories\DevisAutocarRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\InvoicesRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\PlateauRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\ProformatsRepositoryContract;
@@ -45,6 +47,7 @@ use Modules\CrmAutoCar\Notifications\DevisSendClientNotification;
 use Modules\CrmAutoCar\Repositories\BrandsRepository;
 use Modules\CrmAutoCar\Repositories\ConfigRepository;
 use Modules\CrmAutoCar\Repositories\DecaissementRepository;
+use Modules\CrmAutoCar\Repositories\DevisAutocarRepository;
 use Modules\CrmAutoCar\Repositories\InvoicesRepository;
 use Modules\CrmAutoCar\Repositories\PlateauRepository;
 use Modules\CrmAutoCar\Repositories\ProformatsRepository;
@@ -85,6 +88,9 @@ class CrmAutoCarServiceProvider extends ServiceProvider
         $this->app->bind(TagsRepositoryContract::class, TagsRepository::class);
         $this->app->bind(PlateauRepositoryContract::class, PlateauRepository::class);
         $this->app->bind(ConfigsRepositoryContract::class, ConfigRepository::class);
+
+        $this->app->bind(DevisRepositoryContract::class, DevisAutocarRepository::class);
+        $this->app->bind(DevisAutocarRepositoryContract::class, DevisAutocarRepository::class);
 
         $this->app->bind(Paytweak::class, function(){
             return (new Paytweak(env('PAYTWEAK_PUBLIC', ''), env('PAYTWEAK_PRIVATE', '')));
