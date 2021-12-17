@@ -21,13 +21,14 @@ class ConditionFournisseurBPA extends WorkFlowConditionBoolean
     public function getValue()
     {
         $data = $this->event->getData();
-        $fournisseurs = Fournisseur::whereHas('devis' , function($query) use($data){
-            $query->whereHas('dossier', function($query) use($data){
-                $query->where('id', $data['dossier']->id);
-            });
-        })->get();
 
-        return $fournisseurs->count() == $fournisseurs->where('bpa', true)->count();
+        $fournisseurs = collect();
+
+        foreach($data['dossier']->devis as $devis){
+            $fournisseurs = $fournisseurs->merge($devis->fournisseurs);
+        }
+
+        return $fournisseurs->count() === $fournisseurs->sum('pivot.bpa');
     }
 
     public function name(): string

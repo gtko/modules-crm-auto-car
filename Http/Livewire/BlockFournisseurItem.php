@@ -48,9 +48,8 @@ class BlockFournisseurItem extends Component
 
     public function bpa(DevisAutocarRepositoryContract $repDevi)
     {
-        if($this->price != null)
-            $repDevi->bpaFournisseur($this->devi, $this->fourni);
-            (new FlowCRM())->add($this->devi->dossier , new ClientDossierFournisseurBpa(Auth::user(), $this->devi, $this->fourni));
+        $repDevi->bpaFournisseur($this->devi, $this->fourni);
+        (new FlowCRM())->add($this->devi->dossier , new ClientDossierFournisseurBpa(Auth::user(), $this->devi, $this->fourni));
 
         $this->emit('update');
     }
@@ -61,6 +60,7 @@ class BlockFournisseurItem extends Component
             $repDevi->savePriceFournisseur($this->devi, $this->fourni, $this->price);
         }
         $this->closePrice();
+        $this->emit('update');
     }
 
     public function validateDemande(DevisRepositoryContract $repDevi)
