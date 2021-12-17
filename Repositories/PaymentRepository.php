@@ -20,7 +20,7 @@ class PaymentRepository extends AbstractRepository implements PaymentRepositoryC
     public function create(Invoice $invoice, Float $total,  array $data): Payment
     {
         return Payment::create([
-            'invoice_id' => $invoice,
+            'invoice_id' => $invoice->id,
             'total' => $total,
             'data' => $data
         ]);

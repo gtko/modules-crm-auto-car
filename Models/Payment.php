@@ -22,7 +22,7 @@ class Payment extends Model
         'invoice_id', 'total', 'data'
     ];
 
-    protected $cats = [
+    protected $casts = [
         'data' => 'array',
     ];
 
