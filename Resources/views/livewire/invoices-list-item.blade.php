@@ -13,11 +13,25 @@
         <td class="text-center">@marge($price->getPriceHT())€</td>
         <td class="text-center">@marge($price->getPriceTVA())€ ({{$price->getTauxTVA()}}%)</td>
         <td class="text-center">@marge($price->getPriceTTC())€</td>
-        <td class="text-center text-red-800">-600€</td>
+        @if($price->remains() > 0)
+            <td class="text-center text-red-800">
+                @marge($price->remains())€
+            </td>
+        @else
+            <td class="text-center text-green-800">
+               0€
+            </td>
+        @endif
         <td class="w-40">
-            <div class="flex items-center justify-center text-red-400">
-                Paiement partiel
-            </div>
+            @if($price->remains() > 0)
+                <div class="flex items-center justify-center text-red-400">
+                    Paiement partiel
+                </div>
+            @else
+                <div class="flex items-center justify-center text-green-400">
+                    Paiement validé
+                </div>
+            @endif
         </td>
         <td class="table-report__action w-56">
             <div class="flex justify-center items-center">

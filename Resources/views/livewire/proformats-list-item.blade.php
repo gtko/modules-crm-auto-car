@@ -50,10 +50,15 @@
     <td class="text-center">
         {{$proformat->devis->date_retour}}
     </td>
-    <td class="text-center text-red-800">-600€</td>
+    <td class="text-center text-red-800">
+        @marge($price->getRestant())€
+    </td>
 
     <td class="table-report__action w-56">
         <div class="flex justify-center items-center">
+            <a class="flex items-center mr-3 cursor-pointer" target="_blank" href="{{route('dossiers.show', [$proformat->devis->dossier->client, $proformat->devis->dossier])}}">
+                @icon('edit', null, 'mr-2')
+            </a>
             <a class="flex items-center mr-3 cursor-pointer" target="_blank" href="{{route('proformats.show', $proformat->id)}}">
                 @icon('show', null, 'mr-2')
             </a>

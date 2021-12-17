@@ -26,6 +26,8 @@ class ProformatsListItem extends Component
     {
         $brand = app(BrandsRepository::class)->fetchById(config('crmautocar.brand_default'));
 
+
+
         return view('crmautocar::livewire.proformats-list-item', [
             'price' => new ProformatPrice($this->proformat, $brand)
         ]);

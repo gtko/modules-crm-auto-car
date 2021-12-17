@@ -30,7 +30,13 @@ class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
     }
 
     public function getTotalPayment(){
-        return 0; //@todo implementer le total paiement
+        $devis = $this->proformat->devis;
+
+        if($devis->invoice){
+            return (new InvoicePrice($devis->invoice, $this->brand))->paid();
+        }
+
+        return 0;
     }
 
     public function getRestant(){
