@@ -35,12 +35,6 @@ class Invoice extends Model
         return $this->belongsTo(app(DevisEntities::class)::class, 'devis_id', 'id');
     }
 
-    public function payments():HasMany
-    {
-        return $this->hasMany(Payment::class);
-    }
-
-
     public function getPrice():InvoicePrice
     {
         $brand = app(BrandsRepository::class)->fetchById(config('crmautocar.brand_default'));

@@ -10,7 +10,7 @@ class CreatePaymentsTable extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('invoice_id')->index();
+            $table->unsignedBigInteger('proformat_id')->index();
             $table->float('total')->default(0);
             $table->json('data')->nullable();
             $table->timestamps();

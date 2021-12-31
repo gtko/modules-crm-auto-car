@@ -65,12 +65,11 @@ class EventCreatePaiementClient extends \Modules\CoreCRM\Flow\Works\Events\WorkF
     {
         return [
             'payment' => $flowAttribute->getPayment(),
-            'invoice' => $flowAttribute->getPayment()->invoice,
-            'devis' => $flowAttribute->getPayment()->invoice->devis,
-            'dossier' =>  $flowAttribute->getPayment()->invoice->devis->dossier,
-            'commercial' => $flowAttribute->getPayment()->invoice->devis->commercial,
-            'client' => $flowAttribute->getPayment()->invoice->devis->dossier->client,
-            'proformat' => $flowAttribute->getPayment()->invoice->devis->proformat,
+            'devis' => $flowAttribute->getPayment()->proformat->devis,
+            'dossier' =>  $flowAttribute->getPayment()->proformat->devis->dossier,
+            'commercial' => $flowAttribute->getPayment()->proformat->devis->commercial,
+            'client' => $flowAttribute->getPayment()->proformat->devis->dossier->client,
+            'proformat' => $flowAttribute->getPayment()->proformat,
         ];
     }
 

@@ -9,6 +9,7 @@ use Modules\CoreCRM\Models\Dossier;
 use Modules\CrmAutoCar\Actions\CreateInvoice;
 use Modules\CrmAutoCar\Contracts\Repositories\InvoicesRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\PaymentRepositoryContract;
+use Modules\CrmAutoCar\Contracts\Repositories\ProformatsRepositoryContract;
 use Modules\CrmAutoCar\Flow\Attributes\CreatePaiementClient;
 
 class DossierPayment extends Component
@@ -16,13 +17,13 @@ class DossierPayment extends Component
     public $dossier;
     public $client;
 
-    public $paiement_invoice = null;
+    public $paiement_proformat = null;
     public $paiement_total = 0;
     public $paiement_type = '';
 
 
     protected $rules = [
-        'paiement_invoice' => 'required',
+        'paiement_proformat' => 'required',
         'paiement_total' => 'required',
         'paiement_type' => 'required',
     ];
@@ -33,12 +34,12 @@ class DossierPayment extends Component
     }
 
 
-    public function addPaiment(PaymentRepositoryContract $paymentRep, InvoicesRepositoryContract $invoiceRep){
+    public function addPaiment(PaymentRepositoryContract $paymentRep, ProformatsRepositoryContract $proformatRep){
 
         $this->validate();
 
-        $invoice = $invoiceRep->fetchById($this->paiement_invoice);
-        $payment = $paymentRep->create($invoice, $this->paiement_total, [
+        $proformat = $proformatRep->fetchById($this->paiement_proformat);
+        $payment = $paymentRep->create($proformat, $this->paiement_total, [
             'type' => $this->paiement_type
         ]);
 
@@ -46,7 +47,7 @@ class DossierPayment extends Component
 
         session()->flash('success', 'Paiement ajouté');
 
-        $this->paiement_invoice = null;
+        $this->paiement_proformat = null;
         $this->paiement_total = 0;
         $this->paiement_type = '';
 
@@ -54,11 +55,11 @@ class DossierPayment extends Component
 
     }
 
-    public function render(InvoicesRepositoryContract $invoiceRep, PaymentRepositoryContract $paymentRep)
+    public function render(ProformatsRepositoryContract $proformatRep, PaymentRepositoryContract $paymentRep)
     {
-        $invoices = $invoiceRep->newQuery()->whereIn('devis_id', $this->dossier->devis->pluck('id'))->paginate(25);
-        $payments = $paymentRep->newQuery()->whereIn('invoice_id', $invoices->pluck('id'))->paginate(25);
+        $proformats = $proformatRep->newQuery()->whereIn('devis_id', $this->dossier->devis->pluck('id'))->paginate(25);
+        $payments = $paymentRep->newQuery()->whereIn('proformat_id', $proformats->pluck('id'))->paginate(25);
 
-        return view('crmautocar::livewire.dossier-payment', compact('payments', 'invoices'));
+        return view('crmautocar::livewire.dossier-payment', compact('payments', 'proformats'));
     }
 }

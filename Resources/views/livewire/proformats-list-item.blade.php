@@ -51,7 +51,7 @@
         {{$proformat->devis->date_retour}}
     </td>
     <td class="text-center text-red-800">
-        @marge($price->getRestant())€
+        @marge($price->remains())€
     </td>
 
     <td class="table-report__action w-56">

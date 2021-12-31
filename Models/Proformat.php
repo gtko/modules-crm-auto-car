@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\CoreCRM\Contracts\Entities\DevisEntities;
+use Modules\CrmAutoCar\Entities\ProformatPrice;
+use Modules\CrmAutoCar\Repositories\BrandsRepository;
 
 /**
  * @property int $id
@@ -36,5 +38,10 @@ class Proformat extends Model
         return $this->hasMany(Payment::class);
     }
 
+    public function getPriceAttribute():ProformatPrice
+    {
+        $brand = app(BrandsRepository::class)->fetchById(config('crmautocar.brand_default'));
+        return (new ProformatPrice($this, $brand));
+    }
 
 }

@@ -8,27 +8,27 @@ use function Symfony\Component\String\b;
 
 /**
  * @property int $id
- * @property int $invoice_id
+ * @property int $proformat_id
  * @property array $data
  * @property float $total
  * @property \Illuminate\Support\Carbon $created_at
  * @property \Illuminate\Support\Carbon $updated_at
- * @property \Modules\CrmAutoCar\Models\Invoice $invoice
+ * @property \Modules\CrmAutoCar\Models\Proformat $proformat
  */
 class Payment extends Model
 {
 
     protected $fillable = [
-        'invoice_id', 'total', 'data'
+        'proformat_id', 'total', 'data'
     ];
 
     protected $casts = [
         'data' => 'array',
     ];
 
-    public function invoice():BelongsTo
+    public function proformat():BelongsTo
     {
-        return $this->belongsTo(Invoice::class);
+        return $this->belongsTo(Proformat::class);
     }
 
 }

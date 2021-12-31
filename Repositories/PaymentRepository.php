@@ -8,6 +8,7 @@ use Modules\BaseCore\Repositories\AbstractRepository;
 use Modules\CrmAutoCar\Contracts\Repositories\PaymentRepositoryContract;
 use Modules\CrmAutoCar\Models\Invoice;
 use Modules\CrmAutoCar\Models\Payment;
+use Modules\CrmAutoCar\Models\Proformat;
 
 class PaymentRepository extends AbstractRepository implements PaymentRepositoryContract
 {
@@ -17,10 +18,10 @@ class PaymentRepository extends AbstractRepository implements PaymentRepositoryC
         return new Payment();
     }
 
-    public function create(Invoice $invoice, Float $total,  array $data): Payment
+    public function create(Proformat $proformat, Float $total,  array $data): Payment
     {
         return Payment::create([
-            'invoice_id' => $invoice->id,
+            'proformat_id' => $proformat->id,
             'total' => $total,
             'data' => $data
         ]);

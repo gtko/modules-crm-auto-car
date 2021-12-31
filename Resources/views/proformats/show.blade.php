@@ -129,11 +129,11 @@
                                             </tr>
                                             <tr>
                                                 <td colspan="3" class="text-end">Déjà Réglé</td>
-                                                <td class="text-right text-nowrap">@marge($price->getTotalPayment())€</td>
+                                                <td class="text-right text-nowrap">@marge($price->paid())€</td>
                                             </tr>
                                             <tr>
                                                 <td colspan="3" class="text-end">Reste à Régler</td>
-                                                <td class="text-right text-nowrap">@marge($price->getRestant())€</td>
+                                                <td class="text-right text-nowrap">@marge($price->remains())€</td>
                                             </tr>
                                             </tbody>
                                         </table>

@@ -45,7 +45,7 @@ class CreateAvoir extends Component
     {
         return view('crmautocar::livewire.create-avoir', [
             'total' => $this->invoice->total,
-            'avoirs' => $this->invoice->avoirs
+            'avoirs' => $this->invoice->avoirs ?? []
         ]);
     }
 }

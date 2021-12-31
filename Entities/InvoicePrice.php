@@ -18,7 +18,7 @@ class InvoicePrice extends \Modules\DevisAutoCar\Entities\DevisPrice
 
 
     public function paid(){
-        return  $this->invoice->payments->sum('total');
+        return  $this->invoice->devis->proformat->payments->sum('total') ?? 0;
     }
 
     public function remains(){

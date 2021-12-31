@@ -1,6 +1,6 @@
 <div>
 
-    @if($invoices->count() === 0)
+    @if($proformats->count() === 0)
         <div class="text-center p-8">
             @icon('empty', null, 'mx-auto h-12 w-12 text-gray-400')
             <h3 class="mt-2 text-sm font-medium text-gray-900">Aucune facture</h3>
@@ -11,10 +11,10 @@
     @else
     <div class="flex justify-end items-center space-x-1 mt-4">
 
-        <select wire:model="paiement_invoice">
-            <option>Choisir une facture</option>
-            @foreach($invoices as $invoice)
-                <option value="{{$invoice->id}}">Facture {{$invoice->number}}</option>
+        <select wire:model="paiement_proformat">
+            <option>Choisir une proformat</option>
+            @foreach($proformats as $proformat)
+                <option value="{{$proformat->id}}">Facture proformat{{$proformat->number}}</option>
             @endforeach
         </select>
 
@@ -55,7 +55,7 @@
                             {{$payment->id}}
                         </td>
                         <td class="border-b dark:border-dark-5">
-                            {{$payment->invoice->number}}
+                            {{$payment->proformat->number}}
                         </td>
                         <td class="border-b dark:border-dark-5">
                             {{$payment->created_at->format('d/m/Y H:i')}}

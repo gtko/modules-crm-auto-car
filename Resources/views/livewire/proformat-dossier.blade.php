@@ -14,8 +14,10 @@
                     <th class="whitespace-nowrap">#</th>
                     <th class="whitespace-nowrap">Commercial</th>
                     <th class="whitespace-nowrap">Date</th>
-                    <th class="whitespace-nowrap">devis</th>
-                    <th class="whitespace-nowrap">total</th>
+                    <th class="whitespace-nowrap">Devis</th>
+                    <th class="whitespace-nowrap">Total</th>
+                    <th class="whitespace-nowrap">Payé</th>
+                    <th class="whitespace-nowrap">Reste</th>
                     <th class="whitespace-nowrap">Actions</th>
                 </tr>
                 </thead>
@@ -36,6 +38,12 @@
                         </td>
                         <td class="border-b dark:border-dark-5">
                             {{ $proformat->devis->getTotal()}}€
+                        </td>
+                        <td class="border-b dark:border-dark-5">
+                            {{ $proformat->price->paid()}}€
+                        </td>
+                        <td class="border-b dark:border-dark-5">
+                            {{ $proformat->price->remains()}}€
                         </td>
                         <td class="border-b dark:border-dark-5">
                             <div class="flex justify-center items-center">
