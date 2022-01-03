@@ -18,6 +18,10 @@ class DossierValidation extends Component
 
     public function render()
     {
-        return view('crmautocar::livewire.dossier-validation');
+        $devis = $this->dossier->devis->filter(function($item){
+           return $item['data']['validate'] ?? false;
+        });
+
+        return view('crmautocar::livewire.dossier-validation', compact('devis'));
     }
 }

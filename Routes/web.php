@@ -1,10 +1,8 @@
 <?php
 
 
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
-use Modules\CoreCRM\Models\Dossier;
-use Modules\CoreCRM\Models\Fournisseur;
+use Modules\BaseCore\Actions\Url\SigneRoute;
 use Modules\CrmAutoCar\Http\Controllers\BrandController;
 use Modules\CrmAutoCar\Http\Controllers\CentralAutoCarDevisController;
 use Modules\CrmAutoCar\Http\Controllers\CuveController;
@@ -12,25 +10,35 @@ use Modules\CrmAutoCar\Http\Controllers\InfomationVogageController;
 use Modules\CrmAutoCar\Http\Controllers\InvoicesController;
 
 use Modules\CrmAutoCar\Http\Controllers\MonAutoCarController;
-use Modules\CrmAutoCar\Http\Controllers\PaiementWebhookController;
 use Modules\CrmAutoCar\Http\Controllers\PlateauListUserByStatusController;
 use Modules\CrmAutoCar\Http\Controllers\ProformatsController;
 use Modules\CrmAutoCar\Http\Controllers\StatistiqueController;
 use Modules\CrmAutoCar\Http\Controllers\StatistiqueFournisseurController;
 use Modules\CrmAutoCar\Http\Controllers\TagController;
 use Modules\CrmAutoCar\Http\Controllers\TemplateController;
+use Modules\CrmAutoCar\Http\Controllers\ValidationInformationVoyageController;
 use Modules\CrmAutoCar\Http\Controllers\VuePlateauController;
 use Modules\CrmAutoCar\View\Components\Cgv;
 use Modules\CrmAutoCar\View\Components\DevisClient\Index;
+
+
+//Route::get('/testurl', function(){
+//    $route = (new SigneRoute())->signer('validation-voyage', 66);
+//});
 
 Route::middleware(['secure.devis'])->group(function () {
     Route::get('/devis/{devis}/{token}',[Index::class, 'index'])->name('devis-view');
     Route::get('/devis/pdf/{devis}/{token}',[Index::class, 'index'])->name('devis-pdf');
 });
 
+Route::middleware(['secure.signate'])->group(function(){
+    Route::get('/voyage/{devis}', [ValidationInformationVoyageController::class, 'index'])->name('validation-voyage');
+});
+
 Route::get('/brand1/devis/{devis}', [CentralAutoCarDevisController::class, 'index'])->name('brand1');
 Route::get('/brand2/devis/{devis}', [MonAutoCarController::class, 'index'])->name('brand2');
 Route::get('/information-voyage/{devis}', [InfomationVogageController::class, 'index'])->name('info-voyage');
+
 //Route::get('/mon-autocar/devis/{devis}', [MonAutoCarDevisController::class, 'index'])->name('mon-auto-car-devis');
 
 Route::get('proformats/{proformat}', [ProformatsController::class, 'show'])->name('proformats.show');
