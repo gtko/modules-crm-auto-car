@@ -45,7 +45,6 @@
             </dd>
         </div>
 
-
         <div class="px-4 py-5 sm:p-6">
             <dt class="text-base font-normal text-gray-900">
                 Taux conversion leads / contrats
@@ -56,7 +55,6 @@
                 </div>
             </dd>
         </div>
-
         <div class="px-4 py-5 sm:p-6">
             <dt class="text-base font-normal text-gray-900">
                 Marge TTC

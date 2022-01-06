@@ -47,12 +47,12 @@ class ValidationInformationVoyage extends Component
         }else{
             foreach($this->devis->data['trajets'] ?? [] as $idTrajet => $trajet)
             $this->validate[$idTrajet] = [
-                'aller_date_depart' => $trajet['aller_date_depart'],
-                'aller_pax' => $trajet['aller_pax'],
-                'addresse_ramassage' => $trajet["addresse_ramassage"],
-                'retour_date_depart' => $trajet["retour_date_depart"],
-                'retour_pax' => $trajet["retour_pax"],
-                'addresse_destination' => $trajet["addresse_destination"],
+                'aller_date_depart' => $trajet['aller_date_depart'] ?? '',
+                'aller_pax' => $trajet['aller_pax'] ?? '',
+                'addresse_ramassage' => $trajet["addresse_ramassage"] ?? '',
+                'retour_date_depart' => $trajet["retour_date_depart"] ?? '',
+                'retour_pax' => $trajet["retour_pax"] ?? '',
+                'addresse_destination' => $trajet["addresse_destination"] ?? '',
                 'contact_nom' => '',
                 'contact_prenom' => '',
                 'tel_1' => '',
