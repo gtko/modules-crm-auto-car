@@ -4,6 +4,7 @@
             name="popup-validation-devis"
             :type="Modules\BaseCore\Entities\TypeView::TYPE_LIVEWIRE"
             path='crmautocar::form-validation-devis'
+
         />
 
     @endpush

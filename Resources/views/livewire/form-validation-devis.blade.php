@@ -1,7 +1,7 @@
 <div class="p-4" style="z-index: 900000;">
     <div class="text-bleu font-bold text-3xl my-2 text-center w-full">Validation devis</div>
     <hr class="text-bleu mb-3">
-    <div class="grid grid-cols-2 gap-2">
+    <div class="grid grid-cols-2 gap-4">
         <div class="col-start-1">
             @foreach($this->initiale as $index => $trajetValidate)
                 <div class="text-bleu my-2 font-bold text-xl mt-4">devis initiale {{$index + 1}}</div>
