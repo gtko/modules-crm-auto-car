@@ -10,6 +10,7 @@ class FormValidationDevis extends Component
     public $devis;
     public $validate;
     public $initiale;
+    public $delta;
     public $data;
 
     public function mount($devi_id)
@@ -46,14 +47,24 @@ class FormValidationDevis extends Component
                     'retour_date_depart' => $trajetInit["retour_date_depart"] ?? '',
                     'retour_pax' => $trajetInit["retour_pax"] ?? '',
                     'addresse_destination' => $trajetInit["addresse_destination"] ?? '',
-                    'contact_nom' => $trajetValid["contact_nom"] ?? '',
-                    'contact_prenom' => $trajetValid["contact_prenom"] ?? '',
-                    'tel_1' => $trajetValid["tel_1"] ?? '',
-                    'tel_2' => $trajetValid["tel_2"] ?? '',
-                    'information_complementaire' => $trajetValid["information_complementaire"] ?? ''
+                    'contact_nom' => $this->validate[$id]["contact_nom"] ?? '',
+                    'contact_prenom' => $this->validate[$id]["contact_prenom"] ?? '',
+                    'tel_1' => $this->validate[$id]["tel_1"] ?? '',
+                    'tel_2' => $this->validate[$id]["tel_2"] ?? '',
+                    'information_complementaire' => $this->validate[$id]["information_complementaire"] ?? ''
                 ];
             }
-             $this->data = collect([$this->validate, $this->initiale]);
+
+
+            $this->delta = [];
+            foreach ($this->devis->data['trajets'] ?? [] as $id => $trajetValid) {
+                $this->delta [$id] = [];
+               foreach( $this->validate[$id] as $key => $value){
+                   $this->delta[$id][$key] = $this->validate[$id][$key] === $this->initiale[$id][$key];
+               }
+            }
+
+            $this->data = collect([$this->validate, $this->initiale]);
 
         }
     }

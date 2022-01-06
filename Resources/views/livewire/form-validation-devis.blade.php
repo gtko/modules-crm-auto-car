@@ -1,7 +1,7 @@
 <div class="p-4" style="z-index: 900000;">
     <div class="text-bleu font-bold text-3xl my-2 text-center w-full">Validation devis</div>
     <hr class="text-bleu mb-3">
-    <div class="grid grid-cols-2 gap-4">
+    <div class="grid grid-cols-2 gap-8">
         <div class="col-start-1">
             @foreach($this->initiale as $index => $trajetValidate)
                 <div class="text-bleu my-2 font-bold text-xl mt-4">devis initiale {{$index + 1}}</div>
@@ -101,78 +101,79 @@
             @foreach($this->validate as $index => $trajetValidate)
                 <div class="text-bleu my-2 font-bold text-xl mt-4">Modification devis {{$index + 1}}</div>
                 <x-basecore::inputs.datetime
-                    class="form-control-sm"
+                    :class="'form-control-sm '.((!$delta[$index]['aller_date_depart'])?'bg-red-200':'')"
                     label="Date de départ"
                     name="validate.{{$index}}.aller_date_depart"
                     wire:model.defer="validate.{{$index}}.aller_date_depart"
                     placeholder="Date de départ"
                 />
                 <x-basecore::inputs.number
-                    class="form-control-sm"
+                    :class="'form-control-sm '.((!$delta[$index]['aller_pax'])?'bg-red-200':'')"
                     label="Nombre de passager départ"
                     name="validate.{{$index}}.aller_pax"
                     wire:model="validate.{{$index}}.aller_pax"
                     placeholder="Nombre de passager départ"
                 />
                 <x-basecore::inputs.text
-                    class="form-control-sm"
+                    :class="'form-control-sm '.((!$delta[$index]['addresse_ramassage'])?'bg-red-200':'')"
                     label="Adresse de prise en charge"
                     name="validate.{{$index}}.addresse_ramassage"
                     wire:model="validate.{{$index}}.addresse_ramassage"
                     placeholder="Adresse de prise en charge"
                 />
                 <x-basecore::inputs.datetime
-                    class="form-control-sm"
+                    :class="'form-control-sm '.((!$delta[$index]['retour_date_depart'])?'bg-red-200':'')"
                     label="Date de retour"
-                    name="validate.{{$index}}.aller_date_depart"
-                    wire:model.defer="validate.{{$index}}.aller_date_depart"
+                    name="validate.{{$index}}.retour_date_depart"
+                    wire:model.defer="validate.{{$index}}.retour_date_depart"
                     placeholder="Date de retour"
                 />
                 <x-basecore::inputs.number
-                    class="form-control-sm"
+                    :class="'form-control-sm '.((!$delta[$index]['retour_pax'])?'bg-red-200':'')"
                     label="Nombre de passager retour"
                     name="validate.{{$index}}.retour_pax"
-                    wire:model="validate.{{$index}}.aller_pax"
+                    wire:model="validate.{{$index}}.retour_pax"
                     placeholder="Nombre de passager retour"
                 />
                 <x-basecore::inputs.text
-                    class="form-control-sm"
+                    class="form-control-sm @if(!$delta[$index]['addresse_ramassage']) bg-red-200 @endif"
                     label="Adresse de ramassage"
                     name="validate.{{$index}}.addresse_ramassage"
-                    wire:model="validate.{{$index}}.addresse_destination"
+                    wire:model="validate.{{$index}}.addresse_ramassage"
                     placeholder="Adresse de ramassage"
                 />
 
                 <x-basecore::inputs.text
-                    class="form-control-sm"
+                    :class="'form-control-sm '.((!$delta[$index]['contact_nom'])?'bg-red-200':'')"
                     label="Nom"
                     name="validate.{{$index}}.contact_nom"
                     wire:model="validate.{{$index}}.contact_nom"
                     placeholder="Nom du contact"
                 />
                 <x-basecore::inputs.text
-                    class="form-control-sm"
+                    :class="'form-control-sm '.((!$delta[$index]['contact_prenom'])?'bg-red-200':'')"
                     label="Prenom du contact"
                     name="validate.{{$index}}.contact_prenom"
                     wire:model="validate.{{$index}}.contact_prenom"
                     placeholder="Prenom du contact"
                 />
                 <x-basecore::inputs.text
-                    class="form-control-sm"
+                    :class="'form-control-sm '.((!$delta[$index]['tel_1'])?'bg-red-200':'')"
                     label="Nom du contact"
                     name="validate.{{$index}}.tel_1"
                     wire:model="validate.{{$index}}.tel_1"
                     placeholder="Tel 1 du contact"
                 />
                 <x-basecore::inputs.text
-                    class="form-control-sm"
+                    :class="'form-control-sm '.((!$delta[$index]['tel_2'])?'bg-red-200':'')"
                     label="Adresse de ramassage"
                     name="validate.{{$index}}.tel_2"
                     wire:model="validate.{{$index}}.tel_2"
                     placeholder="Tel 2 du contact"
                 />
                 <x-basecore::inputs.textarea
-                    class='h-16' label="détails"
+                    :class="'h-16 '.((!$delta[$index]['information_complementaire'])?'bg-red-200':'')"
+                    label="détails"
                     name="validate.{{$index}}.information_complementaire"
                     wire:model="validate.{{$index}}.information_complementaire"
                     placeholder="Information complémentaire"
