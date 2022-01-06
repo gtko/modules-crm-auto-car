@@ -136,10 +136,10 @@
                     placeholder="Nombre de passager retour"
                 />
                 <x-basecore::inputs.text
-                    class="form-control-sm @if(!$delta[$index]['addresse_ramassage']) bg-red-200 @endif"
+                    :class="'form-control-sm '.((!$delta[$index]['addresse_destination'])?'bg-red-200':'')"
                     label="Adresse de ramassage"
-                    name="validate.{{$index}}.addresse_ramassage"
-                    wire:model="validate.{{$index}}.addresse_ramassage"
+                    name="validate.{{$index}}.addresse_destination"
+                    wire:model="validate.{{$index}}.addresse_destination"
                     placeholder="Adresse de ramassage"
                 />
 
