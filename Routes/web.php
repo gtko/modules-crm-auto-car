@@ -22,9 +22,10 @@ use Modules\CrmAutoCar\View\Components\Cgv;
 use Modules\CrmAutoCar\View\Components\DevisClient\Index;
 
 
-//Route::get('/testurl', function(){
-//    $route = (new SigneRoute())->signer('validation-voyage', 66);
-//});
+Route::get('/testurl', function(){
+    $route = (new SigneRoute())->signer('validation-voyage', 62);
+    dd($route);
+});
 
 Route::middleware(['secure.devis'])->group(function () {
     Route::get('/devis/{devis}/{token}',[Index::class, 'index'])->name('devis-view');
