@@ -3,6 +3,7 @@
 namespace Modules\CrmAutoCar\Http\Livewire;
 
 use Livewire\Component;
+use Modules\BaseCore\Actions\Url\SigneRoute;
 use Modules\CoreCRM\Contracts\Entities\DevisEntities;
 use Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract;
 
@@ -85,7 +86,7 @@ class ValidationInformationVoyage extends Component
 
         session()->flash('success', 'Vos informations voyage ont été prise en compte, merci.');
 
-        return $this->redirect(route('validation-voyage', $this->devis));
+        return $this->redirect((new SigneRoute())->signer('validation-voyage', $this->devis));
     }
 
     public function updateAddress($params){
