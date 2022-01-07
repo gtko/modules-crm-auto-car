@@ -2,8 +2,13 @@
 
 namespace Modules\CrmAutoCar\Http\Livewire;
 
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
+use Modules\CoreCRM\Flow\Attributes\ClientDossierNoteCreate;
+use Modules\CoreCRM\Services\FlowCRM;
+use Modules\CrmAutoCar\Flow\Attributes\ClientDossierDevisValidation;
 
 class FormValidationDevis extends Component
 {
@@ -47,11 +52,11 @@ class FormValidationDevis extends Component
                     'retour_date_depart' => $trajetInit["retour_date_depart"] ?? '',
                     'retour_pax' => $trajetInit["retour_pax"] ?? '',
                     'addresse_destination' => $trajetInit["addresse_destination"] ?? '',
-                    'contact_nom' => $this->validate[$id]["contact_nom"] ?? '',
-                    'contact_prenom' => $this->validate[$id]["contact_prenom"] ?? '',
-                    'tel_1' => $this->validate[$id]["tel_1"] ?? '',
-                    'tel_2' => $this->validate[$id]["tel_2"] ?? '',
-                    'information_complementaire' => $this->validate[$id]["information_complementaire"] ?? ''
+                    'contact_nom' => $trajetInit["contact_nom"] ?? '',
+                    'contact_prenom' => $trajetInit["contact_prenom"] ?? '',
+                    'tel_1' => $trajetInit["tel_1"] ?? '',
+                    'tel_2' => $trajetInit["tel_2"] ?? '',
+                    'information_complementaire' => $trajetInit["information_complementaire"] ?? ''
                 ];
             }
 
@@ -59,14 +64,52 @@ class FormValidationDevis extends Component
             $this->delta = [];
             foreach ($this->devis->data['trajets'] ?? [] as $id => $trajetValid) {
                 $this->delta [$id] = [];
-               foreach( $this->validate[$id] as $key => $value){
-                   $this->delta[$id][$key] = $this->validate[$id][$key] === $this->initiale[$id][$key];
-               }
+                foreach ($this->validate[$id] as $key => $value) {
+                    $this->delta[$id][$key] = $this->validate[$id][$key] === $this->initiale[$id][$key];
+                }
             }
 
             $this->data = collect([$this->validate, $this->initiale]);
 
         }
+    }
+
+    public function close()
+    {
+        $this->emit('popup-validation-devis:close');
+    }
+
+    public function valider()
+    {
+        $data = $this->devis->data;
+        $keys = ['trajets', 'validate' ];
+
+        foreach ($data['trajets'] as $id =>  $trajet)
+        {
+            foreach ($keys as $key)
+            {
+                Arr::set($data, "$key.$id.aller_date_depart", $this->validate[$id]['aller_date_depart']);
+                Arr::set($data, "$key.$id.aller_pax", $this->validate[$id]['aller_pax']);
+                Arr::set($data, "$key.$id.addresse_ramassage", $this->validate[$id]['addresse_ramassage']);
+                Arr::set($data, "$key.$id.retour_date_depart", $this->validate[$id]['retour_date_depart']);
+                Arr::set($data, "$key.$id.retour_pax", $this->validate[$id]['retour_pax']);
+                Arr::set($data, "$key.$id.addresse_destination", $this->validate[$id]['addresse_destination']);
+                Arr::set($data, "$key.$id.contact_nom", $this->validate[$id]['contact_nom']);
+                Arr::set($data, "$key.$id.contact_prenom", $this->validate[$id]['contact_prenom']);
+                Arr::set($data, "$key.$id.tel_1", $this->validate[$id]['tel_1']);
+                Arr::set($data, "$key.$id.tel_2", $this->validate[$id]['tel_2']);
+                Arr::set($data, "$key.$id.information_complementaire", $this->validate[$id]['information_complementaire']);
+            }
+        }
+        Arr::set($data, "validated", true);
+
+        app(DevisRepositoryContract::class)->updateData($this->devis, $data);
+        $this->emit('popup-validation-devis:close');
+        $this->emit('refreshStatusDevis');
+
+        (new FlowCRM())->add($this->devis->dossier,new ClientDossierDevisValidation(Auth::user(), $this->devis));
+
+        session()->flash('success', 'Votre devis a été validé');
     }
 
     public function render()

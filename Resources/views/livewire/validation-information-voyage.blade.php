@@ -83,11 +83,20 @@ En cas de prise en charge ou d'arrivée au sein d'un aéroport ou d'une gare, no
                         </div>
                     </div>
                     @endforeach
-                        <div class="w-full flex justify-center items-center my-5">
-                            <button class="btn btn-primary" wire:click="store">
-                                Enregistrer mes informations
-                            </button>
-                        </div>
+                        @if($devis->data['validated'] ?? false)
+                            <div class="w-full flex justify-center items-center my-5">
+                                <span class="bg-green-600 text-white py-2 px-3 shadow rounded">
+                                    Information enregistrée
+                                </span>
+                            </div>
+                        @else
+                            <div class="w-full flex justify-center items-center my-5">
+                                <button class="btn btn-primary" wire:click="store">
+                                    Enregistrer mes informations
+                                </button>
+                            </div>
+                        @endif
+
 
                 </div>
                 <div class="col-span-1 flex flex-col no-print">

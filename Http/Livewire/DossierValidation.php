@@ -12,6 +12,10 @@ class DossierValidation extends Component
     public $client;
     public $devis;
 
+    protected $listeners =
+        [
+          'refreshStatusDevis' => '$refresh'
+        ];
 
 
     public function mount(ClientEntity $client, Dossier $dossier){

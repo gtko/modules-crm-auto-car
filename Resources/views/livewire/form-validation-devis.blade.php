@@ -41,7 +41,7 @@
                     class="form-control-sm"
                     label="Nombre de passager retour"
                     name="initiale.{{$index}}.retour_pax"
-                    wire:model="initiale.{{$index}}.aller_pax"
+                    wire:model="initiale.{{$index}}.retour_pax"
                     placeholder="Nombre de passager retour"
                     disabled
                 />
@@ -49,7 +49,7 @@
                     class="form-control-sm"
                     label="Adresse de ramassage"
                     name="initiale.{{$index}}.addresse_ramassage"
-                    wire:model="initiale.{{$index}}.addresse_destination"
+                    wire:model="initiale.{{$index}}.addresse_ramassage"
                     placeholder="Adresse de ramassage"
                     disabled
                 />
@@ -183,8 +183,10 @@
         </div>
     </div>
 
-    <div class="my-4 w-full flex flex-row justify-center">
-        <x-basecore::button name="Valider" class="bg-green-600 border-2 border-green-700">Valider les infos
+    <div class="my-4 w-full flex flex-row justify-center space-x-6">
+        <x-basecore::button name="Annuler" class="bg-red-600 border-2 border-red-700" wire:click="close()">Annuler
+        </x-basecore::button>
+        <x-basecore::button name="Valider" class="bg-green-600 border-2 border-green-700" wire:click="valider()">Valider les infos
         </x-basecore::button>
     </div>
 
