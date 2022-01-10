@@ -8,6 +8,7 @@ use Illuminate\Support\ServiceProvider;
 use Modules\BaseCore\Contracts\Services\CompositeurThemeContract;
 use Modules\BaseCore\Entities\TypeView;
 use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
+use Modules\CoreCRM\Contracts\Repositories\DossierRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\PipelineRepositoryContract;
 use Modules\CoreCRM\Contracts\Views\Dossiers\DossierAfterBlockFournisseur;
 use Modules\CoreCRM\Contracts\Views\Dossiers\DossierAfterSidebarContract;
@@ -52,6 +53,7 @@ use Modules\CrmAutoCar\Repositories\BrandsRepository;
 use Modules\CrmAutoCar\Repositories\ConfigRepository;
 use Modules\CrmAutoCar\Repositories\DecaissementRepository;
 use Modules\CrmAutoCar\Repositories\DevisAutocarRepository;
+use Modules\CrmAutoCar\Repositories\DossierAutoCarRepository;
 use Modules\CrmAutoCar\Repositories\InvoicesRepository;
 use Modules\CrmAutoCar\Repositories\PaymentRepository;
 use Modules\CrmAutoCar\Repositories\PlateauRepository;
@@ -100,6 +102,7 @@ class CrmAutoCarServiceProvider extends ServiceProvider
         $this->app->bind(DevisAutocarRepositoryContract::class, DevisAutocarRepository::class);
 
         $this->app->bind(PaymentRepositoryContract::class, PaymentRepository::class);
+        $this->app->bind(DossierRepositoryContract::class, DossierAutoCarRepository::class);
 
         $this->app->bind(Paytweak::class, function(){
             return (new Paytweak(env('PAYTWEAK_PUBLIC', ''), env('PAYTWEAK_PRIVATE', '')));

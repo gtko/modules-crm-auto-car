@@ -6,6 +6,7 @@ use Modules\BaseCore\Actions\Url\SigneRoute;
 use Modules\CrmAutoCar\Http\Controllers\BrandController;
 use Modules\CrmAutoCar\Http\Controllers\CentralAutoCarDevisController;
 use Modules\CrmAutoCar\Http\Controllers\CuveController;
+use Modules\CrmAutoCar\Http\Controllers\DossierController;
 use Modules\CrmAutoCar\Http\Controllers\InfomationVogageController;
 use Modules\CrmAutoCar\Http\Controllers\InvoicesController;
 
@@ -52,6 +53,7 @@ Route::prefix('/')
         Route::resource('invoices', InvoicesController::class)->only('index', 'show');
         Route::resource('proformats', ProformatsController::class)->only('index');
         Route::resource('templates', TemplateController::class)->except('show');
+        Route::resource('dossiers', DossierController::class);
         Route::get('statistiques', [StatistiqueController::class, 'index'])->name('statistiques');
         Route::get('statistiques-fournisseur', [StatistiqueFournisseurController::class, 'index'])->name('statistiques-fournisseur');
         Route::resource('brands', BrandController::class);
