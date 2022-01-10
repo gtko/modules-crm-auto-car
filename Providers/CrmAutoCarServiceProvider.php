@@ -27,6 +27,7 @@ use Modules\CrmAutoCar\Contracts\Repositories\PaymentRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\PlateauRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\ProformatsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\StatistiqueRepositoryContract;
+use Modules\CrmAutoCar\Contracts\Repositories\StatistiqueReservationRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\TagsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\TemplatesRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Service\DistanceApiContract;
@@ -56,6 +57,7 @@ use Modules\CrmAutoCar\Repositories\PaymentRepository;
 use Modules\CrmAutoCar\Repositories\PlateauRepository;
 use Modules\CrmAutoCar\Repositories\ProformatsRepository;
 use Modules\CrmAutoCar\Repositories\StatistiqueRepository;
+use Modules\CrmAutoCar\Repositories\StatistiqueReservationRepository;
 use Modules\CrmAutoCar\Repositories\TagsRepository;
 use Modules\CrmAutoCar\Repositories\TemplateRepository;
 use Modules\CrmAutoCar\Services\Google\DistanceMatrixApi;
@@ -92,6 +94,7 @@ class CrmAutoCarServiceProvider extends ServiceProvider
         $this->app->bind(TagsRepositoryContract::class, TagsRepository::class);
         $this->app->bind(PlateauRepositoryContract::class, PlateauRepository::class);
         $this->app->bind(ConfigsRepositoryContract::class, ConfigRepository::class);
+        $this->app->bind(StatistiqueReservationRepositoryContract::class, StatistiqueReservationRepository::class);
 
         $this->app->bind(DevisRepositoryContract::class, DevisAutocarRepository::class);
         $this->app->bind(DevisAutocarRepositoryContract::class, DevisAutocarRepository::class);

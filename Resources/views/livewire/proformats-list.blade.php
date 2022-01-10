@@ -17,7 +17,7 @@
                                     <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                                 </svg>
                             </div>
-                            <div class="text-3xl font-medium leading-8 mt-6">72 054€</div>
+                            <div class="text-3xl font-medium leading-8 mt-6">@marge($totalVente)€</div>
                             <div class="text-base text-gray-600 mt-1">Total des ventes</div>
                         </div>
                     </div>
@@ -34,7 +34,7 @@
                                     <line x1="1" y1="10" x2="23" y2="10"></line>
                                 </svg>
                             </div>
-                            <div class="text-3xl font-medium leading-8 mt-6">1658</div>
+                            <div class="text-3xl font-medium leading-8 mt-6">@marge($totalAchat)€</div>
                             <div class="text-base text-gray-600 mt-1">Total Achat</div>
                         </div>
                     </div>
@@ -52,7 +52,7 @@
                                     <line x1="12" y1="17" x2="12" y2="21"></line>
                                 </svg>
                             </div>
-                            <div class="text-3xl font-medium leading-8 mt-6">25 542€</div>
+                            <div class="text-3xl font-medium leading-8 mt-6">@marge($totalMarge)€</div>
                             <div class="text-base text-gray-600 mt-1">Total Marge HT</div>
                         </div>
                     </div>
@@ -69,7 +69,7 @@
                                     <circle cx="12" cy="7" r="4"></circle>
                                 </svg>
                             </div>
-                            <div class="text-3xl font-medium leading-8 mt-6">1489€</div>
+                            <div class="text-3xl font-medium leading-8 mt-6">@marge($totalEncaissement)€</div>
                             <div class="text-base text-gray-600 mt-1">Total à encaisser</div>
                         </div>
                     </div>
@@ -82,18 +82,9 @@
                 <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
                     <x-basecore::inputs.select name="mois" wire:model="mois">
                         <option value="" default>Choisissez un mois</option>
-                        <option value="01">Janvier</option>
-                        <option value="02">Février</option>
-                        <option value="03">Mars</option>
-                        <option value="04">Avril</option>
-                        <option value="05">Mais</option>
-                        <option value="06">Juin</option>
-                        <option value="07">Juillet</option>
-                        <option value="08">Aout</option>
-                        <option value="09">Septembre</option>
-                        <option value="10">Octobre</option>
-                        <option value="11">Novembre</option>
-                        <option value="12">Decembre</option>
+                        @foreach($byMois as $mois)
+                            <option value="{{$mois->format('d/m/Y')}}">{{$mois->format('M Y')}}</option>
+                        @endforeach
                     </x-basecore::inputs.select>
                 </div>
                 <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
