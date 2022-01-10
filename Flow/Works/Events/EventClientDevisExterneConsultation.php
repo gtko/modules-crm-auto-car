@@ -26,6 +26,7 @@ use Modules\CrmAutoCar\Flow\Works\Files\CguPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\InformationVoyagePdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\ProformatPdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Variables\InformationVoyageVariable;
 
 class EventClientDevisExterneConsultation extends WorkFlowEvent
 {
@@ -82,6 +83,7 @@ class EventClientDevisExterneConsultation extends WorkFlowEvent
             (new DeviVariable($this)),
             (new CommercialVariable($this)),
             (new ClientVariable($this)),
+            (new InformationVoyageVariable($this)),
         ];
     }
 

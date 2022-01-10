@@ -26,6 +26,7 @@ use Modules\CrmAutoCar\Flow\Works\Files\CguPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\InformationVoyagePdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\ProformatPdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Variables\InformationVoyageVariable;
 
 class EventClientDossierDemandeFournisseurSend extends WorkFlowEventAlias
 {
@@ -74,7 +75,8 @@ class EventClientDossierDemandeFournisseurSend extends WorkFlowEventAlias
             (new CommercialVariable($this)),
             (new ClientVariable($this)),
             (new FournisseurVariable($this)),
-            (new UserVariable($this))
+            (new UserVariable($this)),
+            (new InformationVoyageVariable($this)),
         ];
     }
 

@@ -9,41 +9,42 @@ use Modules\CoreCRM\Flow\Works\Actions\ActionsAjouterTag;
 use Modules\CoreCRM\Flow\Works\Actions\ActionsChangeStatus;
 use Modules\CoreCRM\Flow\Works\Actions\ActionsSendNotification;
 use Modules\CoreCRM\Flow\Works\Actions\ActionsSupprimerTag;
+use Modules\CoreCRM\Flow\Works\CategoriesEventEnum;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionCountDevis;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionCountDossier;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionStatus;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionTag;
+use Modules\CoreCRM\Flow\Works\Events\WorkFlowEvent;
 use Modules\CoreCRM\Flow\Works\Variables\ClientVariable;
 use Modules\CoreCRM\Flow\Works\Variables\CommercialVariable;
 use Modules\CoreCRM\Flow\Works\Variables\DeviVariable;
 use Modules\CoreCRM\Flow\Works\Variables\DossierVariable;
-use Modules\CoreCRM\Flow\Works\Variables\FournisseurVariable;
-use Modules\CoreCRM\Flow\Works\Variables\UserVariable;
-use Modules\CrmAutoCar\Flow\Attributes\ClientDossierPaiementFournisseurSend;
+use Modules\CrmAutoCar\Flow\Attributes\ClientDevisExterneValidation;
+use Modules\CrmAutoCar\Flow\Attributes\ClientDossierDevisValidation;
+use Modules\CrmAutoCar\Flow\Works\Conditions\ConditionClientTypeValidation;
 use Modules\CrmAutoCar\Flow\Works\Conditions\ConditionDateDepartDevis;
-use Modules\CrmAutoCar\Flow\Works\Conditions\ConditionFournisseurBPA;
 use Modules\CrmAutoCar\Flow\Works\Files\CguPdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Files\DevisBrand1PdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Files\DevisBrand2PdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\InformationVoyagePdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\ProformatPdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Variables\ClientValidationVariable;
 use Modules\CrmAutoCar\Flow\Works\Variables\InformationVoyageVariable;
+use Modules\CrmAutoCar\Flow\Works\Variables\PaiementVariable;
+use Modules\CrmAutoCar\Flow\Works\Variables\ProformatVariable;
 
-class EventClientDossierPaiementFournisseurSend extends \Modules\CoreCRM\Flow\Works\Events\WorkFlowEvent
+class EventClientDevisClientModifValidation extends WorkFlowEvent
 {
 
     public function name(): string
     {
-        return 'Paiement fournisseur envoyé.';
+        return 'Validation des informations client';
     }
 
     public function category():string
     {
-        return 'Paiement';
-    }
-
-    public function describe(): string
-    {
-        return 'Ce déclenche quand un paiement est envoyer au fournisseur';
+        return CategoriesEventEnum::DEVIS;
     }
 
     public function conditions():array
@@ -54,20 +55,23 @@ class EventClientDossierPaiementFournisseurSend extends \Modules\CoreCRM\Flow\Wo
             ConditionStatus::class,
             ConditionTag::class,
             ConditionDateDepartDevis::class,
-            ConditionFournisseurBPA::class
+            ConditionClientTypeValidation::class
         ];
+    }
+
+    public function describe(): string
+    {
+        return "Se déclenche quand l'équipe accepte les informations voyage du client";
     }
 
     protected function prepareData(Attributes $flowAttribute): array
     {
         return [
             'devis' => $flowAttribute->getDevis(),
-            'user' => $flowAttribute->getUser(),
+            'dossier' => $flowAttribute->getDevis()->dossier,
             'client' => $flowAttribute->getDevis()->dossier->client,
             'commercial' => $flowAttribute->getDevis()->dossier->commercial,
-            'fournisseur' => $flowAttribute->getFournisseur(),
-            'dossier' => $flowAttribute->getDevis()->dossier,
-            'Decaissement' =>  $flowAttribute->getDecaissement()->dossier,
+            'proformat' => $flowAttribute->getDevis()->proformat,
         ];
     }
 
@@ -76,6 +80,9 @@ class EventClientDossierPaiementFournisseurSend extends \Modules\CoreCRM\Flow\Wo
         return [
             (new DevisPdfFiles($this)),
             (new CguPdfFiles($this)),
+            (new ProformatPdfFiles($this)),
+            (new DevisBrand1PdfFiles($this)),
+            (new DevisBrand2PdfFiles($this)),
             (new InformationVoyagePdfFiles($this)),
         ];
     }
@@ -87,8 +94,9 @@ class EventClientDossierPaiementFournisseurSend extends \Modules\CoreCRM\Flow\Wo
             (new DeviVariable($this)),
             (new CommercialVariable($this)),
             (new ClientVariable($this)),
-            (new FournisseurVariable($this)),
-            (new UserVariable($this)),
+            (new ProformatVariable($this)),
+            (new PaiementVariable($this)),
+            (new ClientValidationVariable($this)),
             (new InformationVoyageVariable($this)),
         ];
     }
@@ -96,7 +104,7 @@ class EventClientDossierPaiementFournisseurSend extends \Modules\CoreCRM\Flow\Wo
     public function listen(): array
     {
         return [
-          ClientDossierPaiementFournisseurSend::class,
+            ClientDossierDevisValidation::class,
         ];
     }
 

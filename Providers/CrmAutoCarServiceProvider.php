@@ -30,6 +30,7 @@ use Modules\CrmAutoCar\Contracts\Repositories\StatistiqueRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\TagsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\TemplatesRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Service\DistanceApiContract;
+use Modules\CrmAutoCar\Flow\Works\Events\EventClientDevisClientModifValidation;
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDevisExterneConsultation;
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDevisExterneValidation;
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierAttribuer;
@@ -150,7 +151,8 @@ class CrmAutoCarServiceProvider extends ServiceProvider
             EventClientDossierAttribuer::class,
             EventClientDossierRappeler::class,
             EventCreatePaiementClient::class,
-            EventClientDossierFournisseurBpa::class
+            EventClientDossierFournisseurBpa::class,
+            EventClientDevisClientModifValidation::class
         ]);
     }
 

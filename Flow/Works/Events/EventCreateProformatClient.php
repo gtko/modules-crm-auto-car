@@ -27,6 +27,7 @@ use Modules\CrmAutoCar\Flow\Works\Files\DevisPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\InformationVoyagePdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\ProformatPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Variables\ClientValidationVariable;
+use Modules\CrmAutoCar\Flow\Works\Variables\InformationVoyageVariable;
 use Modules\CrmAutoCar\Flow\Works\Variables\PaiementVariable;
 use Modules\CrmAutoCar\Flow\Works\Variables\ProformatVariable;
 
@@ -93,6 +94,7 @@ class EventCreateProformatClient extends \Modules\CoreCRM\Flow\Works\Events\Work
             (new ProformatVariable($this)),
             (new PaiementVariable($this)),
             (new ClientValidationVariable($this)),
+            (new InformationVoyageVariable($this))
         ];
     }
 
