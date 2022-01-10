@@ -19,6 +19,7 @@ use Modules\CoreCRM\Flow\Works\Variables\DeviVariable;
 use Modules\CoreCRM\Flow\Works\Variables\DossierVariable;
 use Modules\CrmAutoCar\Flow\Attributes\CreatePaiementClient;
 use Modules\CrmAutoCar\Flow\Attributes\CreateProformatClient;
+use Modules\CrmAutoCar\Flow\Works\Conditions\ConditionClientSolde;
 use Modules\CrmAutoCar\Flow\Works\Conditions\ConditionClientTypeValidation;
 use Modules\CrmAutoCar\Flow\Works\Conditions\ConditionDateDepartDevis;
 use Modules\CrmAutoCar\Flow\Works\Files\CguPdfFiles;
@@ -28,6 +29,7 @@ use Modules\CrmAutoCar\Flow\Works\Files\DevisPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\InformationVoyagePdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\ProformatPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Variables\ClientValidationVariable;
+use Modules\CrmAutoCar\Flow\Works\Variables\InformationVoyageVariable;
 use Modules\CrmAutoCar\Flow\Works\Variables\PaiementVariable;
 use Modules\CrmAutoCar\Flow\Works\Variables\ProformatVariable;
 
@@ -57,7 +59,8 @@ class EventCreatePaiementClient extends \Modules\CoreCRM\Flow\Works\Events\WorkF
             ConditionStatus::class,
             ConditionTag::class,
             ConditionDateDepartDevis::class,
-            ConditionClientTypeValidation::class
+            ConditionClientTypeValidation::class,
+            ConditionClientSolde::class
         ];
     }
 
@@ -95,6 +98,7 @@ class EventCreatePaiementClient extends \Modules\CoreCRM\Flow\Works\Events\WorkF
             (new ProformatVariable($this)),
             (new PaiementVariable($this)),
             (new ClientValidationVariable($this)),
+            (new InformationVoyageVariable($this)),
         ];
     }
 

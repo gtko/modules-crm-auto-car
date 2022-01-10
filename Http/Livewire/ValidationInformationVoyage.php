@@ -2,10 +2,14 @@
 
 namespace Modules\CrmAutoCar\Http\Livewire;
 
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Modules\BaseCore\Actions\Url\SigneRoute;
 use Modules\CoreCRM\Contracts\Entities\DevisEntities;
+use Modules\CoreCRM\Services\FlowCRM;
 use Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract;
+use Modules\CrmAutoCar\Flow\Attributes\ClientDossierDevisClientSaveValidation;
+use Modules\CrmAutoCar\Flow\Attributes\ClientDossierDevisValidation;
 
 class ValidationInformationVoyage extends Component
 {
@@ -83,6 +87,8 @@ class ValidationInformationVoyage extends Component
         $data['validated'] = false;
         $this->devis->data = $data;
         $this->devis->save();
+
+        (new FlowCRM())->add($this->devis->dossier,new ClientDossierDevisClientSaveValidation($this->devis));
 
         session()->flash('success', 'Vos informations voyage ont été prise en compte, merci.');
 

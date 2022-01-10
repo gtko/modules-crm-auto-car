@@ -27,6 +27,7 @@ use Modules\CrmAutoCar\Flow\Works\Files\DevisBrand2PdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\InformationVoyagePdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\ProformatPdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Variables\InformationVoyageVariable;
 use Modules\CrmAutoCar\Flow\Works\Variables\ProformatVariable;
 
 class EventDevisSendClient extends WorkFlowEvent
@@ -87,6 +88,7 @@ class EventDevisSendClient extends WorkFlowEvent
             (new DeviVariable($this)),
             (new CommercialVariable($this)),
             (new ClientVariable($this)),
+            (new InformationVoyageVariable($this))
         ];
     }
 
