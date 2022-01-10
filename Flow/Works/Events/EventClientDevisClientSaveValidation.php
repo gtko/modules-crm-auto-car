@@ -20,6 +20,7 @@ use Modules\CoreCRM\Flow\Works\Variables\CommercialVariable;
 use Modules\CoreCRM\Flow\Works\Variables\DeviVariable;
 use Modules\CoreCRM\Flow\Works\Variables\DossierVariable;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDevisExterneValidation;
+use Modules\CrmAutoCar\Flow\Attributes\ClientDossierDevisClientSaveValidation;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDossierDevisValidation;
 use Modules\CrmAutoCar\Flow\Works\Conditions\ConditionClientSolde;
 use Modules\CrmAutoCar\Flow\Works\Conditions\ConditionClientTypeValidation;
@@ -35,12 +36,12 @@ use Modules\CrmAutoCar\Flow\Works\Variables\InformationVoyageVariable;
 use Modules\CrmAutoCar\Flow\Works\Variables\PaiementVariable;
 use Modules\CrmAutoCar\Flow\Works\Variables\ProformatVariable;
 
-class EventClientDevisClientModifValidation extends WorkFlowEvent
+class EventClientDevisClientSaveValidation extends WorkFlowEvent
 {
 
     public function name(): string
     {
-        return 'Validation des informations client';
+        return 'Envoie des informations voyage par le client';
     }
 
     public function category():string
@@ -63,7 +64,7 @@ class EventClientDevisClientModifValidation extends WorkFlowEvent
 
     public function describe(): string
     {
-        return "Se déclenche quand l'équipe accepte les informations voyage du client";
+        return "Se déclenche quand le client envoie ses informations voyage";
     }
 
     protected function prepareData(Attributes $flowAttribute): array
@@ -106,7 +107,7 @@ class EventClientDevisClientModifValidation extends WorkFlowEvent
     public function listen(): array
     {
         return [
-            ClientDossierDevisValidation::class,
+            ClientDossierDevisClientSaveValidation::class,
         ];
     }
 

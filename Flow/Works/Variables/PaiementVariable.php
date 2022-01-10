@@ -16,6 +16,8 @@ class PaiementVariable extends \Modules\CoreCRM\Flow\Works\Variables\WorkFlowVar
     {
         $datas = $this->event->getData();
         $devis = $datas['devis'];
+        /** @var \Modules\CrmAutoCar\Entities\ProformatPrice $priceProformat */
+        $priceProformat =  $datas['proformat']->price;
 
         $paytweak = app(Paytweak::class);
         $paytweak->connect();
@@ -31,9 +33,9 @@ class PaiementVariable extends \Modules\CoreCRM\Flow\Works\Variables\WorkFlowVar
         }
 
         if(($params[1] ?? false)){
-            $price = $devis->getTotal() - ($devis->getTotal() / (($params[1]/100) + 1));
+            $price = $priceProformat->remains() - ($priceProformat->remains() / (($params[1]/100) + 1));
         }else{
-            $price = $devis->getTotal();
+            $price = $priceProformat->remains();
         }
 
         if(!$active) {
@@ -44,13 +46,27 @@ class PaiementVariable extends \Modules\CoreCRM\Flow\Works\Variables\WorkFlowVar
 
         return [
           'lien' => $active['url'],
+          'total-lien' => $price,
+          'total-ttc' => $priceProformat->getPriceTTC(),
+          'total-ht' => $priceProformat->getPriceHT(),
+          'tva' => $priceProformat->getPriceTVA(),
+          'taux-tva' => $priceProformat->getTauxTVA(),
+          'reste' =>  $priceProformat->remains(),
+          'payé' => $priceProformat->paid()
         ];
     }
 
     public function labels(): array
     {
         return [
-            'lien' => 'Lien de paiement'
+            'lien' => 'Lien de paiement',
+            'total-lien' => 'Total demandé sur le lien de paiement',
+            'total-ttc' => 'Total de la facture en TTC',
+            'total-ht' => 'Total de la facture en HT',
+            'tva' => 'Total de la TVA',
+            'taux-tva' => 'Taux de TVA',
+            'reste' =>  'Reste à payer',
+            'payé' => 'Déjà Payé'
         ];
     }
 }
