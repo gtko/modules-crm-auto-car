@@ -120,7 +120,7 @@
                     </thead>
                     <tbody>
                     @foreach($proformats as $proformat)
-                        <livewire:crmautocar::proformats-list-item :ref="$proformat->id" :proformat="$proformat"/>
+                        <livewire:crmautocar::proformats-list-item :key="$proformat->id" :ref="$proformat->id" :proformat="$proformat"/>
                     @endforeach
                     </tbody>
                     <tfoot>

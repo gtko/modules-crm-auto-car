@@ -2,6 +2,7 @@
 
 namespace Modules\CrmAutoCar\Entities;
 
+use Illuminate\Support\Facades\Cache;
 use Modules\CrmAutoCar\Contracts\Repositories\DecaissementRepositoryContract;
 use Modules\CrmAutoCar\Models\Brand;
 use Modules\CrmAutoCar\Models\Invoice;
@@ -23,9 +24,14 @@ class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
         return $this->getPriceHT();
     }
 
+    protected function cachedDecaissement(){
+        return Cache::remember('decaissement_proformat_'.$this->proformat->devis->dossier->id,60, function(){
+            return app(DecaissementRepositoryContract::class)->getByDossier($this->proformat->devis->dossier);
+        });
+    }
+
     public function getPriceAchat(){
-        $price = 0;
-        $decaissement = app(DecaissementRepositoryContract::class)->getByDossier($this->proformat->devis->dossier);
+        $decaissement = $this->cachedDecaissement();
         return $decaissement->sum('payer') + ($decaissement->last()->restant ?? 0);
     }
 
@@ -36,7 +42,6 @@ class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
     public function remains(){
         return $this->getPriceTTC() - $this->paid();
     }
-
 
     public function getMargeHT()
     {

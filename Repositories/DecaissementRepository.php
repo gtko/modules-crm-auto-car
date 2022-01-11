@@ -50,7 +50,6 @@ class DecaissementRepository extends AbstractRepository implements DecaissementR
                 $query->where('id', $dossier->id);
             });
         })->get();
-
     }
 
     public function getByDevis(): \Illuminate\Support\Collection

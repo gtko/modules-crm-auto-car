@@ -5,7 +5,9 @@ namespace Modules\CrmAutoCar\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Cache;
 use Modules\CoreCRM\Contracts\Entities\DevisEntities;
+use Modules\CoreCRM\Models\Commercial;
 use Modules\CrmAutoCar\Entities\ProformatPrice;
 use Modules\CrmAutoCar\Repositories\BrandsRepository;
 
@@ -38,10 +40,25 @@ class Proformat extends Model
         return $this->hasMany(Payment::class);
     }
 
+
+    protected function brandCached():Brand
+    {
+        return Cache::remember('cache_brand_default', 60, function(){
+            return app(BrandsRepository::class)->fetchById(config('crmautocar.brand_default'));
+        });
+    }
+
     public function getPriceAttribute():ProformatPrice
     {
-        $brand = app(BrandsRepository::class)->fetchById(config('crmautocar.brand_default'));
-        return (new ProformatPrice($this, $brand));
+        return (new ProformatPrice($this, $this->brandCached()));
+    }
+
+    public function scopeHasCommercial($query, Commercial $commercial){
+        return $query->whereHas('devis', function($query) use ($commercial){
+            $query->whereHas('dossier', function($query) use ($commercial){
+               $query->where('commercial_id', $commercial->id);
+            });
+        });
     }
 
 }

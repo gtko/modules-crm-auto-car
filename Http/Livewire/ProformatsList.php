@@ -42,6 +42,8 @@ class ProformatsList extends Component
 
         if($this->commercialSelect) {
             $this->commercial = $repCommercial->fetchById($this->commercialSelect);
+        }else{
+            $this->commercial = null;
         }
 
         if($this->mois){
@@ -61,7 +63,16 @@ class ProformatsList extends Component
     ): Factory|View|Application
     {
         $commercials = $repcommercial->fetchAll();
-        $proformats = $proformatRep->fetchAll();
+
+        if($this->commercial){
+            $proformatRep->setQuery($proformatRep->newQuery()->hasCommercial($this->commercial));
+        }
+
+        if($this->dateStart) {
+            $proformats = $proformatRep->fetchBetweenDate('created_at', [$this->dateStart, $this->dateEnd]);
+        }else{
+            $proformats = $proformatRep->fetchAll();
+        }
 
         //on prend le mois de la première facture et on va jusqu'au mois actuel avec l'année
         $firstDate = $proformatRep->newQuery()->first()->created_at ?? now();
