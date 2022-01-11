@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Cache;
 use Modules\CoreCRM\Contracts\Entities\DevisEntities;
 use Modules\CoreCRM\Models\Commercial;
+use Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract;
 use Modules\CrmAutoCar\Entities\ProformatPrice;
 use Modules\CrmAutoCar\Repositories\BrandsRepository;
 
@@ -40,17 +41,9 @@ class Proformat extends Model
         return $this->hasMany(Payment::class);
     }
 
-
-    protected function brandCached():Brand
-    {
-        return Cache::remember('cache_brand_default', 60, function(){
-            return app(BrandsRepository::class)->fetchById(config('crmautocar.brand_default'));
-        });
-    }
-
     public function getPriceAttribute():ProformatPrice
     {
-        return (new ProformatPrice($this, $this->brandCached()));
+        return (new ProformatPrice($this,  app(BrandsRepositoryContract::class)->getDefault()));
     }
 
     public function scopeHasCommercial($query, Commercial $commercial){

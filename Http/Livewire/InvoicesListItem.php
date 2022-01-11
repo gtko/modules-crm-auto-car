@@ -3,6 +3,7 @@
 namespace Modules\CrmAutoCar\Http\Livewire;
 
 use Livewire\Component;
+use Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract;
 use Modules\CrmAutoCar\Entities\InvoicePrice;
 use Modules\CrmAutoCar\Models\Invoice;
 use Modules\CrmAutoCar\Repositories\BrandsRepository;
@@ -41,9 +42,8 @@ class InvoicesListItem extends Component
      */
     public function render()
     {
-        $brand = app(BrandsRepository::class)->fetchById(config('crmautocar.brand_default'));
         return view('crmautocar::livewire.invoices-list-item', [
-            'price' => new InvoicePrice($this->invoice, $brand)
+            'price' => new InvoicePrice($this->invoice, app(BrandsRepositoryContract::class)->getDefault())
         ]);
     }
 }

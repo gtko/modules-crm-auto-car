@@ -101,7 +101,7 @@ class ValidationInformationVoyage extends Component
 
     public function render()
     {
-        $brand = app(BrandsRepositoryContract::class)->fetchById(config('crmautocar.brand_default'));
+        $brand = app(BrandsRepositoryContract::class)->getDefault();
         return view('crmautocar::livewire.validation-information-voyage', compact('brand'));
     }
 }

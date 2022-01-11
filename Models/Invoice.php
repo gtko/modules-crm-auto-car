@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\CoreCRM\Contracts\Entities\DevisEntities;
+use Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract;
 use Modules\CrmAutoCar\Entities\InvoicePrice;
 use Modules\CrmAutoCar\Repositories\BrandsRepository;
 
@@ -37,8 +38,7 @@ class Invoice extends Model
 
     public function getPrice():InvoicePrice
     {
-        $brand = app(BrandsRepository::class)->fetchById(config('crmautocar.brand_default'));
-        return (new InvoicePrice($this,$brand));
+        return (new InvoicePrice($this,app(BrandsRepositoryContract::class)->getDefault()));
     }
 
 }

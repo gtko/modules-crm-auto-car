@@ -3,6 +3,7 @@
 namespace Modules\CrmAutoCar\Http\Livewire;
 
 use Livewire\Component;
+use Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract;
 use Modules\CrmAutoCar\Entities\ProformatPrice;
 use Modules\CrmAutoCar\Models\Proformat;
 use Modules\CrmAutoCar\Repositories\BrandsRepository;
@@ -24,7 +25,7 @@ class ProformatsListItem extends Component
      */
     public function render()
     {
-        $brand = app(BrandsRepository::class)->fetchById(config('crmautocar.brand_default'));
+        $brand = app(BrandsRepositoryContract::class)->getDefault();
 
 
 

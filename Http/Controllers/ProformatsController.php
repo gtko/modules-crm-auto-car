@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Modules\BaseCore\Contracts\Services\PdfContract;
 use Modules\CoreCRM\Actions\Devis\GenerateLinkDevis;
+use Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\ProformatsRepositoryContract;
 use Modules\CrmAutoCar\Entities\ProformatPrice;
 use Modules\CrmAutoCar\Models\Proformat;
@@ -36,8 +37,7 @@ class ProformatsController extends \Modules\CoreCRM\Http\Controllers\Controller
      */
     public function show(Proformat $proformat)
     {
-        $brand = app(BrandsRepository::class)->fetchById(config('crmautocar.brand_default'));
-        $price = (new ProformatPrice($proformat, $brand));
+        $price = (new ProformatPrice($proformat, app(BrandsRepositoryContract::class)->getDefault()));
 
         return view('crmautocar::proformats.show', compact('proformat', 'price', 'brand'));
     }
