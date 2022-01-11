@@ -129,24 +129,47 @@
             <div class="intro-y overflow-auto lg:overflow-visible mt-8 sm:mt-0">
                 <table class="table table-report sm:mt-2">
                     <thead>
-                    <tr>
-                        <th class="whitespace-nowrap">#</th>
-                        <th class="whitespace-nowrap">Client</th>
-                        <th class="whitespace-nowrap">Etat</th>
-                        <th class="whitespace-nowrap">PV / PA</th>
-                        <th class="whitespace-nowrap">Marge HT</th>
-                        <th class="whitespace-nowrap">Fournisseur</th>
-                        <th class="whitespace-nowrap">Date Départ</th>
-                        <th class="whitespace-nowrap">Date Retour</th>
-                        <th class="whitespace-nowrap">Multiple dest</th>
-                        <th class="whitespace-nowrap">A encaisser</th>
-                        <th class="whitespace-nowrap"></th>
-                    </tr>
+                        <tr>
+                            <th class="whitespace-nowrap">#</th>
+                            <th class="whitespace-nowrap">Client</th>
+                            <th class="whitespace-nowrap">Etat</th>
+                            <th class="whitespace-nowrap">PV / PA</th>
+                            <th class="whitespace-nowrap">Marge HT</th>
+                            <th class="whitespace-nowrap">Fournisseur</th>
+                            <th class="whitespace-nowrap">Date Départ</th>
+                            <th class="whitespace-nowrap">Date Retour</th>
+                            <th class="whitespace-nowrap">Multiple dest</th>
+                            <th class="whitespace-nowrap">A encaisser</th>
+                            <th class="whitespace-nowrap"></th>
+                        </tr>
                     </thead>
-                    <tbody>
-                    @foreach($proformats as $proformat)
-                        <livewire:crmautocar::proformats-list-item :key="$proformat->id" :ref="$proformat->id" :proformat="$proformat"/>
-                    @endforeach
+                    <tbody wire:loading.remove>
+                        @forelse($proformats as $proformat)
+                            <livewire:crmautocar::proformats-list-item :key="$proformat->id" :ref="$proformat->id" :proformat="$proformat"/>
+                        @empty
+                            <tr>
+                                <td colspan="11" class="p-5">
+                                    <h3 class="text-lg text-gray-600">
+                                        <div class="flex justify-start items-center">
+                                            @icon('empty', null, 'mr-2')
+                                            Aucune réservation trouvée
+                                        </div>
+                                    </h3>
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                    <tbody wire:loading>
+                        <tr>
+                            <td colspan="11" class="p-5">
+                                <h3 class="text-lg text-gray-600">
+                                    <div class="flex justify-start items-center">
+                                        @icon('spinner', null, 'animate-spin mr-2')
+                                       Chargement ...
+                                    </div>
+                                </h3>
+                            </td>
+                        </tr>
                     </tbody>
                     <tfoot>
                     <tr>
