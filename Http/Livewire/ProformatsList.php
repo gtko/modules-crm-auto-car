@@ -21,6 +21,8 @@ class ProformatsList extends Component
     public $commercial;
 
     public $paid;
+    public $contact;
+    public $infovoyage;
 
     public $dateStart;
     public $dateEnd;
@@ -72,6 +74,13 @@ class ProformatsList extends Component
 
         if($this->paid === 'oui') $filter->paid();
         if($this->paid === 'non') $filter->notPaid();
+
+
+        if($this->contact === 'oui') $filter->contactChauffeur();
+        if($this->contact === 'non') $filter->notContactChauffeur();
+
+        if($this->infovoyage === 'oui') $filter->infoVoyage();
+        if($this->infovoyage === 'non') $filter->notInfoVoyage();
 
         $proformats = $filter->query()->paginate(50);
 

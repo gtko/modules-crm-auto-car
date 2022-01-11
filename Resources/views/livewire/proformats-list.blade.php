@@ -97,8 +97,24 @@
                 </div>
 
                 <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+                    <x-basecore::inputs.select name="infovoyage" wire:model="infovoyage">
+                        <option value="" default>Information voyage</option>
+                        <option value="oui">Valide</option>
+                        <option value="non">Non valide</option>
+                    </x-basecore::inputs.select>
+                </div>
+
+                <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
                     <x-basecore::inputs.select name="paid" wire:model="paid">
                         <option value="" default>Réservation payé</option>
+                        <option value="oui">Oui</option>
+                        <option value="non">Non</option>
+                    </x-basecore::inputs.select>
+                </div>
+
+                <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+                    <x-basecore::inputs.select name="contact" wire:model="contact">
+                        <option value="" default>Contact chauffeur</option>
                         <option value="oui">Oui</option>
                         <option value="non">Non</option>
                     </x-basecore::inputs.select>

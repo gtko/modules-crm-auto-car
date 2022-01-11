@@ -31,24 +31,53 @@ class ProformatFilterQuery
         }
     }
 
-    public function paid(){
-        //extract paid proformats
+    protected function getPaidIdsProformat(){
         $this->query->with('payments');
         $proformats = $this->query->get();
-        $include = $proformats->filter(function ($proformat) {
+        return $proformats->filter(function ($proformat) {
             return $proformat->price->paid() === $proformat->price->getPriceTTC();
         })->pluck('id');
-        $this->query->whereIn('id',$include);
+    }
+
+    public function paid(){
+        $this->query->whereIn('id',$this->getPaidIdsProformat());
     }
 
     public function notPaid(){
-        //extract paid proformats
+        $this->query->whereNotIn('id',$this->getPaidIdsProformat());
+    }
+
+
+    protected function getContactIdsProformat(){
         $this->query->with('payments');
         $proformats = $this->query->get();
-        $include = $proformats->filter(function ($proformat) {
-            return $proformat->price->paid() !== $proformat->price->getPriceTTC();
+        return $proformats->filter(function ($proformat) {
+            return ($proformat->contactFournisseurs()->count() ?? 0) > 0;
         })->pluck('id');
-        $this->query->whereIn('id',$include);
+    }
+
+    public function contactChauffeur(){
+        $this->query->whereIn('id',$this->getContactIdsProformat());
+    }
+
+    public function notContactChauffeur(){
+        $this->query->whereNotIn('id',$this->getContactIdsProformat());
+    }
+
+    protected function getInfoVoyageIdsProformat(){
+        $this->query->with('payments');
+        $proformats = $this->query->get();
+        return $proformats->filter(function ($proformat) {
+            return ($proformat->devis->data['validated'] ?? false);
+        })->pluck('id');
+    }
+
+    public function infoVoyage(){
+        $this->query->whereIn('id',$this->getInfoVoyageIdsProformat());
+    }
+
+    public function notInfoVoyage(){
+        $this->query->whereNotIn('id',$this->getInfoVoyageIdsProformat());
     }
 
     public function query(){
