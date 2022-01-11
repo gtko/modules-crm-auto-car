@@ -2,13 +2,16 @@
 
 namespace Modules\CrmAutoCar\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Cache;
 use Modules\CoreCRM\Contracts\Entities\DevisEntities;
 use Modules\CoreCRM\Models\Commercial;
+use Modules\CoreCRM\Models\Dossier;
 use Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract;
+use Modules\CrmAutoCar\Contracts\Repositories\ContactFournisseurRepositoryContract;
 use Modules\CrmAutoCar\Entities\ProformatPrice;
 use Modules\CrmAutoCar\Repositories\BrandsRepository;
 
@@ -52,6 +55,11 @@ class Proformat extends Model
                $query->where('commercial_id', $commercial->id);
             });
         });
+    }
+
+    public function contactFournisseurs():Collection
+    {
+        return $this->devis->dossier->contactFournisseurs;
     }
 
 }

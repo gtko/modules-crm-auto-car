@@ -95,6 +95,14 @@
                         @endforeach
                     </x-basecore::inputs.select>
                 </div>
+
+                <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+                    <x-basecore::inputs.select name="paid" wire:model="paid">
+                        <option value="" default>Réservation payé</option>
+                        <option value="oui">Oui</option>
+                        <option value="non">Non</option>
+                    </x-basecore::inputs.select>
+                </div>
             </div>
         </div>
 
@@ -114,6 +122,7 @@
                         <th class="whitespace-nowrap">Fournisseur</th>
                         <th class="whitespace-nowrap">Date Départ</th>
                         <th class="whitespace-nowrap">Date Retour</th>
+                        <th class="whitespace-nowrap">Multiple dest</th>
                         <th class="whitespace-nowrap">A encaisser</th>
                         <th class="whitespace-nowrap"></th>
                     </tr>

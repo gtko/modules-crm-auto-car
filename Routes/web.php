@@ -53,7 +53,10 @@ Route::prefix('/')
         Route::resource('invoices', InvoicesController::class)->only('index', 'show');
         Route::resource('proformats', ProformatsController::class)->only('index');
         Route::resource('templates', TemplateController::class)->except('show');
-        Route::resource('dossiers', DossierController::class);
+
+        Route::get('dossiers', [DossierController::class,'index'])->name('dossiers.index');
+        Route::get('clients/{client}/dossiers/{dossier}', [DossierController::class,'show'])->name('dossiers.show');
+
         Route::get('statistiques', [StatistiqueController::class, 'index'])->name('statistiques');
         Route::get('statistiques-fournisseur', [StatistiqueFournisseurController::class, 'index'])->name('statistiques-fournisseur');
         Route::resource('brands', BrandController::class);

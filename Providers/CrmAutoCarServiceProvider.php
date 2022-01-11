@@ -21,6 +21,7 @@ use Modules\CoreCRM\Notifications\Kernel;
 use Modules\CoreCRM\Repositories\PipelineRepository;
 use Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\ConfigsRepositoryContract;
+use Modules\CrmAutoCar\Contracts\Repositories\ContactFournisseurRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\DecaissementRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\DevisAutocarRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\InvoicesRepositoryContract;
@@ -51,6 +52,7 @@ use Modules\CrmAutoCar\Notifications\ClientDossierDemandeFournisseurSendNotifica
 use Modules\CrmAutoCar\Notifications\DevisSendClientNotification;
 use Modules\CrmAutoCar\Repositories\BrandsRepository;
 use Modules\CrmAutoCar\Repositories\ConfigRepository;
+use Modules\CrmAutoCar\Repositories\ContactFournisseurRepository;
 use Modules\CrmAutoCar\Repositories\DecaissementRepository;
 use Modules\CrmAutoCar\Repositories\DevisAutocarRepository;
 use Modules\CrmAutoCar\Repositories\DossierAutoCarRepository;
@@ -96,6 +98,7 @@ class CrmAutoCarServiceProvider extends ServiceProvider
         $this->app->bind(TagsRepositoryContract::class, TagsRepository::class);
         $this->app->bind(PlateauRepositoryContract::class, PlateauRepository::class);
         $this->app->bind(ConfigsRepositoryContract::class, ConfigRepository::class);
+        $this->app->bind(ContactFournisseurRepositoryContract::class, ContactFournisseurRepository::class);
         $this->app->bind(StatistiqueReservationRepositoryContract::class, StatistiqueReservationRepository::class);
 
         $this->app->bind(DevisRepositoryContract::class, DevisAutocarRepository::class);
@@ -116,7 +119,8 @@ class CrmAutoCarServiceProvider extends ServiceProvider
 
         app(CompositeurThemeContract::class)->setViews(DossierAfterSidebarContract::class, [
             new TypeView(TypeView::TYPE_LIVEWIRE, 'crmautocar::block-fournisseur'),
-            new TypeView(TypeView::TYPE_LIVEWIRE, 'crmautocar::block-paiment-fournisseur')
+            new TypeView(TypeView::TYPE_LIVEWIRE, 'crmautocar::block-paiment-fournisseur'),
+            new TypeView(TypeView::TYPE_LIVEWIRE, 'crmautocar::contact-chauffeur-fournisseur'),
         ]);
         app(CompositeurThemeContract::class)->setViews(SelectTagDossier::class, [
             new TypeView(TypeView::TYPE_LIVEWIRE, 'crmautocar::select-tags'),

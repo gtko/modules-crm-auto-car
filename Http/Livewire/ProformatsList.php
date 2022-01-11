@@ -10,6 +10,7 @@ use Livewire\Component;
 use Modules\CoreCRM\Contracts\Repositories\CommercialRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\ProformatsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\StatistiqueReservationRepositoryContract;
+use Modules\CrmAutoCar\Filters\ProformatFilterQuery;
 
 class ProformatsList extends Component
 {
@@ -18,6 +19,8 @@ class ProformatsList extends Component
     public $mois;
     public $commercialSelect;
     public $commercial;
+
+    public $paid;
 
     public $dateStart;
     public $dateEnd;
@@ -38,7 +41,6 @@ class ProformatsList extends Component
     public function filtre()
     {
         $repCommercial = app(CommercialRepositoryContract::class);
-        $repProformat = app(ProformatsRepositoryContract::class);
 
         if($this->commercialSelect) {
             $this->commercial = $repCommercial->fetchById($this->commercialSelect);
@@ -64,20 +66,20 @@ class ProformatsList extends Component
     {
         $commercials = $repcommercial->fetchAll();
 
-        if($this->commercial){
-            $proformatRep->setQuery($proformatRep->newQuery()->hasCommercial($this->commercial));
-        }
+        $filter = new ProformatFilterQuery();
+        $filter->byCommercial($this->commercial);
+        $filter->byCreatedAt($this->dateStart, $this->dateEnd);
 
-        if($this->dateStart) {
-            $proformats = $proformatRep->fetchBetweenDate('created_at', [$this->dateStart, $this->dateEnd]);
-        }else{
-            $proformats = $proformatRep->fetchAll();
-        }
+        if($this->paid === 'oui') $filter->paid();
+        if($this->paid === 'non') $filter->notPaid();
+
+        $proformats = $filter->query()->paginate(50);
+
+
 
         //on prend le mois de la première facture et on va jusqu'au mois actuel avec l'année
         $firstDate = $proformatRep->newQuery()->first()->created_at ?? now();
         $dateNow = now()->startOfDay()->startOfMonth();
-
         $byMois = [];
         for($date = $firstDate->clone()->startOfDay()->startOfMonth();$date->lessThanOrEqualTo($dateNow);$date->addMonth()){
             $byMois[] = $date->clone()->startOfMonth();

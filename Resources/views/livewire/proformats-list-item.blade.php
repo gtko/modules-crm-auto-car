@@ -19,10 +19,21 @@
 
     <td class="text-center">
        <div class="flex justify-between">
-           <span class="rounded-full cursor-pointer p-1 hover:bg-gray-300 mr-2">@icon('edit')</span>
-           <span class="rounded-full cursor-pointer p-1 hover:bg-gray-300 mr-2">@icon('bus')</span>
-           <span class="rounded-full cursor-pointer p-1 hover:bg-gray-300 mr-2">@icon('cash')</span>
-           <span class="rounded-full cursor-pointer p-1 hover:bg-gray-300 mr-2">@icon('phone')</span>
+           <a href='{{route('dossiers.show', [$proformat->devis->dossier->client,$proformat->devis->dossier])}}' class="rounded-full cursor-pointer p-1 hover:bg-gray-300 mr-2">
+               @icon('edit')
+           </a>
+           <span class="rounded-full cursor-pointer p-1 hover:bg-gray-300 mr-2
+               @if(!($proformat->devis->data['validated'] ?? false)) text-red-600 @else text-green-600 @endif">
+               @icon('bus')
+           </span>
+           <span class="rounded-full cursor-pointer p-1 hover:bg-gray-300 mr-2
+               @if($proformat->price->paid() === 0 || $proformat->price->remains() > 0) text-red-600 @else text-green-600 @endif">
+               @icon('cash')
+           </span>
+           <span class="rounded-full cursor-pointer p-1 hover:bg-gray-300 mr-2
+               @if(($proformat->contactFournisseurs()->count() ?? 0) === 0) text-red-600 @else text-green-600 @endif">
+               @icon('phone')
+           </span>
        </div>
     </td>
 
@@ -50,7 +61,14 @@
     <td class="text-center">
         {{$proformat->devis->date_retour}}
     </td>
-    <td class="text-center text-red-800">
+    <td>
+        @if($proformat->devis->isMultiple)
+            <span class="text-blue-800 bg-blue-200 py-1 px-3 rounded-full">Oui ({{count($proformat->devis->data['trajets'])}})</span>
+        @else
+            <span class="text-gray-800 bg-gray-200 py-1 px-3 rounded-full">Non</span>
+        @endif
+    </td>
+    <td class="text-center @if($price->remains() == 0) text-green-500 @else text-red-800 @endif">
         @marge($price->remains())€
     </td>
 
@@ -59,7 +77,7 @@
             <a class="flex items-center mr-3 cursor-pointer" target="_blank" href="{{route('dossiers.show', [$proformat->devis->dossier->client, $proformat->devis->dossier])}}">
                 @icon('edit', null, 'mr-2')
             </a>
-            <a class="flex items-center mr-3 cursor-pointer" target="_blank" href="{{route('proformats.show', $proformat->id)}}">
+            <a class="flex items-center mr-3 cursor-pointer" target@="_blank" href="{{route('proformats.show', $proformat->id)}}">
                 @icon('show', null, 'mr-2')
             </a>
             <a class="flex items-center cursor-pointer" target="_blank"  href="{{route('proformats.pdf', $proformat->id)}}">
