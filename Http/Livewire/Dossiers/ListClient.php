@@ -7,6 +7,7 @@ use Modules\CoreCRM\Contracts\Repositories\CommercialRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\DossierRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\StatusRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\TagsRepositoryContract;
+use Modules\CrmAutoCar\Filters\ClientFilterQuery;
 
 class ListClient extends Component
 {
@@ -24,34 +25,24 @@ class ListClient extends Component
         'commercial' => '',
     ];
 
-
-    public function search()
+    public function query()
     {
+        $filter = (new ClientFilterQuery());
+        $filter->byStatus($this->status);
+        $filter->byCommercial($this->commercial);
+        $filter->byTag($this->tag);
+        $filter->search($this->nom_client);
 
-        $dossierRep = app(DossierRepositoryContract::class);
-        if($this->status || $this->commercial || $this->tag)
-        {
-            $dossierRep->setQuery($dossierRep->newQuery()
-                ->where('status_id', $this->status)
-                ->orWhere('commercial_id', $this->commercial)
-                ->orWhereHas('devis', function($query){
-                   $query->whereJsonContains('data', 'test');
-                })
-                ->orWhereHas('tags', function($query){
-                    $query-where('id', $this->tag);
-                })
-            );
+        $filter->byDateDepart($this->departStart, $this->departEnd);
 
-        }
-
-        return $dossierRep->fetchSearch($this->nom_client ?? null);
+        return $filter->query();
     }
 
     public function render()
     {
         return view('crmautocar::livewire.dossiers.list-client',
             [
-                'dossiers' => $this->search(),
+                'dossiers' => $this->query()->paginate(50),
                 'statusList' => app(StatusRepositoryContract::class)->fetchAll(),
                 'commercialList' => app(CommercialRepositoryContract::class)->fetchAll(),
                 'tagList' => app(TagsRepositoryContract::class)->fetchAll()
