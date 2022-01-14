@@ -16,19 +16,25 @@
                 @endforeach
 
             </x-basecore::inputs.select>
-            <x-basecore::inputs.select name="tag" class="form-control-sm">
+            <x-basecore::inputs.select name="tag" class="form-control-sm" wire:model="tag">
                 <option value="">Tag</option>
+                @foreach($tagList as $tagLi)
+                    <option value="{{$tagLi->id}}">{{$tagLi->label}}</option>
+                @endforeach
             </x-basecore::inputs.select>
-            <x-basecore::inputs.select name="commercial" class="form-control-sm">
+            <x-basecore::inputs.select name="commercial" class="form-control-sm" wire:model="commercial">
                 <option value="">Commercial</option>
+                @foreach($commercialList as $commer)
+                    <option value="{{$commer->id}}">{{$commer->format_name}}</option>
+                @endforeach
             </x-basecore::inputs.select>
             <div>
                 <span>Depart Du</span>
-                <x-basecore::inputs.date name="date_de_depart_debut" class="form-control-sm"/>
+                <x-basecore::inputs.date name="date_de_depart_debut" class="form-control-sm" wire:model="departStart"/>
             </div>
             <div>
                 <span>Aux</span>
-                <x-basecore::inputs.date name="date_de_depart_fin" class="form-control-sm"/>
+                <x-basecore::inputs.date name="date_de_depart_fin" class="form-control-sm" wire:model="departEnd"/>
             </div>
         </div>
         <div class="intro-y overflow-auto lg:overflow-visible mt-8 sm:mt-0">
