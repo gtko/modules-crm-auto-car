@@ -36,6 +36,9 @@
                 <span>Aux</span>
                 <x-basecore::inputs.date name="date_de_depart_fin" class="form-control-sm" wire:model="departEnd"/>
             </div>
+            <div class="mt-2">
+                <div class="btn-sm btn-primary mt-3 w-32" wire:click="clearFiltre()">Clear les filtres</div>
+            </div>
         </div>
         <div class="intro-y overflow-auto lg:overflow-visible mt-8 sm:mt-0">
             <table class="table table-report sm:mt-2">
@@ -45,6 +48,8 @@
                     <th class="whitespace-nowrap">Ref</th>
                     <th class="text-center whitespace-nowrap">Nom</th>
                     <th class="text-center whitespace-nowrap">Statut</th>
+                    <th class="text-center whitespace-nowrap">tags</th>
+                    <th class="text-center whitespace-nowrap">date du voyage</th>
                     <th class="text-center whitespace-nowrap">Commercial</th>
                     <th class="text-center whitespace-nowrap">Créer le</th>
                     <th class="text-center whitespace-nowrap"></th>

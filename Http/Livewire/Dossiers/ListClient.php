@@ -38,6 +38,16 @@ class ListClient extends Component
         return $filter->query();
     }
 
+    public function clearFiltre()
+    {
+        $this->nom_client = '';
+        $this->status = '';
+        $this->tag = '';
+        $this->commercial = '';
+        $this->departEnd = '';
+        $this->departStart = '';
+    }
+
     public function render()
     {
         return view('crmautocar::livewire.dossiers.list-client',
