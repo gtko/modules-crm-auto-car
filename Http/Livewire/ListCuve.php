@@ -64,6 +64,7 @@ class ListCuve extends Component
         $commercials = app(CommercialRepositoryContract::class)->fetchAll();
         $pipelines = app(PipelineRepositoryContract::class)->fetchall();
 
+
         $dossierRep->setQuery($dossierRep->newQuery()->with(['client.personne.emails', 'client.personne.address.country', 'commercial.personne', 'source'])
             ->orderByDesc('created_at'));
 

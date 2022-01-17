@@ -2,7 +2,8 @@
 
 
     <div class="nav nav-tabs flex-row justify-center items-center space-x-8">
-        <span class="py-4 flex items-center cursor-pointer @if($filtre == 'attente')  active @endif" wire:click="changeFiltre('attente')">
+        <span class="py-4 flex items-center cursor-pointer @if($filtre == 'attente')  active @endif"
+              wire:click="changeFiltre('attente')">
            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
                 class="feather feather-mail w-4 h-4 mr-2">
@@ -12,7 +13,8 @@
                     </svg>
                     En attente
         </span>
-        <span class="py-4 flex items-center cursor-pointer @if($filtre == 'distribuer')  active @endif" wire:click="changeFiltre('distribuer')">
+        <span class="py-4 flex items-center cursor-pointer @if($filtre == 'distribuer')  active @endif"
+              wire:click="changeFiltre('distribuer')">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                  stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
                  class="feather feather-send w-4 h-4 mr-2">
@@ -21,7 +23,8 @@
                     </svg>
                     Distribué
         </span>
-        <span class="py-4 flex items-center cursor-pointer @if($filtre == 'corbeille')  active @endif" wire:click="changeFiltre('corbeille')">
+        <span class="py-4 flex items-center cursor-pointer @if($filtre == 'corbeille')  active @endif"
+              wire:click="changeFiltre('corbeille')">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                  stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"
                  class="feather feather-trash w-4 h-4 mr-2">
@@ -45,7 +48,7 @@
                         <option value="">Commercial</option>
                         @foreach($commercials as $commercial)
                             @if ($commercial->id != 1)
-                                <option value="{{$commercial->id}}"> {{ $commercial->formatName }}</option>
+                                <livewire:crmautocar::list-cuve-commercial-detail wire:key="{{$commercial->id}}" :commercial="$commercial"/>
                             @endif
 
                         @endforeach
@@ -65,14 +68,16 @@
                 @if($dossiers->lastPage() > 1)
                     <div class="flex items-center sm:ml-auto">
                         <div class="dark:text-gray-300">1 - 50 sur {{$dossiers->total()}}</div>
-                        <a href="{{$dossiers->appends(request()->input())->previousPageUrl()}}" class="w-5 h-5 ml-5 flex items-center justify-center dark:text-gray-300">
+                        <a href="{{$dossiers->appends(request()->input())->previousPageUrl()}}"
+                           class="w-5 h-5 ml-5 flex items-center justify-center dark:text-gray-300">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                  fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
                                  stroke-linejoin="round" class="feather feather-chevron-left w-4 h-4">
                                 <polyline points="15 18 9 12 15 6"></polyline>
                             </svg>
                         </a>
-                        <a href="{{$dossiers->appends(request()->input())->nextPageUrl()}}" class="w-5 h-5 ml-5 flex items-center justify-center dark:text-gray-300">
+                        <a href="{{$dossiers->appends(request()->input())->nextPageUrl()}}"
+                           class="w-5 h-5 ml-5 flex items-center justify-center dark:text-gray-300">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                  fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
                                  stroke-linejoin="round" class="feather feather-chevron-right w-4 h-4">
@@ -85,27 +90,28 @@
             <div class="overflow-x-auto sm:overflow-x-visible">
 
                 @if($dossiers->count() > 0)
-                <table class="table table--sm">
-                    <thead>
-                    <tr>
-                        <th class="border-b-2 dark:border-dark-5 whitespace-nowrap">
-                            <input class="form-check-input flex-none" type="checkbox" wire:model="all" value="all">
-                            Nom
-                        </th>
-                        <th class="border-b-2 dark:border-dark-5 whitespace-nowrap">Source</th>
-                        <th class="border-b-2 dark:border-dark-5 whitespace-nowrap">Email</th>
-                        <th class="border-b-2 dark:border-dark-5 whitespace-nowrap">Commercial</th>
-                        <th class="border-b-2 dark:border-dark-5 whitespace-nowrap">Téléphone</th>
-                        <th class="border-b-2 dark:border-dark-5 whitespace-nowrap">Date de réception</th>
-                        <th class="border-b-2 dark:border-dark-5 whitespace-nowrap">Action</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($dossiers as $dossier)
-                        <livewire:crmautocar::element-list-cuve :dossier="$dossier" :key="$dossier->id" :filtre="$filtre"/>
-                    @endforeach
-                    </tbody>
-                </table>
+                    <table class="table table--sm">
+                        <thead>
+                        <tr>
+                            <th class="border-b-2 dark:border-dark-5 whitespace-nowrap">
+                                <input class="form-check-input flex-none" type="checkbox" wire:model="all" value="all">
+                                Nom
+                            </th>
+                            <th class="border-b-2 dark:border-dark-5 whitespace-nowrap">Source</th>
+                            <th class="border-b-2 dark:border-dark-5 whitespace-nowrap">Email</th>
+                            <th class="border-b-2 dark:border-dark-5 whitespace-nowrap">Commercial</th>
+                            <th class="border-b-2 dark:border-dark-5 whitespace-nowrap">Téléphone</th>
+                            <th class="border-b-2 dark:border-dark-5 whitespace-nowrap">Date de réception</th>
+                            <th class="border-b-2 dark:border-dark-5 whitespace-nowrap">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        @foreach($dossiers as $dossier)
+                            <livewire:crmautocar::element-list-cuve :dossier="$dossier" :key="$dossier->id"
+                                                                    :filtre="$filtre"/>
+                        @endforeach
+                        </tbody>
+                    </table>
                 @else
                     <button type="button"
                             class="relative block w-full  p-12 text-center hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
@@ -117,16 +123,16 @@
                         <span class="mt-2 block text-sm font-medium text-gray-900">
                                 Aucun dossier
                                 @switch($filtre)
-                                    @case("attente")
-                                        en attente
-                                    @break
-                                    @case("distribuer")
-                                        de distribué
-                                    @break
-                                    @case("corbeille")
-                                        dans la corbeille
-                                    @break
-                                @endswitch
+                                @case("attente")
+                                en attente
+                                @break
+                                @case("distribuer")
+                                de distribué
+                                @break
+                                @case("corbeille")
+                                dans la corbeille
+                                @break
+                            @endswitch
                             </span>
                     </button>
                 @endif
