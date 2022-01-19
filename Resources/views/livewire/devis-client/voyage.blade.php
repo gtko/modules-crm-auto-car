@@ -12,41 +12,42 @@
     </div>
 
 
-        <div class="flex flex-col md:mt-4 mt-2">
+    <div class="flex flex-col md:mt-4 mt-2">
 
-            <div class="p-3">
-                <div>
-                    <span>Départ de </span>
-                    <span class="font-bold">{{ $trajet['aller_distance']['origin_formatted'] ?? '' }} </span>
-                    <span>vers </span>
-                    <span class="font-bold">{{ $trajet['aller_distance']['destination_formatted'] ?? '' }} </span>
-                </div>
-                <div>
-                    Date :
-                    @if($trajet['aller_date_depart'] ?? false)
-                        {{ \Carbon\Carbon::createFromTimeString($trajet['aller_date_depart'] ?? '')->translatedFormat('d/m/Y') }}
-                    @else
-                        Aucune date
-                    @endif
-                </div>
-                <div>
-                    <span>Heure de Départ : </span>
-                    <span class="font-bold">
+        <div class="p-3">
+            <div>
+                <span>Départ de </span>
+                <span class="font-bold">{{ $trajet['aller_distance']['origin_formatted'] ?? '' }} </span>
+                <span>vers </span>
+                <span class="font-bold">{{ $trajet['aller_distance']['destination_formatted'] ?? '' }} </span>
+            </div>
+            <div>
+                Date :
+                @if($trajet['aller_date_depart'] ?? false)
+                    {{ \Carbon\Carbon::createFromTimeString($trajet['aller_date_depart'] ?? '')->translatedFormat('d/m/Y') }}
+                @else
+                    Aucune date
+                @endif
+            </div>
+            <div>
+                <span>Heure de Départ : </span>
+                <span class="font-bold">
                              @if($trajet['aller_date_depart'] ?? false)
-                            {{ \Carbon\Carbon::createFromTimeString($trajet['aller_date_depart'] ?? '')->format('h:i') }}
-                        @else
-                            Aucune heure
-                        @endif
+                        {{ \Carbon\Carbon::createFromTimeString($trajet['aller_date_depart'] ?? '')->format('h:i') }}
+                    @else
+                        Aucune heure
+                    @endif
 
                         </span>
-                </div>
+            </div>
+            <div>
                 <div>
-                    <div>
-                        <span>Nombre de voyageurs : </span>
-                        <span class="font-bold">{{ $trajet['aller_pax'] ?? ''}}</span>
-                    </div>
+                    <span>Nombre de voyageurs : </span>
+                    <span class="font-bold">{{ $trajet['aller_pax'] ?? ''}}</span>
                 </div>
             </div>
+        </div>
+        @if($trajet['retour_date_depart'] ?? false)
             <div class="mt-5 p-3">
                 <div>
                     Retour le :
@@ -79,15 +80,15 @@
                     </div>
                 </div>
             </div>
+        @endif
 
-            <livewire:crmautocar::devis-client.recap-devis
-                :devis="$devis"
-                :brand="$brand"
-                :trajet-id="$trajetId"
-                :class="'p-4 grid justify-items-stretch mb-4'"
-            />
-        </div>
-
+        <livewire:crmautocar::devis-client.recap-devis
+            :devis="$devis"
+            :brand="$brand"
+            :trajet-id="$trajetId"
+            :class="'p-4 grid justify-items-stretch mb-4'"
+        />
+    </div>
 
 
 </div>

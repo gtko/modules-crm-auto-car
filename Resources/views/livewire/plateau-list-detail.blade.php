@@ -6,7 +6,7 @@
         </div>
     @endif
     @foreach($commercialByStatus as $status)
-        <div class="text-gray-600 text-xs flex flex-row justify-around items-center">
+        <div class="text-gray-600 text-xs flex flex-row justify-between items-center">
             <a target="_blank" class="ml-3" href="/vue-plateau/{{$modelCommercial->id}}/{{$status->first()->status->id}}">{{ $status->first()->status->label }}</a>
             <div class="text-white p-1 rounded-full">{{ count($status)}}</div>
         </div>
