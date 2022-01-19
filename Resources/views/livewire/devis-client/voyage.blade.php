@@ -42,7 +42,7 @@
                 </div>
                 <div>
                     <div>
-                        <span>Nombre de voyageur : </span>
+                        <span>Nombre de voyageurs : </span>
                         <span class="font-bold">{{ $trajet['aller_pax'] ?? ''}}</span>
                     </div>
                 </div>
@@ -74,7 +74,7 @@
                 </div>
                 <div>
                     <div>
-                        <span>Nombre de voyageur : </span>
+                        <span>Nombre de voyageurs : </span>
                         <span class="font-bold">{{ $trajet['retour_pax'] ?? ''}}</span>
                     </div>
                 </div>

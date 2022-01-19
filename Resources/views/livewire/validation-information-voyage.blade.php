@@ -13,7 +13,9 @@
                             Vos informations ont été prises en compte et son attente de validation par nos équipes.<br>
                             Si vous avez des modifications à apporter, vous pouvez modifier le formulaire suivant dès maintenant.<br>
                             <br>
-                            Merci, l'équipe de centale autocar.
+                            Si vous avez des modifications supplémentaires à apporter merci de contacter notre service client
+                            <br>
+                            Merci, l'Equipe de Centale Autocar.
                         </div>
                     @endif
                     @foreach(($devis->data['trajets'] ?? []) as $idTrajet => $trajet)
