@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Dossier extends \Modules\CoreCRM\Models\Dossier
 {
 
+
+
     public function contactFournisseurs():HasMany
     {
         return $this->hasMany(ContactFournisseur::class);
     }
-
 }

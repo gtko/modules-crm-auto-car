@@ -29,8 +29,6 @@ class ListCuve extends Component
         'commercial' => 'required'
     ];
 
-
-
     public function updatedAll()
     {
         $this->emit('allSelect' , $this->all);
