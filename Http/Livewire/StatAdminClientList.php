@@ -3,6 +3,7 @@
 namespace Modules\CrmAutoCar\Http\Livewire;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Modules\BaseCore\Actions\Dates\DateStringToCarbon;
 use Modules\CoreCRM\Contracts\Repositories\CommercialRepositoryContract;
@@ -19,6 +20,14 @@ class StatAdminClientList extends Component
     public $idTime;
 
     protected $listeners = ['updateSelectCommercial', 'dateRange'];
+
+    public function mount(){
+        if(Auth::user()->hasRole('commercial')) {
+            $this->commercial = Auth::commercial();
+            $this->times = app(TimerRepositoryContract::class)->getTimeByPeriode($this->commercial, Carbon::now()->subYear(50), Carbon::now());
+
+        }
+    }
 
     public function updateSelectCommercial(Commercial $commercial)
     {

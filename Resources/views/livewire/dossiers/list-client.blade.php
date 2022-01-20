@@ -62,7 +62,6 @@
                 </thead>
                 <tbody>
                 @foreach($dossiers as $dossier)
-
                     <livewire:crmautocar::dossiers.list-detail :dossier="$dossier" :key="$dossier->id"/>
                 @endforeach
                 </tbody>
