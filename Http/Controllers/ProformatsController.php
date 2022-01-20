@@ -37,7 +37,8 @@ class ProformatsController extends \Modules\CoreCRM\Http\Controllers\Controller
      */
     public function show(Proformat $proformat)
     {
-        $price = (new ProformatPrice($proformat, app(BrandsRepositoryContract::class)->getDefault()));
+        $brand = app(BrandsRepositoryContract::class)->getDefault();
+        $price = (new ProformatPrice($proformat, $brand));
 
         return view('crmautocar::proformats.show', compact('proformat', 'price', 'brand'));
     }
