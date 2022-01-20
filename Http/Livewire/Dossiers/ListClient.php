@@ -52,7 +52,7 @@ class ListClient extends Component
     {
         return view('crmautocar::livewire.dossiers.list-client',
             [
-                'dossiers' => $this->query()->paginate(50),
+                'dossiers' => $this->query()->orderBy('created_at', 'desc')->paginate(50),
                 'statusList' => app(StatusRepositoryContract::class)->fetchAll(),
                 'commercialList' => app(CommercialRepositoryContract::class)->fetchAll(),
                 'tagList' => app(TagsRepositoryContract::class)->fetchAll()
