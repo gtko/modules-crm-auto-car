@@ -39,6 +39,11 @@
             <div class="mt-2">
                 <div class="btn-sm btn-primary mt-3 w-32 rounded" wire:click="clearFiltre()">Clear les filtres</div>
             </div>
+            @if(!\Auth::user()->isSuperAdmin())
+                <div class="mt-5">
+                    <x-basecore::inputs.checkbox wire:model="viewMyLead" name="my_lead" label="Voir mes dossiers uniquement"/>
+                </div>
+            @endif
         </div>
         <div class="intro-y overflow-auto lg:overflow-visible mt-8 sm:mt-0">
             <table class="table table-report sm:mt-2">

@@ -18,6 +18,7 @@ class ListClient extends Component
     public $commercial;
     public $departStart;
     public $departEnd;
+    public $viewMyLead = true;
 
     protected $rules = [
         'nom_client' => '',
@@ -50,9 +51,17 @@ class ListClient extends Component
 
     public function render()
     {
+        if (\Auth::user()->isSuperAdmin() || !$this->viewMyLead) {
+            $dossiers = $this->query()->orderBy('created_at', 'desc')->paginate(50);
+        } else {
+
+            $dossiers = $this->query()->where('commercial_id', \Auth::user()->id)->orderBy('created_at', 'desc')->paginate(50);
+        }
+
+
         return view('crmautocar::livewire.dossiers.list-client',
             [
-                'dossiers' => $this->query()->orderBy('created_at', 'desc')->paginate(50),
+                'dossiers' => $dossiers,
                 'statusList' => app(StatusRepositoryContract::class)->fetchAll(),
                 'commercialList' => app(CommercialRepositoryContract::class)->fetchAll(),
                 'tagList' => app(TagsRepositoryContract::class)->fetchAll()
