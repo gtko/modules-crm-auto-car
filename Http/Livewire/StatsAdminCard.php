@@ -63,15 +63,16 @@ class StatsAdminCard extends Component
     {
         if ($this->commercial) {
             $this->nombeHeureTravail = $repTimer->getTotalTimeByCommercialPeriode($this->commercial, $this->debut, $this->fin);
-            $this->tauxHoraire = $repStat->getTauxHoraireByCommercial();
-            $this->nombreLead = $repStat->getNombreLead($this->commercial, $this->debut, $this->fin);;
-            $this->nombreContrat = $repStat->getNombreContactByCommercial();
-            $this->margeTtc = $repStat->getMargeTtcByCommercial();
-            $this->margeNet = $repStat->getMargeNetAfterHoraireByCommercial();
-            $this->panierMoyenTtc = $repStat->getPanierMoyenTtcByCommercial();
-            $this->panierMoyenNet = $repStat->getPanierMoyenNetByCommercial();
-            $this->margeNetAfterHoraire = $repStat->getMargeNetAfterHoraireByCommercial();
-            $this->panierMoyenAfterHoraire = $repStat->getPanierMoyenNetAfterHoraire();
+            $this->tauxHoraire = $repStat->getTauxHoraireByCommercial($this->commercial, $this->debut, $this->fin);
+            $this->nombreLead = $repStat->getNombreLead($this->commercial, $this->debut, $this->fin);
+            $this->nombreContrat = $repStat->getNombreContactByCommercial($this->commercial, $this->debut, $this->fin);
+            $this->margeTtc = $repStat->getMargeTtcByCommercial($this->commercial, $this->debut, $this->fin);
+            $this->margeNet = $repStat->getMargeNetAfterHoraireByCommercial($this->commercial, $this->debut, $this->fin);
+            $this->panierMoyenTtc = $repStat->getPanierMoyenTtcByCommercial($this->commercial, $this->debut, $this->fin);
+            $this->panierMoyenNet = $repStat->getPanierMoyenNetByCommercial($this->commercial, $this->debut, $this->fin);
+            $this->margeNetAfterHoraire = $repStat->getMargeNetAfterHoraireByCommercial($this->commercial, $this->debut, $this->fin);
+            $this->tauxConversion = $repStat->getTauxConversionByCommercial($this->commercial, $this->debut, $this->fin);
+            $this->panierMoyenAfterHoraire = $repStat->getPanierMoyenNetAfterHoraire($this->debut, $this->fin);
         }
 
         return view('crmautocar::livewire.stats-admin-card');
