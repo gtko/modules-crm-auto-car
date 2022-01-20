@@ -16,7 +16,7 @@
     </div>
     <hr>
     <div class="px-2 pt-2">
-        <x-basecore::inputs.select name="devi_id" label="" required="required" wire:model.defer="devi_id">
+        <x-basecore::inputs.select name="devi_id" label="" required="required" wire:model="devi_id">
             <option selected="selected">Devis</option>
             @foreach($dossier->devis as $devi)
                 <option

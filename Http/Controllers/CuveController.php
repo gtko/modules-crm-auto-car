@@ -23,9 +23,6 @@ class CuveController extends Controller
     {
         $this->authorize('view-any', Dossier::class);
 
-
-
-
         return view('crmautocar::cuves.index');
     }
 

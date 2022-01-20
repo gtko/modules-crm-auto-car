@@ -10,6 +10,7 @@ class DevisSendClient extends TimelineComponent
 {
     public function render(): View
     {
+
         return view('crmautocar::components.timeline.devis-send-client');
     }
 }

@@ -9,7 +9,7 @@
                     class="form-control-sm"
                     label="Date de départ"
                     name="initiale.{{$index}}.aller_date_depart"
-                    wire:model.defer="initiale.{{$index}}.aller_date_depart"
+                    wire:model="initiale.{{$index}}.aller_date_depart"
                     placeholder="Date de départ"
                     disabled
                 />
@@ -33,7 +33,7 @@
                     class="form-control-sm"
                     label="Date de retour"
                     name="initiale.{{$index}}.aller_date_depart"
-                    wire:model.defer="initiale.{{$index}}.aller_date_depart"
+                    wire:model="initiale.{{$index}}.aller_date_depart"
                     placeholder="Date de retour"
                     disabled
                 />
@@ -104,7 +104,7 @@
                     :class="'form-control-sm '.((!$delta[$index]['aller_date_depart'])?'bg-red-200':'')"
                     label="Date de départ"
                     name="validate.{{$index}}.aller_date_depart"
-                    wire:model.defer="validate.{{$index}}.aller_date_depart"
+                    wire:model="validate.{{$index}}.aller_date_depart"
                     placeholder="Date de départ"
                 />
                 <x-basecore::inputs.number
@@ -125,7 +125,7 @@
                     :class="'form-control-sm '.((!$delta[$index]['retour_date_depart'])?'bg-red-200':'')"
                     label="Date de retour"
                     name="validate.{{$index}}.retour_date_depart"
-                    wire:model.defer="validate.{{$index}}.retour_date_depart"
+                    wire:model="validate.{{$index}}.retour_date_depart"
                     placeholder="Date de retour"
                 />
                 <x-basecore::inputs.number

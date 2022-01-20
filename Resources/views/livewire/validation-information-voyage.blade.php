@@ -27,7 +27,7 @@
                             <div class="grid grid-cols-2">
                                 <x-basecore::inputs.group class="w-full">
                                     <x-basecore::inputs.datetime label="Date de départ" name="validate.{{$idTrajet}}.aller_date_depart"
-                                                                 wire:model.defer="validate.{{$idTrajet}}.aller_date_depart"
+                                                                 wire:model="validate.{{$idTrajet}}.aller_date_depart"
                                                                  placeholder="Date de départ"/>
                                 </x-basecore::inputs.group>
                                 <x-basecore::inputs.group class="w-full">
@@ -41,7 +41,7 @@
                             <h5 class="text-bleu my-2 pl-2 font-bold text-xl">Adresse de destination</h5>
                             <div class="grid grid-cols-2">
                                 <x-basecore::inputs.group class="w-full">
-                                    <x-basecore::inputs.datetime label="Date de retour" name="validate.{{$idTrajet}}.retour_date_depart" wire:model.defer="validate.{{$idTrajet}}.retour_date_depart" placeholder="Date de départ"/>
+                                    <x-basecore::inputs.datetime label="Date de retour" name="validate.{{$idTrajet}}.retour_date_depart" wire:model="validate.{{$idTrajet}}.retour_date_depart" placeholder="Date de départ"/>
                                 </x-basecore::inputs.group>
                                 <x-basecore::inputs.group class="w-full">
                                     <x-basecore::inputs.basic label="Nombre de passagers" name="validate.{{$idTrajet}}.retour_pax" wire:model.lazy="validate.{{$idTrajet}}.retour_pax" placeholder="Nombre de passagers"/>

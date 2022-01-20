@@ -10,6 +10,7 @@ use Modules\BaseCore\Entities\TypeView;
 use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\DossierRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\PipelineRepositoryContract;
+use Modules\CoreCRM\Contracts\Services\FlowContract;
 use Modules\CoreCRM\Contracts\Views\Dossiers\DossierAfterBlockFournisseur;
 use Modules\CoreCRM\Contracts\Views\Dossiers\DossierAfterSidebarContract;
 use Modules\CoreCRM\Contracts\Views\Dossiers\DossierSidebarAddActionsViewContract;
@@ -66,6 +67,7 @@ use Modules\CrmAutoCar\Repositories\TagsRepository;
 use Modules\CrmAutoCar\Repositories\TemplateRepository;
 use Modules\CrmAutoCar\Services\Google\DistanceMatrixApi;
 use Modules\CrmAutoCar\Services\Paytweak\Paytweak;
+use Modules\CrmAutoCar\Services\FlowAutocarCRM;
 
 class CrmAutoCarServiceProvider extends ServiceProvider
 {
@@ -106,6 +108,8 @@ class CrmAutoCarServiceProvider extends ServiceProvider
 
         $this->app->bind(PaymentRepositoryContract::class, PaymentRepository::class);
         $this->app->bind(DossierRepositoryContract::class, DossierAutoCarRepository::class);
+
+        $this->app->bind(FlowContract::class,FlowAutocarCRM::class);
 
         $this->app->bind(Paytweak::class, function(){
             return (new Paytweak(env('PAYTWEAK_PUBLIC', ''), env('PAYTWEAK_PRIVATE', '')));
