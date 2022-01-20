@@ -91,6 +91,9 @@ class StatistiqueRepository implements StatistiqueRepositoryContract
                     $q->whereIn('status_id',$status->pluck('id'));
             })->count();
 
+        if($dossierWin === 0){
+            return 0;
+        }
 
         return ($dossierWin / $dossier->count()) * 100;
     }
