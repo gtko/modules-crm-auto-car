@@ -2,9 +2,12 @@
 
 namespace Modules\CrmAutoCar\Http\Livewire;
 
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Modules\BaseCore\Actions\Dates\DateStringToCarbon;
 use Modules\CoreCRM\Models\Commercial;
+use Modules\TimerCRM\Contracts\Repositories\TimerRepositoryContract;
 
 class StatsFilterDate extends Component
 {
@@ -14,6 +17,12 @@ class StatsFilterDate extends Component
     public $badge = '';
 
     protected $listeners = ['updateSelectCommercial'];
+
+    public function mount(){
+        if(Auth::user()->hasRole('commercial')) {
+            $this->commercial = Auth::commercial();
+        }
+    }
 
     public function updateSelectCommercial(Commercial $commercial)
     {

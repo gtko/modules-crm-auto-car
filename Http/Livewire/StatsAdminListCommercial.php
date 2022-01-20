@@ -2,6 +2,7 @@
 
 namespace Modules\CrmAutoCar\Http\Livewire;
 
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Modules\CoreCRM\Contracts\Repositories\CommercialRepositoryContract;
 
@@ -10,6 +11,15 @@ class StatsAdminListCommercial extends Component
 
     protected $commercials;
     public $commercial_id;
+
+    public function mount(CommercialRepositoryContract $repCommercial)
+    {
+        if(Auth::user()->hasRole('commercial')) {
+            $this->commercial_id = Auth::user()->id;
+            $commercial = $repCommercial->fetchById($this->commercial_id);
+            $this->emit('updateSelectCommercial', $commercial);
+        }
+    }
 
     public function selectCommercial(CommercialRepositoryContract $repCommercial, $commercialId)
     {

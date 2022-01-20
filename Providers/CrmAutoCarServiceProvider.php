@@ -51,6 +51,7 @@ use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierDemandeFournisseurVal
 use Modules\CrmAutoCar\Notifications\ClientDevisExterneValidationNotification;
 use Modules\CrmAutoCar\Notifications\ClientDossierDemandeFournisseurSendNotification;
 use Modules\CrmAutoCar\Notifications\DevisSendClientNotification;
+use Modules\CrmAutoCar\Notifications\DossierAttribuerNotification;
 use Modules\CrmAutoCar\Repositories\BrandsRepository;
 use Modules\CrmAutoCar\Repositories\ConfigRepository;
 use Modules\CrmAutoCar\Repositories\ContactFournisseurRepository;
@@ -175,11 +176,9 @@ class CrmAutoCarServiceProvider extends ServiceProvider
 
     public function registerNotif()
     {
-//        Kernel::add([
-//            ClientDossierDemandeFournisseurSendNotification::class,
-//            ClientDevisExterneValidationNotification::class,
-//            DevisSendClientNotification::class
-//        ]);
+        Kernel::add([
+            DossierAttribuerNotification::class
+        ]);
     }
 
     /**

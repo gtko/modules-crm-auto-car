@@ -1,5 +1,5 @@
 <div class="box bg-theme-1 p-5 mt-6">
-    <div class="pt-3 text-white" x-data="{selected:null}">
+    <div class="pt-3 text-white" x-data="{selected:{{ Auth::Commercial()->id }}}">
 
         @foreach($this->commercials as $commercial)
             @if (Auth::user()->IsSuperAdmin() || Auth::Commercial()->id == $commercial->id)
@@ -27,11 +27,10 @@
                     @endif
                 </span>
             </span>
-                <div x-show="selected == {{ $commercial->id }}">
+                <div x-show="selected === {{ $commercial->id }}">
                     <livewire:crmautocar::plateau-list-detail :commercialId="$commercial->id" :key="$commercial->id"/>
                 </div>
             @endif
         @endforeach
     </div>
 </div>
-

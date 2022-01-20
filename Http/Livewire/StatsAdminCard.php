@@ -2,6 +2,8 @@
 
 namespace Modules\CrmAutoCar\Http\Livewire;
 
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Modules\BaseCore\Actions\Dates\DateStringToCarbon;
 use Modules\CoreCRM\Models\Commercial;
@@ -27,6 +29,13 @@ class StatsAdminCard extends Component
     public $fin;
 
     protected $listeners = ['updateSelectCommercial', 'dateRange', 'resetCard'];
+
+
+    public function mount(){
+        if(Auth::user()->hasRole('commercial')) {
+            $this->commercial = Auth::commercial();
+        }
+    }
 
     public function updateSelectCommercial(Commercial $commercial)
     {
