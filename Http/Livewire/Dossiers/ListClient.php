@@ -59,10 +59,13 @@ class ListClient extends Component
         }
 
 
+        $pipelineList = app(StatusRepositoryContract::class)->fetchAll();
+        $pipelineList = $pipelineList->groupBy('pipeline_id');
+
         return view('crmautocar::livewire.dossiers.list-client',
             [
                 'dossiers' => $dossiers,
-                'statusList' => app(StatusRepositoryContract::class)->fetchAll(),
+                'pipelineList' => $pipelineList,
                 'commercialList' => app(CommercialRepositoryContract::class)->fetchAll(),
                 'tagList' => app(TagsRepositoryContract::class)->fetchAll()
             ]);

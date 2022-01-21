@@ -9,13 +9,19 @@
         <div class="mt-4 grid grid grid-cols-4 gap-4">
             <x-basecore::inputs.text name="nom_client" placeholder="Nom du client" class="form-control-sm"
                                      wire:model="nom_client"/>
+
+
             <x-basecore::inputs.select name="statut" class="form-control-sm" wire:model="status">
                 <option value="">Statut</option>
-                @foreach($statusList as $statu)
-                    <option value="{{$statu->id}}">{{$statu->label}}</option>
+                @foreach($pipelineList as $pipeline)
+                    <optgroup label="{{ $pipeline->first()->pipeline->name ?? '' }}">
+                    @foreach($pipeline as $statu)
+                        <option value="{{$statu->id}}">{{$statu->label}}</option>
+                    @endforeach
+                    </optgroup>
                 @endforeach
-
             </x-basecore::inputs.select>
+
             <x-basecore::inputs.select name="tag" class="form-control-sm" wire:model="tag">
                 <option value="">Tag</option>
                 @foreach($tagList as $tagLi)
@@ -37,11 +43,12 @@
                 <x-basecore::inputs.date name="date_de_depart_fin" class="form-control-sm" wire:model="departEnd"/>
             </div>
             <div class="mt-2">
-                <div class="btn-sm btn-primary mt-3 w-32 rounded" wire:click="clearFiltre()">Clear les filtres</div>
+                <div class="btn-sm btn-primary mt-3 w-32 rounded cursor-pointer" wire:click="clearFiltre()">Clear les filtres</div>
             </div>
             @if(!\Auth::user()->isSuperAdmin())
                 <div class="mt-5">
-                    <x-basecore::inputs.checkbox wire:model="viewMyLead" name="my_lead" label="Voir mes dossiers uniquement"/>
+                    <x-basecore::inputs.checkbox wire:model="viewMyLead" name="my_lead"
+                                                 label="Voir mes dossiers uniquement"/>
                 </div>
             @endif
         </div>

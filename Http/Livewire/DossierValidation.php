@@ -2,9 +2,14 @@
 
 namespace Modules\CrmAutoCar\Http\Livewire;
 
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Modules\CoreCRM\Contracts\Entities\ClientEntity;
+use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
+use Modules\CoreCRM\Flow\Attributes\ClientDossierNoteCreate;
 use Modules\CoreCRM\Models\Dossier;
+use Modules\CoreCRM\Services\FlowCRM;
+use Modules\CrmAutoCar\Flow\Attributes\SendInformationVoyageMailFournisseur;
 
 class DossierValidation extends Component
 {
@@ -21,6 +26,13 @@ class DossierValidation extends Component
     public function mount(ClientEntity $client, Dossier $dossier){
         $this->client = $client;
         $this->dossier = $dossier;
+    }
+
+    public function envoyer($devi_id)
+    {
+        $devis = app(DevisRepositoryContract::class)->fetchById($devi_id);
+
+        (new FlowCRM())->add($this->dossier,new SendInformationVoyageMailFournisseur(Auth::user(), $devis));
     }
 
     public function openPopup($devi_id)

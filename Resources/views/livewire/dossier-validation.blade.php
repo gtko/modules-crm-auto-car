@@ -14,7 +14,9 @@
                 <tr class="bg-gray-100 text-gray-700">
                     <th class="whitespace-nowrap">#</th>
                     <th class="whitespace-nowrap">validé</th>
+                    <th class="whitespace-nowrap">envoyé</th>
                     <th class="whitespace-nowrap">Actions</th>
+                    <i class="bi bi-zoom-out"></i>
                 </tr>
                 </thead>
                 <tbody>
@@ -31,9 +33,20 @@
                             @endif
 
                         </td>
-                        <td class="border-b dark:border-dark-5">
-                            <div class="cursor-pointer" wire:click="openPopup({{$devi->id}})">
+                        <td class="border-b dark:border-dark-5 text-center">
+                            @if(false)
+                                @icon('checkCircle', null, 'mr-2 text-green-600')
+                            @else
+                                @icon('close', null, 'mr-2 text-red-600')
+                            @endif
+
+                        </td>
+                        <td class="border-b dark:border-dark-5 flex flex-row">
+                            <div class="cursor-pointer" title="voir" wire:click="openPopup({{$devi->id}})">
                                 @icon('show', null, 'mr-2')
+                            </div>
+                            <div class="cursor-pointer" title="voir" wire:click="envoyer({{$devi->id}})">
+                                @icon('email', null, 'mr-2')
                             </div>
                         </td>
                     </tr>

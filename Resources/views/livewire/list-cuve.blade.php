@@ -57,12 +57,12 @@
                           class="bg-blue-600 p-2 w-32 text-center text-white rounded ml-2 cursor-pointer flex items-center justify-center">
                         Attribuer
                     </span>
-                    <select wire:model="pipeline" class="form-select form-select ml-8">
-                        <option value="">Pipeline</option>
-                        @foreach($pipelines as $pipeline)
-                            <option value="{{$pipeline->id}}"> {{ $pipeline->name }}</option>
-                        @endforeach
-                    </select>
+{{--                    <select wire:model="pipeline" class="form-select form-select ml-8">--}}
+{{--                        <option value="">Pipeline</option>--}}
+{{--                        @foreach($pipelines as $pipeline)--}}
+{{--                            <option value="{{$pipeline->id}}"> {{ $pipeline->name }}</option>--}}
+{{--                        @endforeach--}}
+{{--                    </select>--}}
                 </div>
 
                 @if($dossiers->lastPage() > 1)
