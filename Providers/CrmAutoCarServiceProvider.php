@@ -17,6 +17,7 @@ use Modules\CoreCRM\Contracts\Views\Dossiers\DossierSidebarAddActionsViewContrac
 use Modules\CoreCRM\Contracts\Views\Dossiers\DossierTabLabelViewContract;
 use Modules\CoreCRM\Contracts\Views\Dossiers\DossierTabViewContract;
 use Modules\CoreCRM\Contracts\Views\Dossiers\SelectTagDossier;
+use Modules\CoreCRM\Flow\Works\Services\TemplateMailService;
 use Modules\CoreCRM\Flow\Works\WorkflowKernel;
 use Modules\CoreCRM\Notifications\Kernel;
 use Modules\CoreCRM\Repositories\PipelineRepository;
@@ -171,6 +172,10 @@ class CrmAutoCarServiceProvider extends ServiceProvider
             EventClientDevisClientSaveValidation::class,
             EventClientDevisClientModifValidation::class
         ]);
+
+        app(TemplateMailService::class)
+            ->add('MonAutoCar', 'crmautocar::emails.monautocar', TemplateMailService::TYPE_HTML)
+            ->add('LocationDeCar', 'crmautocar::emails.location-de-car', TemplateMailService::TYPE_HTML);
     }
 
 
