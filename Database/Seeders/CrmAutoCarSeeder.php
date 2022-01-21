@@ -9,6 +9,7 @@ use Modules\CoreCRM\Models\Pipeline;
 use Modules\CoreCRM\Models\Status;
 use Modules\CrmAutoCar\Models\Brand;
 use Modules\CrmAutoCar\Models\Tag;
+use Spatie\Permission\Models\Permission;
 
 class CrmAutoCarSeeder extends Seeder
 {
@@ -19,6 +20,47 @@ class CrmAutoCarSeeder extends Seeder
      */
     public function run()
     {
+
+        Permission::create(['name' => 'list proformats']);
+        Permission::create(['name' => 'views proformats']);
+        Permission::create(['name' => 'create proformats']);
+        Permission::create(['name' => 'update proformats']);
+        Permission::create(['name' => 'delete proformats']);
+
+        Permission::create(['name' => 'list invoices']);
+        Permission::create(['name' => 'views invoices']);
+        Permission::create(['name' => 'create invoices']);
+        Permission::create(['name' => 'update invoices']);
+        Permission::create(['name' => 'delete invoices']);
+
+        Permission::create(['name' => 'list payments']);
+        Permission::create(['name' => 'views payments']);
+        Permission::create(['name' => 'create payments']);
+        Permission::create(['name' => 'update payments']);
+        Permission::create(['name' => 'delete payments']);
+
+        Permission::create(['name' => 'list appels']);
+        Permission::create(['name' => 'views appels']);
+        Permission::create(['name' => 'create appels']);
+
+
+        Permission::create(['name' => 'list demande fournisseur']);
+        Permission::create(['name' => 'views demande fournisseur']);
+        Permission::create(['name' => 'create demande fournisseur']);
+        Permission::create(['name' => 'update demande fournisseur']);
+        Permission::create(['name' => 'delete demande fournisseur']);
+
+        Permission::create(['name' => 'list paiement fournisseur']);
+        Permission::create(['name' => 'views paiement fournisseur']);
+        Permission::create(['name' => 'create paiement fournisseur']);
+        Permission::create(['name' => 'update paiement fournisseur']);
+        Permission::create(['name' => 'delete paiement fournisseur']);
+
+        Permission::create(['name' => 'list contact chauffeur']);
+        Permission::create(['name' => 'views contact chauffeur']);
+        Permission::create(['name' => 'create contact chauffeur']);
+        Permission::create(['name' => 'update contact chauffeur']);
+        Permission::create(['name' => 'delete contact chauffeur']);
 
         $statusRep = app(StatusRepositoryContract::class);
         $datas = [
