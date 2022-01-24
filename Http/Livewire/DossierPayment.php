@@ -2,6 +2,7 @@
 
 namespace Modules\CrmAutoCar\Http\Livewire;
 
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Modules\BaseCore\Actions\Dates\DateStringToCarbon;
 use Modules\CoreCRM\Contracts\Entities\ClientEntity;
@@ -44,6 +45,10 @@ class DossierPayment extends Component
 
     public function delete(Payment $payment)
     {
+        if(Auth::user()->cannot('delete', Payment::class)){
+            abort(403);
+        }
+
         app(PaymentRepositoryContract::class)->delete($payment);
         $this->emit('refresh');
     }
@@ -51,6 +56,10 @@ class DossierPayment extends Component
 
     public function addPaiment(PaymentRepositoryContract $paymentRep, ProformatsRepositoryContract $proformatRep)
     {
+
+        if(Auth::user()->cannot('create', Payment::class)){
+            abort(403);
+        }
 
         $this->validate();
         $date_payment = (new DateStringToCarbon())->handle($this->paiement_date);
@@ -73,6 +82,10 @@ class DossierPayment extends Component
 
     public function render(ProformatsRepositoryContract $proformatRep, PaymentRepositoryContract $paymentRep)
     {
+        if(Auth::user()->cannot('viewAny', Payment::class)){
+            abort(403);
+        }
+
         $proformats = $proformatRep->newQuery()->whereIn('devis_id', $this->dossier->devis->pluck('id'))->paginate(25);
         $payments = $paymentRep->newQuery()->whereIn('proformat_id', $proformats->pluck('id'))->paginate(25);
 

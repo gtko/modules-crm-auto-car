@@ -3,12 +3,13 @@
     @if($proformats->count() === 0)
         <div class="text-center p-8">
             @icon('empty', null, 'mx-auto h-12 w-12 text-gray-400')
-            <h3 class="mt-2 text-sm font-medium text-gray-900">Aucune facture</h3>
+            <h3 class="mt-2 text-sm font-medium text-gray-900">Aucun proformat</h3>
             <p class="mt-1 text-sm text-gray-500">
-                Aucune facture emise sur le dossier
+                Aucune proformat emise sur le dossier
             </p>
         </div>
     @else
+        @can('create', \Modules\CrmAutoCar\Models\Payment::class)
         <div class="grid grid-cols-12 mt-4">
 
             <select wire:model="paiement_proformat" class="form-control-sm col-span-6 mr-1">
@@ -34,7 +35,8 @@
             </button>
 
         </div>
-
+        @endcan
+        @if($payments->count() > 0)
         <div>
             <div class="overflow-x-auto">
                 <table class="table mt-5">
@@ -73,9 +75,11 @@
                             </td>
                             <td class="border-b dark:border-dark-5">
                                 <div class="flex justify-center items-center">
+                                    @can('delete', \Modules\CrmAutoCar\Models\Payment::class)
                                     <span class="cursor-pointer" wire:click="delete({{$payment}})">
                                         @icon('delete', null, 'mr-2')
                                     </span>
+                                    @endcan
                                 </div>
                             </td>
                         </tr>
@@ -87,6 +91,15 @@
                 {{$payments->links()}}
             </div>
         </div>
+        @else
+            <div class="text-center p-8">
+                @icon('empty', null, 'mx-auto h-12 w-12 text-gray-400')
+                <h3 class="mt-2 text-sm font-medium text-gray-900">Aucun paiement</h3>
+                <p class="mt-1 text-sm text-gray-500">
+                    Aucun paiement emit sur le dossier
+                </p>
+            </div>
+        @endif
     @endif
 
 </div>

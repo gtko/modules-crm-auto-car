@@ -80,19 +80,22 @@
             <p class="mt-1 text-sm text-gray-500">
                 Aucune facture emise sur le dossier
             </p>
-            <div class="flex justify-center items-center space-x-1 mt-4">
 
-                <select wire:model="devis_select">
-                    <option>Choisir un Devis</option>
-                    @foreach($devis as $devi)
-                        <option value="{{$devi->id}}">Devis {{$devi->ref}}</option>
-                    @endforeach
-                </select>
+            @can('create', \Modules\CrmAutoCar\Models\Invoice::class)
+                <div class="flex justify-center items-center space-x-1 mt-4">
 
-                <button class="btn btn-primary" wire:click="createInvoice">
-                    Ajouter
-                </button>
-            </div>
+                    <select wire:model="devis_select">
+                        <option>Choisir un Devis</option>
+                        @foreach($devis as $devi)
+                            <option value="{{$devi->id}}">Devis {{$devi->ref}}</option>
+                        @endforeach
+                    </select>
+
+                    <button class="btn btn-primary" wire:click="createInvoice">
+                        Ajouter
+                    </button>
+                </div>
+            @endcan
         </div>
     @endif
 
