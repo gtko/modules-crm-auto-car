@@ -75,9 +75,11 @@
                             </td>
                             <td class="border-b dark:border-dark-5">
                                 <div class="flex justify-center items-center">
+                                    @can('delete', \Modules\CrmAutoCar\Models\Payment::class)
                                     <span class="cursor-pointer" wire:click="delete({{$payment}})">
                                         @icon('delete', null, 'mr-2')
                                     </span>
+                                    @endcan
                                 </div>
                             </td>
                         </tr>

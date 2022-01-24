@@ -45,6 +45,10 @@ class DossierPayment extends Component
 
     public function delete(Payment $payment)
     {
+        if(Auth::user()->cannot('delete', Payment::class)){
+            abort(403);
+        }
+
         app(PaymentRepositoryContract::class)->delete($payment);
         $this->emit('refresh');
     }
