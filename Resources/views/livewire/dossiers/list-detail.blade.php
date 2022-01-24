@@ -14,16 +14,35 @@
     </td>
     <td class="text-center">
         <div style="background-color:{{$dossier->status_color}}"
-             class="py-1 px-2 rounded text-xs text-white font-medium">
+             class="py-1 px-2 rounded text-xs text-white font-medium ">
             {{$dossier->status_label}}
         </div>
     </td>
-    <td class="text-center">
-        @foreach($dossier->tags as $tag)
-            <div style="background-color:{{$tag->color}}"
-                 class="py-1 px-2 rounded text-xs text-white font-medium">
-                {{$tag->label}}
-            </div>
+    <td class="text-center space-y-1" x-data="{open: false}">
+        @foreach($dossier->tags as $index => $tag)
+            @if ($index < 2)
+                <div style="background-color:{{$tag->color}}"
+                     class="py-1 px-2 rounded text-xs text-white font-medium whitespace-nowrap">
+                    {{$tag->label}}
+                </div>
+            @else
+
+                <div style="background-color:{{$tag->color}}" x-show="open"
+                     class="py-1 px-2 rounded text-xs text-white font-medium whitespace-nowrap">
+                    {{$tag->label}}
+                </div>
+            @endif
+
+            @if($index == 2)
+                <div class="flex justify-center text-xs text-white rounded bg-green-400">
+                    <span @click="open = true" x-show="!open">Voir {{$dossier->tags->count() - 2}} de plus ...</span>
+                </div>
+            @elseif($index == $dossier->tags->count() - 1 )
+                <div class="flex justify-center text-xs text-white rounded bg-green-400">
+                    <span @click="open = false" x-show="open">Voir moins ...</span>
+                </div>
+            @endif
+
         @endforeach
     </td>
     <td class="text-center">

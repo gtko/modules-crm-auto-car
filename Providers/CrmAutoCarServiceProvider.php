@@ -16,6 +16,7 @@ use Modules\CoreCRM\Contracts\Views\Dossiers\DossierAfterSidebarContract;
 use Modules\CoreCRM\Contracts\Views\Dossiers\DossierSidebarAddActionsViewContract;
 use Modules\CoreCRM\Contracts\Views\Dossiers\DossierTabLabelViewContract;
 use Modules\CoreCRM\Contracts\Views\Dossiers\DossierTabViewContract;
+use Modules\CoreCRM\Contracts\Views\Dossiers\SelectCommercial;
 use Modules\CoreCRM\Contracts\Views\Dossiers\SelectTagDossier;
 use Modules\CoreCRM\Flow\Works\Services\TemplateMailService;
 use Modules\CoreCRM\Flow\Works\WorkflowKernel;
@@ -130,6 +131,9 @@ class CrmAutoCarServiceProvider extends ServiceProvider
         ]);
         app(CompositeurThemeContract::class)->setViews(SelectTagDossier::class, [
             new TypeView(TypeView::TYPE_LIVEWIRE, 'crmautocar::select-tags'),
+        ]);
+        app(CompositeurThemeContract::class)->setViews(SelectCommercial::class, [
+           new TypeView(typeView:: TYPE_LIVEWIRE, 'crmautocar::select-commercial'),
         ]);
 
         app(CompositeurThemeContract::class)->setViews(DossierSidebarAddActionsViewContract::class,
