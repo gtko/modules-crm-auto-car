@@ -2,6 +2,7 @@
 
 namespace Modules\CrmAutoCar\Repositories;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Modules\BaseCore\Repositories\AbstractRepository;
@@ -18,17 +19,29 @@ class PaymentRepository extends AbstractRepository implements PaymentRepositoryC
         return new Payment();
     }
 
-    public function create(Proformat $proformat, Float $total,  array $data): Payment
+    public function create(Proformat $proformat, Float $total,  array $data, Carbon $date_payment = null): Payment
     {
-        return Payment::create([
-            'proformat_id' => $proformat->id,
-            'total' => $total,
-            'data' => $data
-        ]);
+
+        $payment = new Payment();
+        $payment->proformat_id = $proformat->id;
+        $payment->total = $total;
+        $payment->date_payment = $date_payment;
+        $payment->data = $data;
+        $payment->save();
+
+        dd($date_payment);
+
+        return $payment;
     }
 
     public function searchQuery(Builder $query, string $value, mixed $parent = null): Builder
     {
        return $query->where('total', $value)->orWhere('id', $value);
+    }
+
+    public function delete(Payment $payment): Bool
+    {
+        return $payment->delete();
+
     }
 }
