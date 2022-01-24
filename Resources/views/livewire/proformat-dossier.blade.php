@@ -1,6 +1,4 @@
 <div>
-
-
     <div>
         <div class="overflow-x-auto">
             <table class="table mt-5">

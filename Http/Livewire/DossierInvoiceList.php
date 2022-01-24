@@ -2,12 +2,15 @@
 
 namespace Modules\CrmAutoCar\Http\Livewire;
 
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Modules\CoreCRM\Contracts\Entities\ClientEntity;
 use Modules\CoreCRM\Models\Dossier;
 use Modules\CrmAutoCar\Actions\CreateInvoice;
 use Modules\CrmAutoCar\Contracts\Repositories\DevisAutocarRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\InvoicesRepositoryContract;
+use Modules\CrmAutoCar\Models\Invoice;
+use Modules\CrmAutoCar\Models\Payment;
 
 class DossierInvoiceList extends Component
 {
@@ -27,6 +30,11 @@ class DossierInvoiceList extends Component
     }
 
     public function createInvoice(DevisAutocarRepositoryContract $devisRep){
+
+        if(Auth::user()->cannot('create', Invoice::class)){
+            abort(403);
+        }
+
         $this->validate();
 
         $devis = $devisRep->fetchById($this->devis_select);
@@ -39,6 +47,10 @@ class DossierInvoiceList extends Component
 
     public function render(InvoicesRepositoryContract $invoiceRep)
     {
+        if(Auth::user()->cannot('viewAny', Invoice::class)){
+            abort(403);
+        }
+
         $invoices = $invoiceRep->newQuery()->whereIn('devis_id', $this->dossier->devis->pluck('id'))->paginate(25);
         $devis = $this->dossier->devis;
 
