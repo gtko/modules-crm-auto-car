@@ -31,6 +31,7 @@ use Modules\CrmAutoCar\Contracts\Repositories\InvoicesRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\PaymentRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\PlateauRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\ProformatsRepositoryContract;
+use Modules\CrmAutoCar\Contracts\Repositories\ShekelRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\StatistiqueRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\StatistiqueReservationRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\TagsRepositoryContract;
@@ -64,6 +65,7 @@ use Modules\CrmAutoCar\Repositories\InvoicesRepository;
 use Modules\CrmAutoCar\Repositories\PaymentRepository;
 use Modules\CrmAutoCar\Repositories\PlateauRepository;
 use Modules\CrmAutoCar\Repositories\ProformatsRepository;
+use Modules\CrmAutoCar\Repositories\ShekelRepositories;
 use Modules\CrmAutoCar\Repositories\StatistiqueRepository;
 use Modules\CrmAutoCar\Repositories\StatistiqueReservationRepository;
 use Modules\CrmAutoCar\Repositories\TagsRepository;
@@ -111,6 +113,7 @@ class CrmAutoCarServiceProvider extends ServiceProvider
 
         $this->app->bind(PaymentRepositoryContract::class, PaymentRepository::class);
         $this->app->bind(DossierRepositoryContract::class, DossierAutoCarRepository::class);
+        $this->app->bind(ShekelRepositoryContract::class,ShekelRepositories::class);
 
         $this->app->bind(FlowContract::class,FlowAutocarCRM::class);
 

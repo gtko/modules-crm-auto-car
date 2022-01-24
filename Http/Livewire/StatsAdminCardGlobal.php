@@ -6,6 +6,7 @@ use Livewire\Component;
 use Modules\BaseCore\Actions\Dates\DateStringToCarbon;
 use Modules\CoreCRM\Models\Commercial;
 use Modules\CrmAutoCar\Contracts\Repositories\ConfigsRepositoryContract;
+use Modules\CrmAutoCar\Contracts\Repositories\ShekelRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\StatistiqueRepositoryContract;
 use Modules\TimerCRM\Contracts\Repositories\TimerRepositoryContract;
 
@@ -25,6 +26,7 @@ class StatsAdminCardGlobal extends Component
     public $priceLead;
     public $leadPrice;
     public $editPriceLeadActive = false;
+    public $shekel;
 
     protected $listeners = ['dateRangeGlobal', 'resetCardGlobal'];
 
@@ -78,7 +80,7 @@ class StatsAdminCardGlobal extends Component
     function render(StatistiqueRepositoryContract $repStat, TimerRepositoryContract $repTimer, ConfigsRepositoryContract $repConfig)
     {
         $this->leadPrice = $repConfig->getByName('price_lead')->data['price_lead'];
-
+        $this->shekel = app(ShekelRepositoryContract::class)->getPrice();
         $this->nombreLeads = $repStat->getNombreLeadTotal($this->debut, $this->fin);
         $this->nombreContact = $repStat->getNombreContactTotal();
         $this->tauxConversion = $repStat->getTauxConversionTotal();

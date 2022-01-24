@@ -99,7 +99,7 @@
             </dt>
             <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
                 <div class="flex items-baseline text-2xl font-semibold text-primary-1">
-                    --
+                    {{ $shekel }} Euros
                 </div>
             </dd>
         </div>
