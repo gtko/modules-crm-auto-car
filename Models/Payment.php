@@ -26,6 +26,7 @@ class Payment extends Model
 
     protected $casts = [
         'data' => 'array',
+        'date_payment' => 'date'
     ];
 
     public function proformat():BelongsTo

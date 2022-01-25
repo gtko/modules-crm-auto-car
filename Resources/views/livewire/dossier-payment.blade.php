@@ -65,7 +65,7 @@
                             </td>
                             <td class="border-b dark:border-dark-5">
                                 @if($payment->date_payment ?? false)
-                                    {{$payment->date_payment}}
+                                    {{$payment->date_payment->format('d/m/Y')}}
                                 @else
                                     N/A
                                 @endif
