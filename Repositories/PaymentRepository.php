@@ -29,8 +29,6 @@ class PaymentRepository extends AbstractRepository implements PaymentRepositoryC
         $payment->data = $data;
         $payment->save();
 
-        dd($date_payment);
-
         return $payment;
     }
 
