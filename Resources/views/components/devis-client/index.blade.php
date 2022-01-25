@@ -4,14 +4,15 @@
 
     <style>
         @page {
-            size: 1400px 1980px!important;
+            size: 1400px 1980px !important;
             /* this affects the margin in the printer settings */
             margin: 0px 0px 0px 0px;
         }
+
         @media print {
 
-            .print-col-span-3{
-                grid-column: span 3 / span 3!important;
+            .print-col-span-3 {
+                grid-column: span 3 / span 3 !important;
             }
 
             .notcut {
@@ -23,19 +24,20 @@
 
 
             body, .invoice-content {
-                position:relative;
-                max-width:100%!important;
-                width:100% !important;
-                margin:0;
-            }
-            .container, .row {
-                padding: 0px;
-                width: 100%!important;
-                max-width: 100%!important;
+                position: relative;
+                max-width: 100% !important;
+                width: 100% !important;
+                margin: 0;
             }
 
-            .no-print{
-                display:none;
+            .container, .row {
+                padding: 0px;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+
+            .no-print {
+                display: none;
             }
 
         }
@@ -56,11 +58,13 @@
             <div
                 class="bg-gray-200 lg:px-12 pt-4 pb-5 max-w-7xl mx-auto sm:px-6 lg:px-8 px-4 lg:grid lg:grid-cols-3 lg:gap-4 ">
                 <div class="print-col-span-3 flex-col flex lg:col-span-2">
-                    <x-crmautocar::devis-client.voyage-recap :devis="$devis" :brand="$brand" class="my-6 pb-4 bg-white border border-gray-400"/>
+                    <x-crmautocar::devis-client.voyage-recap :devis="$devis" :brand="$brand"
+                                                             class="my-6 pb-4 bg-white border border-gray-400"/>
 
                     @foreach(($devis->data['trajets'] ?? []) as $idTrajet => $trajet)
                         <div class="my-6 pb-4 bg-white border border-gray-400 notcut">
-                            <livewire:crmautocar::devis-client.voyage :devis="$devis" :trajet-id="$idTrajet" :brand="$brand"/>
+                            <livewire:crmautocar::devis-client.voyage :devis="$devis" :trajet-id="$idTrajet"
+                                                                      :brand="$brand"/>
                         </div>
                     @endforeach
 
@@ -80,12 +84,13 @@
 
                     </div>
 
-                    <livewire:crmautocar::devis-client.recap-devis
-                        :devis="$devis"
-                        :brand="$brand"
-                        :class="'bg-white p-4 grid notcut justify-items-stretch border border-2 border-gray-400'"
-                    />
-
+                    @if(count($devis->data['trajets']) != 1)
+                        <livewire:crmautocar::devis-client.recap-devis
+                            :devis="$devis"
+                            :brand="$brand"
+                            :class="'bg-white p-4 grid notcut justify-items-stretch border border-2 border-gray-400'"
+                        />
+                    @endif
                     <x-crmautocar::devis-client.cgv
                         class="bg-white border border-2 border-gray-400  lg:mb-6 mb-0 mt-6 p-4 lg:order-5 no-print"/>
                 </div>
