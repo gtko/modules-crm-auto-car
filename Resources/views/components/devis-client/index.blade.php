@@ -50,9 +50,9 @@
         />
 
     @endpush
-    <div class="bg-white h-full w-full h-screen flex flex-col justify-between" style="font-family: 'Lato', sans-serif;">
+    <div class="bg-gray-200 h-full w-full  flex flex-col justify-between" style="font-family: 'Lato', sans-serif;">
         <div>
-            <x-crmautocar::devis-client.header class="shadow py-4 px-4"/>
+            <x-crmautocar::devis-client.header class="shadow py-4 px-4 bg-white"/>
             <div
                 class="bg-gray-200 lg:px-12 pt-4 pb-5 max-w-7xl mx-auto sm:px-6 lg:px-8 px-4 lg:grid lg:grid-cols-3 lg:gap-4 ">
                 <div class="print-col-span-3 flex-col flex lg:col-span-2">
