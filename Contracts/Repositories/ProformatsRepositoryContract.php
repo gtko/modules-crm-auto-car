@@ -22,6 +22,6 @@ interface ProformatsRepositoryContract extends SearchableRepository, RepositoryF
     public function searchByCommercialAndMonth(Commercial $comercial, int $mount): Collection;
 
     public function addMarge(Proformat $proformat,UserEntity $user, float $marge):Marge;
-    public function getLastMarge(Proformat $proformat):float;
+    public function getLastMarge(Proformat $proformat, ?Carbon $limit = null):float;
     public function hasMargeEdited(Proformat $proformat):bool;
 }

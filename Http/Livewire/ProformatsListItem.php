@@ -20,12 +20,14 @@ class ProformatsListItem extends Component
 
     public $marge;
     public $editMargeActive = false;
+    public $class = '';
 
-    public function mount(Proformat $proformat){
+    public function mount(Proformat $proformat, $class = ''){
         $this->proformat = $proformat;
 
         $price = $this->getPrice();
         $this->marge = $price->getMargeHT();
+        $this->class = $class;
     }
 
     protected function getPrice():ProformatPrice
@@ -53,6 +55,8 @@ class ProformatsListItem extends Component
         );
 
         app(FlowContract::class)->add($this->proformat->devis->dossier, new ProformatEditMarge($marge));
+
+        $this->emit('proformats.refresh');
     }
 
 

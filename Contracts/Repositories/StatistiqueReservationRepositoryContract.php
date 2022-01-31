@@ -16,9 +16,10 @@ interface StatistiqueReservationRepositoryContract extends RepositoryFetchable, 
 
     public function getTotalVente(?Carbon $dateStart = null, ?Carbon $dateEnd = null):float;
     public function getTotalAchat(?Carbon $dateStart = null, ?Carbon $dateEnd = null):float;
+
+    public function getTotalMargeOriginHT(?Carbon $dateStart = null, ?Carbon $dateEnd = null):float;
     public function getTotalMargeHT(?Carbon $dateStart = null, ?Carbon $dateEnd = null):float;
+
     public function getTotalAEncaisser(?Carbon $dateStart = null, ?Carbon $dateEnd = null):float;
-
     public function getSalaireDiff(?Carbon $dateStart = null, ?Carbon $dateEnd = null):float;
-
 }

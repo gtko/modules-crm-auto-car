@@ -50,10 +50,17 @@ class StatistiqueReservationRepository extends AbstractRepository implements Sta
         });
     }
 
-    public function getTotalMargeHT(?Carbon $dateStart = null, ?Carbon $dateEnd = null): float
+    public function getTotalMargeOriginHT(?\Illuminate\Support\Carbon $dateStart = null, ?\Illuminate\Support\Carbon $dateEnd = null): float
     {
         return $this->getQueryCached($dateStart, $dateEnd)->sum(function($item){
-            return $item->price->getMargeHT();
+            return $item->price->getMargeOriginHT();
+        });
+    }
+
+    public function getTotalMargeHT(?Carbon $dateStart = null, ?Carbon $dateEnd = null): float
+    {
+        return $this->getQueryCached($dateStart, $dateEnd)->sum(function($item) use ($dateEnd){
+            return $item->price->getMargeHT($dateEnd);
         });
     }
 
@@ -75,10 +82,12 @@ class StatistiqueReservationRepository extends AbstractRepository implements Sta
         return $query;
     }
 
-    public function getSalaireDiff(?\Illuminate\Support\Carbon $dateStart = null, ?\Illuminate\Support\Carbon $dateEnd = null): float
+    public function getSalaireDiff(?Carbon $dateStart = null, ?Carbon $dateEnd = null): float
     {
-        return $this->getQueryCached($dateStart, $dateEnd)->sum(function($item){
-            return $item->price->getMargeHT() - $item->price->getMargeOriginHT();
+        return $this->getQueryCached($dateStart, $dateEnd)->sum(function($item) use ($dateEnd){
+            return $item->price->getSalaireDiff($dateEnd);
         });
     }
+
+
 }

@@ -2,6 +2,7 @@
 
 namespace Modules\CrmAutoCar\Entities;
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Modules\CrmAutoCar\Contracts\Repositories\DecaissementRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\ProformatsRepositoryContract;
@@ -66,12 +67,16 @@ class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
         return $this->getPriceVente() - $this->getPriceAchat();
     }
 
-    public function getMargeHT()
+    public function getMargeHT(?Carbon $limit = null)
     {
         if($this->repository->hasMargeEdited($this->proformat)){
-            return $this->repository->getLastMarge($this->proformat);
+            return $this->repository->getLastMarge($this->proformat, $limit);
         }
         return  $this->getMargeOriginHT();
+    }
+
+    public function getSalaireDiff(?Carbon $limit = null){
+        return $this->getMargeHT($limit) - $this->getMargeOriginHT();
     }
 
 }

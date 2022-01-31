@@ -136,6 +136,13 @@
                         <option value="non">Non</option>
                     </x-basecore::inputs.select>
                 </div>
+
+                <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+                    <x-basecore::inputs.select name="contact" wire:model="margeEdited">
+                        <option value="" default>Voir toutes les réservations</option>
+                        <option value="oui">Réservation avec marge modifié</option>
+                    </x-basecore::inputs.select>
+                </div>
             </div>
         </div>
 
@@ -144,6 +151,9 @@
                 <h2 class="text-lg font-medium truncate mr-5">Réservations</h2>
             </div>
             <div class="intro-y overflow-auto lg:overflow-visible mt-8 sm:mt-0">
+
+
+
                 <table class="table table-report sm:mt-2">
                     <thead>
                         <tr>
@@ -152,6 +162,7 @@
                             <th class="whitespace-nowrap">Etat</th>
                             <th class="whitespace-nowrap">PV / PA</th>
                             <th class="whitespace-nowrap">Marge HT</th>
+                            <th class="whitespace-nowrap">Salaire Diff</th>
                             <th class="whitespace-nowrap">Fournisseur</th>
                             <th class="whitespace-nowrap">Date Départ</th>
                             <th class="whitespace-nowrap">Date Retour</th>
@@ -178,13 +189,13 @@
                     </tbody>
                     <tbody wire:loading>
                         <tr>
-                            <td colspan="11" class="p-5">
-                                <h3 class="text-lg text-gray-600">
-                                    <div class="flex justify-start items-center">
+                            <td colspan="11">
+                                <div class="text-lg text-gray-600 w-full p-5">
+                                    <div class="flex justify-start items-center w-full">
                                         @icon('spinner', null, 'animate-spin mr-2')
-                                       Chargement ...
+                                        Chargement ...
                                     </div>
-                                </h3>
+                                </div>
                             </td>
                         </tr>
                     </tbody>

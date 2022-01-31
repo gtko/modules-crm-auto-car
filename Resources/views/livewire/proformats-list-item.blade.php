@@ -1,7 +1,5 @@
 
-<tr>
-
-
+<tr class="{{$class}}">
     <td class="w-40">
         {{$proformat->number}}
     </td>
@@ -58,6 +56,9 @@
             @endif
 
         </div>
+    </td>
+    <td class="text-center whitespace-nowrap">
+        @marge($price->getSalaireDiff())€
     </td>
     <td class="text-center">
         <div class="flex flex-col">

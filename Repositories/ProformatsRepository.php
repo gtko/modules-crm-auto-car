@@ -75,9 +75,14 @@ class ProformatsRepository extends AbstractRepository implements ProformatsRepos
 
     }
 
-    public function getLastMarge(Proformat $proformat): float
+    public function getLastMarge(Proformat $proformat, ?Carbon $limit = null): float
     {
-        return $proformat->marges->last()->marge ?? 0;
+        $marges = $proformat->marges;
+        if($limit){
+            $marges = $marges->where('created_at', '<=', $limit->endOfDay());
+        }
+
+        return $marges->last()->marge ?? 0;
     }
 
     public function hasMargeEdited(Proformat $proformat): bool

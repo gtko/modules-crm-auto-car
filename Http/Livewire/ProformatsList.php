@@ -23,9 +23,14 @@ class ProformatsList extends Component
     public $paid;
     public $contact;
     public $infovoyage;
+    public $margeEdited;
 
     public $dateStart;
     public $dateEnd;
+
+    public $listeners = [
+        'proformats.refresh' => '$refresh',
+    ];
 
 
     public function updatedMois()
@@ -69,18 +74,22 @@ class ProformatsList extends Component
         $commercials = $repcommercial->fetchAll();
 
         $filter = new ProformatFilterQuery();
+
         $filter->byCommercial($this->commercial);
-        $filter->byCreatedAt($this->dateStart, $this->dateEnd);
 
         if($this->paid === 'oui') $filter->paid();
         if($this->paid === 'non') $filter->notPaid();
-
 
         if($this->contact === 'oui') $filter->contactChauffeur();
         if($this->contact === 'non') $filter->notContactChauffeur();
 
         if($this->infovoyage === 'oui') $filter->infoVoyage();
         if($this->infovoyage === 'non') $filter->notInfoVoyage();
+
+        if($this->margeEdited === 'oui') $filter->byMargeEdited($this->dateStart, $this->dateEnd);
+        else{
+            $filter->byCreatedAt($this->dateStart, $this->dateEnd);
+        }
 
         $proformats = $filter->query()->orderBy('created_at', 'DESC')->paginate(50);
 

@@ -31,6 +31,23 @@ class ProformatFilterQuery
         }
     }
 
+    public function byMargeEdited(?Carbon $dateStart = null,?Carbon $dateEnd = null)
+    {
+        if(!$dateStart){
+            $dateStart = Carbon::now()->startOfMonth();
+        }
+
+        if(!$dateEnd){
+            $dateEnd = Carbon::now()->endOfMonth();
+        }
+
+
+        $this->query->whereHas('marges', function($query) use ($dateStart,$dateEnd){
+            $query->whereBetween('created_at',[$dateStart,$dateEnd]);
+        });
+
+    }
+
     protected function getPaidIdsProformat(){
         $this->query->with('payments');
         $proformats = $this->query->get();

@@ -14,6 +14,7 @@
                     <th class="whitespace-nowrap">Date</th>
                     <th class="whitespace-nowrap">Devis</th>
                     <th class="whitespace-nowrap">Total</th>
+                    <th class="whitespace-nowrap">Marge HT</th>
                     <th class="whitespace-nowrap">Payé</th>
                     <th class="whitespace-nowrap">Reste</th>
                     <th class="whitespace-nowrap">Actions</th>
@@ -36,6 +37,9 @@
                         </td>
                         <td class="border-b dark:border-dark-5">
                             {{ $proformat->devis->getTotal()}}€
+                        </td>
+                        <td class="border-b dark:border-dark-5">
+                            @marge($proformat->price->getMargeHT())€
                         </td>
                         <td class="border-b dark:border-dark-5">
                             {{ $proformat->price->paid()}}€
