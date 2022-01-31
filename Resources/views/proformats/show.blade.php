@@ -187,10 +187,10 @@
                 </div>
                 <div class="invoice-btn-section clearfix d-print-none">
                     <a href="javascript:window.print()" class="btn btn-lg btn-print">
-                        <i class="fa fa-print"></i> Print Invoice
+                        <i class="fa fa-print"></i> Imprimer la proformat
                     </a>
-                    <a id="invoice_download_btn" class="btn btn-lg btn-download">
-                        <i class="fa fa-download"></i> Download Invoice
+                    <a id="invoice_download_btn" class="btn btn-lg btn-download" href="{{route('proformats.pdf', $proformat->id)}}">
+                        <i class="fa fa-download"></i> Télécharger la proformat
                     </a>
                 </div>
             </div>

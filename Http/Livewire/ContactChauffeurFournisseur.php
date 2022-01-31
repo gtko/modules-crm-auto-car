@@ -14,6 +14,8 @@ class ContactChauffeurFournisseur extends Component
     public $dossier;
     public $client;
     public $fournisseur_id;
+    public $devis_id;
+    public $type_trajet;
 
     public $name;
     public $phone;
