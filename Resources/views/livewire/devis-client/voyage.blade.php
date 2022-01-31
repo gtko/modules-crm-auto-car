@@ -82,12 +82,15 @@
             </div>
         @endif
 
-        <livewire:crmautocar::devis-client.recap-devis
-            :devis="$devis"
-            :brand="$brand"
-            :trajet-id="$trajetId"
-            :class="'p-4 grid justify-items-stretch mb-4'"
-        />
+
+            <livewire:crmautocar::devis-client.recap-devis
+                :devis="$devis"
+                :brand="$brand"
+                :trajet-id="$trajetId"
+                :class="'p-4 grid justify-items-stretch mb-4'"
+                :proformat="$proformat"
+            />
+
     </div>
 
     @if(($trajet['commentaire'] ?? false))

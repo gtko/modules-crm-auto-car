@@ -108,7 +108,7 @@
                                             @foreach(($proformat->devis->data['trajets'] ?? []) as $idTrajet => $trajet)
                                                 <tr>
                                                     <td>
-                                                       <livewire:crmautocar::devis-client.voyage :devis="$proformat->devis" :trajet-id="$idTrajet" :brand="$brand"/>
+                                                       <livewire:crmautocar::devis-client.voyage :devis="$proformat->devis" :trajet-id="$idTrajet" :brand="$brand" :proformat='true'/>
                                                     </td>
                                                     <td class="text-center">1</td>
                                                     <td class="text-center text-nowrap">@marge($price->getPriceHT())€</td>
