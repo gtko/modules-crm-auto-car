@@ -90,7 +90,7 @@
         />
     </div>
 
-    @if($trajet['commentaire'])
+    @if(($trajet['commentaire'] ?? false))
 
         <div class="mb-4">
             <h5 class="text-bleu my-2 pl-2 font-bold text-xl">Commentaire</h5>
