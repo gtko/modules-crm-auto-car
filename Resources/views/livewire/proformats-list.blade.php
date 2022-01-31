@@ -74,6 +74,23 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+                    <div class="report-box zoom-in">
+                        <div class="box p-5">
+                            <div class="flex">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                     fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                     stroke-linejoin="round"
+                                     class="feather feather-user report-box__icon text-theme-20">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                            </div>
+                            <div class="text-3xl font-medium leading-8 mt-6">@marge($salaireDiff)€</div>
+                            <div class="text-base text-gray-600 mt-1">Salaire Diff</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 

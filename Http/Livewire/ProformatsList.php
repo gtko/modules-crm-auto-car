@@ -99,6 +99,7 @@ class ProformatsList extends Component
             'totalAchat' => $repStats->getTotalAchat($this->dateStart, $this->dateEnd),
             'totalMarge' => $repStats->getTotalMargeHT($this->dateStart, $this->dateEnd),
             'totalEncaissement' => $repStats->getTotalAEncaisser($this->dateStart, $this->dateEnd),
+            'salaireDiff' => $repStats->getSalaireDiff($this->dateStart, $this->dateEnd),
             'byMois' => $byMois
         ]);
     }

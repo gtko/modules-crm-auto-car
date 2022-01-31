@@ -26,7 +26,7 @@ class StatistiqueReservationRepository extends AbstractRepository implements Sta
             $key .= '_' . $dateEnd->format('d-m-y-h-i-s');
         }
 
-        return Cache::remember($key, 20, function() use ($dateStart, $dateEnd){
+        return Cache::remember($key, 1, function() use ($dateStart, $dateEnd){
             $query =  $this->newQuery()->with('payments', 'devis.dossier');
             if($dateStart && $dateEnd){
                 $query->whereBetween('created_at', [$dateStart->startOfDay()->startOfMonth(), $dateEnd->endOfDay()->endOfMonth()]);
@@ -64,6 +64,7 @@ class StatistiqueReservationRepository extends AbstractRepository implements Sta
         });
     }
 
+
     public function getModel(): Model
     {
        return (new Proformat());
@@ -72,5 +73,12 @@ class StatistiqueReservationRepository extends AbstractRepository implements Sta
     public function searchQuery(Builder $query, string $value, mixed $parent = null): Builder
     {
         return $query;
+    }
+
+    public function getSalaireDiff(?\Illuminate\Support\Carbon $dateStart = null, ?\Illuminate\Support\Carbon $dateEnd = null): float
+    {
+        return $this->getQueryCached($dateStart, $dateEnd)->sum(function($item){
+            return $item->price->getMargeHT() - $item->price->getMargeOriginHT();
+        });
     }
 }

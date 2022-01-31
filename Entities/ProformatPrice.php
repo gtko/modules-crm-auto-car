@@ -61,12 +61,17 @@ class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
         return $this->getPriceTTC() - $this->paid();
     }
 
+    public function getMargeOriginHT()
+    {
+        return $this->getPriceVente() - $this->getPriceAchat();
+    }
+
     public function getMargeHT()
     {
         if($this->repository->hasMargeEdited($this->proformat)){
             return $this->repository->getLastMarge($this->proformat);
         }
-        return $this->getPriceVente() - $this->getPriceAchat();
+        return  $this->getMargeOriginHT();
     }
 
 }
