@@ -4,6 +4,7 @@ namespace Modules\CrmAutoCar\Entities;
 
 use Illuminate\Support\Facades\Cache;
 use Modules\CrmAutoCar\Contracts\Repositories\DecaissementRepositoryContract;
+use Modules\CrmAutoCar\Contracts\Repositories\ProformatsRepositoryContract;
 use Modules\CrmAutoCar\Models\Brand;
 use Modules\CrmAutoCar\Models\Invoice;
 use Modules\CrmAutoCar\Models\Proformat;
@@ -12,11 +13,13 @@ use Modules\DevisAutoCar\Models\Devi;
 class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
 {
 
+    public ProformatsRepositoryContract $repository;
     public Proformat $proformat;
 
     public function __construct(Proformat $proformat, Brand $brand){
         parent::__construct($proformat->devis, $brand);
         $this->proformat = $proformat;
+        $this->repository = app(ProformatsRepositoryContract::class);
     }
 
 
@@ -30,9 +33,24 @@ class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
         });
     }
 
+    public function achatValidated(){
+       $fournisseurs = $this->proformat->devis->fournisseurs;
+
+       if($fournisseurs->where('pivot.bpa', true)->count() > 0) {
+           return true;
+       }
+
+       return false;
+    }
+
     public function getPriceAchat(){
-        $decaissement = $this->cachedDecaissement();
-        return $decaissement->sum('payer') + ($decaissement->last()->restant ?? 0);
+        $fournisseurs = $this->proformat->devis->fournisseurs;
+
+        if($fournisseurs->where('pivot.bpa', true)->count() > 0) {
+            return $fournisseurs->where('pivot.bpa', true)->sum('pivot.prix');
+        }
+
+        return $fournisseurs->where('pivot.prix', '>', 0)->min('pivot.prix');
     }
 
     public function paid(){
@@ -45,6 +63,9 @@ class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
 
     public function getMargeHT()
     {
+        if($this->repository->hasMargeEdited($this->proformat)){
+            return $this->repository->getLastMarge($this->proformat);
+        }
         return $this->getPriceVente() - $this->getPriceAchat();
     }
 

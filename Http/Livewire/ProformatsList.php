@@ -82,9 +82,7 @@ class ProformatsList extends Component
         if($this->infovoyage === 'oui') $filter->infoVoyage();
         if($this->infovoyage === 'non') $filter->notInfoVoyage();
 
-        $proformats = $filter->query()->paginate(50);
-
-
+        $proformats = $filter->query()->orderBy('created_at', 'DESC')->paginate(50);
 
         //on prend le mois de la première facture et on va jusqu'au mois actuel avec l'année
         $firstDate = $proformatRep->newQuery()->first()->created_at ?? now();

@@ -6,11 +6,13 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Modules\BaseCore\Contracts\Entities\UserEntity;
 use Modules\BaseCore\Repositories\AbstractRepository;
 use Modules\CoreCRM\Contracts\Entities\DevisEntities;
 use Modules\CoreCRM\Models\Commercial;
 use Modules\CrmAutoCar\Contracts\Repositories\ProformatsRepositoryContract;
 use Modules\CrmAutoCar\Models\Invoice;
+use Modules\CrmAutoCar\Models\Marge;
 use Modules\CrmAutoCar\Models\Proformat;
 use Modules\SearchCRM\Entities\SearchResult;
 
@@ -62,4 +64,24 @@ class ProformatsRepository extends AbstractRepository implements ProformatsRepos
         // TODO: Implement searchByCommercialAndMonth() method.
     }
 
+
+    public function addMarge(Proformat $proformat,UserEntity $user, float $marge): Marge
+    {
+        return Marge::create([
+            'proformat_id' => $proformat->id,
+            'user_id' => $user->id,
+            'marge' => $marge
+        ]);
+
+    }
+
+    public function getLastMarge(Proformat $proformat): float
+    {
+        return $proformat->marges->last()->marge ?? 0;
+    }
+
+    public function hasMargeEdited(Proformat $proformat): bool
+    {
+        return $proformat->marges->count() > 0;
+    }
 }
