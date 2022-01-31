@@ -13,60 +13,60 @@
         </tr>
 
 
-        @if (($trajet['inclus_peages'] ?? false))
-            <tr>
-                <th scope="row"
-                    class="text-left p-3 text-gray-600 border border-gray-600 border-collapse">
-                    Péages
-                </th>
-                <td class="text-right pr-4 font-bold text-base border border-gray-600 border-collapse">
-                    Inclus
-                </td>
-            </tr>
-        @endif
-        @if($trajet['inclus_parking'] ?? false)
-            <tr>
-                <th scope="row"
-                     class="text-left p-3 text-gray-600 border border-gray-600 border-collapse">
-                    Parking
-                </th>
-                <td class="text-right pr-4 font-bold text-base border border-gray-600 border-collapse">
-                    Inclus
-                </td>
-            </tr>
-        @endif
-        @if ($trajet['inclus_hebergement'] ?? false)
-            <tr>
-                <th scope="row"
-                    class="text-left p-3 text-gray-600 border border-gray-600 border-collapse">
-                    Hébergement
-                </th>
-                <td class="text-right pr-4 font-bold text-base border border-gray-600 border-collapse">
-                    Inclus
-                </td>
-            </tr>
-        @endif
-        @if ($trajet['inclus_repas_chauffeur'] ?? false)
-            <tr>
-                <th scope="row"
-                    class="text-left p-3 text-gray-600 border border-gray-600 border-collapse">
-                    Repas chauffeur
-                </th>
-                <td class="text-right pr-4 font-bold text-base border border-gray-600 border-collapse">
-                    Inclus
-                </td>
-            </tr>
-        @endif
+        {{--        @if (($trajet['inclus_peages'] ?? false))--}}
+        {{--            <tr>--}}
+        {{--                <th scope="row"--}}
+        {{--                    class="text-left p-3 text-gray-600 border border-gray-600 border-collapse">--}}
+        {{--                    Péages--}}
+        {{--                </th>--}}
+        {{--                <td class="text-right pr-4 font-bold text-base border border-gray-600 border-collapse">--}}
+        {{--                    Inclus--}}
+        {{--                </td>--}}
+        {{--            </tr>--}}
+        {{--        @endif--}}
+        {{--        @if($trajet['inclus_parking'] ?? false)--}}
+        {{--            <tr>--}}
+        {{--                <th scope="row"--}}
+        {{--                    class="text-left p-3 text-gray-600 border border-gray-600 border-collapse">--}}
+        {{--                    Parking--}}
+        {{--                </th>--}}
+        {{--                <td class="text-right pr-4 font-bold text-base border border-gray-600 border-collapse">--}}
+        {{--                    Inclus--}}
+        {{--                </td>--}}
+        {{--            </tr>--}}
+        {{--        @endif--}}
+        {{--        @if ($trajet['inclus_hebergement'] ?? false)--}}
+        {{--            <tr>--}}
+        {{--                <th scope="row"--}}
+        {{--                    class="text-left p-3 text-gray-600 border border-gray-600 border-collapse">--}}
+        {{--                    Hébergement--}}
+        {{--                </th>--}}
+        {{--                <td class="text-right pr-4 font-bold text-base border border-gray-600 border-collapse">--}}
+        {{--                    Inclus--}}
+        {{--                </td>--}}
+        {{--            </tr>--}}
+        {{--        @endif--}}
+        {{--        @if ($trajet['inclus_repas_chauffeur'] ?? false)--}}
+        {{--            <tr>--}}
+        {{--                <th scope="row"--}}
+        {{--                    class="text-left p-3 text-gray-600 border border-gray-600 border-collapse">--}}
+        {{--                    Repas chauffeur--}}
+        {{--                </th>--}}
+        {{--                <td class="text-right pr-4 font-bold text-base border border-gray-600 border-collapse">--}}
+        {{--                    Inclus--}}
+        {{--                </td>--}}
+        {{--            </tr>--}}
+        {{--        @endif--}}
 
-        <tr>
-            <th scope="row"
-                class="w-1/3 text-left p-3 text-gray-600 border border-gray-600 border-collapse">
-                Frais de dossier
-            </th>
-            <td class="text-right pr-4 font-bold text-base border border-gray-600 border-collapse">
-                Inclus
-            </td>
-        </tr>
+        {{--        <tr>--}}
+        {{--            <th scope="row"--}}
+        {{--                class="w-1/3 text-left p-3 text-gray-600 border border-gray-600 border-collapse">--}}
+        {{--                Frais de dossier--}}
+        {{--            </th>--}}
+        {{--            <td class="text-right pr-4 font-bold text-base border border-gray-600 border-collapse">--}}
+        {{--                Inclus--}}
+        {{--            </td>--}}
+        {{--        </tr>--}}
 
 
         @if ($price->getPriceTVA() > 0)
@@ -99,7 +99,36 @@
     </div>
     @if(!$sidebar)
         <div class="flex-col flex" style="font-size: 9px">
-            <span>* Le prix ne comprend pas les élements suivants qui resteront à votre charge : Kilomètres supplémentaires et heures supplémentaires.</span>
+            <span>* Le prix ne comprend pas les élements suivants qui resteront à votre charge : Kilomètres supplémentaires et heures supplémentaires
+                 @if (!($trajet['inclus_peages'] ?? false))
+                    ,le péages
+                @endif
+                @if(!($trajet['inclus_parking'] ?? false))
+                    ,le parking
+                @endif
+                @if (!($trajet['inclus_hebergement'] ?? false))
+                    ,l'hébergement
+                @endif
+                @if (!($trajet['inclus_repas_chauffeur'] ?? false))
+                    ,le repas chauffeur
+                @endif
+                .</span>
+            @if (($trajet['inclus_peages'] ?? false) || ($trajet['inclus_parking'] ?? false) || ($trajet['inclus_hebergement'] ?? false) || ($trajet['inclus_repas_chauffeur'] ?? false))
+                <span>* Le prix comprend les élements suivants :
+                    @if (($trajet['inclus_peages'] ?? false))
+                        le péages,
+                    @endif
+                    @if($trajet['inclus_parking'] ?? false)
+                        le parking,
+                    @endif
+                    @if ($trajet['inclus_hebergement'] ?? false)
+                        l'hébergement,
+                    @endif
+                    @if ($trajet['inclus_repas_chauffeur'] ?? false)
+                        le repas chauffeur
+                    @endif
+            </span>
+            @endif
             <span>** Ce devis est valable 7 jours à compter de sa date d'envoi et sous réserve de disponibilité. Au-delà, le tarif sera soumis à révision.</span>
         </div>
     @else

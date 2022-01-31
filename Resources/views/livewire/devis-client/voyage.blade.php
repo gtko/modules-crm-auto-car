@@ -90,5 +90,16 @@
         />
     </div>
 
+    @if($trajet['commentaire'])
 
+        <div class="mb-4">
+            <h5 class="text-bleu my-2 pl-2 font-bold text-xl">Commentaire</h5>
+            <hr class="text-bleu">
+        </div>
+        <div>
+            <span> {{$trajet['commentaire']}}</span>
+        </div>
+
+
+    @endif
 </div>
