@@ -24,11 +24,15 @@ use Modules\CrmAutoCar\Repositories\BrandsRepository;
  * @property \Illuminate\Support\Carbon $created_at
  * @property \Illuminate\Support\Carbon $updated_at
  * @property \Modules\CoreCRM\Contracts\Entities\DevisEntities $devis
+ * @property-read \Illuminate\Database\Eloquent\Collection $payments
+ * @property-read \Illuminate\Database\Eloquent\Collection $marges
  */
 class Proformat extends Model
 {
 
     protected $fillable = ['devis_id', 'number', 'total', 'data'];
+
+    public $with = ['marges', 'devis'];
 
     protected $casts = [
         'avoirs' => 'array',
@@ -43,6 +47,11 @@ class Proformat extends Model
     public function payments():HasMany
     {
         return $this->hasMany(Payment::class);
+    }
+
+    public function marges():HasMany
+    {
+        return $this->hasMany(Marge::class);
     }
 
     public function getPriceAttribute():ProformatPrice

@@ -51,6 +51,7 @@ use Modules\CrmAutoCar\Flow\Works\Events\EventDevisSendClient;
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierDemandeFournisseurDelete;
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierDemandeFournisseurSend;
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierDemandeFournisseurValidate;
+use Modules\CrmAutoCar\Flow\Works\Events\EventEditMargeProformat;
 use Modules\CrmAutoCar\Notifications\ClientDevisExterneValidationNotification;
 use Modules\CrmAutoCar\Notifications\ClientDossierDemandeFournisseurSendNotification;
 use Modules\CrmAutoCar\Notifications\DevisSendClientNotification;
@@ -177,7 +178,8 @@ class CrmAutoCarServiceProvider extends ServiceProvider
             EventCreatePaiementClient::class,
             EventClientDossierFournisseurBpa::class,
             EventClientDevisClientSaveValidation::class,
-            EventClientDevisClientModifValidation::class
+            EventClientDevisClientModifValidation::class,
+            EventEditMargeProformat::class
         ]);
 
         app(TemplateMailService::class)

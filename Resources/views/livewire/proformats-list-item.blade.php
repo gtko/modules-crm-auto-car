@@ -44,7 +44,21 @@
         </div>
     </td>
 
-    <td class="text-center">@marge($price->getMargeHT())€</td>
+    <td class="text-center whitespace-nowrap">
+        <div class="flex items-center">
+            @if(!$editMargeActive)
+                <span wire:click="editMarge()" class="@if($price->achatValidated()) text-green-600 @else text-gray-600 @endif">
+                    @marge($marge)€
+                </span>
+                <span wire:click="editMarge()" class="ml-1 cursor-pointer hover:text-blue-600" >@icon('edit', 14, '')</span>
+            @else
+                <input type="number" wire:model.defer="marge" wire:keyup.enter="storeMarge" wire:keyup.escape="closeMarge"/>
+                <span wire:click="storeMarge"  class="ml-2 cursor-pointer hover:text-blue-600">@icon('checkCircle', null, 'mr-2')</span>
+                <span wire:click="closeMarge"  class="ml-1 cursor-pointer text-red-200 hover:text-red-600">@icon('close', null, '')</span>
+            @endif
+
+        </div>
+    </td>
     <td class="text-center">
         <div class="flex flex-col">
         @forelse($proformat->devis->fournisseursValidated as $fournisseur)
