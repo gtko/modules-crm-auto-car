@@ -13,6 +13,24 @@
         </x-basecore::inputs.select>
     </div>
 
+
+    <div class="px-2 pt-2">
+        <x-basecore::inputs.select name="devis_id" label="" required="required" wire:model="devis_id">
+            <option selected="selected">Devis</option>
+            @foreach($dossier->devis as $devis)
+                <option value="{{ $devis->id }}">{{ $devis->ref }}</option>
+            @endforeach
+        </x-basecore::inputs.select>
+    </div>
+    <div class="px-2 pt-2">
+        <x-basecore::inputs.select name="devis_id" label="" required="required" wire:model="type_trajet">
+            <option selected="selected">Type de trajet</option>
+                <option value="aller">Aller</option>
+                <option value="retour">Retour</option>
+                <option value="aller_retour">Aller / Retour</option>
+        </x-basecore::inputs.select>
+    </div>
+
     <div class="px-2 pt-2">
         <x-basecore::inputs.text name='name' wire:model="name" placeholder="Nom et prénom"/>
     </div>
@@ -38,13 +56,13 @@
         <table class="divide-y divide-gray-200 w-full mt-4">
             <thead class="bg-gray-200">
             <tr>
-                <th scope="col" class="py-3  text-xs font-medium uppercase tracking-wider">
+                <th scope="col" class="py-3  text-xs font-medium uppercase tracking-wider text-xs">
                     Fournisseur
                 </th>
-                <th scope="col" class="py-3  text-xs font-medium uppercase tracking-wider">
+                <th scope="col" class="py-3  text-xs font-medium uppercase tracking-wider text-xs">
                     Nom et prénom
                 </th>
-                <th scope="col" class="py-3  text-xs font-medium uppercase tracking-wider">
+                <th scope="col" class="py-3  text-xs font-medium uppercase tracking-wider text-xs">
                     Téléphone
                 </th>
                 <th scope="col" class=" text-xs font-medium text-gray-500 uppercase tracking-wider">

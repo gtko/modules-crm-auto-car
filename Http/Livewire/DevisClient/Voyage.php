@@ -13,12 +13,14 @@ class Voyage extends Component
     public $brand;
     public $trajet;
     public $trajetId;
+    public $proformat;
 
-    public function mount(DevisEntities $devis, int $trajetId,  Brand $brand){
+    public function mount(DevisEntities $devis, int $trajetId,  Brand $brand, $proformat = null){
         $this->devis = $devis;
         $this->brand = $brand;
         $this->trajetId = $trajetId;
         $this->trajet = $this->devis->data['trajets'][$trajetId] ?? null;
+        $this->proformat = $proformat;
     }
 
     public function render()

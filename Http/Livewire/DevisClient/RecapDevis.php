@@ -17,13 +17,15 @@ class RecapDevis extends Component
     public $class;
     public $accepte = false;
 
-    public  $devis;
-    public  $brand;
+    public $devis;
+    public $brand;
 
-    public  $trajetid;
-    public  $trajet;
+    public $trajetid;
+    public $trajet;
 
-    public function mount($devis, $brand, $trajetId = null,  $sidebar = false, $class = '', )
+    public $proformat;
+
+    public function mount($devis, $brand, $trajetId = null, $sidebar = false, $class = '', $proformat = null)
     {
         $this->sidebar = $sidebar;
         $this->class = $class;
@@ -31,14 +33,15 @@ class RecapDevis extends Component
         $this->brand = $brand;
         $this->trajetid = $trajetId;
         $this->trajet = $this->devis->data['trajets'][$this->trajetid] ?? null;
+        $this->proformat = $proformat;
     }
 
 
     public function render()
     {
-        if($this->trajet){
+        if ($this->trajet) {
             $price = (new DevisTrajetPrice($this->devis, $this->trajetid, $this->brand));
-        }else {
+        } else {
             $price = (new DevisPrice($this->devis, $this->brand));
         }
         return view('crmautocar::livewire.devis-client.recap-devis', compact('price'));
