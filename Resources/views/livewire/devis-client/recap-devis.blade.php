@@ -45,7 +45,7 @@
         </div>
     @endif
     @if(!$sidebar)
-        <div class="flex-col flex" style="font-size: 9px">
+        <div class="flex-col flex" style="font-size: 12px">
             <span>* Le prix ne comprend pas les élements suivants qui resteront à votre charge : Kilomètres supplémentaires et heures supplémentaires
                  @if (!($trajet['inclus_peages'] ?? false))
                     ,le péages
@@ -76,7 +76,9 @@
                     @endif
             </span>
             @endif
-            <span>** Ce devis est valable 7 jours à compter de sa date d'envoi et sous réserve de disponibilité. Au-delà, le tarif sera soumis à révision.</span>
+            @if((!$proformat ?? true))
+                <span>** Ce devis est valable 7 jours à compter de sa date d'envoi et sous réserve de disponibilité. Au-delà, le tarif sera soumis à révision.</span>
+            @endif
         </div>
 
     @else
