@@ -15,7 +15,7 @@
                                 <span>@icon('print', '18')</span>
                                 <span class="ml-1"> Imprimer</span>
                             </span>
-                            <a class='ignore-link flex ml-4' href="{{route('pdf-devis-download', $devis)}}" target="_blank">
+                            <a class='ignore-link flex ml-4 no-print' href="{{route('pdf-devis-download', $devis)}}" target="_blank">
                                 <span>@icon('pdf', null, 'w-4 h-4 mr-1')</span>
                                <span>Télécharger</span>
                             </a>
