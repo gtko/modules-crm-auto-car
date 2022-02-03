@@ -31,7 +31,7 @@ class InvoicesListItem extends Component
     }
 
     public function show(){
-        dd('Voir la facture proformat');
+        dd('Voir la facture proforma');
     }
 
 

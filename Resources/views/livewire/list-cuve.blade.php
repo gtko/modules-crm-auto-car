@@ -87,22 +87,26 @@
                     </div>
                 @endif
             </div>
-            <div class="overflow-x-auto sm:overflow-x-visible">
+            <div class="overflow-x-scroll sm:overflow-x-scroll">
 
                 @if($dossiers->count() > 0)
                     <table class="table table--sm">
                         <thead>
                         <tr>
-                            <th class="border-b-2 dark:border-dark-5 whitespace-nowrap">
+                            <th class="border-b-2 dark:border-dark-5 w-24 text-xs">
                                 <input class="form-check-input flex-none" type="checkbox" wire:model="all" value="all">
                                 Nom
                             </th>
-                            <th class="border-b-2 dark:border-dark-5 whitespace-nowrap">Source</th>
-                            <th class="border-b-2 dark:border-dark-5 whitespace-nowrap">Email</th>
-                            <th class="border-b-2 dark:border-dark-5 whitespace-nowrap">Commercial</th>
-                            <th class="border-b-2 dark:border-dark-5 whitespace-nowrap">Téléphone</th>
-                            <th class="border-b-2 dark:border-dark-5 whitespace-nowrap">Date de réception</th>
-                            <th class="border-b-2 dark:border-dark-5 whitespace-nowrap">Action</th>
+                            <th class="border-b-2 dark:border-dark-5 whitespace-nowrap text-xs">Source</th>
+                            <th class="border-b-2 dark:border-dark-5 whitespace-nowrap text-xs">Email</th>
+                            <th class="border-b-2 dark:border-dark-5 whitespace-nowrap text-xs">Commercial</th>
+                            <th class="border-b-2 dark:border-dark-5 whitespace-nowrap text-xs">Téléphone</th>
+                            <th class="border-b-2 dark:border-dark-5 whitespace-nowrap text-xs">Date de réception</th>
+                            <th class="border-b-2 dark:border-dark-5 whitespace-nowrap text-xs">Date de départ</th>
+                            <th class="border-b-2 dark:border-dark-5 whitespace-nowrap text-xs">Lieu de départ</th>
+                            <th class="border-b-2 dark:border-dark-5 whitespace-nowrap text-xs">Date d'arrivée</th>
+                            <th class="border-b-2 dark:border-dark-5 whitespace-nowrap text-xs">Lieu d'arrivée</th>
+                            <th class="border-b-2 dark:border-dark-5 whitespace-nowrap text-xs">Action</th>
                         </tr>
                         </thead>
                         <tbody>

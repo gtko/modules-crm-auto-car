@@ -15,7 +15,7 @@ Je vous remercie de l'intérêt que vous portez à Centrale Autocar, votre compl
 
 Votre devis n°{{ $devis->ref }} pour votre transfert en autocar pour le {{ \Carbon\Carbon::createFromTimeString($devis->data['aller_date_depart'] ?? '')->translatedFormat('d/m/Y') }} au départ de {{ $devis->data['addresse_ramassage'] . ' ' . $devis->data['aller_point_depart'] }} a etait validé.<br>
 
-Vous trouverez en piéce jointe le devis et la facture proformat au format pdf ainsi que les condition général de vente.<br>
+Vous trouverez en piéce jointe le devis et la facture proforma au format pdf ainsi que les condition général de vente.<br>
 
 Devis validé le {{ \Carbon\Carbon::now()->format('d/m/Y') }}  avec l'ip {{$ip}}
 
@@ -25,10 +25,10 @@ Retrouvez la version en ligne du devis validé
     Voir le devis
 @endcomponent
 
-Retrouvez la version en ligne de votre facture proformat
+Retrouvez la version en ligne de votre facture proforma
 
 @component('mail::button', ['url' => $proformatUrl, 'color' => 'success'] )
-    Voir le proformat
+    Voir le proforma
 @endcomponent
 
 Je reste à votre entière disposition pour tout renseignement complémentaire.<br>

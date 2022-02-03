@@ -10,6 +10,7 @@
                 </tr>
                 <tr class="bg-gray-100 text-gray-700">
                     <th class="whitespace-nowrap">#</th>
+                    <th class="whitespace-nowrap">Titre devis</th>
                     <th class="whitespace-nowrap">Commercial</th>
                     <th class="whitespace-nowrap">Date</th>
                     <th class="whitespace-nowrap">Devis</th>
@@ -25,6 +26,9 @@
                     <tr>
                         <td class="border-b dark:border-dark-5">
                            {{$proformat->number}}
+                        </td>
+                        <td class="border-b dark:border-dark-5 whitespace-nowrap">
+                            {{$proformat->devis->title ?? ''}}
                         </td>
                         <td class="border-b dark:border-dark-5">
                             {{$proformat->devis->commercial->format_name}}
