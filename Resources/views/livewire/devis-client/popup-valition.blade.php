@@ -28,10 +28,28 @@
                                     type="text"
                                     name="nom"
                                     id="nom"
-                                    wire:model.defer="name"
+                                    wire:model.defer="nom"
                                     autocomplete="nom"
                                     placeholder="Votre nom"
                                     class="flex-1 block w-full focus:ring-indigo-500 focus:border-indigo-500 min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 sm:mt-4 space-y-2 sm:space-y-3 w-full">
+                    <div
+                        class="sm:border-gray-200 sm:pt-2">
+                        <div class="mt-1 sm:mt-0 sm:col-span-2">
+                            <div class="max-w-lg flex rounded-md shadow-sm">
+                                 <span
+                                     class="flex items-center justify-center rounded-l-md sm:text-sm w-2/6 bg-bleu text-white">
+                                    Prénom
+                                 </span>
+                                <input type="text" name="prenom" id="prenom" autocomplete="prenom"
+                                       placeholder="Prénom"
+                                       wire:model.defer="prenom"
+                                       class="flex-1 block w-full focus:ring-indigo-500 focus:border-indigo-500 min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300">
                             </div>
                         </div>
                     </div>
@@ -65,13 +83,73 @@
                                      Adresse
                                  </span>
                                 <input type="text" name="address" id="address" autocomplete="address"
-                                       placeholder="Adresse, Cp et Ville"
+                                       placeholder="Adresse"
                                        wire:model.defer="adresse"
                                        class="flex-1 block w-full focus:ring-indigo-500 focus:border-indigo-500 min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300">
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <div class="mt-4 sm:mt-4 space-y-2 sm:space-y-3 w-full">
+                    <div
+                        class="sm:border-gray-200 sm:pt-2">
+                        <div class="mt-1 sm:mt-0 sm:col-span-2">
+                            <div class="max-w-lg flex rounded-md shadow-sm">
+                                 <span
+                                     class="flex items-center justify-center rounded-l-md sm:text-sm w-2/6 bg-bleu text-white">
+                                    Code postal
+                                 </span>
+                                <input type="text" name="code_zip" id="code_zip" autocomplete="Code postal"
+                                       placeholder="Code postal"
+                                       wire:model.defer="code_zip"
+                                       class="flex-1 block w-full focus:ring-indigo-500 focus:border-indigo-500 min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4 sm:mt-4 space-y-2 sm:space-y-3 w-full">
+                    <div
+                        class="sm:border-gray-200 sm:pt-2">
+                        <div class="mt-1 sm:mt-0 sm:col-span-2">
+                            <div class="max-w-lg flex rounded-md shadow-sm">
+                                 <span
+                                     class="flex items-center justify-center rounded-l-md sm:text-sm w-2/6 bg-bleu text-white">
+                                    Ville
+                                 </span>
+                                <input type="text" name="city" id="city" autocomplete="city"
+                                       placeholder="Ville"
+                                       wire:model.defer="city"
+                                       class="flex-1 block w-full focus:ring-indigo-500 focus:border-indigo-500 min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="mt-4 sm:mt-4 space-y-2 sm:space-y-3 w-full">
+                    <div
+                        class="sm:border-gray-200 sm:pt-2">
+                        <div class="mt-1 sm:mt-0 sm:col-span-2">
+                            <div class="max-w-lg flex rounded-md shadow-sm">
+                                 <span
+                                     class="flex items-center justify-center rounded-l-md sm:text-sm w-2/6 bg-bleu text-white">
+                                    Pays
+                                 </span>
+                                <select name="country_id" required class="flex-1 block w-full focus:ring-indigo-500 focus:border-indigo-500 min-w-0 rounded-none rounded-r-md sm:text-sm border-gray-300" wire:model="country">
+                                    <option>Choisissez votre pays</option>
+                                    @foreach($countries as $country)
+                                        <option value="{{ $country->id }}"/>{{ $country->name }}</option>
+                                    @endforeach
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
             </div>
         </div>
 
@@ -88,7 +166,8 @@
                         <div class="max-w-lg">
                             <div class="mt-4 space-y-2 ml-2">
                                 <div class="flex">
-                                    <input id="push-everything" name="virement" value="virement" type="radio" wire:model="paiementType"
+                                    <input id="push-everything" name="virement" value="virement" type="radio"
+                                           wire:model="paiementType"
                                            class="focus:ring-indigo-500 h-3 w-3 text-indigo-600">
                                     <label for="push-everything"
                                            class="ml-3 block text-sm font-medium text-gray-700">
@@ -96,7 +175,8 @@
                                     </label>
                                 </div>
                                 <div class="flex items-center">
-                                    <input id="push-email" name="cheque" value="cheque" type="radio" wire:model="paiementType"
+                                    <input id="push-email" name="cheque" value="cheque" type="radio"
+                                           wire:model="paiementType"
                                            class="focus:ring-indigo-500 h-3 w-3 text-indigo-600">
                                     <label for="push-email"
                                            class="ml-3 block text-sm font-medium text-gray-700">
@@ -104,7 +184,8 @@
                                     </label>
                                 </div>
                                 <div class="flex items-center">
-                                    <input id="push-nothing" name="carte" value="carte" type="radio" wire:model="paiementType"
+                                    <input id="push-nothing" name="carte" value="carte" type="radio"
+                                           wire:model="paiementType"
                                            class="focus:ring-indigo-500 h-3 w-3 text-indigo-600">
                                     <label for="push-nothing"
                                            class="ml-3 block text-sm font-medium text-gray-700">
@@ -115,10 +196,12 @@
                         </div>
                     </div>
                     <div class="w-full flex items-center justify-center">
-                        <x-basecore::loading-replace label="Acceptation du devis en cours" size="30" class="mt-3">
-                            <button type="submit" class="text-2xl text-white px-4 py-2 w-72 rounded mt-4 font-bold"
+                        <x-basecore::loading-replace label="Acceptation du devis en cours" size="30"
+                                                     class="mt-3">
+                            <button type="submit"
+                                    class="text-2xl text-white px-4 py-2 w-72 rounded mt-4 font-bold"
                                     style="background-color: #ffa500;">
-                                    J'accepte le devis
+                                J'accepte le devis
                             </button>
                         </x-basecore::loading-replace>
                     </div>

@@ -19,7 +19,7 @@
         </span>
         <p class="text-green-600 text-center mt-2 text-normal">
             le {{$devi->updated_at->format('d/m/Y H:i')}}
-            par {{$devi->data['name_validation']}} {{$devi->data['ip_validation'] ?? '--'}}
+            par {{$devi->data['nom_validation']}} {{$devi->data['prenom_validation']}} {{$devi->data['ip_validation'] ?? '--'}}
         </p>
     @endif
 </div>
