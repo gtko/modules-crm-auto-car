@@ -93,7 +93,7 @@ class CrmAutoCarSeeder extends Seeder
 
         foreach(["En attente de traitement", "A rappeler", "En attente de tarif fournisseur",
                  "Fournisseur validé", "En attente Solde client"] as $tag) {
-            Tag::create(['label' => $tag]);
+            Tag::create(['label' => $tag, 'color' => '#000']);
         }
 
     }
