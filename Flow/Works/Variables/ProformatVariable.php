@@ -27,7 +27,7 @@ class ProformatVariable extends WorkFlowVariable
     public function labels(): array
     {
         return [
-            'numero' => 'Numéro de la facture proformat',
+            'numero' => 'Numéro de la facture proforma',
             'lien-pdf' => 'Lien vers le fichier pdf',
             'lien-public' => 'Lien vers la version web du pdf'
         ];

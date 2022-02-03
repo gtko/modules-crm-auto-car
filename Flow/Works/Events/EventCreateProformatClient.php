@@ -46,7 +46,7 @@ class EventCreateProformatClient extends \Modules\CoreCRM\Flow\Works\Events\Work
 
     public function describe(): string
     {
-        return 'Se déclenche quand une facture proformat est crée.';
+        return 'Se déclenche quand une facture proforma est crée.';
     }
 
     public function conditions():array

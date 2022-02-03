@@ -35,6 +35,6 @@ class ProformatPdfFiles extends \Modules\CoreCRM\Flow\Works\Files\WorkFlowFiles
 
     public function description(): string
     {
-        return 'Génération de la facture proformat en PDF';
+        return 'Génération de la facture proforma en PDF';
     }
 }
