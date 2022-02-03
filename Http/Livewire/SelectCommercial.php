@@ -35,6 +35,7 @@ class SelectCommercial extends Component
         app(DossierRepositoryContract::class)->changeCommercial($this->dossier, $commercial);
         (new FlowCRM())->add($this->dossier,new ClientDossierAttributionCommercial($this->dossier, $commercial, Auth::user(),));
         $this->emit('refresh');
+        $this->emit('refreshTimeline');
     }
 
 
