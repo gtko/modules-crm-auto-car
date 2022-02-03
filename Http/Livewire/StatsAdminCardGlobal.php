@@ -79,7 +79,7 @@ class StatsAdminCardGlobal extends Component
     public
     function render(StatistiqueRepositoryContract $repStat, TimerRepositoryContract $repTimer, ConfigsRepositoryContract $repConfig)
     {
-        $this->leadPrice = $repConfig->getByName('price_lead')->data['price_lead'];
+        $this->leadPrice = $repConfig->getByName('price_lead')->data['price_lead'] ?? 0;
         $this->shekel = app(ShekelRepositoryContract::class)->getPrice();
         $this->nombreLeads = $repStat->getNombreLeadTotal($this->debut, $this->fin);
         $this->nombreContact = $repStat->getNombreContactTotal();

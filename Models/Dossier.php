@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Dossier extends \Modules\CoreCRM\Models\Dossier
 {
 
-
+    public $with = ['client', 'commercial'];
 
     public function contactFournisseurs():HasMany
     {

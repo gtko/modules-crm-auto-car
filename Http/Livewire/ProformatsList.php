@@ -6,11 +6,15 @@ use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use Modules\CoreCRM\Contracts\Repositories\CommercialRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\ProformatsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\StatistiqueReservationRepositoryContract;
 use Modules\CrmAutoCar\Filters\ProformatFilterQuery;
+use Modules\CrmAutoCar\Models\Proformat;
+use Laravel\Octane\Facades\Octane;
 
 class ProformatsList extends Component
 {
@@ -75,7 +79,11 @@ class ProformatsList extends Component
 
         $filter = new ProformatFilterQuery();
 
-        $filter->byCommercial($this->commercial);
+        if (!Gate::allows('viewAny', Proformat::class)) {
+            $filter->byCommercial(Auth::commercial());
+        }else{
+            $filter->byCommercial($this->commercial);
+        }
 
         if($this->paid === 'oui') $filter->paid();
         if($this->paid === 'non') $filter->notPaid();
@@ -101,14 +109,24 @@ class ProformatsList extends Component
             $byMois[] = $date->clone()->startOfMonth();
         }
 
+
+
+        [$totalVente, $totalAchat, $totalMarge, $totalEncaissement,$salaireDiff] = [
+            $repStats->getTotalVente($this->dateStart, $this->dateEnd),
+            $repStats->getTotalAchat($this->dateStart, $this->dateEnd),
+            $repStats->getTotalMargeHT($this->dateStart, $this->dateEnd),
+            $repStats->getTotalAEncaisser($this->dateStart, $this->dateEnd),
+            $repStats->getSalaireDiff($this->dateStart, $this->dateEnd),
+        ];
+
         return view('crmautocar::livewire.proformats-list', [
             'proformats' => $proformats,
             'commercials' => $commercials,
-            'totalVente' => $repStats->getTotalVente($this->dateStart, $this->dateEnd),
-            'totalAchat' => $repStats->getTotalAchat($this->dateStart, $this->dateEnd),
-            'totalMarge' => $repStats->getTotalMargeHT($this->dateStart, $this->dateEnd),
-            'totalEncaissement' => $repStats->getTotalAEncaisser($this->dateStart, $this->dateEnd),
-            'salaireDiff' => $repStats->getSalaireDiff($this->dateStart, $this->dateEnd),
+            'totalVente' => $totalVente,
+            'totalAchat' => $totalAchat,
+            'totalMarge' => $totalMarge,
+            'totalEncaissement' => $totalEncaissement,
+            'salaireDiff' => $salaireDiff,
             'byMois' => $byMois
         ]);
     }
