@@ -30,7 +30,7 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
 class Proformat extends Model
 {
     use QueryCacheable;
-    protected $cacheFor = 3600;
+//    protected $cacheFor = 3600;
 
     protected $fillable = ['devis_id', 'number', 'total', 'data'];
 

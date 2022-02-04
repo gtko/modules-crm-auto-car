@@ -31,7 +31,7 @@ class PaymentPolicy
         return $user->hasPermissionTo('update payments');
     }
 
-    public function delete(UserEntity $user, Payment $model)
+    public function delete(UserEntity $user)
     {
         return $user->hasPermissionTo('delete payments');
     }
