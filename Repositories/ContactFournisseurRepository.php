@@ -14,21 +14,23 @@ use Modules\CrmAutoCar\Models\ContactFournisseur;
 class ContactFournisseurRepository extends AbstractRepository implements ContactFournisseurRepositoryContract
 {
 
-    public function create(Dossier $dossier, Fournisseur $fournisseur, string $name, string $phone): ContactFournisseur
+    public function create(Dossier $dossier, Fournisseur $fournisseur, string $name, string $phone, array $data = null): ContactFournisseur
     {
         return ContactFournisseur::create([
             'dossier_id' => $dossier->id,
             'fournisseur_id' => $fournisseur->id,
             'name' => $name,
             'phone' => $phone,
+            'data' => $data
         ]);
     }
 
-    public function update(ContactFournisseur $contactFournisseur, string $name, string $phone): ContactFournisseur
+    public function update(ContactFournisseur $contactFournisseur, string $name, string $phone, array $data = null): ContactFournisseur
     {
         $contactFournisseur->update([
             'name' => $name,
             'phone' => $phone,
+            'data' => $data
         ]);
 
         return $contactFournisseur;

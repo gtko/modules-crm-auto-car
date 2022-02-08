@@ -9,8 +9,8 @@ use Modules\CoreCrm\Models\Fournisseur;
 
 interface ContactFournisseurRepositoryContract
 {
-    public function create(Dossier $dossier, Fournisseur $fournisseur, string $name, string $phone):ContactFournisseur;
-    public function update(ContactFournisseur $contactFournisseur, string $name, string $phone):ContactFournisseur;
+    public function create(Dossier $dossier, Fournisseur $fournisseur, string $name, string $phone, array $data = null):ContactFournisseur;
+    public function update(ContactFournisseur $contactFournisseur, string $name, string $phone, array $data = null):ContactFournisseur;
     public function delete(ContactFournisseur $contactFournisseur):bool;
 
     public function getByDossier(Dossier $dossier):Collection;
