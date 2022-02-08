@@ -15,7 +15,7 @@ use Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\ContactFournisseurRepositoryContract;
 use Modules\CrmAutoCar\Entities\ProformatPrice;
 use Modules\CrmAutoCar\Repositories\BrandsRepository;
-
+use Rennokki\QueryCache\Traits\QueryCacheable;
 /**
  * @property int $id
  * @property int $devis_id
@@ -29,6 +29,8 @@ use Modules\CrmAutoCar\Repositories\BrandsRepository;
  */
 class Proformat extends Model
 {
+    use QueryCacheable;
+//    protected $cacheFor = 3600;
 
     protected $fillable = ['devis_id', 'number', 'total', 'data'];
 

@@ -24,6 +24,6 @@ class ShekelRepositories implements ShekelRepositoryContract
     public function getPrice(): float
     {
         $shekels = Shekel::all();
-        return $shekels->last()->shekel;
+        return $shekels->last()->shekel ?? 0;
     }
 }

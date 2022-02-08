@@ -45,7 +45,7 @@ class PaiementVariable extends \Modules\CoreCRM\Flow\Works\Variables\WorkFlowVar
         $paytweak->disconnect();
 
         return [
-          'lien' => $active['url'],
+          'lien' => $active['url'] ?? '',
           'total-lien' => $price,
           'total-ttc' => $priceProformat->getPriceTTC(),
           'total-ht' => $priceProformat->getPriceHT(),

@@ -104,6 +104,8 @@
                         @endforeach
                     </x-basecore::inputs.select>
                 </div>
+
+                @can('viewAny', \Modules\CrmAutoCar\Models\Proformat::class)
                 <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
                     <x-basecore::inputs.select name="commercial" wire:model="commercialSelect">
                         <option value="" default>Choisissez un commercial</option>
@@ -112,6 +114,7 @@
                         @endforeach
                     </x-basecore::inputs.select>
                 </div>
+                @endcan
 
                 <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
                     <x-basecore::inputs.select name="infovoyage" wire:model="infovoyage">
@@ -216,7 +219,7 @@
                 </table>
             </div>
 
-            {{$proformats->links()}}
+{{--            {{$proformats->links()}}--}}
 
         </div>
     </div>

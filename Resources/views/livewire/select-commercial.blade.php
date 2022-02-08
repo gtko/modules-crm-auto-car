@@ -1,7 +1,7 @@
 <div>
-    <div class="flex flex-col">
+    <div class="flex flex-col p-5">
         <span class="ml-1">Dossier suivi par :</span>
-        <div class="flex flex-row  space-x-1 mx-1">
+        <div class="flex flex-row space-x-1">
             <div class="w-5/6">
                 <x-basecore::inputs.select name="select_commercial" wire:model="commercialSelect"
                                            class="form-control-sm">
