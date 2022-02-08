@@ -5,52 +5,70 @@
     </div>
 
     <div class="px-2 pt-2">
-        <x-basecore::inputs.select name="fournisseur_id" label="" required="required" wire:model="fournisseur_id">
+        <x-basecore::inputs.select name="fournisseur" label="" required="required" wire:model="fournisseur">
             <option selected="selected">Fournisseur</option>
-            @foreach($fournisseurs as $fournisseur)
-                <option value="{{ $fournisseur->id }}">{{ $fournisseur->format_name }}</option>
+            @foreach($fournisseurs as $fournisseurSelect)
+                <option value="{{ $fournisseurSelect->id }}">{{ $fournisseurSelect->format_name }}</option>
             @endforeach
         </x-basecore::inputs.select>
     </div>
 
 
     <div class="px-2 pt-2">
-        <x-basecore::inputs.select name="devis_id" label="" required="required" wire:model="devis_id">
-            <option selected="selected">Devis</option>
-            @foreach($dossier->devis as $devis)
-                <option value="{{ $devis->id }}">{{ $devis->ref }}</option>
+        <x-basecore::inputs.select name="devis" label="" required="required" wire:model="devis">
+            <option selected="selected" value="">Devis</option>
+            @foreach($dossier->devis as $devisSelect)
+                <option value="{{ $devisSelect->id }}">{{ $devisSelect->ref }}</option>
             @endforeach
         </x-basecore::inputs.select>
     </div>
-    <div class="px-2 pt-2">
-        <x-basecore::inputs.select name="devis_id" label="" required="required" wire:model="type_trajet">
-            <option selected="selected">Type de trajet</option>
+
+    @if($devis)
+        @if($this->nbrTrajet > 1)
+            <div class="px-2 pt-2">
+                <x-basecore::inputs.select name="trajet" label="" required="required" wire:model="trajet">
+                    <option selected="selected">trajet</option>
+                    @for ($i = 0; $i < $this->nbrTrajet; $i++)
+                        <option value="trajet{{$i+1}}">Trajet {{ $i + 1 }}</option>
+                    @endfor
+
+
+                </x-basecore::inputs.select>
+            </div>
+        @endif
+        <div class="px-2 pt-2">
+            <x-basecore::inputs.select name="type_trajet" label="" required="required" wire:model="type_trajet">
+                <option value='' selected="selected">Type de trajet</option>
                 <option value="aller">Aller</option>
                 <option value="retour">Retour</option>
                 <option value="aller_retour">Aller / Retour</option>
-        </x-basecore::inputs.select>
-    </div>
+            </x-basecore::inputs.select>
+        </div>
 
-    <div class="px-2 pt-2">
-        <x-basecore::inputs.text name='name' wire:model="name" placeholder="Nom et prénom"/>
-    </div>
+        <div class="px-2 pt-2">
+            <x-basecore::inputs.text name='name' wire:model="name" placeholder="Nom et prénom"/>
+        </div>
 
-    <div class="px-2 pt-2">
-        <x-basecore::inputs.text name='phone' wire:model="phone" placeholder="Téléphone"/>
-    </div>
+        <div class="px-2 pt-2">
+            <x-basecore::inputs.text name='phone' wire:model="phone" placeholder="Téléphone"/>
+        </div>
 
-    <div class="m-2">
-        <x-basecore::loading-replace wire:target="store">
-            <x-slot name="loader">
-                <button class="btn btn-primary" disabled>
-                    @icon('spinner', 20, 'animate-spin mr-2') Sauvegarder
-                </button>
-            </x-slot>
-            <x-basecore::button wire:click="store">Sauvegarder</x-basecore::button>
-        </x-basecore::loading-replace>
+            <div class="px-2 pt-2">
+                <x-basecore::inputs.textarea name='commentaire' wire:model="commentaire" placeholder="Commentaire"/>
+            </div>
 
-    </div>
+        <div class="m-2">
+            <x-basecore::loading-replace wire:target="store">
+                <x-slot name="loader">
+                    <button class="btn btn-primary" disabled>
+                        @icon('spinner', 20, 'animate-spin mr-2') Sauvegarder
+                    </button>
+                </x-slot>
+                <x-basecore::button wire:click="store">Sauvegarder</x-basecore::button>
+            </x-basecore::loading-replace>
 
+        </div>
+    @endif
 
     <div>
         <table class="divide-y divide-gray-200 w-full mt-4">

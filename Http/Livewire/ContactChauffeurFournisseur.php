@@ -4,6 +4,7 @@ namespace Modules\CrmAutoCar\Http\Livewire;
 
 use Livewire\Component;
 use Modules\CoreCRM\Contracts\Entities\ClientEntity;
+use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\DossierRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\FournisseurRepositoryContract;
 use Modules\CoreCRM\Models\Dossier;
@@ -13,9 +14,12 @@ class ContactChauffeurFournisseur extends Component
 {
     public $dossier;
     public $client;
-    public $fournisseur_id;
-    public $devis_id;
+    public $fournisseur;
+    public $devis;
     public $type_trajet;
+    public $trajet;
+    public $nbrTrajet;
+    public $commentaire;
 
     public $name;
     public $phone;
@@ -35,6 +39,15 @@ class ContactChauffeurFournisseur extends Component
         $this->dossier = $dossier;
     }
 
+    public function updatedDevis()
+    {
+        if ($this->devis) {
+            $devis = app(DevisRepositoryContract::class)->fetchById($this->devis);
+            $this->nbrTrajet = count($devis->data['trajets']) ?? 0;
+        }
+
+    }
+
     /**
      * Store the contact
      *
@@ -44,20 +57,35 @@ class ContactChauffeurFournisseur extends Component
     {
         $this->validate();
 
-        $fournisseur = app(FournisseurRepositoryContract::class)->fetchById($this->fournisseur_id);
+        $fournisseur = app(FournisseurRepositoryContract::class)->fetchById($this->fournisseur);
 
-        app(ContactFournisseurRepositoryContract::class)->create($this->dossier, $fournisseur, $this->name, $this->phone);
+        $data =
+            [
+                'type_tajet' => $this->type_trajet,
+                'number_trajet' => $this->trajet,
+                'commentaire' => $this->commentaire,
+
+            ];
+
+
+        app(ContactFournisseurRepositoryContract::class)->create($this->dossier, $fournisseur, $this->name, $this->phone, $data);
 
         $this->reset([
             'name',
             'phone',
+            'commentaire',
+            'trajet',
+            'type_trajet',
+            'devis',
+            'fournisseur',
         ]);
     }
 
     /***
      * @return \Illuminate\Database\Eloquent\Collection|\Modules\CrmAutoCar\Models\Fournisseur[]
      */
-    public function getFournisseurs(){
+    public function getFournisseurs()
+    {
         return app(FournisseurRepositoryContract::class)->all();
     }
 
