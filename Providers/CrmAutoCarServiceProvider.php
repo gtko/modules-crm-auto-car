@@ -37,6 +37,7 @@ use Modules\CrmAutoCar\Contracts\Repositories\StatistiqueReservationRepositoryCo
 use Modules\CrmAutoCar\Contracts\Repositories\TagsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\TemplatesRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Service\DistanceApiContract;
+use Modules\CrmAutoCar\Flow\Works\Events\EventAddTagDossier;
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDevisClientModifValidation;
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDevisClientSaveValidation;
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDevisExterneConsultation;
@@ -181,7 +182,8 @@ class CrmAutoCarServiceProvider extends ServiceProvider
             EventClientDevisClientSaveValidation::class,
             EventClientDevisClientModifValidation::class,
             EventEditMargeProformat::class,
-            EventSendInformationVoyageMailFournisseur::class
+            EventSendInformationVoyageMailFournisseur::class,
+            EventAddTagDossier::class
         ]);
 
         app(TemplateMailService::class)

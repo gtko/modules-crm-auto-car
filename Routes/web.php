@@ -28,16 +28,11 @@ use Modules\CrmAutoCar\View\Components\DevisClient\Index;
 
 Route::get('/testurl', function(){
 
+    $dossier = Dossier::find(6);
+    $dossier->status_id = 5;
+    $dossier->save();
 
-    $clients = Client::all();
-
-    foreach($clients as $client){
-        $email = $client->email;
-        $tel = $client->phone;
-    }
-
-
-    return 'fin';
+    return 'OK';
 });
 
 Route::middleware(['secure.devis'])->group(function () {
