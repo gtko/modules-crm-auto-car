@@ -43,7 +43,7 @@ class ContactChauffeurFournisseur extends Component
     {
         if ($this->devis) {
             $devis = app(DevisRepositoryContract::class)->fetchById($this->devis);
-            $this->nbrTrajet = count($devis->data['trajets']) ?? 0;
+            $this->nbrTrajet = count($devis->data['trajets']) ?? null;
         }
 
     }
@@ -57,18 +57,19 @@ class ContactChauffeurFournisseur extends Component
     {
         $this->validate();
 
+        $devis = app(DevisRepositoryContract::class)->fetchById($this->devis);
         $fournisseur = app(FournisseurRepositoryContract::class)->fetchById($this->fournisseur);
 
+
+//        dd($devis);
         $data =
             [
                 'type_tajet' => $this->type_trajet,
-                'number_trajet' => $this->trajet,
                 'commentaire' => $this->commentaire,
+                'sended' => false,
 
             ];
-
-
-        app(ContactFournisseurRepositoryContract::class)->create($this->dossier, $fournisseur, $this->name, $this->phone, $data);
+        app(ContactFournisseurRepositoryContract::class)->create($this->dossier, $fournisseur, $devis, $this->name, $this->phone, $data, $this->trajet);
 
         $this->reset([
             'name',

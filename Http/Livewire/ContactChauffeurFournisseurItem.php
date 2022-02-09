@@ -15,9 +15,15 @@ class ContactChauffeurFournisseurItem extends Component
         $this->contact = $contact;
     }
 
-    public function removeContact(){
+    public function removeContact()
+    {
         app(ContactFournisseurRepositoryContract::class)->delete($this->contact);
         $this->emit('contactchauffeurfournisseur::refresh');
+    }
+
+    public function sencContactChauffeur()
+    {
+        app(ContactFournisseurRepositoryContract::class)->send($this->contact);
     }
 
     public function render()
