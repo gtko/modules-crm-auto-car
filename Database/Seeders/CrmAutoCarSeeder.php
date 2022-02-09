@@ -65,6 +65,7 @@ class CrmAutoCarSeeder extends Seeder
 
         $statusRep = app(StatusRepositoryContract::class);
         $datas = [
+            ['En attente de contact' , '#000'],
             ['En cours' , '#000'],
             ['En attente de paiement' , "#000"],
             ['En attente de résa' , '#000'],

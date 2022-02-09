@@ -1,4 +1,4 @@
-<div class="intro-y box mt-5 p-2">
+<div class="box mt-5 p-2">
 
 
     <div class="flex justify-start items-center p-4">

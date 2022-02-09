@@ -2,6 +2,7 @@
 
 namespace Modules\CrmAutoCar\Flow\Attributes;
 
+use Modules\BaseCore\Contracts\Entities\UserEntity;
 use Modules\BaseCore\Contracts\Repositories\UserRepositoryContract;
 use Modules\CoreCRM\Contracts\Entities\DevisEntities;
 use Modules\CoreCRM\Contracts\Repositories\CommercialRepositoryContract;
@@ -15,9 +16,9 @@ use Modules\CoreCRM\Models\User;
 class ClientDossierRappeler extends Attributes
 {
     public Dossier $dossier;
-    public Commercial $commercial;
+    public UserEntity $commercial;
 
-    public function __construct(Dossier $dossier, Commercial $commercial)
+    public function __construct(Dossier $dossier, UserEntity $commercial)
     {
         parent::__construct();
 
@@ -28,7 +29,7 @@ class ClientDossierRappeler extends Attributes
     public static function instance(array $value): FlowAttributes
     {
         $dossier = app(DossierRepositoryContract::class)->fetchById($value['dossier_id']);
-        $commercial = app(CommercialRepositoryContract::class)->fetchById($value['commercial_id']);
+        $commercial = app(UserRepositoryContract::class)->fetchById($value['commercial_id']);
 
         return (new ClientDossierRappeler($dossier, $commercial));
     }
@@ -52,7 +53,7 @@ class ClientDossierRappeler extends Attributes
     /**
      * @return \Modules\CoreCRM\Models\Commercial
      */
-    public function getCommercial(): Commercial
+    public function getCommercial(): UserEntity
     {
         return $this->commercial;
     }

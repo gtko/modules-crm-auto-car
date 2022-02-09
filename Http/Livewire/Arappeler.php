@@ -17,6 +17,8 @@ class Arappeler extends Component
     }
 
     public function rappeler(){
+
+
         app(FlowContract::class)->add($this->dossier, new ClientDossierRappeler($this->dossier, $this->dossier->commercial));
 
         return redirect()->route('dossiers.show', [$this->dossier->client, $this->dossier]);
