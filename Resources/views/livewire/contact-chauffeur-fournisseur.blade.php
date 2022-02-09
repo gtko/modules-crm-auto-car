@@ -29,7 +29,7 @@
                 <x-basecore::inputs.select name="trajet" label="" required="required" wire:model="trajet">
                     <option selected="selected">trajet</option>
                     @for ($i = 0; $i < $this->nbrTrajet; $i++)
-                        <option value="trajet{{$i+1}}">Trajet {{ $i + 1 }}</option>
+                        <option value="{{$i}}">Trajet {{ $i + 1 }}</option>
                     @endfor
 
 
@@ -78,7 +78,7 @@
                     Fournisseur
                 </th>
                 <th scope="col" class="py-3  text-xs font-medium uppercase tracking-wider text-xs">
-                    Nom et prénom
+                    devis ref
                 </th>
                 <th scope="col" class="py-3  text-xs font-medium uppercase tracking-wider text-xs">
                     Téléphone
