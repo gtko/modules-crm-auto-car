@@ -15,7 +15,7 @@
             <button wire:click="removeContact()" title="delete">
                 @icon('delete', null, 'mr-1')
             </button>
-            <button wire:click="sencContactChauffeur()" title="envoyer le contact chauffeur">
+            <button wire:click="sencContactChauffeur()" title="envoyer le contact chauffeur" class="@if($contact->data['sended'] ?? false) text-green-600 @else text-red-600 @endif">
                 @icon('mail', null, 'mr-2')
             </button>
         </span>

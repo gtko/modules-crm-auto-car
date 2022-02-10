@@ -2,7 +2,11 @@
 
 namespace Modules\CrmAutoCar\Http\Livewire;
 
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
+
+use Modules\CoreCRM\Flow\Attributes\SendContactChauffeurToClient;
+use Modules\CoreCRM\Services\FlowCRM;
 use Modules\CrmAutoCar\Contracts\Repositories\ContactFournisseurRepositoryContract;
 
 class ContactChauffeurFournisseurItem extends Component
@@ -24,6 +28,7 @@ class ContactChauffeurFournisseurItem extends Component
     public function sencContactChauffeur()
     {
         app(ContactFournisseurRepositoryContract::class)->send($this->contact);
+        (new FlowCRM())->add($this->contact->dossier, new SendContactChauffeurToClient(Auth::user(), $this->contact->devi, $this->contact->fournisseur));
     }
 
     public function render()
