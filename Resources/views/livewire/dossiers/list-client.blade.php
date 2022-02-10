@@ -15,9 +15,9 @@
                 <option value="">Statut</option>
                 @foreach($pipelineList as $pipeline)
                     <optgroup label="{{ $pipeline->first()->pipeline->name ?? '' }}">
-                    @foreach($pipeline as $statu)
-                        <option value="{{$statu->id}}">{{$statu->label}}</option>
-                    @endforeach
+                        @foreach($pipeline as $statu)
+                            <option value="{{$statu->id}}">{{$statu->label}}</option>
+                        @endforeach
                     </optgroup>
                 @endforeach
             </x-basecore::inputs.select>
@@ -28,54 +28,58 @@
                     <option value="{{$tagLi->id}}">{{$tagLi->label}}</option>
                 @endforeach
             </x-basecore::inputs.select>
-            <x-basecore::inputs.select name="commercial" class="form-control-sm" wire:model="commercial">
-                <option value="">Commercial</option>
-                @foreach($commercialList as $commer)
-                    <option value="{{$commer->id}}">{{$commer->format_name}}</option>
-                @endforeach
-            </x-basecore::inputs.select>
+            @if(\Auth::user()->isSuperAdmin())
+                <x-basecore::inputs.select name="commercial" class="form-control-sm" wire:model="commercial">
+                    <option value="">Commercial</option>
+                    @foreach($commercialList as $commer)
+                        <option value="{{$commer->id}}">{{$commer->format_name}}</option>
+                    @endforeach
+                </x-basecore::inputs.select>
+            @endif
+        </div>
+        <div class="mt-4 grid grid grid-cols-4 gap-4">
             <div>
                 <span>Depart Du</span>
-                <x-basecore::inputs.date name="date_de_depart_debut" class="form-control-sm" wire:model="departStart"/>
+                <x-basecore::inputs.date name="date_de_depart_debut" class="form-control-sm"
+                                         wire:model="departStart"/>
             </div>
             <div>
                 <span>Aux</span>
                 <x-basecore::inputs.date name="date_de_depart_fin" class="form-control-sm" wire:model="departEnd"/>
             </div>
             <div class="mt-2">
-                <div class="btn-sm btn-primary mt-3 w-32 rounded cursor-pointer" wire:click="clearFiltre()">Clear les filtres</div>
-            </div>
-            @if(!\Auth::user()->isSuperAdmin())
-                <div class="mt-5">
-                    <x-basecore::inputs.checkbox wire:model="viewMyLead" name="my_lead"
-                                                 label="Voir mes dossiers uniquement"/>
+                <div class="btn-sm btn-primary mt-3 w-32 rounded cursor-pointer" wire:click="clearFiltre()">Clear
+                    les
+                    filtres
                 </div>
-            @endif
+            </div>
         </div>
-        <div class="overflow-auto lg:overflow-visible mt-8 sm:mt-0">
-            <table class="table table-report sm:mt-2">
-                <thead>
-                <tr>
-                    <th class="whitespace-nowrap"></th>
-                    <th class="whitespace-nowrap">Ref</th>
-                    <th class="text-center whitespace-nowrap">Nom</th>
-                    <th class="text-center whitespace-nowrap">Statut</th>
-                    <th class="text-center whitespace-nowrap">tags</th>
-                    <th class="text-center whitespace-nowrap">date du voyage</th>
-                    <th class="text-center whitespace-nowrap">Commercial</th>
-                    <th class="text-center whitespace-nowrap">Créer le</th>
-                    <th class="text-center whitespace-nowrap"></th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($dossiers as $dossier)
-                    <livewire:crmautocar::dossiers.list-detail :dossier="$dossier" :key="$dossier->id"/>
-                @endforeach
-                </tbody>
-            </table>
-        </div>
-
-{{--        {{$dossiers->links()}}--}}
 
     </div>
+    <div class="overflow-auto lg:overflow-visible mt-8 sm:mt-0">
+        <table class="table table-report sm:mt-2">
+            <thead>
+            <tr>
+                <th class="whitespace-nowrap"></th>
+                <th class="whitespace-nowrap">Ref</th>
+                <th class="text-center whitespace-nowrap">Nom</th>
+                <th class="text-center whitespace-nowrap">Statut</th>
+                <th class="text-center whitespace-nowrap">tags</th>
+                <th class="text-center whitespace-nowrap">date du voyage</th>
+                <th class="text-center whitespace-nowrap">Commercial</th>
+                <th class="text-center whitespace-nowrap">Créer le</th>
+                <th class="text-center whitespace-nowrap"></th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach($dossiers as $dossier)
+                <livewire:crmautocar::dossiers.list-detail :dossier="$dossier" :key="$dossier->id"/>
+            @endforeach
+            </tbody>
+        </table>
+    </div>
+
+    {{--        {{$dossiers->links()}}--}}
+
+</div>
 </div>
