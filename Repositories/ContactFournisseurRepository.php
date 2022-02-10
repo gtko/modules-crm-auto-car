@@ -74,5 +74,7 @@ class ContactFournisseurRepository extends AbstractRepository implements Contact
         $contactFournisseur->save();
 
         return $contactFournisseur;
+
+
     }
 }

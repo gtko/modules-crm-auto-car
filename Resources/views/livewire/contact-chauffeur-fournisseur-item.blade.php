@@ -5,7 +5,7 @@
     </td>
     <td class="py-4 whitespace-nowrap text-sm text-center">
 {{--        @dd($contact)--}}
-        #{{ $contact->devi->ref }}
+        #{{ $contact->devi->ref ?? ''}}
     </td>
     <td class="py-4 whitespace-nowrap text-sm text-center">
         {{ $contact->phone }}
