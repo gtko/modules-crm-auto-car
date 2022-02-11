@@ -8,6 +8,7 @@ use Modules\CoreCRM\Models\Client;
 use Modules\CrmAutoCar\Http\Controllers\BrandController;
 use Modules\CrmAutoCar\Http\Controllers\CentralAutoCarDevisController;
 use Modules\CrmAutoCar\Http\Controllers\CuveController;
+use Modules\CrmAutoCar\Http\Controllers\DashboardController;
 use Modules\CrmAutoCar\Http\Controllers\DossierController;
 use Modules\CrmAutoCar\Http\Controllers\InfomationVogageController;
 use Modules\CrmAutoCar\Http\Controllers\InvoicesController;
@@ -35,6 +36,7 @@ Route::get('/testurl', function(){
     return 'OK';
 });
 
+
 Route::middleware(['secure.devis'])->group(function () {
     Route::get('/devis/{devis}/{token}',[Index::class, 'index'])->name('devis-view');
     Route::get('/devis/pdf/{devis}/{token}',[Index::class, 'index'])->name('devis-pdf');
@@ -56,6 +58,9 @@ Route::get('proformats/{proformat}/pdf', [ProformatsController::class, 'pdf'])->
 Route::prefix('/')
     ->middleware(['auth:web', 'verified'])
     ->group(function () {
+
+        Route::get('dashboard', [DashboardController::class, 'index']);
+
         Route::resource('cuves', CuveController::class)->only('index', 'destroy', 'show');
         Route::resource('invoices', InvoicesController::class)->only('index', 'show');
         Route::resource('proformats', ProformatsController::class)->only('index');
