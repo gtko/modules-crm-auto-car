@@ -19,7 +19,7 @@
             <div>
                 Avec les infos suivante :
                <ul>
-                   <li>Nom : <span class="text-yellow-600">{{ $flow->datas->getData()['name_validation'] ?? ''}}</span></li>
+                   <li>Nom : <span class="text-yellow-600">{{ ($flow->datas->getData()['nom_validation'] ?? '') . ' ' .  ($flow->datas->getData()['nom_validation'] ?? '')}}</span></li>
                    <li>Société : <span class="text-yellow-600">{{ $flow->datas->getData()['societe_validation'] ?? '' }}</span></li>
                    <li>Adresse : <span class="text-yellow-600">{{ $flow->datas->getData()['address_validation'] ?? ''}}</span></li>
                    <li>Type de paiment : <span class="text-yellow-600">{{ $flow->datas->getData()['paiement_type_validation'] ?? '' }}</span></li>
