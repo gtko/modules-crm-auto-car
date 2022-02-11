@@ -4,6 +4,7 @@
 namespace Modules\CrmAutoCar\Services;
 
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Modules\CoreCRM\Contracts\Repositories\FlowRepositoryContract;
 use Modules\CoreCRM\Contracts\Services\FlowContract;
@@ -23,7 +24,9 @@ class FlowAutocarCRM implements FlowContract
     public function list(Flowable $flowable): Collection
     {
         if($flowable instanceof \Modules\CoreCRM\Models\Dossier) {
-            $flowableAutocarCRM = (Dossier::find($flowable->id))->flow()->with('event')->orderByDesc('created_at')->get();
+            $flowableAutocarCRM = (Dossier::find($flowable->id))
+                ->flow()->with('event')
+                ->orderByDesc('created_at')->get();
             return $flowable->flow()->with('event')->orderByDesc('created_at')
                 ->get()
                 ->merge($flowableAutocarCRM)
@@ -45,4 +48,6 @@ class FlowAutocarCRM implements FlowContract
 
         return $query->count() > 0;
     }
+
+
 }
