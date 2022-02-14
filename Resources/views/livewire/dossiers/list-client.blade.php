@@ -43,10 +43,6 @@
                 <x-basecore::inputs.date name="date_de_depart_debut" class="form-control-sm"
                                          wire:model="departStart"/>
             </div>
-            <div>
-                <span>Aux</span>
-                <x-basecore::inputs.date name="date_de_depart_fin" class="form-control-sm" wire:model="departEnd"/>
-            </div>
             <div class="mt-2">
                 <div class="btn-sm btn-primary mt-3 w-32 rounded cursor-pointer" wire:click="clearFiltre()">Clear
                     les

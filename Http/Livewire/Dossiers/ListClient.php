@@ -35,7 +35,7 @@ class ListClient extends Component
         $filter->byTag($this->tag);
         $filter->search($this->nom_client);
 
-        $filter->byDateDepart($this->departStart, $this->departEnd);
+        $filter->byDepart($this->departStart);
 
         return $filter->query();
     }
@@ -46,7 +46,6 @@ class ListClient extends Component
         $this->status = '';
         $this->tag = '';
         $this->commercial = '';
-        $this->departEnd = '';
         $this->departStart = '';
     }
 
