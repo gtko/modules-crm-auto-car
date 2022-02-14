@@ -15,6 +15,7 @@
                 <option value="">Statut</option>
                 @foreach($pipelineList as $pipeline)
                     <optgroup label="{{ $pipeline->first()->pipeline->name ?? '' }}">
+                    <optgroup label="{{ $pipeline->first()->pipeline->name ?? '' }}">
                         @foreach($pipeline as $statu)
                             <option value="{{$statu->id}}">{{$statu->label}}</option>
                         @endforeach
@@ -39,9 +40,13 @@
         </div>
         <div class="mt-4 grid grid grid-cols-4 gap-4">
             <div>
-                <span>Depart Du</span>
+                <span>Depart</span>
                 <x-basecore::inputs.date name="date_de_depart_debut" class="form-control-sm"
                                          wire:model="departStart"/>
+            </div>
+            <div>
+                <span>Retour</span>
+                <x-basecore::inputs.date name="date_de_depart_fin" class="form-control-sm" wire:model="departEnd"/>
             </div>
             <div class="mt-2">
                 <div class="btn-sm btn-primary mt-3 w-32 rounded cursor-pointer" wire:click="clearFiltre()">Clear

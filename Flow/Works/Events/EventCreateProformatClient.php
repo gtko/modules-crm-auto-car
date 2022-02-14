@@ -36,12 +36,12 @@ class EventCreateProformatClient extends \Modules\CoreCRM\Flow\Works\Events\Work
 
     public function name(): string
     {
-        return 'Proformat créé';
+        return 'Proforma créé';
     }
 
     public function category():string
     {
-        return 'Proformat';
+        return 'Proforma';
     }
 
     public function describe(): string

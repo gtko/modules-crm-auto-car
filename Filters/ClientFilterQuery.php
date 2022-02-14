@@ -111,6 +111,32 @@ class ClientFilterQuery
         }
     }
 
+    public function ByArrive($dateRetour = null)
+    {
+        if ($dateRetour) {
+            $dateRetour = Carbon::parse($dateRetour)->startOfDay();
+
+            $query = $this->query->with('devis')->get();
+            $dossierIds = $query->filter(function ($item) use ($dateRetour) {
+                $valide = false;
+                foreach ($item->devis as $devis) {
+                    foreach (($devis->data['trajets'] ?? []) as $trajet) {
+                        if ($trajet['retour_date_depart'] ?? false) {
+                            $trajetRetour = Carbon::parse($trajet['retour_date_depart']);
+                            if ($dateRetour->equalTo($trajetRetour->startOfDay())) {
+                                $valide = true;
+                            }
+                        }
+                    }
+                }
+                return $valide;
+            })->pluck('id');
+
+            $this->query->whereIn('id', $dossierIds);
+        }
+    }
+
+
     public function query()
     {
         return $this->query;
