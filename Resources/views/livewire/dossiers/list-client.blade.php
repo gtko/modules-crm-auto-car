@@ -1,11 +1,5 @@
 <div>
     <div class="col-span-12 mt-6">
-        <div class="block sm:flex items-center h-10">
-            <div class="btn btn-primary">
-                <a href="{{route('clients.create')}}">Ajouter une client</a>
-            </div>
-
-        </div>
         <div class="mt-4 grid grid grid-cols-4 gap-4">
             <x-basecore::inputs.text name="nom_client" placeholder="Nom du client" class="form-control-sm"
                                      wire:model="nom_client"/>
