@@ -15,6 +15,7 @@ class ClientDossierCreate extends TimelineComponent
      */
     public function render(): View
     {
+
         return view('crmautocar::components.timeline.client.dossier.create');
     }
 }
