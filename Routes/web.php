@@ -27,7 +27,7 @@ use Modules\CrmAutoCar\View\Components\Cgv;
 use Modules\CrmAutoCar\View\Components\DevisClient\Index;
 
 
-Route::get('/testurl', function(){
+Route::get('/testurl', function () {
 
     $dossier = Dossier::find(6);
     $dossier->status_id = 5;
@@ -38,11 +38,11 @@ Route::get('/testurl', function(){
 
 
 Route::middleware(['secure.devis'])->group(function () {
-    Route::get('/devis/{devis}/{token}',[Index::class, 'index'])->name('devis-view');
-    Route::get('/devis/pdf/{devis}/{token}',[Index::class, 'index'])->name('devis-pdf');
+    Route::get('/devis/{devis}/{token}', [Index::class, 'index'])->name('devis-view');
+    Route::get('/devis/pdf/{devis}/{token}', [Index::class, 'index'])->name('devis-pdf');
 });
 
-Route::middleware(['secure.signate'])->group(function(){
+Route::middleware(['secure.signate'])->group(function () {
     Route::get('/voyage/{devis}', [ValidationInformationVoyageController::class, 'index'])->name('validation-voyage');
 });
 
@@ -66,8 +66,10 @@ Route::prefix('/')
         Route::resource('proformats', ProformatsController::class)->only('index');
         Route::resource('templates', TemplateController::class)->except('show');
 
-        Route::get('dossiers', [DossierController::class,'index'])->name('dossiers.index');
-        Route::get('clients/{client}/dossiers/{dossier}', [DossierController::class,'show'])->name('dossiers.show');
+
+        Route::get('dossiers/create/{client}', [\Modules\CrmAutoCar\Http\Controllers\DossierCreateController::class, 'index'])->name('dossier-create');
+        Route::get('dossiers', [DossierController::class, 'index'])->name('dossiers.index');
+        Route::get('clients/{client}/dossiers/{dossier}', [DossierController::class, 'show'])->name('dossiers.show');
 
         Route::get('statistiques', [StatistiqueController::class, 'index'])->name('statistiques');
         Route::get('statistiques-fournisseur', [StatistiqueFournisseurController::class, 'index'])->name('statistiques-fournisseur');
@@ -80,7 +82,6 @@ Route::prefix('/')
 
 Route::get('/cgv', [Cgv::class, 'render'])->name('cgv');
 
-Route::get('/mail', function ()
-{
+Route::get('/mail', function () {
 //    Mail::to(['d@gmail.com', 'test@test.com'])->send(new RoadmapMail());
 });

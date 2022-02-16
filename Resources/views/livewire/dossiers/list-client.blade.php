@@ -1,11 +1,5 @@
 <div>
     <div class="col-span-12 mt-6">
-        <div class="block sm:flex items-center h-10">
-            <div class="btn btn-primary">
-                <a href="{{route('clients.create')}}">Ajouter une client</a>
-            </div>
-
-        </div>
         <div class="mt-4 grid grid grid-cols-4 gap-4">
             <x-basecore::inputs.text name="nom_client" placeholder="Nom du client" class="form-control-sm"
                                      wire:model="nom_client"/>
@@ -14,6 +8,7 @@
             <x-basecore::inputs.select name="statut" class="form-control-sm" wire:model="status">
                 <option value="">Statut</option>
                 @foreach($pipelineList as $pipeline)
+                    <optgroup label="{{ $pipeline->first()->pipeline->name ?? '' }}">
                     <optgroup label="{{ $pipeline->first()->pipeline->name ?? '' }}">
                         @foreach($pipeline as $statu)
                             <option value="{{$statu->id}}">{{$statu->label}}</option>
@@ -39,12 +34,12 @@
         </div>
         <div class="mt-4 grid grid grid-cols-4 gap-4">
             <div>
-                <span>Depart Du</span>
+                <span>Depart</span>
                 <x-basecore::inputs.date name="date_de_depart_debut" class="form-control-sm"
                                          wire:model="departStart"/>
             </div>
             <div>
-                <span>Aux</span>
+                <span>Retour</span>
                 <x-basecore::inputs.date name="date_de_depart_fin" class="form-control-sm" wire:model="departEnd"/>
             </div>
             <div class="mt-2">
