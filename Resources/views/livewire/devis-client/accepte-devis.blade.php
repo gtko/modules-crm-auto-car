@@ -1,4 +1,4 @@
-<div class="{{$class}} mb-4">
+<div class="{{$class}} mb-4 w-full">
     @if (!$devi->validate)
         <div class="no-print">
             <div class="flex justify-between items-start mt-4">

@@ -95,15 +95,15 @@
                     <x-crmautocar::devis-client.cgv
                         class="bg-white border border-2 border-gray-400  lg:mb-6 mb-0 mt-6 p-4 lg:order-5 no-print"/>
                 </div>
-                <div class="col-span-1 flex flex-col no-print">
+                <div class="col-span-1 flex flex-col">
                     <x-crmautocar::devis-client.client-information
                         :devis="$devis"
-                        class="my-6 lg:order-1"
+                        class="my-6 lg:order-1  no-print"
                     />
 
                     <x-crmautocar::devis-client.conseiller
                         :devis="$devis"
-                        class="bg-white border border-2 border-gray-400 p-4 lg:order-3 mb-6"
+                        class="bg-white border border-2 border-gray-400 p-4 lg:order-3 mb-6  no-print"
                     />
 
                     <livewire:crmautocar::devis-client.recap-devis
