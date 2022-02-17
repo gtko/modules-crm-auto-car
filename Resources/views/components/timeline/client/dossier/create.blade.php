@@ -4,14 +4,14 @@
     </x-slot>
     <div class="flex items-center">
         <div class="font-medium">
-            Création du dossier par {{$flow->datas->getUser()->format_name ?? 'CRM'}}
+            Création du dossier par @if($flow->datas->getUser()->format_name == '') CRM @else {{$flow->datas->getUser()->format_name ?? 'CRM'}} @endif
             <ul>
                 <li>
-                    <span class="font-bold">Dépar le : </span>
+                    <span class="font-bold">Départ le : </span>
                     <span class="text-blue-400">{{$flow->flowable->data['date_depart'] ?? 'N/A'}}</span>
                 </li>
                 <li>
-                    <span class="font-bold">Dépar de : </span>
+                    <span class="font-bold">Départ de : </span>
                     <span class="text-blue-400">{{$flow->flowable->data['lieu_depart'] ?? 'N/A'}}</span>
                 </li>
                 <li>
