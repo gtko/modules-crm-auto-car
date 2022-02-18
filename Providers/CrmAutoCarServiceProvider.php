@@ -38,6 +38,7 @@ use Modules\CrmAutoCar\Contracts\Repositories\StatistiqueReservationRepositoryCo
 use Modules\CrmAutoCar\Contracts\Repositories\TagsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\TemplatesRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Service\DistanceApiContract;
+use Modules\CrmAutoCar\Flow\Attributes\DevisSendClient;
 use Modules\CrmAutoCar\Flow\Works\Events\EventAddTagDossier;
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDevisClientModifValidation;
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDevisClientSaveValidation;
@@ -121,7 +122,6 @@ class CrmAutoCarServiceProvider extends ServiceProvider
 
         $this->app->bind(FlowContract::class,FlowAutocarCRM::class);
         $this->app->bind(ClientDossierCreate::class, \Modules\CrmAutoCar\Flow\Attributes\ClientDossierCreate::class);
-
 
         $this->app->bind(Paytweak::class, function(){
             return (new Paytweak(env('PAYTWEAK_PUBLIC', ''), env('PAYTWEAK_PRIVATE', '')));
