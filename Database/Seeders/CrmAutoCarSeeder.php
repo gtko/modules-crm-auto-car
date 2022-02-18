@@ -27,6 +27,7 @@ class CrmAutoCarSeeder extends Seeder
         Permission::create(['name' => 'create proformats']);
         Permission::create(['name' => 'update proformats']);
         Permission::create(['name' => 'delete proformats']);
+        Permission::create(['name' => 'change commercial proformats']);
 
         Permission::create(['name' => 'list invoices']);
         Permission::create(['name' => 'views invoices']);
