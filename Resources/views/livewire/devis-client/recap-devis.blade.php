@@ -1,9 +1,9 @@
 <div class="{{$class}}">
     @if((!$proformat ?? true))
-        <h4 class="text-bleu font-bold text-xl">Notre proposition tarifaire</h4>
-        <hr class="mt-4 mb-6">
+        <h4 class="text-bleu font-bold text-xl ">Notre proposition tarifaire</h4>
+        <hr class="mt-4 mb-6  no-print">
 
-        <table class="border border-gray-600 w-full border-collapse  @if($sidebar) hidden lg:block @endif">
+        <table class="border border-gray-600 w-full border-collapse @if($sidebar) hidden lg:block no-print @endif">
             <tr class="bg-gray-200 border border-gray-600 border-collapse w-full">
                 <th scope="row" class=" text-left p-3 text-gray-600">
                     Transport en Autocar
@@ -39,13 +39,13 @@
 
         </table>
         <div
-            class="border border-2 border-bleu bg-bleu-light mt-2 p-3 flex justify-between items-center @if(!$sidebar) sm:w-2/3 w-full justify-self-end @else hidden lg:flex justify-between  @endif">
+            class="border border-2 border-bleu bg-bleu-light mt-2 p-3 flex justify-between items-center  no-print @if(!$sidebar) sm:w-2/3 w-full justify-self-end @else hidden lg:flex justify-between  @endif">
             <span class="text-bleu text-xl">TOTAL T.T.C</span>
             <span class="text-bleu text-3xl font-bold">   @marge($price->getPriceTTC())€</span>
         </div>
     @endif
     @if(!$sidebar)
-        <div class="flex-col flex" style="font-size: 12px">
+        <div class="flex-col flex no-print" style="font-size: 12px">
             <span>* Le prix ne comprend pas les élements suivants qui resteront à votre charge : Kilomètres supplémentaires et heures supplémentaires
                  @if (!($trajet['inclus_peages'] ?? false))
                     ,le péages
@@ -82,6 +82,6 @@
         </div>
 
     @else
-        <livewire:crmautocar::devis-client.accepte-devis :devi="$devis"/>
+        <livewire:crmautocar::devis-client.accepte-devis :devi="$devis" :class="'w-full no-print'"/>
     @endif
 </div>

@@ -24,8 +24,9 @@ class Index extends Component
         $devis = $devisRep->fetchById($devisId);
         $brand = Brand::first();
 
-
-        (new FlowCRM())->add($devis->dossier , new ClientDevisExterneConsultation($devis, Request::ip()));
+        if (request()->server('SERVER_ADDR') != \Illuminate\Support\Facades\Request::ip()) {
+            (new FlowCRM())->add($devis->dossier, new ClientDevisExterneConsultation($devis, Request::ip()));
+        }
 
 
         return view('crmautocar::components.devis-client.index', compact('devis', 'brand'));

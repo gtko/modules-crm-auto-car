@@ -83,6 +83,9 @@ class PopupValition extends Component
         $proformat = $repInvoice->create($this->devis, $total, $number);
 
 
+
+
+
         (new FlowCRM())->add($this->devis->dossier, new ClientDevisExterneValidation($this->devis, Request::ip(), $data));
         (new FlowCRM())->add($this->devis->dossier, new CreateProformatClient($proformat));
 
