@@ -16,9 +16,9 @@ use Modules\CrmAutoCar\Models\Dossier;
 class FlowAutocarCRM implements FlowContract
 {
 
-    public function add(Flowable $flowable, FlowAttributes $flowAttributes): Flow
+    public function add(Flowable $flowable, FlowAttributes $flowAttributes, array $override_data = []): Flow
     {
-        return app(FlowRepositoryContract::class)->createFlow($flowable, $flowAttributes);
+        return app(FlowRepositoryContract::class)->createFlow($flowable, $flowAttributes, $override_data);
     }
 
     public function list(Flowable $flowable): Collection
