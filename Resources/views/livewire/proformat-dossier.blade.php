@@ -31,13 +31,16 @@
                             {{$proformat->devis->title ?? ''}}
                         </td>
                         <td class="border-b dark:border-dark-5">
-                            {{--                            {{$proformat->devis->commercial->format_name}}--}}
-                            <x-basecore::inputs.select wire:model="commercial" name="commercial">
-                                <option value="">Commercial</option>
-                                @foreach($commercials as $commer)
-                                    <option value="{{$commer->id}}">{{$commer->format_name}}</option>
-                                @endforeach
-                            </x-basecore::inputs.select>
+                            @can('changeCommercial', Proformat::class)
+                                <x-basecore::inputs.select wire:model="commercial" name="commercial">
+                                    <option value="">Commercial</option>
+                                    @foreach($commercials as $commer)
+                                        <option value="{{$commer->id}}">{{$commer->format_name}}</option>
+                                    @endforeach
+                                </x-basecore::inputs.select>
+                            @else
+                                 {{$proformat->devis->commercial->format_name}}
+                            @endcan
                         </td>
                         <td class="border-b dark:border-dark-5">
                             {{$proformat->created_at->format('d/m/Y H:i')}}

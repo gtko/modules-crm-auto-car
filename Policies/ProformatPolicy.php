@@ -20,6 +20,10 @@ class ProformatPolicy
         return $user->hasPermissionTo('views proformats');
     }
 
+    public function changeCommercial(UserEntity $user, Proformat $model = null){
+        return $user->hasPermissionTo('change commercial proformats');
+    }
+
     public function create(UserEntity $user)
     {
         return $user->hasPermissionTo('create proformats');
@@ -34,6 +38,7 @@ class ProformatPolicy
     {
         return $user->hasPermissionTo('delete proformats');
     }
+
 
     public function deleteAny(UserEntity $user)
     {
