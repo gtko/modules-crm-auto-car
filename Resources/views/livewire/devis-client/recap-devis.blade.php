@@ -1,9 +1,9 @@
 <div class="{{$class}}">
     @if((!$proformat ?? true))
-        <h4 class="text-bleu font-bold text-xl no-print">Notre proposition tarifaire</h4>
+        <h4 class="text-bleu font-bold text-xl ">Notre proposition tarifaire</h4>
         <hr class="mt-4 mb-6  no-print">
 
-        <table class="border border-gray-600 w-full border-collapse no-print  @if($sidebar) hidden lg:block @endif">
+        <table class="border border-gray-600 w-full border-collapse @if($sidebar) hidden lg:block no-print @endif">
             <tr class="bg-gray-200 border border-gray-600 border-collapse w-full">
                 <th scope="row" class=" text-left p-3 text-gray-600">
                     Transport en Autocar
@@ -82,6 +82,6 @@
         </div>
 
     @else
-        <livewire:crmautocar::devis-client.accepte-devis :devi="$devis" :class="'w-full'"/>
+        <livewire:crmautocar::devis-client.accepte-devis :devi="$devis" :class="'w-full no-print'"/>
     @endif
 </div>

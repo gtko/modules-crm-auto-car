@@ -109,7 +109,7 @@
                     <livewire:crmautocar::devis-client.recap-devis
                         :devis="$devis"
                         :brand="$brand"
-                        :class="'bg-white p-4 grid justify-items-stretch border border-2 border-gray-400 lg:order-2 mb-4'"
+                        :class="'bg-white p-4 grid justify-items-stretch border border-2 border-gray-400 lg:order-2 mb-4 no-print'"
                         :sidebar="true"/>
                 </div>
             </div>

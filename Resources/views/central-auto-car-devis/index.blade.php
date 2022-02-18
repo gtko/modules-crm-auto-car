@@ -121,7 +121,7 @@
 
                                 @foreach(($devis->data['trajets'] ?? []) as $index => $trajet)
                                     <tr class="bg-gray-200">
-                                        <td class="px-6 py-2 whitespace-nowrap text-sm font-medium font-extrabold ">
+                                        <td class="px-6 py-2 whitespace-nowrap text-sm font-medium font-extrabold">
                                             Voyage n°{{$index + 1}}
                                         </td>
                                         <td class="px-6 whitespace-nowrap text-sm  text-center">
