@@ -8,6 +8,7 @@ use Modules\CoreCRM\Flow\Works\Actions\ActionsSendNotification;
 use Modules\CoreCRM\Flow\Works\WorkflowKernel;
 use Modules\CoreCRM\Mail\WorkFlowStandardMail;
 use Modules\CrmAutoCar\Contracts\Repositories\TemplatesRepositoryContract;
+use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierRappeler;
 
 class SendEmailDossier extends Component
 {
@@ -18,6 +19,8 @@ class SendEmailDossier extends Component
     public $client;
 
     public $preview = false;
+
+    public $variableData = [];
 
     public $email = [
         'subject' => '',
@@ -82,6 +85,19 @@ class SendEmailDossier extends Component
     {
         $templates = app(TemplatesRepositoryContract::class)->all();
 
+
+        $workflowEvent = new EventClientDossierRappeler();
+        if(empty($this->variableData)) {
+            $this->variableData = [];
+            foreach ($workflowEvent->variables() as $variable) {
+                foreach ($variable->labels() as $label => $description) {
+                    $this->variableData[] = [
+                        "value" => $variable->namespace() . '.' . \Illuminate\Support\Str::slug($label),
+                        "label" => $variable->namespace() . '.' . "$label - $description",
+                    ];
+                }
+            }
+        }
 
 
         return view('crmautocar::livewire.send-email-dossier', compact('templates'));
