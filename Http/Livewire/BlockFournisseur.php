@@ -8,7 +8,10 @@ use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\FournisseurRepositoryContract;
 use Modules\CoreCRM\Services\FlowCRM;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDossierDemandeFournisseurDelete;
+use Modules\CrmAutoCar\Flow\Attributes\ClientDossierDemandeFournisseurSend;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDossierDemandeFournisseurValidate;
+use Modules\CrmAutoCar\Flow\Attributes\DevisSendClient;
+use Modules\CrmAutoCar\Models\Dossier;
 
 
 class BlockFournisseur extends Component
@@ -26,7 +29,6 @@ class BlockFournisseur extends Component
     protected $rules = [
         'fournisseur_id' => 'required',
         'devi_id' => 'required',
-
     ];
 
     public function mount(FournisseurRepositoryContract $repFournisseur, $client, $dossier)
@@ -48,7 +50,29 @@ class BlockFournisseur extends Component
     {
         $this->validate();
 
-        $this->emit('popup-mail:open', ['fournisseur_id' => $this->fournisseur_id, 'devi_id' => $this->devi_id, 'dossier' => $this->dossier]);
+        $observables = [];
+
+
+        foreach($this->fournisseur_id as $fournisseur_id){
+            $observables[] = [
+                    ClientDossierDemandeFournisseurSend::class,
+                    [
+                        'user_id' => Auth::id(),
+                        'devis_id' => $this->devi_id,
+                        'fournisseur_id' => $fournisseur_id,
+                    ]
+                ];
+        }
+
+
+
+        $this->emit('send-mail:open', [
+            'flowable' => [Dossier::class, $this->dossier->id],
+            'observable' => $observables,
+        ]);
+
+
+        //$this->emit('popup-mail:open', ['fournisseur_id' => $this->fournisseur_id, 'devi_id' => $this->devi_id, 'dossier' => $this->dossier]);
     }
 
     public function savePrice(DevisRepositoryContract $repDevi, FournisseurRepositoryContract $repFournisseur, int $devisId, int $fournisseurId) {

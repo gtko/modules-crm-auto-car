@@ -154,13 +154,15 @@ class CrmAutoCarServiceProvider extends ServiceProvider
                 new TypeView(TypeView::TYPE_BLADE_COMPONENT, 'crmautocar::proformat-label-tab'),
                 new TypeView(TypeView::TYPE_BLADE_COMPONENT, 'crmautocar::invoice-label-tab'),
                 new TypeView(TypeView::TYPE_BLADE_COMPONENT, 'crmautocar::payment-label-tab'),
-                new TypeView(TypeView::TYPE_BLADE_COMPONENT, 'crmautocar::validation-label-tab')
+                new TypeView(TypeView::TYPE_BLADE_COMPONENT, 'crmautocar::validation-label-tab'),
+                new TypeView(TypeView::TYPE_BLADE_COMPONENT, 'crmautocar::email-label-tab')
             ])
             ->setViews(DossierTabViewContract::class, [
                 new TypeView(TypeView::TYPE_BLADE_COMPONENT, 'crmautocar::proformat-view-tab'),
                 new TypeView(TypeView::TYPE_BLADE_COMPONENT, 'crmautocar::invoice-view-tab'),
                 new TypeView(TypeView::TYPE_BLADE_COMPONENT, 'crmautocar::payment-view-tab'),
-                new TypeView(TypeView::TYPE_BLADE_COMPONENT, 'crmautocar::validation-view-tab')
+                new TypeView(TypeView::TYPE_BLADE_COMPONENT, 'crmautocar::validation-view-tab'),
+                new TypeView(TypeView::TYPE_BLADE_COMPONENT, 'crmautocar::email-view-tab')
             ]);
 
         $this->registerNotif();

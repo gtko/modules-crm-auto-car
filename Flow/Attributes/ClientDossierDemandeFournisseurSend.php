@@ -36,7 +36,6 @@ class ClientDossierDemandeFournisseurSend extends Attributes
         $fournisseur = $repFournisseur->fetchById($value['fournisseur_id']);
         $devis = $repDevis ->fetchById($value['devis_id']);
 
-
         return new ClientDossierDemandeFournisseurSend($user, $devis, $fournisseur);
     }
 
