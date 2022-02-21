@@ -41,7 +41,7 @@
                     @endforeach
                 </x-basecore::inputs.select>
 
-                <x-basecore::inputs.wysiwyg label="message" name="email.body" :livewire="true"/>
+                <x-basecore::inputs.wysiwyg label="message" name="email.body" :livewire="true" :variableData="$variableData"/>
 
 
                 <x-basecore::inputs.basic type='file' multiple="true" label="Pièces jointes" name="email.attachments"  wire:model="email.attachments"/>

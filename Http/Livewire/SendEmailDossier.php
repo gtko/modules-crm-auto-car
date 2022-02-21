@@ -94,6 +94,8 @@ class SendEmailDossier extends Component
                     $this->variableData[] = [
                         "value" => $variable->namespace() . '.' . \Illuminate\Support\Str::slug($label),
                         "label" => $variable->namespace() . '.' . "$label - $description",
+                        'title' => $label,
+                        "description" => $description,
                     ];
                 }
             }
