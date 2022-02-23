@@ -22,20 +22,16 @@
     @else
         <x-corecrm::mentionify.assets/>
         <x-corecrm::mentionify.wrapper :variableData="$variableData" >
-            <div>
-                <x-basecore::inputs.basic label="sujet" name="email.subject" wire:model="email.subject"/>
-                <x-basecore::inputs.basic label="CCI" name="email.cci"  wire:model="email.cci"/>
+            <div class="flex flex-col space-y-2">
                 <x-basecore::inputs.select name="email.model" label="Modèles d'email" wire:model="email.model">
                     @foreach($templates as $template)
                         <option value="{{$template->id}}">{{$template->title}}</option>
                     @endforeach
                 </x-basecore::inputs.select>
-
+                <x-basecore::inputs.basic label="sujet" name="email.subject" wire:model="email.subject"/>
+                <x-basecore::inputs.basic label="CCI" name="email.cci"  wire:model="email.cci"/>
                 <x-basecore::inputs.wysiwyg label="message" wire:model="email.body" name="email.body" :livewire="true" :variableData="$variableData"/>
-
-
                 <x-basecore::inputs.basic type='file' multiple="true" label="Pièces jointes" name="email.attachments"  wire:model="email.attachments"/>
-
                 <x-basecore::loading-replace wire:target="preview">
                     <x-slot name="loader">
                                 <span class="cursor-pointer inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
