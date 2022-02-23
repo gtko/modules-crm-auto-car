@@ -65,9 +65,9 @@ class FormEmailSend extends Component
 
         \DB::beginTransaction();
         foreach ($this->fourniseur_ids as $fournis_id) {
-            $this->fournisseurModel = $repFournisseur->fetchById($fournis_id);
-            (new SendRequestFournisseurMail())->send($this->fournisseurModel->email, $this->dossierModel, $this->content, $this->subjectMail);
-            $repDevi->sendDemandeFournisseur($deviModel, $this->fournisseurModel, Carbon::now());
+//            $this->fournisseurModel = $repFournisseur->fetchById($fournis_id);
+//            (new SendRequestFournisseurMail())->send($this->fournisseurModel->email, $this->dossierModel, $this->content, $this->subjectMail);
+//            $repDevi->sendDemandeFournisseur($deviModel, $this->fournisseurModel, Carbon::now());
 
             (new FlowCRM())->add($dossier, new ClientDossierDemandeFournisseurSend(Auth::user(), $deviModel, $this->fournisseurModel, $this->prix));
         }

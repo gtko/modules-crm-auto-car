@@ -38,6 +38,7 @@ use Modules\CrmAutoCar\Contracts\Repositories\StatistiqueReservationRepositoryCo
 use Modules\CrmAutoCar\Contracts\Repositories\TagsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\TemplatesRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Service\DistanceApiContract;
+use Modules\CrmAutoCar\Flow\Attributes\DevisSendClient;
 use Modules\CrmAutoCar\Flow\Works\Events\EventAddTagDossier;
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDevisClientModifValidation;
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDevisClientSaveValidation;
@@ -54,6 +55,7 @@ use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierDemandeFournisseurDel
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierDemandeFournisseurSend;
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierDemandeFournisseurValidate;
 use Modules\CrmAutoCar\Flow\Works\Events\EventEditMargeProformat;
+use Modules\CrmAutoCar\Flow\Works\Events\EventSendEmailDossier;
 use Modules\CrmAutoCar\Flow\Works\Events\EventSendInformationVoyageMailFournisseur;
 use Modules\CrmAutoCar\Notifications\ClientDevisExterneValidationNotification;
 use Modules\CrmAutoCar\Notifications\ClientDossierDemandeFournisseurSendNotification;
@@ -120,7 +122,10 @@ class CrmAutoCarServiceProvider extends ServiceProvider
         $this->app->bind(ShekelRepositoryContract::class,ShekelRepositories::class);
 
         $this->app->bind(FlowContract::class,FlowAutocarCRM::class);
+
         $this->app->bind(ClientDossierCreate::class, \Modules\CrmAutoCar\Flow\Attributes\ClientDossierCreate::class);
+//        $this->app->bind(\Modules\CrmAutoCar\Flow\Attributes\SendEmailDossier::class, \Modules\CrmAutoCar\Flow\Attributes\SendEmailDossier::class);
+//        $this->app->bind(EventSendEmailDossier::class, EventSendEmailDossier::class);
 
 
         $this->app->bind(Paytweak::class, function(){
@@ -154,13 +159,15 @@ class CrmAutoCarServiceProvider extends ServiceProvider
                 new TypeView(TypeView::TYPE_BLADE_COMPONENT, 'crmautocar::proformat-label-tab'),
                 new TypeView(TypeView::TYPE_BLADE_COMPONENT, 'crmautocar::invoice-label-tab'),
                 new TypeView(TypeView::TYPE_BLADE_COMPONENT, 'crmautocar::payment-label-tab'),
-                new TypeView(TypeView::TYPE_BLADE_COMPONENT, 'crmautocar::validation-label-tab')
+                new TypeView(TypeView::TYPE_BLADE_COMPONENT, 'crmautocar::validation-label-tab'),
+                new TypeView(TypeView::TYPE_BLADE_COMPONENT, 'crmautocar::email-label-tab')
             ])
             ->setViews(DossierTabViewContract::class, [
                 new TypeView(TypeView::TYPE_BLADE_COMPONENT, 'crmautocar::proformat-view-tab'),
                 new TypeView(TypeView::TYPE_BLADE_COMPONENT, 'crmautocar::invoice-view-tab'),
                 new TypeView(TypeView::TYPE_BLADE_COMPONENT, 'crmautocar::payment-view-tab'),
-                new TypeView(TypeView::TYPE_BLADE_COMPONENT, 'crmautocar::validation-view-tab')
+                new TypeView(TypeView::TYPE_BLADE_COMPONENT, 'crmautocar::validation-view-tab'),
+                new TypeView(TypeView::TYPE_BLADE_COMPONENT, 'crmautocar::email-view-tab')
             ]);
 
         $this->registerNotif();
