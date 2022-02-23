@@ -55,6 +55,7 @@ use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierDemandeFournisseurDel
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierDemandeFournisseurSend;
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierDemandeFournisseurValidate;
 use Modules\CrmAutoCar\Flow\Works\Events\EventEditMargeProformat;
+use Modules\CrmAutoCar\Flow\Works\Events\EventSendEmailDossier;
 use Modules\CrmAutoCar\Flow\Works\Events\EventSendInformationVoyageMailFournisseur;
 use Modules\CrmAutoCar\Notifications\ClientDevisExterneValidationNotification;
 use Modules\CrmAutoCar\Notifications\ClientDossierDemandeFournisseurSendNotification;
@@ -121,7 +122,11 @@ class CrmAutoCarServiceProvider extends ServiceProvider
         $this->app->bind(ShekelRepositoryContract::class,ShekelRepositories::class);
 
         $this->app->bind(FlowContract::class,FlowAutocarCRM::class);
+
         $this->app->bind(ClientDossierCreate::class, \Modules\CrmAutoCar\Flow\Attributes\ClientDossierCreate::class);
+//        $this->app->bind(\Modules\CrmAutoCar\Flow\Attributes\SendEmailDossier::class, \Modules\CrmAutoCar\Flow\Attributes\SendEmailDossier::class);
+//        $this->app->bind(EventSendEmailDossier::class, EventSendEmailDossier::class);
+
 
         $this->app->bind(Paytweak::class, function(){
             return (new Paytweak(env('PAYTWEAK_PUBLIC', ''), env('PAYTWEAK_PRIVATE', '')));

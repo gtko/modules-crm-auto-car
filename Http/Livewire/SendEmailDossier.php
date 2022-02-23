@@ -2,13 +2,21 @@
 
 namespace Modules\CrmAutoCar\Http\Livewire;
 
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use Modules\CoreCRM\Contracts\Services\FlowContract;
 use Modules\CoreCRM\Flow\Works\Actions\ActionsSendNotification;
+use Modules\CoreCRM\Flow\Works\Params\ParamsNotification;
+use Modules\CoreCRM\Flow\Works\Variables\WorkFlowParseVariable;
 use Modules\CoreCRM\Flow\Works\WorkflowKernel;
+use Modules\CoreCRM\Jobs\SendNotificationWorkFlowJob;
 use Modules\CoreCRM\Mail\WorkFlowStandardMail;
+use Modules\CoreCRM\Models\Flow;
 use Modules\CrmAutoCar\Contracts\Repositories\TemplatesRepositoryContract;
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierRappeler;
+use Modules\CrmAutoCar\Flow\Works\Events\EventSendEmailDossier;
 
 class SendEmailDossier extends Component
 {
@@ -24,11 +32,11 @@ class SendEmailDossier extends Component
 
     public $email = [
         'subject' => '',
-        'sender' => '',
+        'sender' => '{utilisateur.email}',
         'body' => '',
         'template' => '',
         'model' => '',
-        'cc' => '',
+        'cc' => '{client.email}',
         'cci' => '',
         'attachments' => [],
         ''
@@ -52,6 +60,7 @@ class SendEmailDossier extends Component
     public function updatedEmailModel($field, $value){
         $template = app(TemplatesRepositoryContract::class)->fetchById($this->email['model']);
         $this->email['body'] = $template->content;
+        $this->emit('changeWysiwyg');
     }
 
     public function preview(){
@@ -63,30 +72,54 @@ class SendEmailDossier extends Component
     }
 
     public function getEmailPreviewProperty(){
-
-
-
-        $maillable = new WorkFlowStandardMail(
-            $this->email['subject'],
-            $this->email['cci'] ?? '',
-            $this->email['body'],
-            [],
-            'default'
-        );
-
-        return $maillable->render();
+        return $this->resolveAction()->preview();
     }
 
     public function send(){
+        $instanceAction = $this->resolveAction();
+        $instanceAction->sendEmail();
 
+        app(FlowContract::class)->add(
+            $this->dossier,
+            (
+                new \Modules\CrmAutoCar\Flow\Attributes\SendEmailDossier($this->dossier, Auth::user(), $this->email)
+            )
+        );
+
+        session()->flash('success', "Envoie de l'email avec succès");
+
+        return $this->redirect(route('dossiers.show', [$this->client, $this->dossier, 'tab' => 'email']));
+
+    }
+
+    protected function resolveAction(): ActionsSendNotification
+    {
+        $attribute =  new \Modules\CrmAutoCar\Flow\Attributes\SendEmailDossier($this->dossier, Auth::user(), $this->email);
+
+        $event = app(EventSendEmailDossier::class);
+        $flow = new Flow();
+        $flow->datas = $attribute;
+        $event->init($flow);
+
+        $instanceAction = $event->makeAction(ActionsSendNotification::class);
+        $instanceAction->initParams([[
+            'subject' => $this->email['subject'],
+            'cc' => '{commercial.email}',
+            'cci' => $this->email['cci'],
+            'from' => $this->email['sender'],
+            'files' => $this->email['attachments'],
+            'content' => $this->email['body'],
+            'template' => 'default',
+        ]]);
+
+        return $instanceAction;
     }
 
     public function render()
     {
         $templates = app(TemplatesRepositoryContract::class)->all();
 
-
-        $workflowEvent = new EventClientDossierRappeler();
+        $workflowEvent = new EventSendEmailDossier();
         if(empty($this->variableData)) {
             $this->variableData = [];
             foreach ($workflowEvent->variables() as $variable) {
