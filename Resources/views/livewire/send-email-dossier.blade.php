@@ -1,6 +1,9 @@
 <div>
     @if($preview)
 
+        <div class="my-2 text-2xl font-bold">
+            {{$this->subject_preview}}
+        </div>
         <div style="max-height:100%;height:500px;">
             <iframe srcdoc="{{ $this->email_preview }}" class="w-full h-full"></iframe>
         </div>
@@ -31,7 +34,7 @@
                 <x-basecore::inputs.basic label="sujet" name="email.subject" wire:model="email.subject"/>
                 <x-basecore::inputs.basic label="CCI" name="email.cci"  wire:model="email.cci"/>
                 <x-basecore::inputs.wysiwyg label="message" wire:model="email.body" name="email.body" :livewire="true" :variableData="$variableData"/>
-                <x-basecore::inputs.basic type='file' multiple="true" label="Pièces jointes" name="email.attachments"  wire:model="email.attachments"/>
+                <x-basecore::inputs.basic type='file' multiple="true" label="Pièces jointes" name="files"  wire:model="files"/>
                 <x-basecore::loading-replace wire:target="preview">
                     <x-slot name="loader">
                                 <span class="cursor-pointer inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">

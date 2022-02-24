@@ -15,8 +15,8 @@ interface TemplatesRepositoryContract extends RepositoryFetchable
      * @return Template
      */
 
-    public function create(string $content, string $title): Template;
-    public function edit(Template $template, string $content, string $title): Template;
+    public function create(string $content, string $title, string $subject): Template;
+    public function edit(Template $template, string $content, string $title, string $subject): Template;
     public function delete(Template $template): bool;
     public function getAll(): Collection;
 

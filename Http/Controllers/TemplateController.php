@@ -6,6 +6,7 @@ namespace Modules\CrmAutoCar\Http\Controllers;
 use Illuminate\Http\Request;
 use Modules\CoreCRM\Http\Controllers\Controller;
 use Modules\CrmAutoCar\Contracts\Repositories\TemplatesRepositoryContract;
+use Modules\CrmAutoCar\Flow\Works\Events\EventSendEmailDossier;
 use Modules\CrmAutoCar\Models\Template;
 
 class TemplateController extends Controller
@@ -21,14 +22,18 @@ class TemplateController extends Controller
     {
         $this->authorize('create', Template::class);
 
-        return view('crmautocar::templates.create');
+        $workflowEvent = new EventSendEmailDossier();
+        $variableData = $workflowEvent->getVariablesAutoComplete();
+
+
+        return view('crmautocar::templates.create',compact('variableData'));
     }
 
     public function store(TemplatesRepositoryContract $repTemplate, Request $request)
     {
         $this->authorize('create', Template::class);
 
-        $repTemplate->create($request['content'], $request['title']);
+        $repTemplate->create($request['content'], $request['title'], $request['subject']);
 
         return redirect()
             ->route('templates.index')
@@ -40,14 +45,17 @@ class TemplateController extends Controller
     {
         $this->authorize('update', $template);
 
-        return view('crmautocar::templates.edit', compact('template'));
+        $workflowEvent = new EventSendEmailDossier();
+        $variableData = $workflowEvent->getVariablesAutoComplete();
+
+        return view('crmautocar::templates.edit', compact('template', 'variableData'));
     }
 
     public function update(TemplatesRepositoryContract $repTemplate, Request $request, Template $template)
     {
         $this->authorize('update', $template);
 
-        $repTemplate->edit($template,$request['content'],$request['title']);
+        $repTemplate->edit($template,$request['content'],$request['title'], $request['subject']);
 
         return redirect()
             ->route('templates.index')

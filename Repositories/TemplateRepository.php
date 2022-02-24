@@ -17,20 +17,19 @@ class TemplateRepository extends AbstractRepository implements TemplatesReposito
     /**
      * @inheritDoc
      */
-    public function create(string $content, string $title): Template
+    public function create(string $content, string $title, string $subject): Template
     {
         $template = new Template();
-        $template->content = $content;
-        $template->title = $title;
-        $template->save();
+        $this->edit($template, $content, $template, $subject);
 
         return $template;
     }
 
-    public function edit(Template $template, string $content, string $title): Template
+    public function edit(Template $template, string $content, string $title, string $subject): Template
     {
        $template->content = $content;
        $template->title = $title;
+       $template->subject = $subject;
        $template->save();
 
        return $template;

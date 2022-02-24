@@ -2,20 +2,14 @@
 
 namespace Modules\CrmAutoCar\Http\Livewire;
 
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Modules\CoreCRM\Contracts\Services\FlowContract;
 use Modules\CoreCRM\Flow\Works\Actions\ActionsSendNotification;
-use Modules\CoreCRM\Flow\Works\Params\ParamsNotification;
-use Modules\CoreCRM\Flow\Works\Variables\WorkFlowParseVariable;
-use Modules\CoreCRM\Flow\Works\WorkflowKernel;
-use Modules\CoreCRM\Jobs\SendNotificationWorkFlowJob;
-use Modules\CoreCRM\Mail\WorkFlowStandardMail;
+use Modules\CoreCRM\Flow\Works\Files\WorkFlowAttachments;
 use Modules\CoreCRM\Models\Flow;
 use Modules\CrmAutoCar\Contracts\Repositories\TemplatesRepositoryContract;
-use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierRappeler;
 use Modules\CrmAutoCar\Flow\Works\Events\EventSendEmailDossier;
 
 class SendEmailDossier extends Component
@@ -38,9 +32,10 @@ class SendEmailDossier extends Component
         'model' => '',
         'cc' => '{client.email}',
         'cci' => '',
-        'attachments' => [],
         ''
     ];
+
+    public $files = [];
 
     public $rules = [
         'email.subject' => 'required',
@@ -49,7 +44,7 @@ class SendEmailDossier extends Component
         'email.template' => 'required',
         'email.cc' => 'required',
         'email.cci' => '',
-        'email.attachments' => '',
+        'files' => '',
     ];
 
     public function mount($dossier, $client){
@@ -59,6 +54,7 @@ class SendEmailDossier extends Component
 
     public function updatedEmailModel($field, $value){
         $template = app(TemplatesRepositoryContract::class)->fetchById($this->email['model']);
+        $this->email['subject'] = $template->subject;
         $this->email['body'] = $template->content;
         $this->emit('changeWysiwyg');
     }
@@ -69,6 +65,10 @@ class SendEmailDossier extends Component
 
     public function editer(){
         $this->preview = false;
+    }
+
+    public function getSubjectPreviewProperty(){
+        return $this->resolveAction()->resolveDatas()['subject'];
     }
 
     public function getEmailPreviewProperty(){
@@ -101,13 +101,20 @@ class SendEmailDossier extends Component
         $flow->datas = $attribute;
         $event->init($flow);
 
+        //traitement des pièces jointes
+        $attachments = [];
+        foreach($this->files as $attachment){
+            $content = file_get_contents($attachment->getRealPath());
+            $attachments[] = (new WorkFlowAttachments($content, $attachment->getClientOriginalName(), $attachment->getMimeType()));
+        }
+
         $instanceAction = $event->makeAction(ActionsSendNotification::class);
         $instanceAction->initParams([[
             'subject' => $this->email['subject'],
             'cc' => '{commercial.email}',
             'cci' => $this->email['cci'],
             'from' => $this->email['sender'],
-            'files' => $this->email['attachments'],
+            'files' => $attachments,
             'content' => $this->email['body'],
             'template' => 'default',
         ]]);
