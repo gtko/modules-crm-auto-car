@@ -23,6 +23,7 @@ use Modules\CrmAutoCar\Http\Controllers\TemplateController;
 use Modules\CrmAutoCar\Http\Controllers\ValidationInformationVoyageController;
 use Modules\CrmAutoCar\Http\Controllers\VuePlateauController;
 use Modules\CrmAutoCar\Models\Dossier;
+use Modules\CrmAutoCar\Models\Invoice;
 use Modules\CrmAutoCar\View\Components\Cgv;
 use Modules\CrmAutoCar\View\Components\DevisClient\Index;
 
@@ -44,6 +45,8 @@ Route::middleware(['secure.devis'])->group(function () {
 
 Route::middleware(['secure.signate'])->group(function () {
     Route::get('/voyage/{devis}', [ValidationInformationVoyageController::class, 'index'])->name('validation-voyage');
+
+
 });
 
 Route::get('/brand1/devis/{devis}', [CentralAutoCarDevisController::class, 'index'])->name('brand1');
@@ -54,6 +57,11 @@ Route::get('/information-voyage/{devis}', [InfomationVogageController::class, 'i
 
 Route::get('proformats/{proformat}', [ProformatsController::class, 'show'])->name('proformats.show');
 Route::get('proformats/{proformat}/pdf', [ProformatsController::class, 'pdf'])->name('proformats.pdf');
+
+Route::get('invoices/{invoice}', [InvoicesController::class, 'show'])->name('invoices.show');
+Route::get('invoices/{invoice}/pdf', [InvoicesController::class, 'pdf'])->name('invoices.pdf');
+
+
 
 Route::prefix('/')
     ->middleware(['auth:web', 'verified'])

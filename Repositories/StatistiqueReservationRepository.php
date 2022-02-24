@@ -32,7 +32,7 @@ class StatistiqueReservationRepository extends AbstractRepository implements Sta
                 $query->whereBetween('created_at', [$dateStart->startOfDay()->startOfMonth(), $dateEnd->endOfDay()->endOfMonth()]);
             }
 
-            return $query->get();
+            return $query->has('devis')->get();
         });
     }
 

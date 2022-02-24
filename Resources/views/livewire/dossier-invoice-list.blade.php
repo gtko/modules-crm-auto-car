@@ -1,11 +1,12 @@
 <div>
 
     @if($invoices->count() > 0)
+        @if($proformas->count() > 0)
         <div class="flex justify-end items-center space-x-1">
 
-            <select>
-                @foreach($devis as $devi)
-                    <option value="{{$devi->ref}}">Devis {{$devi->ref}}</option>
+            <select wire:model="proforma_select">
+                @foreach($proformas as $proforma)
+                    <option value="{{$proforma->id}}">Proforma {{$proforma->number}}</option>
                 @endforeach
             </select>
 
@@ -13,6 +14,7 @@
                 Ajouter
             </button>
         </div>
+        @endif
         <div>
         <div class="overflow-x-auto">
             <table class="table mt-5">
@@ -59,6 +61,9 @@
                         </td>
                         <td class="border-b dark:border-dark-5">
                             <div class="flex justify-center items-center">
+                                <livewire:crmautocar::send-invoice-email
+                                    :invoice="$invoice"
+                                />
                                 <a class="flex items-center mr-3 cursor-pointer" target="_blank" href="{{route('invoices.show', $invoice->id)}}">
                                     @icon('show', null, 'mr-2')
                                 </a>
@@ -68,9 +73,6 @@
                 @endforeach
                 </tbody>
             </table>
-        </div>
-        <div class="mt-4">
-            {{$invoices->links()}}
         </div>
     </div>
     @else
@@ -84,10 +86,10 @@
             @can('create', \Modules\CrmAutoCar\Models\Invoice::class)
                 <div class="flex justify-center items-center space-x-1 mt-4">
 
-                    <select wire:model="devis_select">
-                        <option>Choisir un Devis</option>
-                        @foreach($devis as $devi)
-                            <option value="{{$devi->id}}">Devis {{$devi->ref}}</option>
+                    <select wire:model="proforma_select">
+                        <option>Choisir une proforma</option>
+                        @foreach($proformas as $proforma)
+                            <option value="{{$proforma->id}}">Proforma {{$proforma->number}}</option>
                         @endforeach
                     </select>
 

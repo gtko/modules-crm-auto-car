@@ -6,14 +6,14 @@ use Modules\CrmAutoCar\Models\Brand;
 use Modules\CrmAutoCar\Models\Invoice;
 use Modules\DevisAutoCar\Models\Devi;
 
-class InvoicePrice extends \Modules\DevisAutoCar\Entities\DevisPrice
+class InvoicePrice extends \Modules\CrmAutoCar\Entities\ProformatPrice
 {
 
     protected Invoice $invoice;
 
     public function __construct(Invoice $invoice, Brand $brand){
         $this->invoice = $invoice;
-        parent::__construct($invoice->devis, $brand);
+        parent::__construct($invoice->devis->proformat, $brand);
     }
 
 

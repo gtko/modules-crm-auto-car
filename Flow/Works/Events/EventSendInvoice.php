@@ -23,6 +23,7 @@ use Modules\CoreCRM\Flow\Works\Variables\UserVariable;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDossierAddTag;
 use Modules\CrmAutoCar\Flow\Attributes\DevisSendClient;
 use Modules\CrmAutoCar\Flow\Attributes\SendEmailDossier;
+use Modules\CrmAutoCar\Flow\Attributes\SendInvoice;
 use Modules\CrmAutoCar\Flow\Attributes\SendProformat;
 use Modules\CrmAutoCar\Flow\Works\Conditions\ConditionDateDepartDevis;
 use Modules\CrmAutoCar\Flow\Works\Files\CguPdfFiles;
@@ -32,25 +33,26 @@ use Modules\CrmAutoCar\Flow\Works\Files\DevisPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\InformationVoyagePdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\ProformatPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Variables\InformationVoyageVariable;
+use Modules\CrmAutoCar\Flow\Works\Variables\InvoiceVariable;
 use Modules\CrmAutoCar\Flow\Works\Variables\ProformatVariable;
 use Modules\CrmAutoCar\Flow\Works\Variables\TagVariable;
 
-class EventSendProformat extends WorkFlowEvent
+class EventSendInvoice extends WorkFlowEvent
 {
 
     public function name(): string
     {
-        return "Envoie d'une proforma depuis le dossier";
+        return "Envoie d'une facture depuis le dossier";
     }
 
     public function category():string
     {
-        return 'Réservation';
+        return 'Facture';
     }
 
     public function describe(): string
     {
-        return "Se déclenche quand on envoie une proforma manuellement depuis le dossier";
+        return "Se déclenche quand on envoie une facture manuellement depuis le dossier";
     }
 
     public function conditions():array
@@ -66,14 +68,15 @@ class EventSendProformat extends WorkFlowEvent
 
     protected function prepareData(Attributes $flowAttribute): array
     {
-        $proformat = $flowAttribute->getProformat();
+        $invoice = $flowAttribute->getInvoice();
         $user = $flowAttribute->getSender();
         return [
-            'dossier' => $proformat->devis->dossier,
-            'devis' => $proformat->devis,
-            'proformat' => $proformat,
-            'client' => $proformat->devis->dossier->client,
-            'commercial' => $proformat->devis->dossier->commercial,
+            'dossier' => $invoice->devis->dossier,
+            'devis' => $invoice->devis,
+            'proformat' => $invoice->devis->proformat,
+            'client' => $invoice->devis->dossier->client,
+            'commercial' => $invoice->devis->dossier->commercial,
+            'invoice' => $invoice,
             'user' => $user,
         ];
     }
@@ -82,7 +85,6 @@ class EventSendProformat extends WorkFlowEvent
     {
         return [
             (new CguPdfFiles($this)),
-            (new DevisPdfFiles($this)),
             (new ProformatPdfFiles($this)),
         ];
     }
@@ -96,13 +98,14 @@ class EventSendProformat extends WorkFlowEvent
             (new CommercialVariable($this)),
             (new ClientVariable($this)),
             (new UserVariable($this)),
+            (new InvoiceVariable($this)),
         ];
     }
 
     public function listen(): array
     {
         return [
-            SendProformat::class
+            SendInvoice::class
         ];
     }
 
