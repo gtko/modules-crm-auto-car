@@ -42,15 +42,28 @@
         {{ $proformat->price->remains()}}€
     </td>
     <td class="border-b dark:border-dark-5">
-        <div class="flex justify-center items-center">
-            <a class="flex items-center mr-3 cursor-pointer" target="_blank"
-               href="{{route('proformats.show', $proformat->id)}}">
-                @icon('show', null, 'mr-2')
-            </a>
-            <a class="flex items-center cursor-pointer" target="_blank"
-               href="{{route('proformats.pdf', $proformat->id)}}">
-                @icon('pdf', null, 'mr-2')
-            </a>
+        <div class="flex justify-between items-center">
+            <div class="flex justify-center items-center mr-2">
+
+            <x-basecore::loading-replace wire:target="sendProformat">
+                <span class="flex items-center cursor-pointer" wire:click="sendProformat">
+                    @icon('mail', null, 'mr-2')
+                </span>
+            </x-basecore::loading-replace>
+
+
+            </div>
+
+            <div class="flex justify-center items-center">
+                <a class="flex items-center mr-3 cursor-pointer" target="_blank"
+                   href="{{route('proformats.show', $proformat->id)}}">
+                    @icon('show', null, 'mr-2')
+                </a>
+                <a class="flex items-center cursor-pointer" target="_blank"
+                   href="{{route('proformats.pdf', $proformat->id)}}">
+                    @icon('pdf', null, 'mr-2')
+                </a>
+            </div>
         </div>
     </td>
 </tr>
