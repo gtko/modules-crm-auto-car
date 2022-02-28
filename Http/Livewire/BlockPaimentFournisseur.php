@@ -48,21 +48,31 @@ class BlockPaimentFournisseur extends Component
 
     public function updatedFournisseurId($fournisseurId)
     {
-        $repDevi = app(DevisRepositoryContract::class);
-        $repFourni = app(FournisseurRepositoryContract::class);
-        $repDecaissement = app(DecaissementRepositoryContract::class);
+        if($fournisseurId) {
+            $repDevi = app(DevisRepositoryContract::class);
+            $repFourni = app(FournisseurRepositoryContract::class);
+            $repDecaissement = app(DecaissementRepositoryContract::class);
 
-        $fourniModel = $repFourni->fetchById($fournisseurId);
-        $deviModel = $repDevi->fetchById($this->devi_id);
-        $this->total = $repDevi->getPrice($deviModel, $fourniModel);
-        $this->payer = $repDecaissement->getPayer($deviModel, $fourniModel);
+            $fourniModel = $repFourni->fetchById($fournisseurId);
+            $deviModel = $repDevi->fetchById($this->devi_id);
+            $this->total = $repDevi->getPrice($deviModel, $fourniModel);
+            $this->payer = $repDecaissement->getPayer($deviModel, $fourniModel);
 
-        if ($this->payer == null) {
-            $this->reste = $this->total;
-        } else {
-            $this->reste = $this->total - $this->payer;
+            if ($this->payer == null) {
+                $this->reste = $this->total;
+            } else {
+                $this->reste = $this->total - $this->payer;
+            }
+            $this->payer = 0;
+        }else{
+            $this->reset([
+                'fournisseur_id',
+                'total',
+                'payer',
+                'reste'
+            ]);
         }
-        $this->payer = 0;
+
     }
 
     public function payer()
@@ -78,7 +88,6 @@ class BlockPaimentFournisseur extends Component
         $this->reste = $this->reste - $this->payer ;
 
         $date = (new DateStringToCarbon())->handle($this->date);
-
         $decaissement = $repDecaissement->create($deviModel, $fourniModel, $this->payer, $this->reste, $date);
 
         $this->fournisseur_id = '';
