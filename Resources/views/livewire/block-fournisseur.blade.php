@@ -31,6 +31,13 @@
             label="formatName"
             placeholder="Fournisseurs"
         />
+        <h2>Ou</h2>
+        <x-basecore::tom-select
+            name="tag_id"
+            :collection="$tags"
+            label="name"
+            placeholder="Catégories"
+        />
     </div>
     <div class="px-2 pt-2">
         <button wire:click="send" class="btn btn-primary ">Envoyer</button>

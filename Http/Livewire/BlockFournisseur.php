@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\FournisseurRepositoryContract;
+use Modules\CoreCRM\Contracts\Repositories\TagFournisseurRepositoryContract;
 use Modules\CoreCRM\Services\FlowCRM;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDossierDemandeFournisseurDelete;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDossierDemandeFournisseurSend;
@@ -18,16 +19,18 @@ class BlockFournisseur extends Component
 {
     public $dossier;
     public $fournisseurs;
+    public $tags;
     public $fournisseur_id;
+    public $tag_id;
     public $devi_id;
     public $price = null;
     public $editPrice = false;
 
-
     protected $listeners = ['update' => '$refresh'];
 
     protected $rules = [
-        'fournisseur_id' => 'required',
+        'fournisseur_id' => 'required_without:tag_id',
+        'tag_id' => 'required_without:fournisseur_id',
         'devi_id' => 'required',
     ];
 
@@ -35,6 +38,7 @@ class BlockFournisseur extends Component
     {
         $this->dossier = $dossier->load('devis');
         $this->fournisseurs = $repFournisseur->getAllList();
+        $this->tags = app(TagFournisseurRepositoryContract::class)->all();
 
         foreach ($dossier->devis as $devi)
         {
@@ -53,7 +57,7 @@ class BlockFournisseur extends Component
         $observables = [];
 
 
-        foreach($this->fournisseur_id as $fournisseur_id){
+        foreach(($this->fournisseur_id ?? []) as $fournisseur_id){
             $observables[] = [
                     ClientDossierDemandeFournisseurSend::class,
                     [
@@ -64,6 +68,21 @@ class BlockFournisseur extends Component
                 ];
         }
 
+        $tagRep  = app(TagFournisseurRepositoryContract::class);
+        foreach(($this->tag_id ?? []) as $tag_id) {
+            $tag = $tagRep->newQuery()->find($tag_id);
+            foreach ($tag->fournisseurs as $fournisseur)
+            {
+                $observables[] = [
+                    ClientDossierDemandeFournisseurSend::class,
+                    [
+                        'user_id' => Auth::id(),
+                        'devis_id' => $this->devi_id,
+                        'fournisseur_id' => $fournisseur->id,
+                    ]
+                ];
+            }
+        }
 
 
         $this->emit('send-mail:open', [
