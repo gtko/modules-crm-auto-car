@@ -105,7 +105,12 @@ class DecaissementRepository extends AbstractRepository implements DecaissementR
 
     public function getTotalResteARegler(array $decaissements): float
     {
-        return collect($decaissements)->sum('restant') ?? 0.00;
+        $restant = collect($decaissements)->sum('restant') ?? 0.00;
+        if($restant > 0){
+            return $restant;
+        }
+
+        return 0;
     }
 
     public function getTotalDejaRegler(array $decaissements): float

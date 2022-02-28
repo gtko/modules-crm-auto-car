@@ -2,6 +2,7 @@
 
 namespace Modules\CrmAutoCar\Http\Livewire;
 
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
@@ -26,7 +27,10 @@ class BlockFournisseur extends Component
     public $price = null;
     public $editPrice = false;
 
-    protected $listeners = ['update' => '$refresh'];
+    protected $listeners = [
+        'update' => '$refresh',
+        'blockfournisseur:confirm_send' => 'confirmSend',
+    ];
 
     protected $rules = [
         'fournisseur_id' => 'required_without:tag_id',
@@ -88,10 +92,39 @@ class BlockFournisseur extends Component
         $this->emit('send-mail:open', [
             'flowable' => [Dossier::class, $this->dossier->id],
             'observable' => $observables,
+            'callback' => 'blockfournisseur:confirm_send',
         ]);
 
 
         //$this->emit('popup-mail:open', ['fournisseur_id' => $this->fournisseur_id, 'devi_id' => $this->devi_id, 'dossier' => $this->dossier]);
+    }
+
+    public function confirmSend(){
+
+        $repFournisseur = app(FournisseurRepositoryContract::class);
+        $repDevi = app(DevisRepositoryContract::class);
+        $deviModel = $repDevi->newQuery()->find($this->devi_id);
+
+        \DB::beginTransaction();
+        foreach (($this->fournisseur_id ?? []) as $fournis_id) {
+            $fournisseurModel = $repFournisseur->fetchById($fournis_id);
+            $repDevi->sendDemandeFournisseur($deviModel, $fournisseurModel, Carbon::now());
+        }
+        \DB::commit();
+
+        \DB::beginTransaction();
+        $tagRep  = app(TagFournisseurRepositoryContract::class);
+        foreach(($this->tag_id ?? []) as $tag_id) {
+            $tag = $tagRep->newQuery()->with('fournisseurs')->find($tag_id);
+            foreach ($tag->fournisseurs as $fournisseur) {
+                $repDevi->sendDemandeFournisseur($deviModel, $fournisseur, Carbon::now());
+            }
+        }
+        \DB::commit();
+
+
+        return redirect(route('dossiers.show', [$this->dossier->client, $this->dossier]))
+            ->with('success', 'Emails envoyé avec succès au(x) fournisseur(s)');
     }
 
     public function savePrice(DevisRepositoryContract $repDevi, FournisseurRepositoryContract $repFournisseur, int $devisId, int $fournisseurId) {
@@ -122,7 +155,6 @@ class BlockFournisseur extends Component
         $fournisseurModel = $repFournisseur->fetchById($fournisseurId);
 
         $prix = $repDevi->getPrice($deviModel, $fournisseurModel);
-
 
         $repDevi->detachFournisseur($deviModel, $fournisseurModel);
         (new FlowCRM())->add($this->dossier , new ClientDossierDemandeFournisseurDelete(Auth::user(), $deviModel, $fournisseurModel));

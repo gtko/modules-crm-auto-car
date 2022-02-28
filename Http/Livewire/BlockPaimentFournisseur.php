@@ -28,7 +28,6 @@ class BlockPaimentFournisseur extends Component
     protected $rules = [
         'fournisseur_id' => 'required',
         'devi_id' => 'required',
-        'fournisseur_id' => 'required',
         'reste' => '',
         'payer' => 'required|numeric|min:1',
         'date' => 'required'
