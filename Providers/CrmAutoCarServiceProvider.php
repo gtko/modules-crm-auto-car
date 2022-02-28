@@ -10,6 +10,7 @@ use Modules\BaseCore\Entities\TypeView;
 use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\DossierRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\PipelineRepositoryContract;
+use Modules\CoreCRM\Contracts\Repositories\TagFournisseurRepositoryContract;
 use Modules\CoreCRM\Contracts\Services\FlowContract;
 use Modules\CoreCRM\Contracts\Views\Dossiers\DossierAfterBlockFournisseur;
 use Modules\CoreCRM\Contracts\Views\Dossiers\DossierAfterSidebarContract;
@@ -23,6 +24,7 @@ use Modules\CoreCRM\Flow\Works\Services\TemplateMailService;
 use Modules\CoreCRM\Flow\Works\WorkflowKernel;
 use Modules\CoreCRM\Notifications\Kernel;
 use Modules\CoreCRM\Repositories\PipelineRepository;
+use Modules\CoreCRM\Repositories\TagFournisseurRepository;
 use Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\ConfigsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\ContactFournisseurRepositoryContract;
@@ -122,13 +124,13 @@ class CrmAutoCarServiceProvider extends ServiceProvider
         $this->app->bind(PaymentRepositoryContract::class, PaymentRepository::class);
         $this->app->bind(DossierRepositoryContract::class, DossierAutoCarRepository::class);
         $this->app->bind(ShekelRepositoryContract::class,ShekelRepositories::class);
+        $this->app->bind(TagFournisseurRepositoryContract::class, TagFournisseurRepository::class);
 
         $this->app->bind(FlowContract::class,FlowAutocarCRM::class);
 
         $this->app->bind(ClientDossierCreate::class, \Modules\CrmAutoCar\Flow\Attributes\ClientDossierCreate::class);
 //        $this->app->bind(\Modules\CrmAutoCar\Flow\Attributes\SendEmailDossier::class, \Modules\CrmAutoCar\Flow\Attributes\SendEmailDossier::class);
 //        $this->app->bind(EventSendEmailDossier::class, EventSendEmailDossier::class);
-
 
         $this->app->bind(Paytweak::class, function(){
             return (new Paytweak(env('PAYTWEAK_PUBLIC', ''), env('PAYTWEAK_PRIVATE', '')));
