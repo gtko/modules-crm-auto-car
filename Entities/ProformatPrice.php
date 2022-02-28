@@ -45,13 +45,18 @@ class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
     }
 
     public function getPriceAchat(){
-        $fournisseurs = $this->proformat->devis->fournisseurs;
+        //Si marge modifier on recalcule l'achat
+        if($this->margeEdited()){
+            return $this->getPriceHt() - $this->getMargeHT();
+        }else {
+            $fournisseurs = $this->proformat->devis->fournisseurs;
 
-        if($fournisseurs->where('pivot.bpa', true)->count() > 0) {
-            return $fournisseurs->where('pivot.bpa', true)->sum('pivot.prix');
+            if ($fournisseurs->where('pivot.bpa', true)->count() > 0) {
+                return $fournisseurs->where('pivot.bpa', true)->sum('pivot.prix');
+            }
+
+            return $fournisseurs->where('pivot.prix', '>', 0)->min('pivot.prix');
         }
-
-        return $fournisseurs->where('pivot.prix', '>', 0)->min('pivot.prix');
     }
 
     public function paid(){
@@ -73,6 +78,10 @@ class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
             return $this->repository->getLastMarge($this->proformat, $limit);
         }
         return  $this->getMargeOriginHT();
+    }
+
+    public function margeEdited(){
+        return $this->repository->hasMargeEdited($this->proformat);
     }
 
     public function getSalaireDiff(?Carbon $limit = null){
