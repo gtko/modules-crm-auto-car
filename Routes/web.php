@@ -2,6 +2,7 @@
 
 
 use Illuminate\Support\Facades\Route;
+use Modules\BaseCore\Actions\Url\SignePayloadUrl;
 use Modules\BaseCore\Actions\Url\SigneRoute;
 use Modules\BaseCore\Models\Personne;
 use Modules\CoreCRM\Models\Client;
@@ -10,6 +11,7 @@ use Modules\CrmAutoCar\Http\Controllers\CentralAutoCarDevisController;
 use Modules\CrmAutoCar\Http\Controllers\CuveController;
 use Modules\CrmAutoCar\Http\Controllers\DashboardController;
 use Modules\CrmAutoCar\Http\Controllers\DossierController;
+use Modules\CrmAutoCar\Http\Controllers\EndpointController;
 use Modules\CrmAutoCar\Http\Controllers\InfomationVogageController;
 use Modules\CrmAutoCar\Http\Controllers\InvoicesController;
 
@@ -28,13 +30,32 @@ use Modules\CrmAutoCar\View\Components\Cgv;
 use Modules\CrmAutoCar\View\Components\DevisClient\Index;
 
 
-Route::get('/testurl', function () {
+Route::get('/test', function () {
 
-    $dossier = Dossier::find(6);
-    $dossier->status_id = 5;
-    $dossier->save();
+    $payload = [
+        'email' => 'test1548595@gmail.com',
+        'tel' => '0603315632',
+        'source' => 'FORM',
+        'prenom' => 'Grégoire',
+        'nom' => 'Ohanessiantest'
+    ];
 
-    return 'OK';
+    $url = (new SignePayloadUrl())->signUrl(
+        "http://yoram-crm.pandasweet.io/api/v1/dossiers",
+        $payload,
+        "base64:Us6L/BK1gLv2uXzsbQhj9kRZUepgxULZZH3L8urHp4Y="
+    );
+
+    //Client guzzle ou autre
+    $client = new \GuzzleHttp\Client();
+    $response = $client->request('POST', $url, [
+        'json' => $payload
+    ]);
+
+    $text = json_decode($response->getBody()->getContents());
+    return $text;
+
+
 });
 
 
@@ -45,9 +66,10 @@ Route::middleware(['secure.devis'])->group(function () {
 
 Route::middleware(['secure.signate'])->group(function () {
     Route::get('/voyage/{devis}', [ValidationInformationVoyageController::class, 'index'])->name('validation-voyage');
-
-
 });
+
+
+
 
 Route::get('/brand1/devis/{devis}', [CentralAutoCarDevisController::class, 'index'])->name('brand1');
 Route::get('/brand2/devis/{devis}', [MonAutoCarController::class, 'index'])->name('brand2');
