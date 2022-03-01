@@ -73,10 +73,14 @@ class DecaissementRepository extends AbstractRepository implements DecaissementR
         }
 
         if ($resteAPayer !== '') {
-            if ($resteAPayer) {
-                $list = $list->where('restant', '>', 0);
-            } else {
-                $list = $list->where('restant', '=', 0);
+            if($resteAPayer === 'troppayer'){
+                $list = $list->where('restant', '<', 0);
+            }else {
+                if ($resteAPayer) {
+                    $list = $list->where('restant', '>', 0);
+                } else {
+                    $list = $list->where('restant', '=', 0);
+                }
             }
         }
 
