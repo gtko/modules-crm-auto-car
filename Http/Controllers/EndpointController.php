@@ -22,10 +22,9 @@ class EndpointController
 
         $signature = (new SignePayloadUrl())->generateSign(route('api.dossier.create'), $request->except('sign'));
 
-        if($signature !== $request->get('sign')){
-            return response()->json(['error' => 'Signature invalide'], 403);
-        }
-
+//        if($signature !== $request->get('sign')){
+//            return response()->json(['error' => 'Signature invalide'], 403);
+//        }
 
         $dossierRep = app(DossierRepositoryContract::class);
 
@@ -52,18 +51,25 @@ class EndpointController
          * Status $status
          */
 
-        $request->firstname = $request->prenom;
-        $request->lastname = $request->nom;
-        $request->gender = $request->sexe ?? 'other';
-        $request->address = $request->adresse;
-        $request->city = $request->ville;
-        $request->code_zip = $request->code_postal;
-        $request->country_id = $request->pays;
+        $formatRequest = new Request();
+        $formatRequest->replace([
+            'firstname' => $request->prenom,
+            'lastname' => $request->nom,
+            'gender' => $request->sexe ?? 'other',
+            'address' => $request->adresse,
+            'city' => $request->ville,
+            'code_zip' => $request->code_postal,
+            'country_id' => $request->pays,
+            'email' => [$request->email],
+            'phone' => [$request->tel],
+            'date_depart' => $request->date_dep,
+            'lieu_depart' => $request->depart,
+            'date_arrivee' => $request->date_ret,
+            'lieu_arrivee' => $request->arrivee,
+        ] + $request->all());
 
-        $request->email = [$request->email];
-        $request->phone = [$request->tel];
-        $dossier = (new CreateClient())->create($request, $commercial, $source, $status);
-        $dossier->data = $request->all();
+        $dossier = (new CreateClient())->create($formatRequest, $commercial, $source, $status);
+        $dossier->data = $formatRequest->all();
         $dossier->save();
 
 
