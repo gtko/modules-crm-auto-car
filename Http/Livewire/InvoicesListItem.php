@@ -31,7 +31,7 @@ class InvoicesListItem extends Component
     }
 
     public function show(){
-        dd('Voir la facture proforma');
+        return redirect()->route('invoices.show', $this->invoice->id);
     }
 
 

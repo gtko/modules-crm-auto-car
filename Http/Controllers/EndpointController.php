@@ -55,7 +55,7 @@ class EndpointController
         $formatRequest->replace([
             'firstname' => $request->prenom,
             'lastname' => $request->nom,
-            'gender' => $request->sexe ?? 'other',
+            'gender' => $request->sexe ?? 'other', // femme / homme
             'address' => $request->adresse,
             'city' => $request->ville,
             'code_zip' => $request->code_postal,

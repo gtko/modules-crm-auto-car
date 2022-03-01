@@ -178,7 +178,7 @@
                             <div class="note mt-3">
                                 <p class="text-muted text-center">
                                     Centrale Autocar - Société par Actions Simplifiées<br>
-                                    N° Siret : 853 867 703 00011 - R.C.S. Paris 853 867 703 - Code APE : 6312Z<br>
+                                    N° Siret : 853 867 703 00011 - R.C.S. Paris 853 867 703 - Code APE : 4939B<br>
                                     57 Rue Clisson 75013 Paris - Tel 01 87 21 14 76<br>
                                 </p>
                             </div>

@@ -19,6 +19,15 @@ class InvoicesList extends Component
      */
     public function render(InvoicesRepositoryContract $invoiceRep)
     {
+
+        $query = $invoiceRep->newQuery();
+
+        $query->whereHas('devis', function($query){
+            $query->whereHas('proformat');
+        });
+
+        $invoiceRep->setQuery($query);
+
         return view('crmautocar::livewire.invoices-list', [
             'invoices' => $invoiceRep->fetchAll(100)
         ]);
