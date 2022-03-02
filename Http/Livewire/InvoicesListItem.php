@@ -3,6 +3,7 @@
 namespace Modules\CrmAutoCar\Http\Livewire;
 
 use Livewire\Component;
+use Modules\BaseCore\Actions\Url\SigneRoute;
 use Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract;
 use Modules\CrmAutoCar\Entities\InvoicePrice;
 use Modules\CrmAutoCar\Models\Invoice;
@@ -19,7 +20,8 @@ class InvoicesListItem extends Component
     }
 
     public function editer(){
-        dd('editer');
+        $dossier = $this->invoice->devis->dossier;
+       return redirect()->route('dossiers.show', [$dossier->client, $dossier, 'tab' => 'invoices']);
     }
 
     public function avoir(){
@@ -27,11 +29,11 @@ class InvoicesListItem extends Component
     }
 
     public function pdf(){
-        dd("Download PDF");
+        return redirect((new SigneRoute())->signer('invoices.pdf', [$this->invoice->id]));
     }
 
     public function show(){
-        return redirect()->route('invoices.show', $this->invoice->id);
+        return redirect((new SigneRoute())->signer('invoices.show', [$this->invoice->id]));
     }
 
 

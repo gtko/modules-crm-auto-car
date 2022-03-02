@@ -30,6 +30,9 @@ use Modules\CrmAutoCar\View\Components\Cgv;
 use Modules\CrmAutoCar\View\Components\DevisClient\Index;
 
 
+Route::get('/mail', function () {
+//    Mail::to(['d@gmail.com', 'test@test.com'])->send(new RoadmapMail());
+});
 Route::get('/test', function () {
 
     $payload = [
@@ -66,22 +69,17 @@ Route::middleware(['secure.devis'])->group(function () {
 
 Route::middleware(['secure.signate'])->group(function () {
     Route::get('/voyage/{devis}', [ValidationInformationVoyageController::class, 'index'])->name('validation-voyage');
+    Route::get('invoices/{invoice}', [InvoicesController::class, 'show'])->name('invoices.show');
+    Route::get('invoices/{invoice}/pdf', [InvoicesController::class, 'pdf'])->name('invoices.pdf');
 });
-
-
-
 
 Route::get('/brand1/devis/{devis}', [CentralAutoCarDevisController::class, 'index'])->name('brand1');
 Route::get('/brand2/devis/{devis}', [MonAutoCarController::class, 'index'])->name('brand2');
 Route::get('/information-voyage/{devis}', [InfomationVogageController::class, 'index'])->name('info-voyage');
 
-//Route::get('/mon-autocar/devis/{devis}', [MonAutoCarDevisController::class, 'index'])->name('mon-auto-car-devis');
 
 Route::get('proformats/{proformat}', [ProformatsController::class, 'show'])->name('proformats.show');
 Route::get('proformats/{proformat}/pdf', [ProformatsController::class, 'pdf'])->name('proformats.pdf');
-
-Route::get('invoices/{invoice}', [InvoicesController::class, 'show'])->name('invoices.show');
-Route::get('invoices/{invoice}/pdf', [InvoicesController::class, 'pdf'])->name('invoices.pdf');
 
 
 
@@ -111,7 +109,3 @@ Route::prefix('/')
     });
 
 Route::get('/cgv', [Cgv::class, 'render'])->name('cgv');
-
-Route::get('/mail', function () {
-//    Mail::to(['d@gmail.com', 'test@test.com'])->send(new RoadmapMail());
-});

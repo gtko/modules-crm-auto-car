@@ -36,17 +36,17 @@
         <td class="table-report__action w-56">
             <div class="flex justify-center items-center">
                 <span class="flex items-center mr-3" wire:click="show()">
-                    @icon('show', null, 'mr-2') Voir
+                    @icon('show', null, 'mr-2')
                 </span>
                 <span class="flex items-center mr-3" wire:click="editer()">
-                    @icon('edit', null, 'mr-2') Editer
+                    @icon('edit', null, 'mr-2')
                 </span>
                 <span class="flex items-center mr-3" wire:click="avoir()">
-                    @icon('invoice', null, 'mr-2') Avoir
+                    @icon('invoice', null, 'mr-2')
                 </span>
 
                 <span class="flex items-center" wire:click="pdf()">
-                    @icon('pdf', null, 'mr-2') Télécharger
+                    @icon('pdf', null, 'mr-2')
                 </span>
 
                 @push('modals')
