@@ -82,7 +82,6 @@ Route::get('proformats/{proformat}', [ProformatsController::class, 'show'])->nam
 Route::get('proformats/{proformat}/pdf', [ProformatsController::class, 'pdf'])->name('proformats.pdf');
 
 
-
 Route::prefix('/')
     ->middleware(['auth:web', 'verified'])
     ->group(function () {
@@ -90,8 +89,7 @@ Route::prefix('/')
         Route::get('dashboard', [DashboardController::class, 'index']);
 
         Route::resource('cuves', CuveController::class)->only('index', 'destroy', 'show');
-        Route::resource('invoices', InvoicesController::class)->only('index', 'show');
-        Route::resource('proformats', ProformatsController::class)->only('index');
+        Route::get('proformats', [ProformatsController::class, 'index'])->name('proformats.index');
         Route::resource('templates', TemplateController::class)->except('show');
 
 
