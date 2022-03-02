@@ -22,6 +22,9 @@
                0€
             </td>
         @endif
+        <td>
+            <span class="text-primary-6">@marge($price->getTotalAvoirs())€</span>
+        </td>
         <td class="w-40">
             @if($price->remains() > 0)
                 <div class="flex items-center justify-center text-red-400">

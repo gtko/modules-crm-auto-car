@@ -51,11 +51,21 @@ class EndpointController
          * Status $status
          */
 
+        $gender = 'other';
+        if($request->get('gender', 'other') === 'Femme') {
+            $gender = 'female';
+        }
+
+        if($request->get('gender', 'other') === 'Homme') {
+            $gender = 'male';
+        }
+
+
         $formatRequest = new Request();
         $formatRequest->replace([
             'firstname' => $request->prenom,
             'lastname' => $request->nom,
-            'gender' => $request->sexe ?? 'other', // femme / homme
+            'gender' => $gender,
             'address' => $request->adresse,
             'city' => $request->ville,
             'code_zip' => $request->code_postal,

@@ -33,7 +33,7 @@ class CreateAvoir extends Component
 
     public function totalite()
     {
-
+        $this->avoir = $this->invoice->total;
     }
 
     /**

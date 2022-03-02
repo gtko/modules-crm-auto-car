@@ -28,8 +28,21 @@ class InvoicesList extends Component
 
         $invoiceRep->setQuery($query);
 
+        $start = now()->subDays(90);
+        $end = now()->addDays(7);
+
         return view('crmautocar::livewire.invoices-list', [
-            'invoices' => $invoiceRep->fetchAll(100)
+            'invoices' => $invoiceRep->fetchAll(100),
+            'stats' => [
+                'ca' => $invoiceRep->statsChiffreAffaire($start, $end),
+                'nb' => $invoiceRep->statsNombreFacture($start, $end),
+                'marge' => $invoiceRep->statsMargeTotal($start, $end),
+                'panier_moyen' => $invoiceRep->statsPanierMoyen($start, $end),
+                'encaisser' => $invoiceRep->statsEncaisser($start, $end),
+                'non_payer' => $invoiceRep->statsNonPayer($start, $end),
+                'tva' => $invoiceRep->statsTva($start, $end),
+                'avoir' => $invoiceRep->statsAvoir($start, $end),
+            ]
         ]);
     }
 }
