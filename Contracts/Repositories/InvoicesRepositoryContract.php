@@ -32,4 +32,6 @@ interface InvoicesRepositoryContract extends SearchableRepository, RepositoryFet
     public function statsAvoir(Carbon $start, Carbon $end):float;
     public function statsTropPercu(Carbon $start, Carbon $end):float;
 
+    public function cancel(Invoice $invoice):Invoice;
+
 }

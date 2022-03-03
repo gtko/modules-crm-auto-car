@@ -62,6 +62,11 @@ class DossierPayment extends Component
         }
 
         $this->validate();
+
+        if($this->paiement_type === 'remboursement' && $this->paiement_total > 0){
+            $this->paiement_total = 0 - $this->paiement_total;
+        }
+
         $date_payment = (new DateStringToCarbon())->handle($this->paiement_date);
         $proformat = $proformatRep->fetchById($this->paiement_proformat);
         $payment = $paymentRep->create($proformat, $this->paiement_total, [

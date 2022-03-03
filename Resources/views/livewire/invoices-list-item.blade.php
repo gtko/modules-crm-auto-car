@@ -1,6 +1,6 @@
 <tr>
         <td class="w-40">
-            {{$invoice->number}}
+            {{$invoice->number}} @if($invoice->isRefund()) <span class="text-red-500">(Annulation)</span> @endif
         </td>
         <td>
             <a href="" class="font-medium whitespace-nowrap">
@@ -38,6 +38,10 @@
                 <div class="flex items-center justify-center text-red-700">
                    Trop perçu
                 </div>
+            @elseif($price->hasRefund())
+                <div class="flex items-center justify-center text-green-700">
+                    Remboursé
+                </div>
             @else
                 @if($price->paid() === 0)
                     <div class="flex items-center justify-center text-gray-400">
@@ -56,19 +60,23 @@
         </td>
         <td class="table-report__action w-56">
             <div class="flex justify-center items-center">
-                <span class="flex items-center mr-3" wire:click="show()">
+                <span class="cursor-pointer flex items-center mr-3" wire:click="show()">
                     @icon('show', null, 'mr-2')
                 </span>
-                <span class="flex items-center mr-3" wire:click="editer()">
+                <span class="cursor-pointer flex items-center mr-3" wire:click="editer()">
                     @icon('edit', null, 'mr-2')
                 </span>
-                <span class="flex items-center mr-3" wire:click="avoir()">
+                <span class="cursor-pointer flex items-center mr-3" wire:click="avoir()">
                     @icon('invoice', null, 'mr-2')
                 </span>
 
-                <span class="flex items-center" wire:click="pdf()">
+                <span class="cursor-pointer flex items-center mr-3" wire:click="pdf()">
                     @icon('pdf', null, 'mr-2')
                 </span>
+
+                @if($price->getPriceTTC() > 0)
+                    <livewire:crmautocar::invoice-cancel :invoice="$invoice" />
+                @endif
 
                 @push('modals')
                     <livewire:basecore::modal

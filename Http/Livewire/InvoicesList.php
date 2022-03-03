@@ -23,6 +23,10 @@ class InvoicesList extends Component
         'start', 'end', 'status'
     ];
 
+    public $listeners = [
+        'invoiceCanceled' => '$refresh',
+    ];
+
 
     public function mount(){
 
@@ -75,7 +79,7 @@ class InvoicesList extends Component
                     break;
                 case 'trop_percu' :
                     $invoices = $invoices->filter(function ($invoice) {
-                        return $invoice->total < $invoice->getPrice()->paid();
+                        return $invoice->getPrice()->hasOverPaid();
                     });
                     break;
             }

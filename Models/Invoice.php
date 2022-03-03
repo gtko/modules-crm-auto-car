@@ -41,4 +41,9 @@ class Invoice extends Model
         return (new InvoicePrice($this,app(BrandsRepositoryContract::class)->getDefault()));
     }
 
+    public function isRefund():bool
+    {
+        return $this->total < 0;
+    }
+
 }
