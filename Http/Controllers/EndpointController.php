@@ -42,7 +42,7 @@ class EndpointController
         }
 
         $source = Source::where('label', '=', $request->source ?? '')->first();
-        $status = Status::where('type', '=', StatusTypeEnum::TYPE_CUSTOM)->first();
+        $status = Status::where('type', '=', StatusTypeEnum::TYPE_NEW)->first();
 
         /*
          * Request $request,
