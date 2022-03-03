@@ -76,8 +76,10 @@ Route::prefix('/')
 
 
         Route::get('dossiers/create/{client}', [\Modules\CrmAutoCar\Http\Controllers\DossierCreateController::class, 'index'])->name('dossier-create');
-        Route::get('dossiers', [DossierController::class, 'index'])->name('dossiers.index');
+        Route::get('dossiers/', [DossierController::class, 'index'])->name('dossiers.index');
+
         Route::get('clients/{client}/dossiers/{dossier}', [DossierController::class, 'show'])->name('dossiers.show');
+
 
         Route::get('statistiques', [StatistiqueController::class, 'index'])->name('statistiques');
         Route::get('statistiques-fournisseur', [StatistiqueFournisseurController::class, 'index'])->name('statistiques-fournisseur');

@@ -61,7 +61,6 @@ class ListClient extends Component
         }
 
 
-
         $pipelineList = app(StatusRepositoryContract::class)->fetchAll();
         $pipelineList = $pipelineList->groupBy('pipeline_id');
 
