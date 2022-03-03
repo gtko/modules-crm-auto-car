@@ -91,7 +91,13 @@ class InvoicesRepository extends AbstractRepository implements InvoicesRepositor
 
     public function statsPanierMoyen(Carbon $start, Carbon $end): float
     {
-        return $this->statsChiffreAffaire($start, $end) / $this->statsNombreFacture($start, $end);
+        $nbFacture = $this->statsNombreFacture($start, $end);
+
+        if($nbFacture < 1){
+            return 0;
+        }
+
+        return $this->statsChiffreAffaire($start, $end) / $nbFacture;
     }
 
     public function statsEncaisser(Carbon $start, Carbon $end): float
@@ -119,6 +125,17 @@ class InvoicesRepository extends AbstractRepository implements InvoicesRepositor
     {
         return $this->getInvoicesByDate($start, $end)->sum(function(Invoice $invoice){
             return $invoice->getPrice()->getTotalAvoirs();
+        });
+    }
+
+    public function statsTropPercu(Carbon $start, Carbon $end): float
+    {
+        return $this->getInvoicesByDate($start, $end)->sum(function(Invoice $invoice){
+            if($invoice->getPrice()->hasOverPaid()){
+                return $invoice->getPrice()->overPaid();
+            }
+
+            return 0;
         });
     }
 }

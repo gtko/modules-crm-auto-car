@@ -23,17 +23,35 @@
             </td>
         @endif
         <td>
-            <span class="text-primary-6">@marge($price->getTotalAvoirs())€</span>
+            @if($price->hasOverPaid())
+                <span class="text-red-700">
+                    @marge($price->overPaid())€
+                </span>
+            @else
+                <span class="text-gray-400">
+                    0€
+                </span>
+            @endif
         </td>
         <td class="w-40">
-            @if($price->remains() > 0)
-                <div class="flex items-center justify-center text-red-400">
-                    Paiement partiel
+            @if($price->hasOverPaid())
+                <div class="flex items-center justify-center text-red-700">
+                   Trop perçu
                 </div>
             @else
-                <div class="flex items-center justify-center text-green-400">
-                    Paiement validé
-                </div>
+                @if($price->paid() === 0)
+                    <div class="flex items-center justify-center text-gray-400">
+                        Aucun paiement
+                    </div>
+                @elseif($price->remains() > 0)
+                    <div class="flex items-center justify-center text-red-400">
+                        Paiement partiel
+                    </div>
+                @else
+                    <div class="flex items-center justify-center text-green-400">
+                        Paiement validé
+                    </div>
+                @endif
             @endif
         </td>
         <td class="table-report__action w-56">

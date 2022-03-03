@@ -3,6 +3,7 @@
 namespace Modules\CrmAutoCar\Filters;
 
 use Carbon\Carbon;
+use Modules\CoreCRM\Enum\StatusTypeEnum;
 use Modules\CoreCRM\Models\Commercial;
 use Modules\CrmAutoCar\Contracts\Repositories\ProformatsRepositoryContract;
 
@@ -95,6 +96,19 @@ class ProformatFilterQuery
 
     public function notInfoVoyage(){
         $this->query->whereNotIn('id',$this->getInfoVoyageIdsProformat());
+    }
+
+    public function toInvoice(){
+        $this->query->whereHas('devis', function($query){
+            $query->doesntHave('invoice');
+        })
+        ->whereHas('devis', function($query){
+            $query->whereHas('dossier', function($query){
+                $query->whereHas('status', function($query){
+                    $query->where('type',StatusTypeEnum::TYPE_WIN);
+                });
+            });
+        });
     }
 
     public function query(){

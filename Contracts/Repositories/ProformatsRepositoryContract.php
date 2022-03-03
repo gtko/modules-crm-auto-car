@@ -24,4 +24,6 @@ interface ProformatsRepositoryContract extends SearchableRepository, RepositoryF
     public function addMarge(Proformat $proformat,UserEntity $user, float $marge):Marge;
     public function getLastMarge(Proformat $proformat, ?Carbon $limit = null):float;
     public function hasMargeEdited(Proformat $proformat):bool;
+
+    public function toInvoice():Collection;
 }

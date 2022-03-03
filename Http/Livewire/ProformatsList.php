@@ -32,6 +32,10 @@ class ProformatsList extends Component
     public $dateStart;
     public $dateEnd;
 
+    public $toinvoice;
+
+    public $queryString = ['toinvoice'];
+
     public $listeners = [
         'proformats.refresh' => '$refresh',
     ];
@@ -93,6 +97,8 @@ class ProformatsList extends Component
 
         if($this->infovoyage === 'oui') $filter->infoVoyage();
         if($this->infovoyage === 'non') $filter->notInfoVoyage();
+
+        if($this->toinvoice === 'oui') $filter->toInvoice();
 
         if($this->margeEdited === 'oui') $filter->byMargeEdited($this->dateStart, $this->dateEnd);
         else{
