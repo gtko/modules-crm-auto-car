@@ -32,8 +32,9 @@ class InvoicesController extends Controller
      * @param Invoice $invoice
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function show(Invoice $invoice)
+    public function show(Request $request, Invoice $invoice)
     {
+
         $brand = app(BrandsRepositoryContract::class)->getDefault();
         $price = (new InvoicePrice($invoice, $brand));
 
@@ -42,8 +43,10 @@ class InvoicesController extends Controller
 
     public function pdf(Invoice $invoice){
 
+        $url = (new SigneRoute())->signer('invoices.show', [$invoice->id]);
+
         $pdfService = app(PdfContract::class);
-        $pdfService->setUrl((new SigneRoute())->signer('invoices.show', [$invoice]));
+        $pdfService->setUrl($url);
         $pdfService->setParamsBrowser([
             'windowSize'      => [1920, 1000],
             'enableImages'    => true,

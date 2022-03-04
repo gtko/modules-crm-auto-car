@@ -16,13 +16,12 @@ class InvoicePrice extends \Modules\CrmAutoCar\Entities\ProformatPrice
         parent::__construct($invoice->devis->proformat, $brand);
     }
 
+    public function getAvoirs(){
 
-    public function paid(){
-        return  $this->invoice->devis->proformat->payments->sum('total') ?? 0;
     }
 
-    public function remains(){
-        return $this->getPriceTTC() - $this->paid();
+    public function getTotalAvoirs(){
+        return collect($this->invoice->avoirs)->sum('avoir');
     }
 
 

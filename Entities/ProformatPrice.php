@@ -64,7 +64,27 @@ class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
     }
 
     public function remains(){
-        return $this->getPriceTTC() - $this->paid();
+        if(!$this->hasOverPaid()) {
+            return $this->getPriceTTC() - $this->paid();
+        }
+
+        return 0;
+    }
+
+    public function hasOverPaid(){
+        return $this->paid() > 0 && $this->getPriceTTC() < $this->paid();
+    }
+
+    public function overPaid(){
+        if($this->getPriceTTC() > 0) {
+            return $this->paid() - $this->getPriceTTC();
+        }
+
+        return $this->paid();
+    }
+
+    public function hasRefund(){
+        return $this->paid() === 0.0 && $this->proformat->payments->count() > 0 && $this->getPriceTTC() < 0;
     }
 
     public function getMargeOriginHT()

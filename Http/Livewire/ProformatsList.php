@@ -32,6 +32,10 @@ class ProformatsList extends Component
     public $dateStart;
     public $dateEnd;
 
+    public $toinvoice;
+
+    public $queryString = ['toinvoice'];
+
     public $listeners = [
         'proformats.refresh' => '$refresh',
     ];
@@ -94,12 +98,17 @@ class ProformatsList extends Component
         if($this->infovoyage === 'oui') $filter->infoVoyage();
         if($this->infovoyage === 'non') $filter->notInfoVoyage();
 
+        if($this->toinvoice === 'oui') $filter->toInvoice();
+
         if($this->margeEdited === 'oui') $filter->byMargeEdited($this->dateStart, $this->dateEnd);
         else{
             $filter->byCreatedAt($this->dateStart, $this->dateEnd);
         }
 
-        $proformats = $filter->query()->has('devis')->orderBy('created_at', 'DESC')->paginate(50);
+        $proformats = $filter->query()
+            ->has('devis')
+            ->orderBy('created_at', 'DESC')
+            ->paginate(50);
 
         //on prend le mois de la première facture et on va jusqu'au mois actuel avec l'année
         $firstDate = $proformatRep->newQuery()->first()->created_at ?? now();

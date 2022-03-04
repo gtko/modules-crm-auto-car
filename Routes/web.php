@@ -2,6 +2,7 @@
 
 
 use Illuminate\Support\Facades\Route;
+use Modules\BaseCore\Actions\Url\SignePayloadUrl;
 use Modules\BaseCore\Actions\Url\SigneRoute;
 use Modules\BaseCore\Models\Personne;
 use Modules\CoreCRM\Models\Client;
@@ -10,6 +11,7 @@ use Modules\CrmAutoCar\Http\Controllers\CentralAutoCarDevisController;
 use Modules\CrmAutoCar\Http\Controllers\CuveController;
 use Modules\CrmAutoCar\Http\Controllers\DashboardController;
 use Modules\CrmAutoCar\Http\Controllers\DossierController;
+use Modules\CrmAutoCar\Http\Controllers\EndpointController;
 use Modules\CrmAutoCar\Http\Controllers\InfomationVogageController;
 use Modules\CrmAutoCar\Http\Controllers\InvoicesController;
 
@@ -28,13 +30,35 @@ use Modules\CrmAutoCar\View\Components\Cgv;
 use Modules\CrmAutoCar\View\Components\DevisClient\Index;
 
 
-Route::get('/testurl', function () {
+Route::get('/mail', function () {
+//    Mail::to(['d@gmail.com', 'test@test.com'])->send(new RoadmapMail());
+});
+Route::get('/test', function () {
 
-    $dossier = Dossier::find(6);
-    $dossier->status_id = 5;
-    $dossier->save();
+    $payload = [
+        'email' => 'test1548595@gmail.com',
+        'tel' => '0603315632',
+        'source' => 'FORM',
+        'prenom' => 'Grégoire',
+        'nom' => 'Ohanessiantest'
+    ];
 
-    return 'OK';
+    $url = (new SignePayloadUrl())->signUrl(
+        "http://yoram-crm.pandasweet.io/api/v1/dossiers",
+        $payload,
+        "base64:Us6L/BK1gLv2uXzsbQhj9kRZUepgxULZZH3L8urHp4Y="
+    );
+
+    //Client guzzle ou autre
+    $client = new \GuzzleHttp\Client();
+    $response = $client->request('POST', $url, [
+        'json' => $payload
+    ]);
+
+    $text = json_decode($response->getBody()->getContents());
+    return $text;
+
+
 });
 
 
@@ -45,22 +69,17 @@ Route::middleware(['secure.devis'])->group(function () {
 
 Route::middleware(['secure.signate'])->group(function () {
     Route::get('/voyage/{devis}', [ValidationInformationVoyageController::class, 'index'])->name('validation-voyage');
-
-
+    Route::get('invoices/{invoice}', [InvoicesController::class, 'show'])->name('invoices.show');
+    Route::get('invoices/{invoice}/pdf', [InvoicesController::class, 'pdf'])->name('invoices.pdf');
 });
 
 Route::get('/brand1/devis/{devis}', [CentralAutoCarDevisController::class, 'index'])->name('brand1');
 Route::get('/brand2/devis/{devis}', [MonAutoCarController::class, 'index'])->name('brand2');
 Route::get('/information-voyage/{devis}', [InfomationVogageController::class, 'index'])->name('info-voyage');
 
-//Route::get('/mon-autocar/devis/{devis}', [MonAutoCarDevisController::class, 'index'])->name('mon-auto-car-devis');
 
 Route::get('proformats/{proformat}', [ProformatsController::class, 'show'])->name('proformats.show');
 Route::get('proformats/{proformat}/pdf', [ProformatsController::class, 'pdf'])->name('proformats.pdf');
-
-Route::get('invoices/{invoice}', [InvoicesController::class, 'show'])->name('invoices.show');
-Route::get('invoices/{invoice}/pdf', [InvoicesController::class, 'pdf'])->name('invoices.pdf');
-
 
 
 Route::prefix('/')
@@ -70,8 +89,8 @@ Route::prefix('/')
         Route::get('dashboard', [DashboardController::class, 'index']);
 
         Route::resource('cuves', CuveController::class)->only('index', 'destroy', 'show');
-        Route::resource('invoices', InvoicesController::class)->only('index', 'show');
-        Route::resource('proformats', ProformatsController::class)->only('index');
+        Route::get('proformats', [ProformatsController::class, 'index'])->name('proformats.index');
+        Route::get('invoices', [InvoicesController::class, 'index'])->name('invoices.index');
         Route::resource('templates', TemplateController::class)->except('show');
 
 
@@ -91,7 +110,3 @@ Route::prefix('/')
     });
 
 Route::get('/cgv', [Cgv::class, 'render'])->name('cgv');
-
-Route::get('/mail', function () {
-//    Mail::to(['d@gmail.com', 'test@test.com'])->send(new RoadmapMail());
-});

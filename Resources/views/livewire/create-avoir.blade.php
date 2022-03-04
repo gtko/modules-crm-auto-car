@@ -12,7 +12,7 @@
                         step="0.01"
                         required="required"
                     />
-                    <button wire:click:='totalite()'>Totalité (@marge($total)€)</button>
+                    <span class="mt-1 cursor-pointer" wire:click='totalite()'>Totalité (@marge($total)€)</span>
                 </x-basecore::inputs.group>
             </div>
             <div class="mt-10">

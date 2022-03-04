@@ -21,7 +21,7 @@ class CreatePaiementClient extends Attributes
 
     public static function instance(array $value): FlowAttributes
     {
-        $payment = Payment::find($value['payment_id']);
+        $payment = Payment::where('id', $value['payment_id'])->firstOrNew();
         return new CreatePaiementClient($payment);
     }
 

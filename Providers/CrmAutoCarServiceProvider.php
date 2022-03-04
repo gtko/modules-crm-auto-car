@@ -257,10 +257,15 @@ class CrmAutoCarServiceProvider extends ServiceProvider
      */
     protected function mapWebRoutes(): void
     {
+        Route::middleware('api')
+            ->group(module_path($this->moduleName, '/Routes/api.php'));
+
         Route::middleware('web')
             ->group(module_path($this->moduleName, '/Routes/web.php'));
 
         Route::middleware('api')
             ->group(module_path($this->moduleName, '/Routes/webhook.php'));
+
+
     }
 }

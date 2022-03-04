@@ -2,6 +2,10 @@
 
 @section('content')
 
+    <!-- Start of  Zendesk Widget script -->
+    <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=225d297d-d1ea-4ff3-ab9b-f2d399d53e50"> </script>
+    <!-- End of  Zendesk Widget script -->
+
     <style>
         @page {
             size: 1400px 1980px !important;

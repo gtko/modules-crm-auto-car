@@ -21,6 +21,8 @@ class ListClient extends Component
     public $departEnd;
     public $viewMyLead = true;
 
+    public $queryString = ['status'];
+
     protected $rules = [
         'nom_client' => '',
         'status' => '',

@@ -141,7 +141,14 @@
                 </div>
 
                 <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
-                    <x-basecore::inputs.select name="contact" wire:model="margeEdited">
+                    <x-basecore::inputs.select name="toinvoice" wire:model="toinvoice">
+                        <option value="" default>à facturer</option>
+                        <option value="oui">Oui</option>
+                    </x-basecore::inputs.select>
+                </div>
+
+                <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+                    <x-basecore::inputs.select name="marge_edited" wire:model="margeEdited">
                         <option value="" default>Voir toutes les réservations</option>
                         <option value="oui">Réservation avec marge modifié</option>
                     </x-basecore::inputs.select>

@@ -16,7 +16,7 @@
         </thead>
         <tbody>
         @foreach($decaissements as $decaissement)
-            <tr class="@if($decaissement->restant == 0) bg-green-500 @endif">
+            <tr class="@if($decaissement->restant == 0) bg-green-500 @elseif($decaissement->restant < 0) bg-red-500 text-white @endif">
                 <td class="border-b dark:border-dark-5">
                     <a href=''>
                         {{ $decaissement->devis->ref }}
@@ -51,7 +51,3 @@
     </table>
 
 </div>
-
-
-
-

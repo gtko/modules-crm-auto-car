@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Modules\BaseCore\Contracts\Entities\UserEntity;
 use Modules\BaseCore\Repositories\AbstractRepository;
 use Modules\CoreCRM\Contracts\Entities\DevisEntities;
+use Modules\CoreCRM\Enum\StatusTypeEnum;
 use Modules\CoreCRM\Models\Commercial;
 use Modules\CrmAutoCar\Contracts\Repositories\ProformatsRepositoryContract;
 use Modules\CrmAutoCar\Models\Invoice;
@@ -88,5 +89,20 @@ class ProformatsRepository extends AbstractRepository implements ProformatsRepos
     public function hasMargeEdited(Proformat $proformat): bool
     {
         return $proformat->marges->count() > 0;
+    }
+
+    public function toInvoice(): Collection
+    {
+       return $this->newQuery()->whereHas('devis', function($query){
+           $query->doesntHave('invoice');
+        })
+           ->whereHas('devis', function($query){
+           $query->whereHas('dossier', function($query){
+               $query->whereHas('status', function($query){
+                   $query->where('type',StatusTypeEnum::TYPE_WIN);
+               });
+           });
+       })
+           ->get();
     }
 }

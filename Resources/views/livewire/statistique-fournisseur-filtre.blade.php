@@ -17,6 +17,7 @@
                 <option value="" selected="selected">Reste à regler</option>
                 <option value="oui">Oui</option>
                 <option value="non">Non</option>
+                <option value="troppayer">Trop payé</option>
             </x-basecore::inputs.select>
         </div>
 

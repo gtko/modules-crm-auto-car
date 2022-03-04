@@ -34,7 +34,11 @@ class StatistiqueFournisseurList extends Component
 
         if ($resteARegler == "oui") {
             $resteARegler = true;
-        } elseif ($resteARegler == "non") {
+        }
+        elseif($resteARegler == 'troppayer'){
+            $resteARegler = 'troppayer';
+        }
+        elseif ($resteARegler == "non") {
             $resteARegler = false;
         }
 
