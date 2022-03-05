@@ -49,6 +49,7 @@
                     </tr>
                     <tr class="bg-gray-100 text-gray-700">
                         <th class="whitespace-nowrap">#</th>
+                        <th class="whitespace-nowrap">type</th>
                         <th class="whitespace-nowrap">Invoice</th>
                         <th class="whitespace-nowrap">Date</th>
                         <th class="whitespace-nowrap">total</th>
@@ -60,6 +61,9 @@
                         <tr>
                             <td class="border-b dark:border-dark-5">
                                 {{$payment->id}}
+                            </td>
+                            <td class="border-b dark:border-dark-5">
+                                {{$payment->data['type'] ?? 'N/A'}}
                             </td>
                             <td class="border-b dark:border-dark-5">
                                 {{$payment->proformat->number}}

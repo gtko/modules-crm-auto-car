@@ -74,7 +74,7 @@
                     @icon('pdf', null, 'mr-2')
                 </span>
 
-                @if($price->getPriceTTC() > 0)
+                @if($price->getPriceTTC() > 0 && !$invoice->hasCanceled())
                     <livewire:crmautocar::invoice-cancel :invoice="$invoice" />
                 @endif
 

@@ -157,13 +157,10 @@
         </div>
 
         <div class="col-span-12 mt-6">
-            <div class="intro-y block sm:flex items-center h-10">
+            <div class="block sm:flex items-center h-10">
                 <h2 class="text-lg font-medium truncate mr-5">Réservations</h2>
             </div>
-            <div class="intro-y overflow-auto lg:overflow-visible mt-8 sm:mt-0">
-
-
-
+            <div class="w-full overflow-auto  mt-8 sm:mt-0">
                 <table class="table table-report sm:mt-2">
                     <thead>
                         <tr>
@@ -226,7 +223,7 @@
                 </table>
             </div>
 
-{{--            {{$proformats->links()}}--}}
+            {{$proformats->links()}}
 
         </div>
     </div>

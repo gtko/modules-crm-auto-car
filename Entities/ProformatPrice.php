@@ -64,6 +64,11 @@ class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
     }
 
     public function remains(){
+        $devis = $this->proformat->devis;
+        if($devis && $devis->invoice && $devis->invoice->hasCanceled()){
+            return 0;
+        }
+
         if(!$this->hasOverPaid()) {
             return $this->getPriceTTC() - $this->paid();
         }
