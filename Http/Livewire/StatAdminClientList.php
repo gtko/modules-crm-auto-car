@@ -19,6 +19,9 @@ class StatAdminClientList extends Component
     public $dateModif = '';
     public $idTime;
 
+    public $start;
+    public $end;
+
     protected $listeners = ['updateSelectCommercial', 'dateRange'];
 
     public function mount(){
@@ -40,10 +43,8 @@ class StatAdminClientList extends Component
 
     public function dateRange($debut, $fin)
     {
-        $start = (new DateStringToCarbon())->handle($debut);
-        $fin = (new DateStringToCarbon())->handle($fin);
-
-        $this->times = app(TimerRepositoryContract::class)->getTimeByPeriode($this->commercial, $start, $fin);
+        $this->start = $debut;
+        $this->end = $fin;
     }
 
     public function editTime($id)
@@ -79,6 +80,15 @@ class StatAdminClientList extends Component
     {
         if ($this->commercial) {
             $this->dossiers = $repCommercial->getClients($this->commercial);
+        }
+
+        if($this->start && $this->end) {
+            $start = (new DateStringToCarbon())->handle($this->start);
+            $fin = (new DateStringToCarbon())->handle($this->end);
+
+            $this->times = app(TimerRepositoryContract::class)->getTimeByPeriode($this->commercial, $start, $fin);
+        }else{
+            $this->times = app(TimerRepositoryContract::class)->getTimeByPeriode($this->commercial, Carbon::now()->subYear(50), Carbon::now());
         }
 
         return view('crmautocar::livewire.stat-admin-client-list');
