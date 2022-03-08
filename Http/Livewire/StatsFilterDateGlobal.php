@@ -26,6 +26,7 @@ class StatsFilterDateGlobal extends Component
     {
         if ($this->debut && $this->fin) {
             $this->emit('dateRangeGlobal', $this->debut, $this->fin);
+            $this->emit('dateRange', $this->debut, $this->fin);
             $debut = (new DateStringToCarbon())->handle($this->debut);
             $fin = (new DateStringToCarbon())->handle($this->fin);
             $this->badge = 'du ' . $debut->format('d/m/Y') . ' au ' . $fin->format('d/m/Y');

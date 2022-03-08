@@ -16,9 +16,12 @@ class StatsAdminListCommercial extends Component
     {
         if(Auth::user()->hasRole('commercial')) {
             $this->commercial_id = Auth::user()->id;
-            $commercial = $repCommercial->fetchById($this->commercial_id);
-            $this->emit('updateSelectCommercial', $commercial);
+        }else {
+            $this->commercial_id = app(CommercialRepositoryContract::class)->newQuery()->first()->id;
         }
+
+        $commercial = $repCommercial->fetchById($this->commercial_id);
+        $this->emit('updateSelectCommercial', $commercial);
     }
 
     public function selectCommercial(CommercialRepositoryContract $repCommercial, $commercialId)
