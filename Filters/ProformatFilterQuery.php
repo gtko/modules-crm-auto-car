@@ -3,6 +3,7 @@
 namespace Modules\CrmAutoCar\Filters;
 
 use Carbon\Carbon;
+use Modules\BaseCore\Contracts\Entities\UserEntity;
 use Modules\CoreCRM\Enum\StatusTypeEnum;
 use Modules\CoreCRM\Models\Commercial;
 use Modules\CrmAutoCar\Contracts\Repositories\ProformatsRepositoryContract;
@@ -21,9 +22,19 @@ class ProformatFilterQuery
     public function byCommercial(?Commercial $commercial = null)
     {
         if($commercial){
-            $this->query->hasCommercial($commercial);
+            $this->query->where(function() use ($commercial){
+                $this->query->hasCommercial($commercial);
+                $this->query->orWhereHas('devis', function($query) use ($commercial){
+                    $query->whereHas('dossier', function($query) use ($commercial){
+                        $query->whereHas('followers', function($query) use ($commercial){
+                            $query->where('id', $commercial->id);
+                        });
+                    });
+                });
+            });
         }
     }
+
 
     public function byCreatedAt(?Carbon $dateStart = null,?Carbon $dateEnd = null)
     {

@@ -15,6 +15,10 @@
 
         @media print {
 
+            html, body{
+                background: white!important;
+            }
+
             .print-col-span-3 {
                 grid-column: span 3 / span 3 !important;
             }
@@ -42,6 +46,11 @@
 
             .no-print {
                 display: none;
+            }
+
+            .footer{
+                background: white;
+                color: gray;
             }
 
         }
@@ -72,24 +81,30 @@
                         </div>
                     @endforeach
 
-                    <div class="bg-white mb-4 p-4 grid notcut justify-items-stretch border border-gray-400">
-                        <div class="mb-4">
-                            <h5 class="text-bleu my-2 pl-2 font-bold text-xl">Informations complémentaires</h5>
-                            <hr class="text-bleu">
-                        </div>
-                        <div>
-                            <span>Nombre d'autocar(s) : </span>
-                            <span class="font-bold">{{ $devis->data['nombre_bus'] ?? ''}}</span>
-                        </div>
-                        <div>
-                            <span>Nombre de conducteur(s) : </span>
-                            <span class="font-bold">{{ $devis->data['nombre_chauffeur'] ?? ''}}</span>
-                        </div>
+                    @if(($devis->data['nombre_bus'] ?? '') || ($devis->data['nombre_chauffeur'] ?? ''))
+                        <div class="bg-white mb-4 p-4 grid notcut justify-items-stretch border border-gray-400">
+                            <div class="mb-4">
+                                <h5 class="text-bleu my-2 pl-2 font-bold text-xl">Informations complémentaires</h5>
+                                <hr class="text-bleu">
+                            </div>
+                            @if(($devis->data['nombre_bus'] ?? ''))
+                            <div>
+                                <span>Nombre d'autocar(s) : </span>
+                                <span class="font-bold">{{ $devis->data['nombre_bus'] ?? ''}}</span>
+                            </div>
+                            @endif
 
-                    </div>
+                            @if(($devis->data['nombre_chauffeur'] ?? ''))
+                            <div>
+                                <span>Nombre de conducteur(s) : </span>
+                                <span class="font-bold">{{ $devis->data['nombre_chauffeur'] ?? ''}}</span>
+                            </div>
+                            @endif
 
+                        </div>
+                    @endif
 
-                    @if(count($devis->data['trajets']) != 1)
+                    @if(count(($devis->data['trajets']) ?? []) < 2 || count(($devis->data['lines'] ?? [])) > 0)
                         <livewire:crmautocar::devis-client.recap-devis
                             :devis="$devis"
                             :brand="$brand"
@@ -99,7 +114,7 @@
                     <x-crmautocar::devis-client.cgv
                         class="bg-white border border-2 border-gray-400  lg:mb-6 mb-0 mt-6 p-4 lg:order-5 no-print"/>
                 </div>
-                <div class="col-span-1 flex flex-col">
+                <div class="col-span-1 print-col-span-3 flex flex-col">
                     <x-crmautocar::devis-client.client-information
                         :devis="$devis"
                         class="my-6 lg:order-1  no-print"
@@ -113,12 +128,13 @@
                     <livewire:crmautocar::devis-client.recap-devis
                         :devis="$devis"
                         :brand="$brand"
-                        :class="'bg-white p-4 grid justify-items-stretch border border-2 border-gray-400 lg:order-2 mb-4 no-print'"
+                        :class="'bg-white p-4 grid justify-items-stretch border border-2 border-gray-400 lg:order-2 mb-4'"
+                        :printable="true"
                         :sidebar="true"/>
                 </div>
             </div>
         </div>
-        <x-crmautocar::devis-client.footer class="h-32"/>
+        <x-crmautocar::devis-client.footer class="footer h-32"/>
     </div>
 
 @endsection

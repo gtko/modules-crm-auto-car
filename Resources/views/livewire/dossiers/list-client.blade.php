@@ -31,6 +31,7 @@
                     @endforeach
                 </x-basecore::inputs.select>
             @endif
+
         </div>
         <div class="mt-4 grid grid grid-cols-4 gap-4">
             <div>
@@ -48,6 +49,11 @@
                     filtres
                 </div>
             </div>
+            @can('viewAll', Dossier::class)
+            <div class="mt-5">
+                <x-basecore::inputs.checkbox wire:model="viewMyLead" name="my_lead" label="Voir mes dossiers uniquement"/>
+            </div>
+            @endcan
         </div>
 
     </div>
@@ -73,8 +79,5 @@
             </tbody>
         </table>
     </div>
-
-    {{--        {{$dossiers->links()}}--}}
-
-</div>
+    {{$dossiers->links()}}
 </div>

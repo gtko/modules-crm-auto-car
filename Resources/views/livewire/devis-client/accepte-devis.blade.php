@@ -9,7 +9,11 @@
             </div>
             <span class="btn btn-danger-soft mt-4 w-full text-white text-2xl" style="background-color: #ffa500;"
                   wire:click="open()">
-                    Réserver le Trajet en Autocar
+                    @if(!empty(($devis->data['trajets'] ?? [])))
+                        Réserver le Trajet en Autocar
+                    @else
+                        Accepter le devis
+                    @endif
             </span>
             @error('accepte') <span class="text-red-600 py-2">{{ $message }}</span> @enderror
         </div>

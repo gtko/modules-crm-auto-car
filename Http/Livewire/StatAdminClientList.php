@@ -24,9 +24,12 @@ class StatAdminClientList extends Component
     public function mount(){
         if(Auth::user()->hasRole('commercial')) {
             $this->commercial = Auth::commercial();
-            $this->times = app(TimerRepositoryContract::class)->getTimeByPeriode($this->commercial, Carbon::now()->subYear(50), Carbon::now());
-
+        }else{
+            $this->commercial = app(CommercialRepositoryContract::class)->newQuery()->first();
         }
+
+        $this->times = app(TimerRepositoryContract::class)->getTimeByPeriode($this->commercial, Carbon::now()->subYear(50), Carbon::now());
+
     }
 
     public function updateSelectCommercial(Commercial $commercial)
