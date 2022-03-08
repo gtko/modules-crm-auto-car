@@ -25,11 +25,12 @@ class RecapDevis extends Component
 
     public $proformat;
 
-    public function mount($devis, $brand, $trajetId = null, $sidebar = false, $class = '', $proformat = null)
+    public function mount($devis, $brand, $trajetId = null, $sidebar = false, $printable = false, $class = '', $proformat = null)
     {
         $this->sidebar = $sidebar;
         $this->class = $class;
         $this->devis = $devis;
+        $this->printable = $printable;
         $this->brand = $brand;
         $this->trajetid = $trajetId;
         $this->trajet = $this->devis->data['trajets'][$this->trajetid] ?? null;

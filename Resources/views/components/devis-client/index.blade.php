@@ -114,7 +114,7 @@
                     <x-crmautocar::devis-client.cgv
                         class="bg-white border border-2 border-gray-400  lg:mb-6 mb-0 mt-6 p-4 lg:order-5 no-print"/>
                 </div>
-                <div class="col-span-1 flex flex-col">
+                <div class="col-span-1 print-col-span-3 flex flex-col">
                     <x-crmautocar::devis-client.client-information
                         :devis="$devis"
                         class="my-6 lg:order-1  no-print"
@@ -128,7 +128,8 @@
                     <livewire:crmautocar::devis-client.recap-devis
                         :devis="$devis"
                         :brand="$brand"
-                        :class="'bg-white p-4 grid justify-items-stretch border border-2 border-gray-400 lg:order-2 mb-4 no-print'"
+                        :class="'bg-white p-4 grid justify-items-stretch border border-2 border-gray-400 lg:order-2 mb-4'"
+                        :printable="true"
                         :sidebar="true"/>
                 </div>
             </div>
