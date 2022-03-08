@@ -2,7 +2,6 @@
 
 namespace Modules\CrmAutoCar\Http\Livewire\Dossiers;
 
-use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Modules\CoreCRM\Contracts\Repositories\CommercialRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\DossierRepositoryContract;
