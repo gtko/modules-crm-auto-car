@@ -156,7 +156,8 @@ class CrmAutoCarServiceProvider extends ServiceProvider
 
         app(CompositeurThemeContract::class)->setViews(DossierSidebarAddActionsViewContract::class,
             [
-                new TypeView(TypeView::TYPE_LIVEWIRE, 'crmautocar::arappeler')
+                new TypeView(TypeView::TYPE_LIVEWIRE, 'crmautocar::arappeler'),
+                new TypeView(TypeView::TYPE_LIVEWIRE, 'devisautocar::rappel-devis-whatsapp')
             ]
         )
             ->setViews(DossierTabLabelViewContract::class, [
