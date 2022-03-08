@@ -150,9 +150,13 @@ class CrmAutoCarServiceProvider extends ServiceProvider
         app(CompositeurThemeContract::class)->setViews(SelectTagDossier::class, [
             new TypeView(TypeView::TYPE_LIVEWIRE, 'crmautocar::select-tags'),
         ]);
-        app(CompositeurThemeContract::class)->setViews(SelectCommercial::class, [
-           new TypeView(typeView:: TYPE_LIVEWIRE, 'crmautocar::select-commercial'),
-        ]);
+        app(CompositeurThemeContract::class)
+            ->setViews(SelectCommercial::class, [
+                new TypeView(typeView:: TYPE_LIVEWIRE, 'crmautocar::select-commercial'),
+            ])
+            ->setViews(SelectCommercial::class, [
+                'follow-dossier' => new TypeView(TypeView::TYPE_LIVEWIRE, 'corecrm::follower-dossier')
+            ]);
 
         app(CompositeurThemeContract::class)->setViews(DossierSidebarAddActionsViewContract::class,
             [
