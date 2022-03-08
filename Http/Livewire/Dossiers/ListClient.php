@@ -56,7 +56,7 @@ class ListClient extends Component
     public function render()
     {
         if (\Auth::user()->isSuperAdmin() || !$this->viewMyLead) {
-            $dossiers = $this->query()->orderBy('created_at', 'desc')->paginate(10);
+            $dossiers = $this->query()->orderBy('created_at', 'desc')->paginate(50);
         } else {
 
             $dossiers = $this->query()->where('commercial_id', \Auth::user()->id)->orderBy('created_at', 'desc')->paginate(50);

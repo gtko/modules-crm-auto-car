@@ -74,7 +74,6 @@
         </table>
     </div>
 
-    {{--        {{$dossiers->links()}}--}}
+            {{$dossiers->links()}}
 
-</div>
 </div>
