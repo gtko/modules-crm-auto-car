@@ -20,6 +20,7 @@ class StatsFilterDateGlobal extends Component
         $this->fin = null;
         $this->badge = '';
         $this->emit('resetCardGlobal', $this->debut, $this->fin);
+        $this->emit('dateRange', '', '');
     }
 
     public function filtre()
