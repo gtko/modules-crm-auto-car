@@ -3,13 +3,16 @@
 namespace Modules\CrmAutoCar\Http\Livewire;
 
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use Modules\CoreCRM\Contracts\Entities\DevisEntities;
 use Modules\CrmAutoCar\Actions\CreateInvoice;
 use Modules\CrmAutoCar\Contracts\Repositories\InvoicesRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\ProformatsRepositoryContract;
 use Modules\CrmAutoCar\Models\Invoice;
+use Modules\CrmAutoCar\Models\Proformat;
 
 class InvoicesList extends Component
 {
@@ -39,8 +42,36 @@ class InvoicesList extends Component
      */
     public function render(InvoicesRepositoryContract $invoiceRep)
     {
+        $proformatRep = app(ProformatsRepositoryContract::class);
+
 
         $query = $invoiceRep->newQuery();
+
+        if (!Gate::allows('viewAny', Proformat::class)) {
+            $query->WhereHas('devis', function($query){
+                $query->whereHas('dossier', function($query){
+                    $query->whereHas('commercial', function($query){
+                        $query->where('id', Auth::commercial()->id);
+                    });
+                    $query->orwhereHas('followers', function($query){
+                        $query->where('id', Auth::commercial()->id);
+                    });
+                });
+            });
+
+            $queryProformat = $proformatRep->newQuery();
+            $queryProformat->WhereHas('devis', function($query){
+                $query->whereHas('dossier', function($query){
+                    $query->whereHas('commercial', function($query){
+                        $query->where('id', Auth::commercial()->id);
+                    });
+                    $query->orwhereHas('followers', function($query){
+                        $query->where('id', Auth::commercial()->id);
+                    });
+                });
+            });
+            $proformatRep->setQuery($queryProformat);
+        }
 
         $query->whereHas('devis', function($query){
             $query->whereHas('proformat');
@@ -87,9 +118,11 @@ class InvoicesList extends Component
             $query->whereIn('id', $invoices->pluck('id'));
         }
 
+        $query->orderBy('created_at', 'desc');
+
         $invoiceRep->setQuery($query);
 
-        $proformatRep = app(ProformatsRepositoryContract::class);
+
 
 
         return view('crmautocar::livewire.invoices-list', [

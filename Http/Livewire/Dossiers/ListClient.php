@@ -2,6 +2,7 @@
 
 namespace Modules\CrmAutoCar\Http\Livewire\Dossiers;
 
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Modules\CoreCRM\Contracts\Repositories\CommercialRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\DossierRepositoryContract;
@@ -19,7 +20,7 @@ class ListClient extends Component
     public $commercial;
     public $departStart;
     public $departEnd;
-    public $viewMyLead = true;
+    public $viewMyLead = false;
 
     public $queryString = ['status'];
 
@@ -55,14 +56,18 @@ class ListClient extends Component
 
     public function render()
     {
-        if (\Auth::user()->isSuperAdmin() || !$this->viewMyLead) {
+        if (!$this->viewMyLead && Auth::user()->can('viewAll', \Modules\CoreCRM\Models\Dossier::class)) {
             $dossiers = $this->query()->orderBy('created_at', 'desc')->paginate(50);
         } else {
 
-            $dossiers = $this->query()->where('commercial_id', \Auth::user()->id)->orderBy('created_at', 'desc')->paginate(50);
+            $dossiers = $this->query()
+                ->where('commercial_id', \Auth::user()->id)
+                ->orWhereHas('followers', function($query){
+                    $query->where('user_id', \Auth::user()->id);
+                })
+                ->orderBy('created_at', 'desc')
+                ->paginate(50);
         }
-
-
 
         $pipelineList = app(StatusRepositoryContract::class)->fetchAll();
         $pipelineList = $pipelineList->groupBy('pipeline_id');
