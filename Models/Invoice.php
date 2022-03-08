@@ -23,6 +23,9 @@ use Modules\CrmAutoCar\Repositories\BrandsRepository;
 class Invoice extends Model
 {
 
+    const STATUS_CANCELED = 'canceled';
+    const STATUS_NORMAL = 'normal';
+
     protected $fillable = ['devis_id', 'number', 'total', 'data'];
 
     protected $casts = [
@@ -44,6 +47,10 @@ class Invoice extends Model
     public function isRefund():bool
     {
         return $this->total < 0;
+    }
+
+    public function hasCanceled(){
+        return $this->status === self::STATUS_CANCELED;
     }
 
 }
