@@ -23,6 +23,7 @@ interface StatistiqueRepositoryContract
 
     public function getNombreLeadTotal(Carbon|null $debut = null, Carbon|null $fin = null): int;
     public function getNombreContactTotal(?Carbon $debut = null, ?Carbon $fin = null): int;
+    public function getNombreContactWinTotal(?Carbon $debut = null, ?Carbon $fin = null): int;
     public function getTauxConversionTotal(?Carbon $debut = null, ?Carbon $fin = null): float;
     public function getMargeTtcTotal(?Carbon $debut = null, ?Carbon $fin = null): float;
     public function getMargeNetTotal(?Carbon $debut = null, ?Carbon $fin = null): float;

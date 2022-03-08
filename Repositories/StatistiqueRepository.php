@@ -11,8 +11,11 @@ use Modules\BaseCore\Repositories\AbstractRepository;
 use Modules\CoreCRM\Contracts\Repositories\CommercialRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\DossierRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\StatusRepositoryContract;
+use Modules\CoreCRM\Enum\StatusTypeEnum;
 use Modules\CoreCRM\Models\Commercial;
 use Modules\CoreCRM\Repositories\StatusRepository;
+use Modules\CrmAutoCar\Contracts\Repositories\ConfigsRepositoryContract;
+use Modules\CrmAutoCar\Contracts\Repositories\ProformatsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\StatistiqueRepositoryContract;
 use Modules\TimerCRM\Contracts\Repositories\TimerRepositoryContract;
 
@@ -130,26 +133,71 @@ class StatistiqueRepository implements StatistiqueRepositoryContract
 
     public function getNombreContactTotal(?Carbon $debut = null, ?Carbon $fin = null): int
     {
-        return mt_rand(1.00, 500.00);
+       return $this->getNombreContactWinTotal($debut, $fin);
+    }
+
+    public function getNombreContactWinTotal(?Carbon $debut = null, ?Carbon $fin = null): int
+    {
+        $query = app(DossierRepositoryContract::class)->newQuery();
+        if($debut && $fin) {
+            $query->where('created_at', '>=', $debut->startOfDay())
+                ->where('created_at', '<=', $fin->endOfDay());
+        }
+
+        $query->whereHas('devis', function($query){
+            $query->has('proformat');
+        });
+
+        return $query->count();
     }
 
     public function getTauxConversionTotal(?Carbon $debut = null, ?Carbon $fin = null): float
     {
-        return mt_rand(1.00, 500.00);
+        return  ($this->getNombreContactWinTotal($debut, $fin) / $this->getNombreLeadTotal($debut, $fin)) * 100;
+    }
+
+
+    protected function getProformatPriceList(?Carbon $debut = null, ?Carbon $fin = null)
+    {
+        $rep = app(ProformatsRepositoryContract::class);
+        $query = $rep->newQuery();
+        $query->has('devis');
+        if($debut && $fin) {
+            $query->where('created_at', '>=', $debut->startOfDay())
+                ->where('created_at', '<=', $fin->endOfDay());
+        }
+
+        return $query->get()->map(function($proformat){
+            return $proformat->price;
+        });
     }
 
     public function getMargeTtcTotal(?Carbon $debut = null, ?Carbon $fin = null): float
     {
-        return mt_rand(1.00, 500.00);
+        return $this->getProformatPriceList($debut, $fin)->sum(function($price) use ($fin){
+            return $price->getMargeHT($fin) * (1 + ($price->getTauxTVA() / 100));
+        });
     }
 
     public function getMargeNetTotal(?Carbon $debut = null, ?Carbon $fin = null): float
     {
-        return mt_rand(1.00, 500.00);
+        $margeHT = $this->getMargeTtcTotal($debut, $fin);
+        $repConfig = app(ConfigsRepositoryContract::class);
+        $coutLead = $repConfig->getByName('price_lead')->data['price_lead'] ?? 0;
+
+        return $margeHT - ($this->getNombreLeadTotal($debut, $fin) * $coutLead);
     }
 
     public function getPannierMoyenTotal(?Carbon $debut = null, ?Carbon $fin = null): float
     {
-        return mt_rand(1.00, 500.00);
+        $totalLead = $this->getNombreContactWinTotal($debut, $fin);
+
+        if($totalLead === 0){
+            return 0;
+        }
+
+        return ($this->getProformatPriceList($debut, $fin)->sum(function($price) use ($fin){
+            return $price->getPriceHT();
+        }) / $totalLead);
     }
 }

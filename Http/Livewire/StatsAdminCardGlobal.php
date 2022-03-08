@@ -82,11 +82,11 @@ class StatsAdminCardGlobal extends Component
         $this->leadPrice = $repConfig->getByName('price_lead')->data['price_lead'] ?? 0;
         $this->shekel = app(ShekelRepositoryContract::class)->getPrice();
         $this->nombreLeads = $repStat->getNombreLeadTotal($this->debut, $this->fin);
-        $this->nombreContact = $repStat->getNombreContactTotal();
-        $this->tauxConversion = $repStat->getTauxConversionTotal();
-        $this->margeTtc = $repStat->getMargeTtcTotal();
-        $this->margeNet = $repStat->getMargeNetTotal();
-        $this->panierMoyenTtc = $repStat->getPannierMoyenTotal();
+        $this->nombreContact = $repStat->getNombreContactWinTotal($this->debut, $this->fin);
+        $this->tauxConversion = $repStat->getTauxConversionTotal($this->debut, $this->fin);
+        $this->margeTtc = $repStat->getMargeTtcTotal($this->debut, $this->fin);
+        $this->margeNet = $repStat->getMargeNetTotal($this->debut, $this->fin);
+        $this->panierMoyenTtc = $repStat->getPannierMoyenTotal($this->debut, $this->fin);
 
 
         return view('crmautocar::livewire.stats-admin-card-global');
