@@ -28,5 +28,6 @@ interface StatistiqueRepositoryContract
     public function getMargeTtcTotal(?Carbon $debut = null, ?Carbon $fin = null): float;
     public function getMargeNetTotal(?Carbon $debut = null, ?Carbon $fin = null): float;
     public function getPannierMoyenTotal(?Carbon $debut = null, ?Carbon $fin = null): float;
+    public function getPannierNetTotal(?Carbon $debut = null, ?Carbon $fin = null): float;
 
 }

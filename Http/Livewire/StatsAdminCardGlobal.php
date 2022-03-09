@@ -87,6 +87,7 @@ class StatsAdminCardGlobal extends Component
         $this->margeTtc = $repStat->getMargeTtcTotal($this->debut, $this->fin);
         $this->margeNet = $repStat->getMargeNetTotal($this->debut, $this->fin);
         $this->panierMoyenTtc = $repStat->getPannierMoyenTotal($this->debut, $this->fin);
+        $this->panierNetTtc = $repStat->getPannierNetTotal($this->debut, $this->fin);
 
 
         return view('crmautocar::livewire.stats-admin-card-global');
