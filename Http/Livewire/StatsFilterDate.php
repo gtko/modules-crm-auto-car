@@ -7,7 +7,9 @@ use Carbon\CarbonPeriod;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Modules\BaseCore\Actions\Dates\DateStringToCarbon;
+use Modules\CoreCRM\Contracts\Repositories\DossierRepositoryContract;
 use Modules\CoreCRM\Models\Commercial;
+use Modules\CoreCRM\Models\Dossier;
 use Modules\TimerCRM\Contracts\Repositories\TimerRepositoryContract;
 
 class StatsFilterDate extends Component
@@ -64,7 +66,8 @@ class StatsFilterDate extends Component
     public function render()
     {
 
-        $listMois = CarbonPeriod::create(Carbon::now()->subMonth('18'), '1 month', Carbon::now());
+        $dossier = app(DossierRepositoryContract::class)->newQuery()->orderBy('created_at', 'desc')->first();
+        $listMois = CarbonPeriod::create($dossier->created_at, '1 month', Carbon::now());
 
 
 //        foreach ($listMois as $dt) {

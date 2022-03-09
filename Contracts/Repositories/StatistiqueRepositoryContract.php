@@ -19,7 +19,7 @@ interface StatistiqueRepositoryContract
     public function getPanierMoyenTtcByCommercial(Commercial $commercial,?Carbon $debut = null, ?Carbon $fin = null): float;
     public function getPanierMoyenNetByCommercial(Commercial $commercial,?Carbon $debut = null, ?Carbon $fin = null): float;
     public function getMargeNetAfterHoraireByCommercial(Commercial $commercial,?Carbon $debut = null, ?Carbon $fin = null): float;
-    public function getPanierMoyenNetAfterHoraire(?Carbon $debut = null, ?Carbon $fin = null): float;
+    public function getPanierMoyenNetAfterHoraire(Commercial $commercial,?Carbon $debut = null, ?Carbon $fin = null): float;
 
     public function getNombreLeadTotal(Carbon|null $debut = null, Carbon|null $fin = null): int;
     public function getNombreContactTotal(?Carbon $debut = null, ?Carbon $fin = null): int;

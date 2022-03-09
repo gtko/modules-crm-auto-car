@@ -18,7 +18,7 @@
             </dt>
             <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
                 <div class="flex items-baseline text-center text-2xl font-semibold text-primary-1">
-                    {{ $this->tauxHoraire }} €
+                    @marge($this->tauxHoraire)€
                 </div>
             </dd>
         </div>
@@ -51,7 +51,7 @@
             </dt>
             <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
                 <div class="flex items-baseline text-2xl font-semibold text-primary-1">
-                    {{ $this->tauxConversion }} %
+                    @marge($this->tauxConversion)%
                 </div>
             </dd>
         </div>
@@ -61,7 +61,7 @@
             </dt>
             <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
                 <div class="flex items-baseline text-2xl font-semibold text-primary-1">
-                    {{ $this->margeTtc }} €
+                    @marge($this->margeTtc)€
                 </div>
             </dd>
         </div>
@@ -72,7 +72,7 @@
                 </dt>
                 <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
                     <div class="flex items-baseline text-2xl font-semibold text-primary-1">
-                        {{ $this->margeNet }} €
+                        @marge($this->margeNet)€
                     </div>
                 </dd>
             </div>
@@ -84,7 +84,7 @@
             </dt>
             <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
                 <div class="flex items-baseline text-2xl font-semibold text-primary-1">
-                    {{ $this->panierMoyenTtc }} €
+                    @marge($this->panierMoyenTtc)€
                 </div>
             </dd>
         </div>
@@ -95,7 +95,7 @@
                 </dt>
                 <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
                     <div class="flex items-baseline text-2xl font-semibold text-primary-1">
-                        {{ $this->panierMoyenNet }} €
+                        @marge($this->panierMoyenNet)€
                     </div>
                 </dd>
             </div>
@@ -105,7 +105,7 @@
                 </dt>
                 <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
                     <div class="flex items-baseline text-2xl font-semibold text-primary-1">
-                        {{ $this->margeNetAfterHoraire }} €
+                        @marge($this->margeNetAfterHoraire)€
                     </div>
                 </dd>
             </div>
@@ -115,7 +115,7 @@
                 </dt>
                 <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
                     <div class="flex items-baseline text-2xl font-semibold text-primary-1">
-                        {{ $this->panierMoyenAfterHoraire }} €
+                        @marge($this->panierMoyenAfterHoraire)€
                     </div>
                 </dd>
             </div>

@@ -16,6 +16,7 @@ use Modules\CoreCRM\Models\Commercial;
 use Modules\CoreCRM\Repositories\StatusRepository;
 use Modules\CrmAutoCar\Contracts\Repositories\ConfigsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\ProformatsRepositoryContract;
+use Modules\CrmAutoCar\Contracts\Repositories\ShekelRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\StatistiqueRepositoryContract;
 use Modules\TimerCRM\Contracts\Repositories\TimerRepositoryContract;
 
@@ -70,65 +71,99 @@ class StatistiqueRepository implements StatistiqueRepositoryContract
         return app(TimerRepositoryContract::class)->getTotalTimeByCommercialPeriode($commercial, $debut, $fin);
     }
 
+    protected function getNombreHeure(Commercial $commercial,?Carbon $debut = null, ?Carbon $fin = null): string
+    {
+        return app(TimerRepositoryContract::class)->getTimeByPeriode($commercial, $debut, $fin)->sum('count') / 3600;
+    }
+
+
     public function getTauxHoraireByCommercial(Commercial $commercial,?Carbon $debut = null, ?Carbon $fin = null): float
     {
-        return 9.86;
+        return 35 * app(ShekelRepositoryContract::class)->getPrice();
     }
 
     public function getNombreContactByCommercial(Commercial $commercial,?Carbon $debut = null, ?Carbon $fin = null): int
     {
-        return $this->getCollectionLeadByCommercial($commercial, $debut, $fin)
-            ->groupBy('client_id')->count();
+        $repository = app(DossierRepositoryContract::class);
+        $query = $repository->newQuery()
+            ->where('commercial_id', $commercial->id)
+            ->whereHas('devis', function($q){
+                $q->has('proformat');
+            });
+
+        if($debut && $fin){
+            $query->whereBetween('created_at', [$debut->startOfDay(),$fin->endOfDay()]);
+        }
+
+        return $query->count();
     }
 
     public function getTauxConversionByCommercial(Commercial $commercial,?Carbon $debut = null, ?Carbon $fin = null): int
     {
         $dossier = $this->getCollectionLeadByCommercial($commercial, $debut, $fin)->pluck('id');
-        $repository = app(DossierRepositoryContract::class);
-
-        $dossierWin = $repository->newQuery()
-            ->whereIn('id', $dossier)
-            ->whereHas('status', function($q){
-                    $status = app(StatusRepositoryContract::class)
-                        ->fetchByType('win');
-                    $q->whereIn('status_id',$status->pluck('id'));
-            })->count();
+        $dossierWin = $this->getNombreContactByCommercial($commercial, $debut, $fin);
 
         if($dossierWin === 0){
             return 0;
         }
+
 
         return ($dossierWin / $dossier->count()) * 100;
     }
 
     public function getMargeTtcByCommercial(Commercial $commercial,?Carbon $debut = null, ?Carbon $fin = null): float
     {
-        return mt_rand(1.00, 500.00);
+        return $this->getProformatPriceList($debut, $fin, $commercial)->sum(function($price) use ($fin){
+            return $price->getMargeHT($fin) * (1 + ($price->getTauxTVA() / 100));
+        });
     }
 
     public function getMargeNetByCommercial(Commercial $commercial,?Carbon $debut = null, ?Carbon $fin = null): float
     {
-        return mt_rand(1.00, 500.00);
+        return $this->getProformatPriceList($debut, $fin, $commercial)->sum(function($price) use ($fin){
+            return $price->getMargeHT($fin) * (1 + ($price->getTauxTVA() / 100));
+        }) - ($this->getNombreLead($commercial, $debut, $fin) * $this->getCoutLead());
+    }
+
+    protected function getCoutLead(){
+        $repConfig = app(ConfigsRepositoryContract::class);
+
+        return $repConfig->getByName('price_lead')->data['price_lead'] ?? 0;
     }
 
     public function getPanierMoyenTtcByCommercial(Commercial $commercial,?Carbon $debut = null, ?Carbon $fin = null): float
     {
-        return mt_rand(1.00, 500.00);
+        $contrat = $this->getNombreContactByCommercial($commercial, $debut, $fin);
+        if($contrat === 0){
+            return 0;
+        }
+
+        return $this->getMargeTtcByCommercial($commercial, $debut, $fin) / $contrat;
     }
 
     public function getPanierMoyenNetByCommercial(Commercial $commercial,?Carbon $debut = null, ?Carbon $fin = null): float
     {
-        return mt_rand(1.00, 500.00);
+        $contrat = $this->getNombreContactByCommercial($commercial, $debut, $fin);
+        if($contrat === 0){
+            return 0;
+        }
+
+        return $this->getMargeNetByCommercial($commercial, $debut, $fin) / $contrat;
     }
 
     public function getMargeNetAfterHoraireByCommercial(Commercial $commercial,?Carbon $debut = null, ?Carbon $fin = null): float
     {
-        return mt_rand(1.00, 500.00);
+        return $this->getMargeNetByCommercial($commercial, $debut, $fin) - ($this->getNombreHeure($commercial, $debut, $fin) * $this->getTauxHoraireByCommercial($commercial, $debut, $fin));
     }
 
-    public function getPanierMoyenNetAfterHoraire(?Carbon $debut = null, ?Carbon $fin = null): float
+    public function getPanierMoyenNetAfterHoraire(Commercial $commercial, ?Carbon $debut = null, ?Carbon $fin = null): float
     {
-        return mt_rand(1.00, 500.00);
+        $contrat = $this->getNombreContactByCommercial($commercial, $debut, $fin);
+        if($contrat === 0){
+            return 0;
+        }
+
+        return $this->getMargeNetAfterHoraireByCommercial($commercial, $debut, $fin) / $contrat;
     }
 
     public function getNombreContactTotal(?Carbon $debut = null, ?Carbon $fin = null): int
@@ -157,11 +192,20 @@ class StatistiqueRepository implements StatistiqueRepositoryContract
     }
 
 
-    protected function getProformatPriceList(?Carbon $debut = null, ?Carbon $fin = null)
+    protected function getProformatPriceList(?Carbon $debut = null, ?Carbon $fin = null, $commercial = null)
     {
         $rep = app(ProformatsRepositoryContract::class);
         $query = $rep->newQuery();
         $query->has('devis');
+
+        if($commercial){
+            $query->whereHas('devis', function($query) use ($commercial){
+                $query->whereHas('dossier', function($query) use ($commercial){
+                    $query->where('commercial_id', $commercial->id);
+                });
+            });
+        }
+
         if($debut && $fin) {
             $query->where('created_at', '>=', $debut->startOfDay())
                 ->where('created_at', '<=', $fin->endOfDay());
@@ -182,10 +226,9 @@ class StatistiqueRepository implements StatistiqueRepositoryContract
     public function getMargeNetTotal(?Carbon $debut = null, ?Carbon $fin = null): float
     {
         $margeTTC = $this->getMargeTtcTotal($debut, $fin);
-        $repConfig = app(ConfigsRepositoryContract::class);
-        $coutLead = $repConfig->getByName('price_lead')->data['price_lead'] ?? 0;
 
-        return $margeTTC - ($this->getNombreLeadTotal($debut, $fin) * $coutLead);
+
+        return $margeTTC - ($this->getNombreLeadTotal($debut, $fin) * $this->getCoutLead());
     }
 
     public function getPannierMoyenTotal(?Carbon $debut = null, ?Carbon $fin = null): float
