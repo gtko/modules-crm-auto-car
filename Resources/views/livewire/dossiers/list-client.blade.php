@@ -82,6 +82,7 @@
             @endforeach
             </tbody>
         </table>
+
     </div>
     {{$dossiers->links()}}
 </div>
