@@ -155,7 +155,7 @@ class CrmAutoCarServiceProvider extends ServiceProvider
                 new TypeView(typeView:: TYPE_LIVEWIRE, 'crmautocar::select-commercial'),
             ])
             ->setViews(SelectCommercial::class, [
-                'follow-dossier' => new TypeView(TypeView::TYPE_LIVEWIRE, 'corecrm::follower-dossier')
+                'follow-dossier' => new TypeView(TypeView::TYPE_LIVEWIRE, 'corecrm::follower-dossier',  ['roles' => [7]])
             ]);
 
         app(CompositeurThemeContract::class)->setViews(DossierSidebarAddActionsViewContract::class,

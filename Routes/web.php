@@ -11,6 +11,7 @@ use Modules\CrmAutoCar\Http\Controllers\CentralAutoCarDevisController;
 use Modules\CrmAutoCar\Http\Controllers\CuveController;
 use Modules\CrmAutoCar\Http\Controllers\DashboardController;
 use Modules\CrmAutoCar\Http\Controllers\DossierController;
+use Modules\CrmAutoCar\Http\Controllers\DossierResaController;
 use Modules\CrmAutoCar\Http\Controllers\EndpointController;
 use Modules\CrmAutoCar\Http\Controllers\InfomationVogageController;
 use Modules\CrmAutoCar\Http\Controllers\InvoicesController;
@@ -96,6 +97,7 @@ Route::prefix('/')
 
         Route::get('dossiers/create/{client}', [\Modules\CrmAutoCar\Http\Controllers\DossierCreateController::class, 'index'])->name('dossier-create');
         Route::get('dossiers/', [DossierController::class, 'index'])->name('dossiers.index');
+        Route::get('dossiers-resa/', [DossierResaController::class, 'index'])->name('dossier-resa.index');
 
         Route::get('clients/{client}/dossiers/{dossier}', [DossierController::class, 'show'])->name('dossiers.show');
 

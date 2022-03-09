@@ -2,6 +2,7 @@
 
 namespace Modules\CrmAutoCar\Http\Livewire\Dossiers;
 
+use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Modules\CoreCRM\Contracts\Repositories\CommercialRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\DossierRepositoryContract;
@@ -21,6 +22,8 @@ class ListClient extends Component
     public $departEnd;
     public $viewMyLead = false;
 
+    public $resa = false;
+
     public $queryString = ['status'];
 
     protected $rules = [
@@ -28,6 +31,10 @@ class ListClient extends Component
         'status' => '',
         'commercial' => '',
     ];
+
+    public function mount($resa = false){
+        $this->resa = $resa;
+    }
 
     public function query()
     {
@@ -40,7 +47,16 @@ class ListClient extends Component
         $filter->byDepart($this->departStart);
         $filter->byArrive($this->departEnd);
 
-        return $filter->query();
+        $query = $filter->query();
+
+        if($this->resa){
+            $status = app(StatusRepositoryContract::class)->fetchById(5);
+            $query->whereHas('status', function($query) use ($status){
+                $query->where('order', '>=', $status->order);
+            });
+        }
+
+        return $query;
     }
 
     public function clearFiltre()

@@ -7,10 +7,12 @@ use Livewire\Component;
 class ListDetail extends Component
 {
     public $dossier;
+    public $resa = false;
 
-    public function mount($dossier)
+    public function mount($dossier, $resa = false)
     {
         $this->dossier = $dossier;
+        $this->resa = $resa;
     }
 
     public function render()

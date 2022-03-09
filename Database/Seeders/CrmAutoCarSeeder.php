@@ -64,6 +64,13 @@ class CrmAutoCarSeeder extends Seeder
         Permission::create(['name' => 'update contact chauffeur']);
         Permission::create(['name' => 'delete contact chauffeur']);
 
+        Permission::create(['name' => 'list dossiers résa']);
+        Permission::create(['name' => 'views dossiers résa']);
+        Permission::create(['name' => 'views-all dossiers résa']);
+        Permission::create(['name' => 'create dossiers résa']);
+        Permission::create(['name' => 'update dossiers résa']);
+        Permission::create(['name' => 'delete dossiers résa']);
+
         $statusRep = app(StatusRepositoryContract::class);
         $datas = [
             ['En attente de contact' , '#000'],

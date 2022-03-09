@@ -67,14 +67,18 @@
                 <th class="text-center whitespace-nowrap">Statut</th>
                 <th class="text-center whitespace-nowrap">tags</th>
                 <th class="text-center whitespace-nowrap">date du voyage</th>
-                <th class="text-center whitespace-nowrap">Commercial</th>
+                @if($resa)
+                    <th class="text-center whitespace-nowrap">Gestionnaires</th>
+                @else
+                    <th class="text-center whitespace-nowrap">Commercial</th>
+                @endif
                 <th class="text-center whitespace-nowrap">Créer le</th>
                 <th class="text-center whitespace-nowrap"></th>
             </tr>
             </thead>
             <tbody>
             @foreach($dossiers as $dossier)
-                <livewire:crmautocar::dossiers.list-detail :dossier="$dossier" :key="$dossier->id"/>
+                <livewire:crmautocar::dossiers.list-detail :resa="$resa" :dossier="$dossier" :key="$dossier->id"/>
             @endforeach
             </tbody>
         </table>
