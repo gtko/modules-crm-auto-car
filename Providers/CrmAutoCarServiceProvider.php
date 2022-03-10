@@ -20,6 +20,7 @@ use Modules\CoreCRM\Contracts\Views\Dossiers\DossierTabViewContract;
 use Modules\CoreCRM\Contracts\Views\Dossiers\SelectCommercial;
 use Modules\CoreCRM\Contracts\Views\Dossiers\SelectTagDossier;
 use Modules\CoreCRM\Flow\Attributes\ClientDossierCreate;
+use Modules\CoreCRM\Flow\Works\Services\DriversMailService;
 use Modules\CoreCRM\Flow\Works\Services\TemplateMailService;
 use Modules\CoreCRM\Flow\Works\WorkflowKernel;
 use Modules\CoreCRM\Notifications\Kernel;
@@ -208,8 +209,14 @@ class CrmAutoCarServiceProvider extends ServiceProvider
         ]);
 
         app(TemplateMailService::class)
-            ->add('MonAutoCar', 'crmautocar::emails.monautocar', TemplateMailService::TYPE_HTML)
-            ->add('LocationDeCar', 'crmautocar::emails.location-de-car', TemplateMailService::TYPE_HTML);
+            ->add('louerunbus', 'crmautocar::emails.monautocar', TemplateMailService::TYPE_HTML)
+            ->add('autocars-location', 'crmautocar::emails.location-de-car', TemplateMailService::TYPE_HTML);
+
+        app(DriversMailService::class)
+            ->add('Default', 'smtp')
+            ->add('louerunbus.fr', 'monautocar')
+            ->add('autocars-location.fr', 'location-de-car');
+
     }
 
 
