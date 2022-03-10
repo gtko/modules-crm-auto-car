@@ -49,7 +49,8 @@
                     filtres
                 </div>
             </div>
-            @can('viewAll', Dossier::class)
+
+            @can('viewAll', \Modules\CoreCRM\Models\Dossier::class)
             <div class="mt-5">
                 <x-basecore::inputs.checkbox wire:model="viewMyLead" name="my_lead" label="Voir mes dossiers uniquement"/>
             </div>
