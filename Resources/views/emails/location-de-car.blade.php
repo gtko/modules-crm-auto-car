@@ -44,7 +44,7 @@
                 </tr>
                 <tr>
                     <td class="content">
-                        {!! $content  !!}
+                        {!! $content !!}
                     </td>
                 </tr>
             </table>

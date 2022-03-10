@@ -211,8 +211,8 @@ class CrmAutoCarServiceProvider extends ServiceProvider
         ]);
 
         app(TemplateMailService::class)
-            ->add('louerunbus', 'crmautocar::emails.monautocar', TemplateMailService::TYPE_HTML)
-            ->add('autocars-location', 'crmautocar::emails.location-de-car', TemplateMailService::TYPE_HTML);
+            ->add('louerunbus', 'crmautocar::emails.monautocar', TemplateMailService::TYPE_MARKDOWN)
+            ->add('autocars-location', 'crmautocar::emails.location-de-car', TemplateMailService::TYPE_MARKDOWN);
 
         app(DriversMailService::class)
             ->add('Default', 'smtp')

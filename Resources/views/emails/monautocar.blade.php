@@ -410,7 +410,7 @@
                                         <td class="body-padding"></td>
                                         <td class="body-padded">
                                             <div>
-                                                {{$content}}
+                                                {!! $content !!}
                                             </div>
                                         </td>
                                         <td class="body-padding"></td>
