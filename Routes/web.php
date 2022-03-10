@@ -3,16 +3,13 @@
 
 use Illuminate\Support\Facades\Route;
 use Modules\BaseCore\Actions\Url\SignePayloadUrl;
-use Modules\BaseCore\Actions\Url\SigneRoute;
-use Modules\BaseCore\Models\Personne;
-use Modules\CoreCRM\Models\Client;
 use Modules\CrmAutoCar\Http\Controllers\BrandController;
 use Modules\CrmAutoCar\Http\Controllers\CentralAutoCarDevisController;
+use Modules\CrmAutoCar\Http\Controllers\ClientController;
 use Modules\CrmAutoCar\Http\Controllers\CuveController;
 use Modules\CrmAutoCar\Http\Controllers\DashboardController;
 use Modules\CrmAutoCar\Http\Controllers\DossierController;
 use Modules\CrmAutoCar\Http\Controllers\DossierResaController;
-use Modules\CrmAutoCar\Http\Controllers\EndpointController;
 use Modules\CrmAutoCar\Http\Controllers\InfomationVogageController;
 use Modules\CrmAutoCar\Http\Controllers\InvoicesController;
 
@@ -25,8 +22,6 @@ use Modules\CrmAutoCar\Http\Controllers\TagController;
 use Modules\CrmAutoCar\Http\Controllers\TemplateController;
 use Modules\CrmAutoCar\Http\Controllers\ValidationInformationVoyageController;
 use Modules\CrmAutoCar\Http\Controllers\VuePlateauController;
-use Modules\CrmAutoCar\Models\Dossier;
-use Modules\CrmAutoCar\Models\Invoice;
 use Modules\CrmAutoCar\View\Components\Cgv;
 use Modules\CrmAutoCar\View\Components\DevisClient\Index;
 
@@ -88,6 +83,8 @@ Route::prefix('/')
     ->group(function () {
 
         Route::get('dashboard', [DashboardController::class, 'index']);
+
+        Route::resource('clients', ClientController::class);
 
         Route::resource('cuves', CuveController::class)->only('index', 'destroy', 'show');
         Route::get('proformats', [ProformatsController::class, 'index'])->name('proformats.index');

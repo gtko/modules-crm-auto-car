@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Modules\BaseCore\Contracts\Services\CompositeurThemeContract;
 use Modules\BaseCore\Entities\TypeView;
+use Modules\CoreCRM\Contracts\Entities\ClientEntity;
 use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\DossierRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\PipelineRepositoryContract;
@@ -63,6 +64,7 @@ use Modules\CrmAutoCar\Flow\Works\Events\EventSendEmailDossier;
 use Modules\CrmAutoCar\Flow\Works\Events\EventSendInformationVoyageMailFournisseur;
 use Modules\CrmAutoCar\Flow\Works\Events\EventSendInvoice;
 use Modules\CrmAutoCar\Flow\Works\Events\EventSendProformat;
+use Modules\CrmAutoCar\Models\Client;
 use Modules\CrmAutoCar\Notifications\ClientDevisExterneValidationNotification;
 use Modules\CrmAutoCar\Notifications\ClientDossierDemandeFournisseurSendNotification;
 use Modules\CrmAutoCar\Notifications\DevisSendClientNotification;
@@ -133,6 +135,8 @@ class CrmAutoCarServiceProvider extends ServiceProvider
         $this->app->bind(ClientDossierCreate::class, \Modules\CrmAutoCar\Flow\Attributes\ClientDossierCreate::class);
 //        $this->app->bind(\Modules\CrmAutoCar\Flow\Attributes\SendEmailDossier::class, \Modules\CrmAutoCar\Flow\Attributes\SendEmailDossier::class);
 //        $this->app->bind(EventSendEmailDossier::class, EventSendEmailDossier::class);
+
+        $this->app->bind(ClientEntity::class, Client::class);
 
         $this->app->bind(Paytweak::class, function(){
             return (new Paytweak(env('PAYTWEAK_PUBLIC', ''), env('PAYTWEAK_PRIVATE', '')));
