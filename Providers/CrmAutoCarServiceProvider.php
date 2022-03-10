@@ -53,6 +53,7 @@ use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierPaiementFournisseurSe
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierRappeler;
 use Modules\CrmAutoCar\Flow\Works\Events\EventCreatePaiementClient;
 use Modules\CrmAutoCar\Flow\Works\Events\EventCreateProformatClient;
+use Modules\CrmAutoCar\Flow\Works\Events\EventDevisManualSendClient;
 use Modules\CrmAutoCar\Flow\Works\Events\EventDevisSendClient;
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierDemandeFournisseurDelete;
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierDemandeFournisseurSend;
@@ -205,7 +206,8 @@ class CrmAutoCarServiceProvider extends ServiceProvider
             EventSendInformationVoyageMailFournisseur::class,
             EventAddTagDossier::class,
             EventSendProformat::class,
-            EventSendInvoice::class
+            EventSendInvoice::class,
+            EventDevisManualSendClient::class
         ]);
 
         app(TemplateMailService::class)
