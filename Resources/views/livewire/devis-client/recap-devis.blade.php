@@ -5,7 +5,7 @@
 
         <table class="border border-gray-600 w-full border-collapse @if($sidebar) hidden lg:block no-print @endif">
 
-            @if($price->getTrajets()->count() > 0 )
+            @if($price->getTrajets()->count() > 0 || $price instanceof Modules\DevisAutoCar\Entities\DevisTrajetPrice)
             <tr class="bg-gray-200 border border-gray-600 border-collapse w-full">
                 <th scope="row" class=" text-left p-3 text-gray-600">
                     Transport en Autocar
@@ -16,16 +16,18 @@
             </tr>
             @endif
 
-            @foreach($price->getLines() as $line)
-                    <tr class="bg-gray-200 border border-gray-600 border-collapse w-full">
-                        <th scope="row" class=" text-left p-3 text-gray-600">
-                           {{$line->getLine()}}
-                        </th>
-                        <td class="w-1/3 text-right pr-4 font-bold text-base border border-gray-600 border-collapse">
-                            @marge($line->getPriceHT())€
-                        </td>
-                    </tr>
-            @endforeach
+            @if(method_exists($price,"getLines"))
+                @foreach($price->getLines() as $line)
+                        <tr class="bg-gray-200 border border-gray-600 border-collapse w-full">
+                            <th scope="row" class=" text-left p-3 text-gray-600">
+                               {{$line->getLine()}}
+                            </th>
+                            <td class="w-1/3 text-right pr-4 font-bold text-base border border-gray-600 border-collapse">
+                                @marge($line->getPriceHT())€
+                            </td>
+                        </tr>
+                @endforeach
+            @endif
 
             @if ($price->getPriceTVA() > 0)
                 <tr class="bg-gray-200 w-full">

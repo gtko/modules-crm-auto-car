@@ -3,8 +3,7 @@
     @if($invoices->count() > 0)
         @if($proformas->count() > 0)
         <div class="flex justify-end items-center space-x-1">
-
-            <select wire:model="proforma_select">
+            <select name="proformat_invoice_select" wire:model="proforma_select">
                 @foreach($proformas as $proforma)
                     <option value="{{$proforma->id}}">Proforma {{$proforma->number}}</option>
                 @endforeach
@@ -37,7 +36,7 @@
                 </thead>
                 <tbody>
                 @foreach($invoices as $invoice)
-                    <tr>
+                    <tr wire:key="$invoice->id">
                         <td class="border-b dark:border-dark-5">
                             {{$invoice->number}}
                         </td>
@@ -63,6 +62,7 @@
                             <div class="flex justify-center items-center">
                                 <livewire:crmautocar::send-invoice-email
                                     :invoice="$invoice"
+                                    wire:key="'send_invoice' . $invoice->id"
                                 />
                                 <a class="flex items-center mr-3 cursor-pointer" target="_blank" href="{{route('invoices.show', $invoice->id)}}">
                                     @icon('show', null, 'mr-2')
@@ -86,7 +86,7 @@
             @can('create', \Modules\CrmAutoCar\Models\Invoice::class)
                 <div class="flex justify-center items-center space-x-1 mt-4">
 
-                    <select wire:model="proforma_select">
+                    <select name="proformat_invoice_select_v2" wire:model="proforma_select">
                         <option>Choisir une proforma</option>
                         @foreach($proformas as $proforma)
                             <option value="{{$proforma->id}}">Proforma {{$proforma->number}}</option>
