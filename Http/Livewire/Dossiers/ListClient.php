@@ -7,6 +7,7 @@ use Livewire\Component;
 use Modules\CoreCRM\Contracts\Repositories\CommercialRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\DossierRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\StatusRepositoryContract;
+use Modules\CoreCRM\Enum\StatusTypeEnum;
 use Modules\CrmAutoCar\Contracts\Repositories\TagsRepositoryContract;
 use Modules\CrmAutoCar\Filters\ClientFilterQuery;
 use Modules\CrmAutoCar\Models\Dossier;
@@ -54,6 +55,15 @@ class ListClient extends Component
             $query->whereHas('status', function($query) use ($status){
                 $query->where('order', '>=', $status->order);
             });
+            if(!$this->status){
+                $status = app(StatusRepositoryContract::class)->newQuery()
+                    ->where("type", StatusTypeEnum::TYPE_WIN)
+                    ->orWhere("type", StatusTypeEnum::TYPE_LOST)
+                    ->pluck('id')->toArray();
+                $query->whereHas('status', function($query) use ($status){
+                    $query->whereNotIn('id', $status);
+                });
+            }
         }
 
         return $query;
