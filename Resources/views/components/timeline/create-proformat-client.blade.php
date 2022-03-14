@@ -4,7 +4,7 @@
     </x-slot>
     <div class="flex items-center">
         <div class="font-medium">
-            Création de la facture proformat
+            Création de la facture proforma
         </div>
 
         <div class="text-xs text-gray-500 ml-auto">{{$flow->created_at->format('H:i')}}</div>

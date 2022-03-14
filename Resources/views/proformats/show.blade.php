@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="zxx">
 <head>
-    <title>Facture proformat: {{$proformat->number}}</title>
+    <title>Facture proforma: {{$proformat->number}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
 
@@ -61,7 +61,7 @@
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6">
                                         <div class="invoice-name text-end">
-                                            <h4 class="name color-white inv-header-1">Facture proformat <br>n°{{$proformat->number}}</h4>
+                                            <h4 class="name color-white inv-header-1">Facture proforma <br>n°{{$proformat->number}}</h4>
                                             <p class="mb-0">Date d'émission: {{$proformat->created_at->format('d/m/Y')}}</p>
                                         </div>
                                     </div>
@@ -187,10 +187,10 @@
                 </div>
                 <div class="invoice-btn-section clearfix d-print-none">
                     <a href="javascript:window.print()" class="btn btn-lg btn-print">
-                        <i class="fa fa-print"></i> Imprimer la proformat
+                        <i class="fa fa-print"></i> Imprimer la proforma
                     </a>
                     <a id="invoice_download_btn" class="btn btn-lg btn-download" href="{{route('proformats.pdf', $proformat->id)}}">
-                        <i class="fa fa-download"></i> Télécharger la proformat
+                        <i class="fa fa-download"></i> Télécharger la proforma
                     </a>
                 </div>
             </div>

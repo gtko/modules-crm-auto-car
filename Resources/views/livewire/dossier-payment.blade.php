@@ -3,9 +3,9 @@
     @if($proformats->count() === 0)
         <div class="text-center p-8">
             @icon('empty', null, 'mx-auto h-12 w-12 text-gray-400')
-            <h3 class="mt-2 text-sm font-medium text-gray-900">Aucun proformat</h3>
+            <h3 class="mt-2 text-sm font-medium text-gray-900">Aucune proforma</h3>
             <p class="mt-1 text-sm text-gray-500">
-                Aucune proformat emise sur le dossier
+                Aucune proforma emise sur le dossier
             </p>
         </div>
     @else
@@ -13,9 +13,9 @@
         <div class="grid grid-cols-12 mt-4">
 
             <select wire:model="paiement_proformat" class="form-control-sm col-span-6 mr-1">
-                <option>Choisir une proformat</option>
+                <option>Choisir une proforma</option>
                 @foreach($proformats as $proformat)
-                    <option value="{{$proformat->id}}">Facture proformat{{$proformat->number}}</option>
+                    <option value="{{$proformat->id}}">Facture proforma{{$proformat->number}}</option>
                 @endforeach
             </select>
 

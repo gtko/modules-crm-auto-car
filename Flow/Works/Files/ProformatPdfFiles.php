@@ -30,7 +30,7 @@ class ProformatPdfFiles extends \Modules\CoreCRM\Flow\Works\Files\WorkFlowFiles
 
     public function name(): string
     {
-        return 'Facture Proformat PDF';
+        return 'Facture Proforma PDF';
     }
 
     public function description(): string
