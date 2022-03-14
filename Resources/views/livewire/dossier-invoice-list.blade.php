@@ -39,6 +39,9 @@
                     <tr wire:key="$invoice->id">
                         <td class="border-b dark:border-dark-5">
                             {{$invoice->number}}
+                            @if($invoice->hasCanceled())
+                                <small class="text-red-600">(annulée)</small>
+                            @endif
                         </td>
                         <td class="border-b dark:border-dark-5">
                             {{$invoice->devis->commercial->format_name}}
