@@ -94,7 +94,12 @@ class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
 
     public function getMargeOriginHT()
     {
-        return $this->getPriceVente() - $this->getPriceAchat();
+        $fournisseurs = $this->proformat->devis->fournisseurs;
+        if($fournisseurs->count() > 0) {
+            return $this->getPriceVente() - $this->getPriceAchat();
+        }
+
+        return 0;
     }
 
     public function getMargeHT(?Carbon $limit = null)
