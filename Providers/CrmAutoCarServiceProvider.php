@@ -164,6 +164,20 @@ class CrmAutoCarServiceProvider extends ServiceProvider
                 'follow-dossier' => new TypeView(TypeView::TYPE_LIVEWIRE, 'corecrm::follower-dossier',  ['roles' => [7]])
             ]);
 
+
+        /**
+         *  Ordre des tabs
+         *  Note
+         *  Rappels
+         *  Devis
+         *  Proforma
+         *  Réglements
+         *  Infos voyages
+         *  Factures
+         *  Emails
+         *  Documents
+         */
+
         app(CompositeurThemeContract::class)->setViews(DossierSidebarAddActionsViewContract::class,
             [
                 new TypeView(TypeView::TYPE_LIVEWIRE, 'crmautocar::arappeler'),
@@ -172,9 +186,9 @@ class CrmAutoCarServiceProvider extends ServiceProvider
         )
             ->setViews(DossierTabLabelViewContract::class, [
                 new TypeView(TypeView::TYPE_BLADE_COMPONENT, 'crmautocar::proformat-label-tab'),
-                new TypeView(TypeView::TYPE_BLADE_COMPONENT, 'crmautocar::invoice-label-tab'),
                 new TypeView(TypeView::TYPE_BLADE_COMPONENT, 'crmautocar::payment-label-tab'),
                 new TypeView(TypeView::TYPE_BLADE_COMPONENT, 'crmautocar::validation-label-tab'),
+                new TypeView(TypeView::TYPE_BLADE_COMPONENT, 'crmautocar::invoice-label-tab'),
                 new TypeView(TypeView::TYPE_BLADE_COMPONENT, 'crmautocar::email-label-tab')
             ])
             ->setViews(DossierTabViewContract::class, [
