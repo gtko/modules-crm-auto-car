@@ -49,11 +49,13 @@
 
         }
     </style>
-    {{--        @dd($devis->data)--}}
+
     <div class="bg-white h-full w-full h-screen flex flex-col justify-between" style="font-family: 'Lato', sans-serif;">
         <div class="max-w-7xl w-full mx-auto pt-32 px-8 pb-16">
-
             <div class="grid grid-cols-3 gap-2">
+                <div class="text-center mb-16 flex items-center w-full justify-center">
+                    <img src="{{asset('/assets/logos/autocar-location.png')}}" alt="logo" class="h-24">
+                </div>
                 <div class="col-start-3 flex-col flex">
                     <span class="font-extrabold">{{ $devis->dossier->client->formatName }}</span>
                     <span class="uppercase">{{ $devis->dossier->client->address }}</span>

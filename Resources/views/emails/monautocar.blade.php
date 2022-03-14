@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width" />
-    <title>Airmail Ping</title>
+    <title></title>
     <style type="text/css">
 
         * {
@@ -384,7 +384,7 @@
                 <div class="content">
             <span class="brand">
               <span>
-                  Mon autocar
+
               </span>
             </span>
                 </div>
@@ -393,6 +393,15 @@
     </table>
 
     <table class="body-wrap w320">
+        <tr>
+            <td></td>
+            <td class="container">
+                <div class="content">
+                    <img src="{{asset('/assets/logos/louerunbus.fr.png')}}" alt="Auto car location" height="90">
+                </div>
+            </td>
+            <td></td>
+        </tr>
         <tr>
             <td></td>
             <td class="container">

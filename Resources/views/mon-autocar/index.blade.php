@@ -56,8 +56,8 @@
     {{--        @dd($devis->data)--}}
     <div class="bg-white h-full w-full h-screen flex flex-col justify-between" style="font-family: 'Lato', sans-serif;">
         <div class="max-w-7xl w-full mx-auto pt-16 bg-gray-200 px-8 pb-16">
-            <div class="text-center mb-16">
-                <div class="text-3xl">Monautocar.com</div>
+            <div class="text-center mb-16 flex items-center w-full justify-center">
+               <img src="{{asset('/assets/logos/louerunbus.fr.png')}}" alt="logo" class="h-16">
             </div>
             <div class="border border-black p-4">
                 <div class="text-xl grid grid-cols-2">
@@ -82,7 +82,7 @@
                         <div>
                             <span class="font-extrabold ">
                                <span class="underline">Nombre de car</span>
-                                <span class="ml-1">: {{ $devis->data['nombre_bus'] }}</span>
+                                <span class="ml-1">: {{ $devis->data['nombre_bus'] ?? 0 }}</span>
 
                                 <span class="text-xs font-normal ml-2">
                                     L'émission moyenne de CO2 est de 171gt/km/passager en transport urbain.
