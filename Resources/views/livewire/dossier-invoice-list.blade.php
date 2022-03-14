@@ -67,6 +67,9 @@
                                 <a class="flex items-center mr-3 cursor-pointer" target="_blank" href="{{route('invoices.show', $invoice->id)}}">
                                     @icon('show', null, 'mr-2')
                                 </a>
+                                @if($invoice->getPrice()->getPriceTTC() > 0 && !$invoice->hasCanceled())
+                                    <livewire:crmautocar::invoice-cancel :invoice="$invoice" />
+                                @endif
                             </div>
                         </td>
                     </tr>
