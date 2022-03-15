@@ -67,7 +67,11 @@ class StatsFilterDate extends Component
     {
 
         $dossier = app(DossierRepositoryContract::class)->newQuery()->orderBy('created_at', 'desc')->first();
-        $listMois = CarbonPeriod::create($dossier->created_at, '1 month', Carbon::now());
+        if($dossier) {
+            $listMois = CarbonPeriod::create($dossier->created_at, '1 month', Carbon::now());
+        }else{
+            $listMois = CarbonPeriod::create(Carbon::now()->subYear(), '1 month', Carbon::now());
+        }
 
 
 //        foreach ($listMois as $dt) {

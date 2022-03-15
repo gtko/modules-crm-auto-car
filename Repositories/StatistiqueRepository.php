@@ -188,7 +188,12 @@ class StatistiqueRepository implements StatistiqueRepositoryContract
 
     public function getTauxConversionTotal(?Carbon $debut = null, ?Carbon $fin = null): float
     {
-        return  ($this->getNombreContactWinTotal($debut, $fin) / $this->getNombreLeadTotal($debut, $fin)) * 100;
+        $totalLead = $this->getNombreLeadTotal($debut, $fin);
+        if($totalLead === 0){
+            return 0;
+        }
+
+        return ($this->getNombreContactWinTotal($debut, $fin) / $totalLead) * 100;
     }
 
 
