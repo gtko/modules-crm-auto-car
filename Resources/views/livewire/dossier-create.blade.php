@@ -12,13 +12,14 @@
             <x-basecore::inputs.select name="commercial" wire:model="commercial" label="Commercial attribué">
                 <option value="">Commercial</option>
                 @foreach($commercials as $commercialList)
-                    <option value="{{$commercialList->id}}">{{$commercialList->format_name}}</option>
+                    <livewire:crmautocar::list-cuve-commercial-detail wire:key="{{$commercialList->id}}" :commercial="$commercialList"/>
                 @endforeach
             </x-basecore::inputs.select>
         </div>
         <div>
             <x-basecore::inputs.select name="statu" wire:model="statu" label="Status">
                 <option value="">status</option>
+
                 @foreach($status as $statuList)
                     <option value="{{$statuList->id}}">{{$statuList->label}}</option>
                 @endforeach
