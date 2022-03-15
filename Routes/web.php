@@ -92,7 +92,8 @@ Route::prefix('/')
         Route::resource('templates', TemplateController::class)->except('show');
 
 
-        Route::get('dossiers/create/{client}', [\Modules\CrmAutoCar\Http\Controllers\DossierCreateController::class, 'index'])->name('dossier-create');
+        Route::get('dossiers/create/{client}', [\Modules\CrmAutoCar\Http\Controllers\DossierCreateController::class, 'index'])->name('dossiers.create');
+        Route::get('dossiers/edit/{dossier}', [\Modules\CrmAutoCar\Http\Controllers\DossierCreateController::class, 'edit'])->name('dossiers.edit');
         Route::get('dossiers/', [DossierController::class, 'index'])->name('dossiers.index');
         Route::get('dossiers-resa/', [DossierResaController::class, 'index'])->name('dossier-resa.index');
 

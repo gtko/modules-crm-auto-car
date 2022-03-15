@@ -2,6 +2,7 @@
 
 namespace Modules\CrmAutoCar\Http\Livewire;
 
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Modules\CoreCRM\Contracts\Repositories\CommercialRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\DossierRepositoryContract;
@@ -11,6 +12,9 @@ use Modules\CoreCRM\Contracts\Repositories\StatusRepositoryContract;
 class DossierCreate extends Component
 {
     public $client;
+    public $dossier;
+    public $edit = false;
+
     public $statu;
     public $commercial;
     public $source;
@@ -31,9 +35,24 @@ class DossierCreate extends Component
             'arrive_lieu' => '',
         ];
 
-    public function mount($client)
+    public function mount($client, $dossier = null)
     {
         $this->client = $client;
+        $this->dossier = $dossier;
+
+        if($this->dossier){
+            $this->edit = true;
+            $this->statu = $this->dossier->status->id;
+            $this->source = $this->dossier->source->id;
+            $this->commercial = $this->dossier->commercial->id;
+
+            $this->depart_date = $this->dossier->data['depart_date'] ?? '';
+            $this->depart_lieu = $this->dossier->data['depart_lieu'] ?? '';
+            $this->arrive_date = $this->dossier->data['arrive_date'] ?? '';
+            $this->arrive_lieu = $this->dossier->data['arrive_lieu'] ?? '';
+        }
+
+
     }
 
 
@@ -53,8 +72,18 @@ class DossierCreate extends Component
         $source = app(SourceRepositoryContract::class)->fetchById($this->source);
         $statu = app(StatusRepositoryContract::class)->fetchById($this->statu);
 
-        $dossier = app(DossierRepositoryContract::class)->create($this->client, $commercial, $source, $statu, $data);
 
+        $dossierRep = app(DossierRepositoryContract::class);
+        if($this->edit) {
+            DB::beginTransaction();
+                $dossierRep->changeCommercial($this->dossier, $commercial);
+                $dossierRep->changeStatus($this->dossier, $statu);
+                $dossierRep->changeSource($this->dossier, $source);
+                $dossierRep->changeData($this->dossier, $data);
+            DB::commit();
+        }else{
+            $dossier = $dossierRep->create($this->client, $commercial, $source, $statu, $data);
+        }
         return redirect('/clients/' . $this->client->id . '/dossiers/' . $dossier->id);
 
     }

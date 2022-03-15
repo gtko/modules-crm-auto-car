@@ -8,7 +8,7 @@
     <x-basecore::layout.panel-left>
         <x-basecore::partials.card>
 
-            <livewire:crmautocar::dossier-create :client="$client"/>
+            <livewire:crmautocar::dossier-create :client="$client" :dossier="$dossier"/>
 
         </x-basecore::partials.card>
     </x-basecore::layout.panel-left>

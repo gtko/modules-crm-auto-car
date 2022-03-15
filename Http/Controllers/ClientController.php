@@ -76,7 +76,7 @@ class ClientController extends Controller
 
         DB::commit();
         return redirect()
-            ->route('dossiers.show', [$dossier->client, $dossier])
+            ->route('dossiers.edit', [$dossier])
             ->withSuccess(__('basecore::crud.common.created'));
     }
 
