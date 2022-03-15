@@ -13,6 +13,9 @@
         {{$dossier->client->format_name}}
     </td>
     <td class="text-center">
+        {{$dossier->client->company ?? 'N/A'}}
+    </td>
+    <td class="text-center">
         <div style="background-color:{{$dossier->status_color}}"
              class="py-1 px-2 rounded text-xs text-white font-medium ">
             {{$dossier->status_label}}

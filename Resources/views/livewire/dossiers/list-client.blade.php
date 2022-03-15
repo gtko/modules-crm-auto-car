@@ -65,6 +65,7 @@
                 <th class="whitespace-nowrap"></th>
                 <th class="whitespace-nowrap">Ref</th>
                 <th class="text-center whitespace-nowrap">Nom</th>
+                <th class="text-center whitespace-nowrap">Société</th>
                 <th class="text-center whitespace-nowrap">Statut</th>
                 <th class="text-center whitespace-nowrap">tags</th>
                 <th class="text-center whitespace-nowrap">date du voyage</th>

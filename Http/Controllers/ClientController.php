@@ -36,7 +36,7 @@ class ClientController extends Controller
     {
         $this->authorize('viewAny',ClientEntity::class);
 
-        return view('corecrm::app.clients.index');
+        return view('crmautocar::app.clients.index');
     }
 
 

@@ -82,9 +82,9 @@ class DossierCreate extends Component
                 $dossierRep->changeData($this->dossier, $data);
             DB::commit();
         }else{
-            $dossier = $dossierRep->create($this->client, $commercial, $source, $statu, $data);
+            $this->dossier = $dossierRep->create($this->client, $commercial, $source, $statu, $data);
         }
-        return redirect('/clients/' . $this->client->id . '/dossiers/' . $dossier->id);
+        return redirect('/clients/' . $this->client->id . '/dossiers/' . $this->dossier->id);
 
     }
 
