@@ -40,6 +40,10 @@ class ProformaDossierDetail extends Component
         $this->commercial = $proforma->devis->commercial->id;
     }
 
+    public function sendInformationVoyage(){
+
+    }
+
     public function sendProformat(){
         $flowable = $this->dossier;
         $this->emit('send-mail:open', [
