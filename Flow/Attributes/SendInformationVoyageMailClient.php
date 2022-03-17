@@ -7,44 +7,39 @@ namespace Modules\CrmAutoCar\Flow\Attributes;
 use Modules\BaseCore\Contracts\Entities\UserEntity;
 use Modules\CoreCRM\Contracts\Entities\DevisEntities;
 use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
-use Modules\CoreCRM\Contracts\Repositories\FournisseurRepositoryContract;
 use Modules\CoreCRM\Flow\Attributes\Attributes;
 use Modules\CoreCRM\Flow\Interfaces\FlowAttributes;
-use Modules\CoreCRM\Models\Fournisseur;
-use Modules\CrmAutoCar\Contracts\Repositories\DecaissementRepositoryContract;
-use Modules\CrmAutoCar\Models\Decaissement;
+use Modules\CrmAutoCar\Contracts\Repositories\ProformatsRepositoryContract;
+use Modules\CrmAutoCar\Models\Proformat;
 
-class ClientDossierDevisValidation extends Attributes
+class SendInformationVoyageMailClient extends Attributes
 {
-
     protected UserEntity $user;
-    protected DevisEntities $devis;
+    protected Proformat $proforma;
 
 
-    public function __construct(UserEntity $user, DevisEntities $devis)
+    public function __construct(UserEntity $user, Proformat $proforma)
     {
         parent::__construct();
         $this->user = $user;
-        $this->devis = $devis;
+        $this->proforma = $proforma;
 
     }
 
     public static function instance(array $value): FlowAttributes
     {
-        $repDevis = app(DevisRepositoryContract::class);
-
+        $repProforma = app(ProformatsRepositoryContract::class);
         $user = app(UserEntity::class)::find($value['user_id']);
-        $devis = $repDevis ->fetchById($value['devis_id']);
+        $proforma = $repProforma->fetchById($value['proforma_id']);
 
-
-        return new self($user, $devis);
+        return new self($user, $proforma);
     }
 
     public function toArray(): array
     {
         return [
             'user_id' => $this->user->id,
-            'devis_id' => $this->devis->id,
+            'proforma_id' => $this->proforma->id,
         ];
     }
 
@@ -57,12 +52,15 @@ class ClientDossierDevisValidation extends Attributes
     }
 
     /**
-     * @return DevisEntities
+     * @return Proformat
      */
-    public function getDevis(): DevisEntities
+    public function getProforma(): Proformat
     {
-        return $this->devis;
+        return $this->proforma;
     }
 
-
+    public function getProformat(): Proformat
+    {
+        return $this->getProforma();
+    }
 }

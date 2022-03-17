@@ -49,11 +49,10 @@
                         @icon('mail', null, 'mr-2')
                     </span>
                 </x-basecore::loading-replace>
-            </div>
-            <div class="flex justify-center items-center mr-2">
+
                 <x-basecore::loading-replace wire:target="sendInformationVoyage">
                     <span class="flex items-center cursor-pointer" wire:click="sendInformationVoyage">
-                        @icon('trajet', null, 'mr-2')
+                       @icon('badgeCheck', null, 'mr-2')
                     </span>
                 </x-basecore::loading-replace>
             </div>

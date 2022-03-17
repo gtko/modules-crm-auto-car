@@ -61,6 +61,7 @@ use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierDemandeFournisseurSen
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierDemandeFournisseurValidate;
 use Modules\CrmAutoCar\Flow\Works\Events\EventEditMargeProformat;
 use Modules\CrmAutoCar\Flow\Works\Events\EventSendEmailDossier;
+use Modules\CrmAutoCar\Flow\Works\Events\EventSendInformationVoyageMailClient;
 use Modules\CrmAutoCar\Flow\Works\Events\EventSendInformationVoyageMailFournisseur;
 use Modules\CrmAutoCar\Flow\Works\Events\EventSendInvoice;
 use Modules\CrmAutoCar\Flow\Works\Events\EventSendProformat;
@@ -225,7 +226,8 @@ class CrmAutoCarServiceProvider extends ServiceProvider
             EventAddTagDossier::class,
             EventSendProformat::class,
             EventSendInvoice::class,
-            EventDevisManualSendClient::class
+            EventDevisManualSendClient::class,
+            EventSendInformationVoyageMailClient::class
         ]);
 
         app(TemplateMailService::class)
