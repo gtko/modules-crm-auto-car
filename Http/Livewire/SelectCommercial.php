@@ -3,12 +3,15 @@
 namespace Modules\CrmAutoCar\Http\Livewire;
 
 use Auth;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
+use Modules\BaseCore\Contracts\Entities\UserEntity;
 use Modules\CoreCRM\Contracts\Repositories\CommercialRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\DossierRepositoryContract;
 use Modules\CoreCRM\Services\FlowCRM;
 use Modules\CrmAutoCar\Contracts\Repositories\TagsRepositoryContract;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDossierAttributionCommercial;
+use Modules\CrmAutoCar\Models\Proformat;
 
 class SelectCommercial extends Component
 {
@@ -30,12 +33,15 @@ class SelectCommercial extends Component
 
     public function changerCommercial()
     {
-        $this->validate();
-        $commercial = app(CommercialRepositoryContract::class)->fetchById($this->commercialSelect);
-        app(DossierRepositoryContract::class)->changeCommercial($this->dossier, $commercial);
-        (new FlowCRM())->add($this->dossier,new ClientDossierAttributionCommercial($this->dossier, $commercial, Auth::user(),));
-        $this->emit('refresh');
-        $this->emit('refreshTimeline');
+        if (\Illuminate\Support\Facades\Auth::user()->can('changeCommercial', Proformat::class))
+        {
+            $this->validate();
+            $commercial = app(CommercialRepositoryContract::class)->fetchById($this->commercialSelect);
+            app(DossierRepositoryContract::class)->changeCommercial($this->dossier, $commercial);
+            (new FlowCRM())->add($this->dossier, new ClientDossierAttributionCommercial($this->dossier, $commercial, Auth::user(),));
+            $this->emit('refresh');
+            $this->emit('refreshTimeline');
+        }
     }
 
 
