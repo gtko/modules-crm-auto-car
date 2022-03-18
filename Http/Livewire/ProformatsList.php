@@ -40,6 +40,11 @@ class ProformatsList extends Component
         'proformats.refresh' => '$refresh',
     ];
 
+    public function mount(){
+        $this->dateStart = now()->startOfMonth();
+        $this->dateEnd = now()->endOfMonth();
+        $this->mois = $this->dateStart->format('d/m/Y');
+    }
 
     public function updatedMois()
     {
@@ -80,6 +85,7 @@ class ProformatsList extends Component
     ): Factory|View|Application
     {
         $commercials = $repcommercial->fetchAll();
+
 
         $filter = new ProformatFilterQuery();
 
