@@ -11,7 +11,7 @@ use Modules\CrmAutoCar\Entities\DistanceType;
 class DistanceMatrixApi implements DistanceApiContract
 {
 
-    public function distance(string $origins, string $destinations): DistanceType
+    public function distance(string $origins, string $destinations, string $originFormat = null, string $destinationFormat = null): DistanceType
     {
         //@todo Mettre une clée environnement pour l'api key de google !!!
         $response = Cache::rememberForever("distance__cache__".md5($origins . $destinations).'v2',function() use ($origins, $destinations){
@@ -19,8 +19,8 @@ class DistanceMatrixApi implements DistanceApiContract
         });
 
         return new DistanceType(
-            $response['origin_addresses'][0],
-            $response['destination_addresses'][0],
+            $originFormat ?? $response['origin_addresses'][0],
+            $destinationFormat ?? $response['destination_addresses'][0],
             $response['rows'][0]['elements'][0]['duration']['text'],
             $response['rows'][0]['elements'][0]['distance']['text'],
             $response['rows'][0]['elements'][0]['duration']['value'],

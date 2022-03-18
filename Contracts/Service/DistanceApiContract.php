@@ -14,6 +14,6 @@ interface DistanceApiContract
      * @param string $origins Lat, Lng
      * @param string $destinations Lat, Lng
      */
-    public function distance(string $origins, string $destinations):DistanceType;
+    public function distance(string $origins, string $destinations, string $originFormat = null, string $destinationFormat = null):DistanceType;
 
 }
