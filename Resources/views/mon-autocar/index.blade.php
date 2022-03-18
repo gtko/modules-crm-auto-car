@@ -61,7 +61,7 @@
             </div>
             <div class="border border-black p-4">
                 <div class="text-xl grid grid-cols-2">
-                    <div class="font-extrabold">Devis N°{{ $devis->ref }}</div>
+                    <div class="font-extrabold">Devis N°{{ $devis->ref - 31984 }}</div>
                     <div>L'ASIE,
                         le {{ \Carbon\Carbon::createFromTimeString($devis->created_at ?? '')->translatedFormat('l d F Y') }}</div>
                 </div>
@@ -76,7 +76,9 @@
                     <div class="border border-black mt-1 p-2 text-md space-y-4">
                         <div class="font-extrabold">
                             Du {{ \Carbon\Carbon::createFromTimeString($trajet['aller_date_depart'] ?? '')->translatedFormat('l d F Y') }}
-                            au {{ \Carbon\Carbon::createFromTimeString($trajet['retour_date_depart'] ?? '')->translatedFormat('l d F Y') }}
+                            @if(($trajet['retour_date_depart'] ?? ''))
+                                au {{ \Carbon\Carbon::createFromTimeString($trajet['retour_date_depart'] ?? '')->translatedFormat('l d F Y') }}
+                            @endif
                         </div>
 
                         <div>
@@ -107,6 +109,7 @@
                             </span>
                         </div>
 
+                        @if(($trajet['retour_date_depart'] ?? ''))
                         <div>
                             <span class="font-extrabold underline">
                                Retour le
@@ -116,6 +119,7 @@
                                 de {{ $trajet['aller_distance']['origin_formatted'] }}
                             </span>
                         </div>
+                        @endif
                         <div>
                             <span class="font-extrabold underline">
                                Observation
@@ -158,7 +162,9 @@
                     <span>(signature)</span>
                 </div>
                 <div class="font-extrabold" >
-                    {{ $devis->commercial->formatName }}
+                    Emma cartier
+                    <div>tel : 09 71 07 53 95</div>
+                    <div>reservation@louerunbus.fr</div>
                 </div>
             </div>
 

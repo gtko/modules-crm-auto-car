@@ -66,10 +66,10 @@
 
             <div class="grid-cols-3 grid gap-2">
                 <div class="flex flex-col">
-                    <span class="mb-4">Devis n° <span class="font-extrabold">{{ $devis->ref }}</span></span>
-                    <span>Dossier suivi par: {{ $devis->commercial->formatName }}</span>
-                    <span>Tel: {{ $devis->commercial->phone }}</span>
-                    <span class="text-sm">Mail : {{ $devis->commercial->email }}</span>
+                    <span class="mb-4">Devis n° <span class="font-extrabold">{{ $devis->ref - 14194 }}</span></span>
+                    <span>Réfèrent : Vanessa Lorant</span>
+                    <span>Tel: 09 71 07 53 95</span>
+                    <span class="text-sm">Mail : infos@autocars-location.fr</span>
                 </div>
                 <div class="my-auto col-start-3">
                     <span>Paris, le {{ \Carbon\Carbon::createFromTimeString($devis->created_at ?? '')->translatedFormat('l d F Y') }}</span>
@@ -85,7 +85,9 @@
                     <div class="flex-col flex justify-center items-center font mx-auto my-6 font-black text-lg">
                         @if(($trajet['aller_distance']['origin_formatted'] ?? false) && ($trajet['aller_date_depart'] ?? false))
                             <span>Voyage n°{{$index + 1}}</span>
-                            <span class="font-bold">le {{ \Carbon\Carbon::createFromTimeString($trajet['aller_date_depart'] ?? '')->translatedFormat('l d F Y') }}.</span>
+                            @if($trajet['aller_date_depart'] ?? '')
+                                <span class="font-bold">le {{ \Carbon\Carbon::createFromTimeString($trajet['aller_date_depart'] ?? '')->translatedFormat('l d F Y') }}.</span>
+                            @endif
                             <span> {{ $trajet['aller_point_depart'] }}</span>
                         @else
                             <span class="font-bold">Aucune date</span>
@@ -139,14 +141,15 @@
                                             Départ aller
                                         </td>
                                         <td class="px-6 whitespace-nowrap text-sm border-black border font-bold text-center">
-                                            le {{ \Carbon\Carbon::createFromTimeString($trajet['aller_date_depart'] ?? '')->translatedFormat('d/m/Y') }}
-                                            à {{ \Carbon\Carbon::createFromTimeString($trajet['aller_date_depart'] ?? '')->translatedFormat('h:i') }}
+                                            @if(($trajet['aller_date_depart'] ?? ''))
+                                                le {{ \Carbon\Carbon::createFromTimeString($trajet['aller_date_depart'] ?? '')->translatedFormat('d/m/Y') }}
+                                                à {{ \Carbon\Carbon::createFromTimeString($trajet['aller_date_depart'] ?? '')->translatedFormat('h:i') }}
+                                            @endif
                                         </td>
                                         <td class="px-6 whitespace-nowrap text-sm border-black border font-bold text-center">
-                                            {{ $trajet['addresse_ramassage'] }}
+                                            {{ $trajet['addresse_ramassage'] ?? '' }}
                                         </td>
                                     </tr>
-
                                     <tr class="bg-gray-200">
                                         <td class="px-6 whitespace-nowrap text-sm font-medium border-black border font-bold">
                                             Arrivée aller
@@ -155,17 +158,20 @@
                                             à {{ \Carbon\Carbon::createFromTimeString($trajet['aller_date_depart'] ?? '')->addSecond($trajet['aller_distance']['duration_second'])->translatedFormat('h:i') }}
                                         </td>
                                         <td class="px-6 whitespace-nowrap text-sm border-black border font-bold text-center">
-                                            {{ $trajet['aller_point_arriver'] }}
+                                            {{ $trajet['aller_point_arriver'] ?? '' }}
                                         </td>
                                     </tr>
 
+                                    @if(($trajet['retour_date_depart'] ?? ''))
                                     <tr class="bg-gray-200">
                                         <td class="px-6 whitespace-nowrap text-sm border-black border font-bold">
                                             Départ retour
                                         </td>
                                         <td class="px-6 whitespace-nowrap text-sm border-black border font-bold text-center">
-                                            le {{ \Carbon\Carbon::createFromTimeString($trajet['retour_date_depart'] ?? '')->translatedFormat('d/m/Y') }}
-                                            à {{ \Carbon\Carbon::createFromTimeString($trajet['retour_date_depart'] ?? '')->translatedFormat('h:i') }}                                        </td>
+                                            @if(($trajet['retour_date_depart'] ?? ''))
+                                                le {{ \Carbon\Carbon::createFromTimeString($trajet['retour_date_depart'] ?? '')->translatedFormat('d/m/Y') }}
+                                                à {{ \Carbon\Carbon::createFromTimeString($trajet['retour_date_depart'] ?? '')->translatedFormat('h:i') }}                                        </td>
+                                            @endif
                                         <td class="px-6 whitespace-nowrap text-sm border-black border font-bold text-center">
                                             {{ $trajet['retour_point_depart'] }}
                                         </td>
@@ -176,13 +182,15 @@
                                             Arrivée retour
                                         </td>
                                         <td class="px-6 whitespace-nowrap text-sm border-black border font-bold text-center">
-                                            à {{ \Carbon\Carbon::createFromTimeString($trajet['retour_date_depart'] ?? '')->addSecond($trajet['retour_distance']['duration_second'])->translatedFormat('h:i') }}
+                                            @if(($trajet['retour_date_depart'] ?? ''))
+                                                à {{ \Carbon\Carbon::createFromTimeString($trajet['retour_date_depart'] ?? '')->addSecond($trajet['retour_distance']['duration_second'])->translatedFormat('h:i') }}
+                                            @endif
                                         </td>
                                         <td class="px-6 whitespace-nowrap text-sm border-black border font-bold text-center">
                                             {{ $trajet['retour_point_arriver'] }}
                                         </td>
                                     </tr>
-
+                                    @endif
                                 @endforeach
 
 
