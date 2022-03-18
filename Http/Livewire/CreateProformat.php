@@ -21,6 +21,8 @@ class CreateProformat extends Component
             $next = $proformatRep->getNextNumber();
             $proformatRep->create($this->devis, $this->devis->getTotal(), $next);
         }
+
+        return redirect()->route('dossiers.show', [$this->devis->dossier->client, $this->devis->dossier, 'tab' => 'proforma']);
     }
 
     /**
