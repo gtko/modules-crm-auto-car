@@ -61,7 +61,7 @@
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6">
                                         <div class="invoice-name text-end">
-                                            <h4 class="name color-white inv-header-1">Facture proforma <br>n°{{$proformat->number}}</h4>
+                                            <h4 class="name color-white inv-header-1">Facture proforma @if($price->getPriceTTC() < 0) d'avoir @endif <br>n°{{$proformat->number}}</h4>
                                             <p class="mb-0">Date d'émission: {{$proformat->created_at->format('d/m/Y')}}</p>
                                         </div>
                                     </div>
@@ -127,14 +127,21 @@
                                                 <td colspan="3" class="text-end fw-bold">Montant Total (TTC)</td>
                                                 <td class="text-right fw-bold text-nowrap">@marge($price->getPriceTTC())</td>
                                             </tr>
-                                            <tr>
-                                                <td colspan="3" class="text-end">Déjà Réglé</td>
-                                                <td class="text-right text-nowrap">@marge($price->paid())€</td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="3" class="text-end">Reste à Régler</td>
-                                                <td class="text-right text-nowrap">@marge($price->remains())€</td>
-                                            </tr>
+                                            @if($price->getPriceTTC() < 0)
+                                                <tr>
+                                                    <td colspan="3" class="text-end">Reste à rembourser</td>
+                                                    <td class="text-right text-nowrap">@marge($price->paid())€</td>
+                                                </tr>
+                                            @else
+                                                <tr>
+                                                    <td colspan="3" class="text-end">Déjà Réglé</td>
+                                                    <td class="text-right text-nowrap">@marge($price->paid())€</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="3" class="text-end">Reste à Régler</td>
+                                                    <td class="text-right text-nowrap">@marge($price->remains())€</td>
+                                                </tr>
+                                            @endif
                                             </tbody>
                                         </table>
                                     </div>
