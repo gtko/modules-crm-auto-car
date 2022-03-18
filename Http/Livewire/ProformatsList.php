@@ -91,6 +91,7 @@ class ProformatsList extends Component
 
         if (!Gate::allows('viewAny', Proformat::class)) {
             $filter->byCommercial(Auth::commercial());
+
         }else{
             $filter->byCommercial($this->commercial);
         }
@@ -125,7 +126,7 @@ class ProformatsList extends Component
         }
 
 
-
+        $repStats->setQuery($filter->query());
         [$totalVente, $totalAchat, $totalMarge, $totalEncaissement,$salaireDiff] = [
             $repStats->getTotalVente($this->dateStart, $this->dateEnd),
             $repStats->getTotalAchat($this->dateStart, $this->dateEnd),
