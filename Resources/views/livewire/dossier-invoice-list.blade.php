@@ -67,7 +67,7 @@
                                     :invoice="$invoice"
                                     wire:key="'send_invoice' . $invoice->id"
                                 />
-                                <a class="flex items-center mr-3 cursor-pointer" target="_blank" href="{{route('invoices.show', $invoice->id)}}">
+                                <a class="flex items-center mr-3 cursor-pointer" target="_blank" href="{{(new Modules\BaseCore\Actions\Url\SigneRoute())->signer('invoices.show', [$invoice->id])}}">
                                     @icon('show', null, 'mr-2')
                                 </a>
                                 @if($invoice->getPrice()->getPriceTTC() > 0 && !$invoice->hasCanceled())

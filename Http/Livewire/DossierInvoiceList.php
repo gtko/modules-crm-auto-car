@@ -25,6 +25,10 @@ class DossierInvoiceList extends Component
         'proforma_select' => 'required'
     ];
 
+    protected $listeners = [
+        'invoiceCanceled' => '$refresh',
+    ];
+
     public function mount(ClientEntity $client, Dossier $dossier){
         $this->client = $client;
         $this->dossier = $dossier;

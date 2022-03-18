@@ -20,7 +20,7 @@
     <link type="text/css" rel="stylesheet" href="/crmautocar/assets/css/style.css">
     <style>
         @page {
-            size: 1400px 1980px!important;
+            size: 1400px 2080px!important;
             /* this affects the margin in the printer settings */
             margin: 0px 0px 0px 0px;
         }
@@ -61,7 +61,7 @@
                                     </div>
                                     <div class="col-lg-6 col-md-6 col-sm-6">
                                         <div class="invoice-name text-end">
-                                            <h4 class="name color-white inv-header-1">Facture <br>n°{{$invoice->number}}</h4>
+                                            <h4 class="name color-white inv-header-1">Facture @if($price->getPriceTTC() < 0) d'avoir @endif<br>n°{{$invoice->number}}</h4>
                                             <p class="mb-0">Date d'émission: {{$invoice->created_at->format('d/m/Y')}}</p>
                                         </div>
                                     </div>
@@ -141,6 +141,7 @@
                                 </div>
                             </div>
                         </div>
+                        <livewire:crmautocar::reglement-list-proforma :proforma="$invoice->devis->proformat"/>
                         <div class="invoice-center ic2">
                             <div class="d-flex justify-content-between">
                                 <div class="">

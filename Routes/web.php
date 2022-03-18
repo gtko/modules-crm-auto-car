@@ -25,39 +25,6 @@ use Modules\CrmAutoCar\Http\Controllers\VuePlateauController;
 use Modules\CrmAutoCar\View\Components\Cgv;
 use Modules\CrmAutoCar\View\Components\DevisClient\Index;
 
-
-Route::get('/mail', function () {
-//    Mail::to(['d@gmail.com', 'test@test.com'])->send(new RoadmapMail());
-});
-Route::get('/test', function () {
-
-    $payload = [
-        'email' => 'test1548595@gmail.com',
-        'tel' => '0603315632',
-        'source' => 'FORM',
-        'prenom' => 'Grégoire',
-        'nom' => 'Ohanessiantest'
-    ];
-
-    $url = (new SignePayloadUrl())->signUrl(
-        "http://yoram-crm.pandasweet.io/api/v1/dossiers",
-        $payload,
-        "base64:Us6L/BK1gLv2uXzsbQhj9kRZUepgxULZZH3L8urHp4Y="
-    );
-
-    //Client guzzle ou autre
-    $client = new \GuzzleHttp\Client();
-    $response = $client->request('POST', $url, [
-        'json' => $payload
-    ]);
-
-    $text = json_decode($response->getBody()->getContents());
-    return $text;
-
-
-});
-
-
 Route::middleware(['secure.devis'])->group(function () {
     Route::get('/devis/{devis}/{token}', [Index::class, 'index'])->name('devis-view');
     Route::get('/devis/pdf/{devis}/{token}', [Index::class, 'index'])->name('devis-pdf');

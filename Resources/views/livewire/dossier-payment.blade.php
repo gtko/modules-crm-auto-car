@@ -25,6 +25,7 @@
                 <option value="cheque">Chèque</option>
                 <option value="carte">Carte bancaire</option>
                 <option value="remboursement">Remboursement</option>
+                <option value="avoir">Avoir</option>
             </select>
 
             <input type="number" step="0.00" wire:model="paiement_total" class="form-control-sm col-span-4 mt-1 mr-1"/>

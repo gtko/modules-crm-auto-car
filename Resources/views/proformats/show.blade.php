@@ -20,7 +20,7 @@
     <link type="text/css" rel="stylesheet" href="/crmautocar/assets/css/style.css">
     <style>
         @page {
-            size: 1400px 1980px!important;
+            size: 1400px 2080px!important;
             /* this affects the margin in the printer settings */
             margin: 0px 0px 0px 0px;
         }
@@ -141,6 +141,7 @@
                                 </div>
                             </div>
                         </div>
+                        <livewire:crmautocar::reglement-list-proforma :proforma="$proformat"/>
                         <div class="invoice-center ic2">
                             <div class="d-flex justify-content-between">
                                 <div class="">
