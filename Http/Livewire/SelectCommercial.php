@@ -49,7 +49,7 @@ class SelectCommercial extends Component
     {
 
         $commercialAttribuer = $this->dossier->commercial;
-        $commercialsList = app(CommercialRepositoryContract::class)->fetchAll();
+        $commercialsList = app(CommercialRepositoryContract::class)->newquery()->role('commercial')->get();
 
         return view('crmautocar::livewire.select-commercial', [
             'commercialAttribuer' => $commercialAttribuer,
