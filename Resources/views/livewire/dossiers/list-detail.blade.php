@@ -1,4 +1,4 @@
-<tr>
+<tr link="{{route('dossiers.show', [$dossier->client,$dossier])}}">
     <td>
         <div class="w-10 h-10 image-fit zoom-in">
             <img alt="" class="tooltip rounded-full" src="{{$dossier->client->avatar_url}}">
