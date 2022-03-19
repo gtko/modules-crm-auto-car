@@ -5,6 +5,14 @@
             <div class="grid grid-cols-2">
                 <x-basecore::inputs.group>
                     <x-basecore::inputs.text
+                        name="company"
+                        label="Nom de société"
+                        value="{{ old('company', ($editing ? $personne->company : ''))}}"
+                        maxlength="255"
+                    />
+                </x-basecore::inputs.group>
+                <x-basecore::inputs.group>
+                    <x-basecore::inputs.text
                         name="firstname"
                         label="Prénom"
                         value="{{ old('firstname', ($editing ? $personne->firstName : '')) }}"
@@ -28,24 +36,12 @@
                         <option value="female" {{ $selected == 'female' ? 'selected' : '' }} >Madame</option>
                     </x-basecore::inputs.select>
                 </x-basecore::inputs.group>
-
-                <x-basecore::inputs.group>
-                    <x-basecore::inputs.text
-                        name="company"
-                        label="Nom de société"
-                        value="{{ old('company', ($editing ? $personne->company : ''))}}"
-                        maxlength="255"
-                        required="required"
-                    />
-                </x-basecore::inputs.group>
-
                 <x-basecore::inputs.group>
                     <x-basecore::inputs.text
                         name="address"
                         label="Adresse"
                         value="{{ old('address', ($editing ? $personne->address : ''))}}"
                         maxlength="255"
-                        required="required"
                     />
                 </x-basecore::inputs.group>
                 <x-basecore::inputs.group>
@@ -54,7 +50,6 @@
                         label="Ville"
                         value="{{ old('city', ($editing ? $personne->city : '')) }}"
                         maxlength="255"
-                        required="required"
                     />
                 </x-basecore::inputs.group>
                 <x-basecore::inputs.group>
@@ -63,7 +58,6 @@
                         label="Code postal"
                         value="{{ old('code_zip', ($editing ? $personne->codeZip : '')) }}"
                         maxlength="255"
-                        required="required"
                     />
                 </x-basecore::inputs.group>
                 <x-basecore::inputs.group>
@@ -86,8 +80,7 @@
                             name="phone[]"
                             label="Téléphone"
                             x-model="items[index]"
-                            maxlength="255"
-                            required="required"/>
+                            maxlength="255"/>
                     </x-basecore::inputs.group>
                 </x-basecore::list-inputs>
 
