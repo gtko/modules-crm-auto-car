@@ -39,8 +39,12 @@
             placeholder="Catégories"
         />
     </div>
-    <div class="px-2 pt-2">
+    <div class="px-2 pt-2 flex justify-between items-center">
         <button wire:click="send" class="btn btn-primary ">Envoyer</button>
+
+        <x-basecore::loading-replace wire:target="createWithoutSend">
+            <button wire:click="createWithoutSend" class="btn btn-primary ">Créer sans envoyer</button>
+        </x-basecore::loading-replace>
     </div>
 
     <div>

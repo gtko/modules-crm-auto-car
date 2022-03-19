@@ -55,6 +55,8 @@
                        @icon('badgeCheck', null, 'mr-2')
                     </span>
                 </x-basecore::loading-replace>
+
+
             </div>
             <div class="flex justify-center items-center">
                 <a class="flex items-center mr-3 cursor-pointer" target="_blank"
@@ -65,6 +67,14 @@
                    href="{{route('proformats.pdf', $proformat->id)}}">
                     @icon('pdf', null, 'mr-2')
                 </a>
+
+                @can('delete', Proformat::class)
+                    <x-basecore::loading-replace wire:target="delete">
+                        <span class="flex items-center cursor-pointer" wire:click="delete">
+                         @icon('delete', null, 'mr-2')
+                        </span>
+                    </x-basecore::loading-replace>
+                @endcan
             </div>
         </div>
     </td>

@@ -104,6 +104,21 @@ class ProformaDossierDetail extends Component
 
     }
 
+    public function delete(){
+        if (Auth::user()->cannot('delete', Proformat::class)) {
+            abort(403);
+        }
+
+        if($this->proformat->payments->count() > 0 || $this->proformat->devis->invoice){
+            session()->flash('error', 'Impossible de supprimer la proforma car il a des paiements ou une facture accroché');
+            return redirect()->route('dossiers.show', [$this->dossier->client, $this->dossier, 'tab' => 'proforma']);
+        }else {
+            $this->proformat->delete();
+        }
+
+        $this->emit('refreshProforma');
+    }
+
     public function render()
     {
         $commercials = [];

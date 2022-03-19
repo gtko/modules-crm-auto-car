@@ -13,7 +13,7 @@ class CreateProformatClient extends Attributes
 {
 
     public function __construct(
-        public Proformat $proformat
+        public ?Proformat $proformat = null
     ){
       parent::__construct();
     }
@@ -27,11 +27,11 @@ class CreateProformatClient extends Attributes
     public function toArray(): array
     {
         return [
-            'proformat_id' => $this->proformat->id
+            'proformat_id' => $this->proformat->id ?? ''
         ];
     }
 
-    public function getProformat():Proformat
+    public function getProformat():?Proformat
     {
         return $this->proformat;
     }

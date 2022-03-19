@@ -54,6 +54,8 @@ class BlockFournisseur extends Component
 
     }
 
+
+
     public function send()
     {
         $this->validate();
@@ -99,8 +101,8 @@ class BlockFournisseur extends Component
         //$this->emit('popup-mail:open', ['fournisseur_id' => $this->fournisseur_id, 'devi_id' => $this->devi_id, 'dossier' => $this->dossier]);
     }
 
-    public function confirmSend(){
 
+    protected function createDemande(){
         $repFournisseur = app(FournisseurRepositoryContract::class);
         $repDevi = app(DevisRepositoryContract::class);
         $deviModel = $repDevi->newQuery()->find($this->devi_id);
@@ -121,8 +123,16 @@ class BlockFournisseur extends Component
             }
         }
         \DB::commit();
+    }
 
+    public function createWithoutSend(){
+        $this->createDemande();
+        return redirect(route('dossiers.show', [$this->dossier->client, $this->dossier]))
+            ->with('success', 'Demande créé avec succès');
+    }
 
+    public function confirmSend(){
+        $this->createDemande();
         return redirect(route('dossiers.show', [$this->dossier->client, $this->dossier]))
             ->with('success', 'Emails envoyé avec succès au(x) fournisseur(s)');
     }
