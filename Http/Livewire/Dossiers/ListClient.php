@@ -102,7 +102,7 @@ class ListClient extends Component
             [
                 'dossiers' => $dossiers,
                 'pipelineList' => $pipelineList,
-                'commercialList' => app(CommercialRepositoryContract::class)->fetchAll(),
+                'commercialList' => app(CommercialRepositoryContract::class)->newquery()->role('commercial')->get(),
                 'tagList' => app(TagsRepositoryContract::class)->fetchAll()
             ]);
     }

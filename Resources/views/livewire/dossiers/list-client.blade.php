@@ -71,9 +71,10 @@
                 <th class="text-center whitespace-nowrap">date du voyage</th>
                 @if($resa)
                     <th class="text-center whitespace-nowrap">Gestionnaires</th>
-                @else
-                    <th class="text-center whitespace-nowrap">Commercial</th>
                 @endif
+
+                <th class="text-center whitespace-nowrap">Commercial</th>
+
                 <th class="text-center whitespace-nowrap">Créer le</th>
                 <th class="text-center whitespace-nowrap"></th>
             </tr>

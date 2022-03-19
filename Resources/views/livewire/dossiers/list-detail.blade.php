@@ -59,13 +59,12 @@
 
         @endforeach
     </td>
-
+    @if($resa)
+        <td>
+        <livewire:corecrm::follower-dossier :tomselect="false" :label="false" :roles="[7]" :client="$dossier->client" :dossier="$dossier"/>
+        </td>
+    @endif
     <td>
-        @if($resa)
-
-            <livewire:corecrm::follower-dossier :tomselect="false" :label="false" :roles="[7]" :client="$dossier->client" :dossier="$dossier"/>
-
-        @else
             <div class="flex flex-row justify-start items-center whitespace-nowrap">
                 <div class="w-10 h-10 image-fit zoom-in">
                     <img alt="" class="tooltip rounded-full" src="{{$dossier->commercial->avatar_url}}">
@@ -74,7 +73,6 @@
                     {{$dossier->commercial->format_name}}
                 </div>
             </div>
-        @endif
     </td>
     <td>
         {{ $dossier->created_at->format('d-m-Y h:i') }}
