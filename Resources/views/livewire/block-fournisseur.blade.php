@@ -68,7 +68,7 @@
             <!-- Odd row -->
             @foreach($dossier->devis as $devi)
                 @foreach($devi->fournisseurs as $fourni)
-                    <livewire:crmautocar::block-fournisseur-item :devis="$devi" :fournisseur="$fourni"/>
+                    <livewire:crmautocar::block-fournisseur-item :key="$devi->id.'_'.$fourni->id" :devis="$devi" :fournisseur="$fourni"/>
                 @endforeach
             @endforeach
             </tbody>

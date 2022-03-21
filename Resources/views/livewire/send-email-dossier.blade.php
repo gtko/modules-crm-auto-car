@@ -27,6 +27,7 @@
         <x-corecrm::mentionify.wrapper :variableData="$variableData" >
             <div class="flex flex-col space-y-2">
                 <x-basecore::inputs.select name="email.model" label="Modèles d'email" wire:model="email.model">
+                    <option>Sélectionner un template</option>
                     @foreach($templates as $template)
                         <option value="{{$template->id}}">{{$template->title}}</option>
                     @endforeach
