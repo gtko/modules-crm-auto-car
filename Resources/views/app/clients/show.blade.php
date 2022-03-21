@@ -25,10 +25,9 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-user w-4 h-4 mr-2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                     Dossiers
                 </x-basecore::nav.menu-item>
-                <x-basecore::nav.menu-item :name="'editer'">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shield w-4 h-4 mr-2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                    Editer le client
-                </x-basecore::nav.menu-item>
+                <a href="{{route('clients.edit', [$client])}}" class="py-4 sm:mr-8 flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-shield w-4 h-4 mr-2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg> Editer le client
+                </a>
             </x-basecore::nav.menu>
         </x-basecore::personne.header>
 
@@ -44,13 +43,13 @@
             />
         </x-basecore::nav.tab>
 
-        <x-basecore::nav.tab :name="'editer'">
-            <x-basecore::layout.panel-left>
-                <x-basecore::partials.card>
-                    <x-corecrm::client.form :client="$client"/>
-                </x-basecore::partials.card>
-            </x-basecore::layout.panel-left>
-        </x-basecore::nav.tab>
+{{--        <x-basecore::nav.tab :name="'editer'">--}}
+{{--            <x-basecore::layout.panel-left>--}}
+{{--                <x-basecore::partials.card>--}}
+{{--                    <x-corecrm::client.form :client="$client"/>--}}
+{{--                </x-basecore::partials.card>--}}
+{{--            </x-basecore::layout.panel-left>--}}
+{{--        </x-basecore::nav.tab>--}}
 
     </x-basecore::nav.nav-layout>
 </x-basecore::app-layout>
