@@ -68,7 +68,7 @@
                 <div class="flex flex-col">
                     <span class="mb-4">Devis n° <span class="font-extrabold">{{ $devis->ref - 14194 }}</span></span>
                     <span>Réfèrent : Vanessa Lorant</span>
-                    <span>Tel: 09 71 07 53 95</span>
+                    <span>Tel: +33 1 76 39 12 23 </span>
                     <span class="text-sm">Mail : infos@autocars-location.fr</span>
                 </div>
                 <div class="my-auto col-start-3">

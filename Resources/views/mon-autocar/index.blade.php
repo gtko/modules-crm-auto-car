@@ -163,7 +163,7 @@
                 </div>
                 <div class="font-extrabold" >
                     Emma cartier
-                    <div>tel : 09 71 07 53 95</div>
+                    <div>tel :+33 1 76 31 12 83</div>
                     <div>reservation@louerunbus.fr</div>
                 </div>
             </div>

@@ -34,7 +34,7 @@ class BlockFournisseurItem extends Component
 
         $this->devi = $devis;
         $this->fourni = $this->devi->fournisseurs->where('id', $fournisseur->id)->first();
-        $this->price = $this->fourni->pivot->price ?? null;
+        $this->price = $this->fourni->pivot->prix ?? null;
         $this->bpa = $this->fourni->pivot->bpa ?? false;
     }
 
@@ -52,6 +52,9 @@ class BlockFournisseurItem extends Component
         (new FlowCRM())->add($this->devi->dossier , new ClientDossierFournisseurBpa(Auth::user(), $this->devi, $this->fourni));
 
         $this->emit('update');
+
+        return redirect(route('dossiers.show', [$this->devi->dossier->client, $this->devi->dossier]))
+            ->with('success', 'Fournisseur validé');
     }
 
     public function savePrice(DevisRepositoryContract $repDevi) {
@@ -65,12 +68,15 @@ class BlockFournisseurItem extends Component
 
     public function validateDemande(DevisRepositoryContract $repDevi)
     {
-        if($this->price != null)
+        if($this->price != null) {
             $repDevi->validateFournisseur($this->devi, $this->fourni);
             $prix = $repDevi->getPrice($this->devi, $this->fourni);
-            (new FlowCRM())->add($this->devi->dossier , new ClientDossierDemandeFournisseurValidate(Auth::user(), $this->devi, $this->fourni, $prix));
-
+            (new FlowCRM())->add($this->devi->dossier, new ClientDossierDemandeFournisseurValidate(Auth::user(), $this->devi, $this->fourni, $prix));
             $this->emit('update');
+        }else{
+            return redirect(route('dossiers.show', [$this->devi->dossier->client, $this->devi->dossier]))
+                ->with('error', 'Pas de prix sur le fournisseur');
+        }
     }
 
     public function delete(DevisRepositoryContract $repDevi)

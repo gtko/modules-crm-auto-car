@@ -32,7 +32,7 @@ class PopupValition extends Component
     protected $rules = [
         'nom' => 'required',
         'prenom' => 'required',
-        'societe' => 'required',
+        'societe' => '',
         'adresse' => 'required',
         'code_zip' => 'required',
         'city' => 'required',
