@@ -67,13 +67,18 @@ class EventClientDevisExterneValidation extends WorkFlowEvent
 
     protected function prepareData(Attributes $flowAttribute): array
     {
-        return [
-            'devis' => $flowAttribute->getDevis(),
-            'dossier' => $flowAttribute->getDevis()->dossier,
-            'client' => $flowAttribute->getDevis()->dossier->client,
-            'commercial' => $flowAttribute->getDevis()->dossier->commercial,
-            'proformat' => $flowAttribute->getDevis()->proformat,
+        $devis = $flowAttribute->getDevis()->fresh();
+
+        $data =  [
+            'devis' => $devis,
+            'dossier' => $devis->dossier,
+            'client' => $devis->dossier->client,
+            'commercial' => $devis->dossier->commercial,
+            'proformat' => $devis->proformat,
         ];
+
+
+        return $data;
     }
 
     public function files():array

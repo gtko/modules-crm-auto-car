@@ -90,9 +90,8 @@ class PopupValition extends Component
         if(!$this->devis->proformat) {
             $number = $repInvoice->getNextNumber();
             $proformat = $repInvoice->create($this->devis, $total, $number);
-
-            (new FlowCRM())->add($this->devis->dossier, new ClientDevisExterneValidation($this->devis, Request::ip(), $data));
             (new FlowCRM())->add($this->devis->dossier, new CreateProformatClient($proformat));
+            (new FlowCRM())->add($this->devis->dossier, new ClientDevisExterneValidation($this->devis, Request::ip(), $data));
         }
         session()->flash('success', 'Votre devis a été validé');
 
