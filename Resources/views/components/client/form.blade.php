@@ -6,7 +6,7 @@
                 <x-basecore::inputs.group>
                     <x-basecore::inputs.text
                         name="company"
-                        label="Nom de société"
+                        label=" Nom de société"
                         value="{{ old('company', ($editing ? $personne->company : ''))}}"
                         maxlength="255"
                     />

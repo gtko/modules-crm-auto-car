@@ -44,6 +44,13 @@ Route::get('/information-voyage/{devis}', [InfomationVogageController::class, 'i
 Route::get('proformats/{proformat}', [ProformatsController::class, 'show'])->name('proformats.show');
 Route::get('proformats/{proformat}/pdf', [ProformatsController::class, 'pdf'])->name('proformats.pdf');
 
+Route::get('mention-legal', function (){
+    return view('crmautocar::mention-legal');
+});
+Route::get('cgl', function (){
+    return view('crmautocar::cgl');
+});
+
 
 Route::prefix('/')
     ->middleware(['auth:web', 'verified'])
