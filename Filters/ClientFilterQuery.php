@@ -56,6 +56,18 @@ class ClientFilterQuery
         }
     }
 
+    public function byDateSignature($date = null)
+    {
+        if ($date) {
+            $dateStart = Carbon::parse($date)->startOfDay();
+            $dateEnd = Carbon::parse($date)->endOfDay();
+
+            $query = $this->query->with("devis.proformat");
+            $query->whereBetween('created_at', [$dateStart, $dateEnd])->get();
+        }
+
+    }
+
     public function byDateDepart($dateStart = null, $dateEnd = null)
     {
         if ($dateStart && $dateEnd) {

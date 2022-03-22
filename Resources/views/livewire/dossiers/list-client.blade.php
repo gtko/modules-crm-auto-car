@@ -9,11 +9,11 @@
                 <option value="">Statut</option>
                 @foreach($pipelineList as $pipeline)
                     <optgroup label="{{ $pipeline->first()->pipeline->name ?? '' }}">
-                    <optgroup label="{{ $pipeline->first()->pipeline->name ?? '' }}">
-                        @foreach($pipeline as $statu)
-                            <option value="{{$statu->id}}">{{$statu->label}}</option>
-                        @endforeach
-                    </optgroup>
+                        <optgroup label="{{ $pipeline->first()->pipeline->name ?? '' }}">
+                            @foreach($pipeline as $statu)
+                                <option value="{{$statu->id}}">{{$statu->label}}</option>
+                            @endforeach
+                        </optgroup>
                 @endforeach
             </x-basecore::inputs.select>
 
@@ -43,20 +43,25 @@
                 <span>Retour</span>
                 <x-basecore::inputs.date name="date_de_depart_fin" class="form-control-sm" wire:model="departEnd"/>
             </div>
+            <div>
+                <span>Date de signature</span>
+                <x-basecore::inputs.date name="data_signature" class="form-control-sm" wire:model="dateSignatrue"/>
+            </div>
+
             <div class="mt-2">
                 <div class="btn-sm btn-primary mt-3 w-32 rounded cursor-pointer" wire:click="clearFiltre()">Clear
                     les
                     filtres
                 </div>
             </div>
-
             @can('viewAll', \Modules\CoreCRM\Models\Dossier::class)
-            <div class="mt-5">
-                <x-basecore::inputs.checkbox wire:model="viewMyLead" name="my_lead" label="Voir mes dossiers uniquement"/>
-            </div>
+                <div class="mt-5">
+                    <x-basecore::inputs.checkbox wire:model="viewMyLead" name="my_lead"
+                                                 label="Voir mes dossiers uniquement"/>
+                </div>
             @endcan
-        </div>
 
+        </div>
     </div>
     <div class="overflow-auto lg:overflow-visible mt-8 sm:mt-0">
         <table class="table table-report sm:mt-2">
