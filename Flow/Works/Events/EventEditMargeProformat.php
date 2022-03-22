@@ -108,15 +108,4 @@ class EventEditMargeProformat extends WorkFlowEvent
         ];
     }
 
-    public function actions(): array
-    {
-        return [
-            ActionsChangeStatus::class,
-            ActionsAjouterTag::class,
-            ActionsSendNotification::class,
-            ActionsAddNote::class,
-            ActionsSupprimerTag::class,
-            ActionsAddCall::class
-        ];
-    }
 }
