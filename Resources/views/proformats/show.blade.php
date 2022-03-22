@@ -88,6 +88,7 @@
                                         <div class="info">
                                             <p class="inv-title-1">A l'attention de :</p>
                                             <p class="invo-addr-1">
+                                                {{$proformat->devis->dossier->client->company ?? ''}} <br/>
                                                 {{$proformat->devis->dossier->client->format_name}} <br/>
                                                 {{$proformat->devis->dossier->client->full_address}}
                                             </p>
