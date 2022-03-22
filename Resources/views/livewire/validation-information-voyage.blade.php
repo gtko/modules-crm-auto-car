@@ -10,7 +10,7 @@
 
                     @if($waiting)
                         <div class="mb-5 p-4 space-y-6 text-base bg-green-600 text-white">
-                            Vos informations ont été prises en compte et son attente de validation par nos équipes.<br>
+                            Vos informations ont été prises en compte et sont en attente de validation par nos équipes.<br>
                             Si vous avez des modifications à apporter, vous pouvez modifier le formulaire suivant dès maintenant.<br>
                             <br>
                             Si vous avez des modifications supplémentaires à apporter merci de contacter notre service client

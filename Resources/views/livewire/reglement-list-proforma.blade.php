@@ -10,6 +10,7 @@
                     </tr>
                     </thead>
                     <tbody>
+                    @if($paiements->count() > 0)
                     @foreach($paiements as $paiement)
                         <tr>
                             @switch(($paiement->data['type'] ?? ''))
@@ -34,6 +35,11 @@
                             <td>@marge($paiement->total)€</td>
                         </tr>
                     @endforeach
+                    @else
+                        <tr>
+                            <td colspan="2">Aucun réglement enregistré.</td>
+                        </tr>
+                    @endif
                     </tbody>
                 </table>
             </div>

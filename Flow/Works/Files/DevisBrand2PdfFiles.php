@@ -21,7 +21,7 @@ class DevisBrand2PdfFiles extends WorkFlowFiles
 
     public function filename(): string
     {
-        return 'mon-autocar-offre.pdf';
+        return 'louer-un-bus-offre.pdf';
     }
 
     public function mimetype(): string
@@ -31,7 +31,7 @@ class DevisBrand2PdfFiles extends WorkFlowFiles
 
     public function name(): string
     {
-        return 'Devis mon autocar';
+        return 'Devis louerunbus.fr';
     }
 
     public function description(): string
