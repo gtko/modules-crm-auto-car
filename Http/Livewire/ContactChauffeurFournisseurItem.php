@@ -25,7 +25,7 @@ class ContactChauffeurFournisseurItem extends Component
         $this->emit('contactchauffeurfournisseur::refresh');
     }
 
-    public function sencContactChauffeur()
+    public function sendContactChauffeur()
     {
         app(ContactFournisseurRepositoryContract::class)->send($this->contact);
         (new FlowCRM())->add($this->contact->dossier, new SendContactChauffeurToClient(Auth::user(), $this->contact->devi, $this->contact->fournisseur));
