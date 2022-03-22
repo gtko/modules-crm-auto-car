@@ -21,6 +21,7 @@ class ListClient extends Component
     public $commercial;
     public $departStart;
     public $departEnd;
+    public $dateSignatrue;
     public $viewMyLead = false;
 
     public $resa = false;
@@ -45,6 +46,7 @@ class ListClient extends Component
         $filter->byTag($this->tag);
         $filter->search($this->nom_client);
 
+        $filter->byDateSignature($this->dateSignatrue);
         $filter->byDepart($this->departStart);
         $filter->byArrive($this->departEnd);
 
@@ -77,6 +79,7 @@ class ListClient extends Component
         $this->commercial = '';
         $this->departStart = '';
         $this->departEnd = '';
+        $this->dateSignatrue = '';
     }
 
     public function render()
