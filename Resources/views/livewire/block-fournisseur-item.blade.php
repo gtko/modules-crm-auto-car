@@ -31,11 +31,15 @@
                               >@icon('check', null)
                              </span>
                           @else
-                              <span
-                                  wire:click="delete({{ $devi->id }}, {{ $fourni->id }})"
-                                  class="cursor-pointer  hover:text-red-600"
-                                  title="Supprimer"
-                              >@icon('delete', 20)</span>
+                              @if(!$fourni->pivot->bpa)
+                                  <span
+                                      wire:click="delete({{ $devi->id }}, {{ $fourni->id }})"
+                                      class="cursor-pointer  hover:text-red-600"
+                                      title="Supprimer"
+                                  >
+                                      @icon('delete', 20)
+                                  </span>
+                              @endif
                               @if($fourni->pivot->validate)
                                   @if(!$fourni->pivot->bpa)
                                   <span

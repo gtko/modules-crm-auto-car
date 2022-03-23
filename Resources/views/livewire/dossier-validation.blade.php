@@ -34,20 +34,21 @@
 
                         </td>
                         <td class="border-b dark:border-dark-5 text-center">
-                            @if(false)
+                            @if(($devi->data['sended'] ?? false))
                                 @icon('checkCircle', null, 'mr-2 text-green-600')
                             @else
                                 @icon('close', null, 'mr-2 text-red-600')
                             @endif
-
                         </td>
                         <td class="border-b dark:border-dark-5 flex flex-row">
                             <div class="cursor-pointer" title="voir" wire:click="openPopup({{$devi->id}})">
                                 @icon('show', null, 'mr-2')
                             </div>
-                            <div class="cursor-pointer" title="voir" wire:click="envoyer({{$devi->id}})">
-                                @icon('email', null, 'mr-2')
-                            </div>
+                            <x-basecore::loading-replace wire:target="envoyer({{$devi->id}})">
+                                <div class="cursor-pointer" title="send" wire:click="envoyer({{$devi->id}})">
+                                    @icon('email', null, 'mr-2')
+                                </div>
+                            </x-basecore::loading-replace>
                         </td>
                     </tr>
                 @endforeach

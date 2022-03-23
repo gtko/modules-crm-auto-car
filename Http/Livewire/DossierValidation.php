@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Modules\CoreCRM\Contracts\Entities\ClientEntity;
 use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
+use Modules\CoreCRM\Contracts\Repositories\FournisseurRepositoryContract;
 use Modules\CoreCRM\Flow\Attributes\ClientDossierNoteCreate;
 use Modules\CoreCRM\Models\Dossier;
 use Modules\CoreCRM\Services\FlowCRM;
@@ -31,8 +32,24 @@ class DossierValidation extends Component
     public function envoyer($devi_id)
     {
         $devis = app(DevisRepositoryContract::class)->fetchById($devi_id);
+        $data = $devis->data;
+        $data['sended'] = true;
+        $devis->data = $data;
+        $devis->save();
 
-        (new FlowCRM())->add($this->dossier,new SendInformationVoyageMailFournisseur(Auth::user(), $devis));
+        //on get les fournisseurs en BPA et ont leur envoie la feuille de route
+        $fournisseurs = app(FournisseurRepositoryContract::class)->getBpaByDevis($devis);
+
+        foreach($fournisseurs as $fournisseur) {
+            (new FlowCRM())->add($this->dossier, new SendInformationVoyageMailFournisseur(Auth::user(), $devis, [
+                'fournisseur_name' => $fournisseur->format_name,
+                'fournisseur_email' => $fournisseur->email,
+                'fournisseur_id' => $fournisseur->id,
+            ]));
+        }
+
+        return redirect()->route('dossiers.show', [$devis->dossier->client, $devis->dossier, 'tab' => 'validation'])
+            ->with('success', 'La feuille de route a été envoyé avec succès');
     }
 
     public function openPopup($devi_id)
