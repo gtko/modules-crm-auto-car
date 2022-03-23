@@ -28,6 +28,7 @@ class ConditionFournisseurBPA extends WorkFlowConditionBoolean
             $fournisseurs = $fournisseurs->merge($devis->fournisseurs);
         }
 
+
         return $fournisseurs->sum('pivot.validate') === $fournisseurs->sum('pivot.bpa');
     }
 
