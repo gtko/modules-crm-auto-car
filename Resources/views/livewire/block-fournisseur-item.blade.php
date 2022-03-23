@@ -1,4 +1,4 @@
-<tr class="@if($fourni->pivot->bpa) bg-blue-500 text-white @else @if($fourni->pivot->validate) bg-green-500 @else bg-white  @endif @endif">
+<tr class="@if($fourni->pivot->bpa ?? false) bg-blue-500 text-white @else @if($fourni->pivot->validate) bg-green-500 @else bg-white  @endif @endif">
     <td class="py-4 whitespace-nowrap text-sm font-medium text-center">
         {{ $devi->ref }}
     </td>
@@ -41,7 +41,7 @@
                                   </span>
                               @endif
                               @if($fourni->pivot->validate)
-                                  @if(!$fourni->pivot->bpa)
+                                  @if(!$fourni->pivot->bpa ?? false)
                                   <span
                                       wire:click="bpa({{ $devi->id }}, {{ $fourni->id }})"
                                       class="cursor-pointer  hover:text-green-600"
