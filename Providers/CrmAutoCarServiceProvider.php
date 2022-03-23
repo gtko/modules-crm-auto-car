@@ -10,6 +10,7 @@ use Modules\BaseCore\Entities\TypeView;
 use Modules\CoreCRM\Contracts\Entities\ClientEntity;
 use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\DossierRepositoryContract;
+use Modules\CoreCRM\Contracts\Repositories\FournisseurRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\PipelineRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\TagFournisseurRepositoryContract;
 use Modules\CoreCRM\Contracts\Services\FlowContract;
@@ -60,6 +61,7 @@ use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierDemandeFournisseurDel
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierDemandeFournisseurSend;
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierDemandeFournisseurValidate;
 use Modules\CrmAutoCar\Flow\Works\Events\EventEditMargeProformat;
+use Modules\CrmAutoCar\Flow\Works\Events\EventSendContactChauffeurToClient;
 use Modules\CrmAutoCar\Flow\Works\Events\EventSendEmailDossier;
 use Modules\CrmAutoCar\Flow\Works\Events\EventSendInformationVoyageMailClient;
 use Modules\CrmAutoCar\Flow\Works\Events\EventSendInformationVoyageMailFournisseur;
@@ -76,6 +78,7 @@ use Modules\CrmAutoCar\Repositories\ContactFournisseurRepository;
 use Modules\CrmAutoCar\Repositories\DecaissementRepository;
 use Modules\CrmAutoCar\Repositories\DevisAutocarRepository;
 use Modules\CrmAutoCar\Repositories\DossierAutoCarRepository;
+use Modules\CrmAutoCar\Repositories\FournisseurRepository;
 use Modules\CrmAutoCar\Repositories\InvoicesRepository;
 use Modules\CrmAutoCar\Repositories\PaymentRepository;
 use Modules\CrmAutoCar\Repositories\PlateauRepository;
@@ -130,6 +133,7 @@ class CrmAutoCarServiceProvider extends ServiceProvider
         $this->app->bind(DossierRepositoryContract::class, DossierAutoCarRepository::class);
         $this->app->bind(ShekelRepositoryContract::class,ShekelRepositories::class);
         $this->app->bind(TagFournisseurRepositoryContract::class, TagFournisseurRepository::class);
+        $this->app->bind(FournisseurRepositoryContract::class, FournisseurRepository::class);
 
         $this->app->bind(FlowContract::class,FlowAutocarCRM::class);
 
@@ -227,7 +231,8 @@ class CrmAutoCarServiceProvider extends ServiceProvider
             EventSendProformat::class,
             EventSendInvoice::class,
             EventDevisManualSendClient::class,
-            EventSendInformationVoyageMailClient::class
+            EventSendInformationVoyageMailClient::class,
+            EventSendContactChauffeurToClient::class
         ]);
 
         app(TemplateMailService::class)
