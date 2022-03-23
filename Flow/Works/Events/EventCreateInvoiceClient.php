@@ -28,7 +28,9 @@ use Modules\CrmAutoCar\Flow\Works\Files\DevisPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\InformationVoyagePdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\InvoicePdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\ProformatPdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Files\RIBPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Variables\ClientValidationVariable;
+use Modules\CrmAutoCar\Flow\Works\Variables\GestionnaireVariable;
 use Modules\CrmAutoCar\Flow\Works\Variables\InformationVoyageVariable;
 use Modules\CrmAutoCar\Flow\Works\Variables\InvoiceVariable;
 use Modules\CrmAutoCar\Flow\Works\Variables\PaiementVariable;
@@ -81,6 +83,7 @@ class EventCreateInvoiceClient extends \Modules\CoreCRM\Flow\Works\Events\WorkFl
         return [
             (new DevisPdfFiles($this)),
             (new CguPdfFiles($this)),
+            (new RIBPdfFiles($this)),
             (new ProformatPdfFiles($this)),
             (new InvoicePdfFiles($this)),
             (new DevisBrand1PdfFiles($this)),
@@ -95,6 +98,7 @@ class EventCreateInvoiceClient extends \Modules\CoreCRM\Flow\Works\Events\WorkFl
             (new DossierVariable($this)),
             (new DeviVariable($this)),
             (new CommercialVariable($this)),
+            (new GestionnaireVariable($this)),
             (new ClientVariable($this)),
             (new ProformatVariable($this)),
             (new PaiementVariable($this)),

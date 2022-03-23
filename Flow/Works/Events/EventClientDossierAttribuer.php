@@ -23,6 +23,8 @@ use Modules\CrmAutoCar\Flow\Attributes\ClientDossierAttribuer;
 use Modules\CrmAutoCar\Flow\Works\Files\CguPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\ProformatPdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Files\RIBPdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Variables\GestionnaireVariable;
 
 class EventClientDossierAttribuer extends WorkFlowEvent
 {
@@ -56,6 +58,7 @@ class EventClientDossierAttribuer extends WorkFlowEvent
     {
         return [
             (new CguPdfFiles($this)),
+            (new RIBPdfFiles($this)),
         ];
     }
 
@@ -64,6 +67,7 @@ class EventClientDossierAttribuer extends WorkFlowEvent
         return [
             (new DossierVariable($this)),
             (new CommercialVariable($this)),
+            (new GestionnaireVariable($this)),
             (new UserVariable($this)),
             (new ClientVariable($this)),
         ];
