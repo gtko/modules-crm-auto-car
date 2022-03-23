@@ -8,6 +8,7 @@ use Illuminate\Support\ServiceProvider;
 use Modules\BaseCore\Contracts\Services\CompositeurThemeContract;
 use Modules\BaseCore\Entities\TypeView;
 use Modules\CoreCRM\Contracts\Entities\ClientEntity;
+use Modules\CoreCRM\Contracts\Repositories\ClientRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\DossierRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\FournisseurRepositoryContract;
@@ -74,6 +75,7 @@ use Modules\CrmAutoCar\Notifications\ClientDossierDemandeFournisseurSendNotifica
 use Modules\CrmAutoCar\Notifications\DevisSendClientNotification;
 use Modules\CrmAutoCar\Notifications\DossierAttribuerNotification;
 use Modules\CrmAutoCar\Repositories\BrandsRepository;
+use Modules\CrmAutoCar\Repositories\ClientRepository;
 use Modules\CrmAutoCar\Repositories\ConfigRepository;
 use Modules\CrmAutoCar\Repositories\ContactFournisseurRepository;
 use Modules\CrmAutoCar\Repositories\DecaissementRepository;
@@ -135,6 +137,7 @@ class CrmAutoCarServiceProvider extends ServiceProvider
         $this->app->bind(ShekelRepositoryContract::class,ShekelRepositories::class);
         $this->app->bind(TagFournisseurRepositoryContract::class, TagFournisseurRepository::class);
         $this->app->bind(FournisseurRepositoryContract::class, FournisseurRepository::class);
+        $this->app->bind(ClientRepositoryContract::class, ClientRepository::class);
 
         $this->app->bind(FlowContract::class,FlowAutocarCRM::class);
 
