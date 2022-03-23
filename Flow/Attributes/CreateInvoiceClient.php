@@ -6,7 +6,6 @@ use Modules\CoreCRM\Contracts\Entities\DevisEntities;
 use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
 use Modules\CoreCRM\Flow\Attributes\Attributes;
 use Modules\CoreCRM\Flow\Interfaces\FlowAttributes;
-use Modules\CrmAutoCar\Actions\CreateInvoice;
 use Modules\CrmAutoCar\Contracts\Repositories\InvoicesRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\ProformatsRepositoryContract;
 use Modules\CrmAutoCar\Models\Invoice;
@@ -16,8 +15,7 @@ class CreateInvoiceClient extends Attributes
 {
 
     public function __construct(
-        public Invoice $invoice
-
+        public ?Invoice $invoice = null
     ){
       parent::__construct();
     }
@@ -31,11 +29,11 @@ class CreateInvoiceClient extends Attributes
     public function toArray(): array
     {
         return [
-            'invoice_id' => $this->invoice->id
+            'invoice_id' => $this->proformat->id ?? ''
         ];
     }
 
-    public function getInvoice():Invoice
+    public function getInvoice():?Invoice
     {
         return $this->invoice;
     }
