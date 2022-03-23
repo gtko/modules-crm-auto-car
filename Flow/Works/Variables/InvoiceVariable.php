@@ -2,6 +2,7 @@
 
 namespace Modules\CrmAutoCar\Flow\Works\Variables;
 
+use Modules\BaseCore\Actions\Url\SigneRoute;
 use Modules\CoreCRM\Flow\Works\Variables\WorkFlowVariable;
 use Modules\CrmAutoCar\Entities\InvoicePrice;
 
@@ -21,8 +22,8 @@ class InvoiceVariable extends WorkFlowVariable
         $price = $invoice->getPrice();
        return [
          'numero' => $invoice->number,
-         'lien-pdf' => route('invoice.pdf', $invoice),
-         'lien-public' => route('invoices.show', $invoice),
+         'lien-pdf' => (new SigneRoute())->signer('invoices.pdf', [$invoice]),
+         'lien-public' => (new SigneRoute())->signer('invoices.show', [$invoice]),
          'total' => $price->getPriceTTC(),
          'tva' => $price->getTauxTVA(),
          'ht' => $price->getPriceHT(),
