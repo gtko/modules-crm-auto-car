@@ -21,9 +21,9 @@
                     @foreach(($devis->data['trajets'] ?? []) as $idTrajet => $trajet)
                     <div class="bg-white mb-4 p-4 grid notcut justify-items-stretch border border-gray-400">
                         <div class="mb-4">
-                            <h5 class="text-bleu my-2 pl-2 font-bold text-2xl">Informations sur votre voyage @if($multiple) {{$idTrajet+1}} @endif</h5>
+                            <h5 class="my-2 pl-2 font-bold text-2xl">Informations sur votre voyage @if($multiple) {{$idTrajet+1}} @endif</h5>
                             <hr class="text-bleu mb-3">
-                            <h5 class="text-bleu my-2 pl-2 font-bold text-xl">Adresse de départ</h5>
+                            <h5 class="my-2 pl-2 font-bold text-xl">Adresse de départ</h5>
                             <div class="grid grid-cols-2">
                                 <x-basecore::inputs.group class="w-full">
                                     <x-basecore::inputs.datetime label="Date de départ" name="validate.{{$idTrajet}}.aller_date_depart"
@@ -38,7 +38,7 @@
                                 </x-basecore::inputs.group>
                             </div>
                             <hr class="text-bleu my-3">
-                            <h5 class="text-bleu my-2 pl-2 font-bold text-xl">Adresse de destination</h5>
+                            <h5 class="my-2 pl-2 font-bold text-xl">Adresse de destination</h5>
                             <div class="grid grid-cols-2">
                                 <x-basecore::inputs.group class="w-full">
                                     <x-basecore::inputs.datetime label="Date de retour" name="validate.{{$idTrajet}}.retour_date_depart" wire:model="validate.{{$idTrajet}}.retour_date_depart" placeholder="Date de départ"/>
@@ -51,7 +51,7 @@
                                 </x-basecore::inputs.group>
                             </div>
                             <hr class="text-bleu my-3">
-                            <h5 class="text-bleu my-2 pl-2 font-bold text-xl">Contact sur place</h5>
+                            <h5 class="my-2 pl-2 font-bold text-xl">Contact sur place</h5>
                             <div class="grid grid-cols-2">
                                 <x-basecore::inputs.group>
                                     <x-basecore::inputs.basic label="Nom" name="validate.{{$idTrajet}}.contact_nom"
@@ -74,7 +74,7 @@
                             </div>
 
                             <hr class="text-bleu my-3">
-                            <h5 class="text-bleu my-2 pl-2 font-bold text-xl">Informations complémentaire</h5>
+                            <h5 class="my-2 pl-2 font-bold text-xl">Informations complémentaire</h5>
                             <x-basecore::inputs.group>
                                 <x-basecore::inputs.textarea class='h-48' label="détails" name="validate.{{$idTrajet}}.information_complementaire"
                                                              wire:model.lazy="validate.{{$idTrajet}}.information_complementaire"
