@@ -46,6 +46,8 @@ class DossierInvoiceList extends Component
         $proforma = $proformatRep->fetchById($this->proforma_select);
         $invoice = (new CreateInvoice())->create($proforma->devis);
 
+
+
         session()->flash('success', 'Facture ajouté au dossier');
 
         return redirect()->route('dossiers.show', [$this->client, $this->dossier, 'tab' => 'invoices']);

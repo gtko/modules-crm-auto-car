@@ -4,6 +4,7 @@
         @if($proformas->count() > 0)
         <div class="flex justify-end items-center space-x-1">
             <select name="proformat_invoice_select" wire:model="proforma_select">
+                <option>Choisir une proforma</option>
                 @foreach($proformas as $proforma)
                     <option value="{{$proforma->id}}">Proforma {{$proforma->number}}</option>
                 @endforeach

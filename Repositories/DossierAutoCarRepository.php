@@ -5,6 +5,7 @@ namespace Modules\CrmAutoCar\Repositories;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\BaseCore\Helpers\HasInterface;
 use Modules\CoreCRM\Contracts\Repositories\ClientRepositoryContract;
+use Modules\CoreCRM\Contracts\Repositories\StatusRepositoryContract;
 
 class DossierAutoCarRepository extends \Modules\CoreCRM\Repositories\DossierRepository
 {
@@ -19,6 +20,18 @@ class DossierAutoCarRepository extends \Modules\CoreCRM\Repositories\DossierRepo
         }
 
         return $query;
+    }
+
+
+
+    public function countDossierResaBlanc(){
+        return $this->newQuery()
+            ->doesntHave('followers')
+            ->whereHas('status', function ($query) {
+                $status = app(StatusRepositoryContract::class)->fetchById('6');
+                return $query->where('order', '>=', $status->order);
+            })
+            ->count();
     }
 
 }

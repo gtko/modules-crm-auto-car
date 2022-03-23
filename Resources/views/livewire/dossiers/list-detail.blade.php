@@ -38,11 +38,11 @@
 
             @if($index == 2)
                 <div class="flex justify-center text-xs text-white rounded bg-green-400">
-                    <span @click="open = true" x-show="!open">Voir {{$dossier->tags->count() - 2}} de plus ...</span>
+                    <span @click.stop="open = true" x-show="!open">Voir {{$dossier->tags->count() - 2}} de plus ...</span>
                 </div>
             @elseif($index == $dossier->tags->count() - 1 )
                 <div class="flex justify-center text-xs text-white rounded bg-green-400">
-                    <span @click="open = false" x-show="open">Voir moins ...</span>
+                    <span @click.stop="open = false" x-show="open">Voir moins ...</span>
                 </div>
             @endif
 
@@ -60,7 +60,7 @@
         @endforeach
     </td>
     @if($resa)
-        <td>
+        <td ignore-link>
         <livewire:corecrm::follower-dossier :tomselect="false" :label="false" :roles="[7]" :client="$dossier->client" :dossier="$dossier"/>
         </td>
     @endif

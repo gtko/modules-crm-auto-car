@@ -28,7 +28,9 @@ use Modules\CrmAutoCar\Flow\Works\Files\DevisBrand2PdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\InformationVoyagePdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\ProformatPdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Files\RIBPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Variables\ClientValidationVariable;
+use Modules\CrmAutoCar\Flow\Works\Variables\GestionnaireVariable;
 use Modules\CrmAutoCar\Flow\Works\Variables\InformationVoyageVariable;
 use Modules\CrmAutoCar\Flow\Works\Variables\PaiementVariable;
 use Modules\CrmAutoCar\Flow\Works\Variables\ProformatVariable;
@@ -81,6 +83,7 @@ class EventCreatePaiementClient extends \Modules\CoreCRM\Flow\Works\Events\WorkF
         return [
             (new DevisPdfFiles($this)),
             (new CguPdfFiles($this)),
+            (new RIBPdfFiles($this)),
             (new ProformatPdfFiles($this)),
             (new DevisBrand1PdfFiles($this)),
             (new DevisBrand2PdfFiles($this)),
@@ -94,6 +97,7 @@ class EventCreatePaiementClient extends \Modules\CoreCRM\Flow\Works\Events\WorkF
             (new DossierVariable($this)),
             (new DeviVariable($this)),
             (new CommercialVariable($this)),
+            (new GestionnaireVariable($this)),
             (new ClientVariable($this)),
             (new ProformatVariable($this)),
             (new PaiementVariable($this)),

@@ -2,6 +2,7 @@
 
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 use Modules\BaseCore\Actions\Url\SignePayloadUrl;
 use Modules\CrmAutoCar\Http\Controllers\BrandController;
 use Modules\CrmAutoCar\Http\Controllers\CentralAutoCarDevisController;
@@ -24,6 +25,8 @@ use Modules\CrmAutoCar\Http\Controllers\ValidationInformationVoyageController;
 use Modules\CrmAutoCar\Http\Controllers\VuePlateauController;
 use Modules\CrmAutoCar\View\Components\Cgv;
 use Modules\CrmAutoCar\View\Components\DevisClient\Index;
+
+
 
 Route::middleware(['secure.devis'])->group(function () {
     Route::get('/devis/{devis}/{token}', [Index::class, 'index'])->name('devis-view');

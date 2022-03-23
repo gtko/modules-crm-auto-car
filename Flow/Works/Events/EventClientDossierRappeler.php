@@ -24,6 +24,7 @@ use Modules\CrmAutoCar\Flow\Attributes\ClientDossierRappeler;
 use Modules\CrmAutoCar\Flow\Works\Files\CguPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\ProformatPdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Variables\GestionnaireVariable;
 use Modules\TaskCalendarCRM\Flow\Works\Actions\ActionsAddTask;
 
 class EventClientDossierRappeler extends WorkFlowEvent
@@ -66,6 +67,7 @@ class EventClientDossierRappeler extends WorkFlowEvent
         return [
             (new DossierVariable($this)),
             (new CommercialVariable($this)),
+            (new GestionnaireVariable($this)),
             (new ClientVariable($this)),
         ];
     }

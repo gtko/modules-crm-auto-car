@@ -2,7 +2,9 @@
 
 namespace Modules\CrmAutoCar\Flow\Works\Variables;
 
+use Modules\BaseCore\Actions\Url\SigneRoute;
 use Modules\CoreCRM\Flow\Works\Variables\WorkFlowVariable;
+use Modules\CrmAutoCar\Entities\InvoicePrice;
 
 class InvoiceVariable extends WorkFlowVariable
 {
@@ -17,10 +19,15 @@ class InvoiceVariable extends WorkFlowVariable
         /** @var \Modules\CrmAutoCar\Models\Invoice $invoice */
         $invoice = $this->event->getData()['invoice'];
 
+        $price = $invoice->getPrice();
        return [
          'numero' => $invoice->number,
-         'lien-pdf' => route('invoice.pdf', $invoice),
-         'lien-public' => route('invoices.show', $invoice),
+         'lien-pdf' => (new SigneRoute())->signer('invoices.pdf', [$invoice]),
+         'lien-public' => (new SigneRoute())->signer('invoices.show', [$invoice]),
+         'total' => $price->getPriceTTC(),
+         'tva' => $price->getTauxTVA(),
+         'ht' => $price->getPriceHT(),
+         'tva-total' => $price->getPriceTVA(),
        ];
     }
 
@@ -29,7 +36,11 @@ class InvoiceVariable extends WorkFlowVariable
         return [
             'numero' => 'Numéro de la facture',
             'lien-pdf' => 'Lien vers le fichier pdf',
-            'lien-public' => 'Lien vers la version web du pdf'
+            'lien-public' => 'Lien vers la version web du pdf',
+            'total' => 'Prix TTC total',
+            'tva' => 'Taux de TVA',
+            'ht' => 'Prix HT total',
+            'tva-total' => 'Montant de la TVA total',
         ];
     }
 }
