@@ -16,7 +16,10 @@ class StatAdminClientList extends Component
     public $times;
     public $commercial;
     public $timeEdit = false;
-    public $dateModif = '';
+
+    public $dateModifStart = '';
+    public $dateModifEnd = '';
+
     public $idTime;
     public $addTime = false;
     public $showInputTime = false;
@@ -61,7 +64,8 @@ class StatAdminClientList extends Component
         $this->emit('refresh');
     }
 
-    public function delete ($id) {
+    public function delete($id)
+    {
 
         $timer = app(TimerRepositoryContract::class)->fetchById($id);
         app(TimerRepositoryContract::class)->delete($timer);
@@ -86,22 +90,29 @@ class StatAdminClientList extends Component
     public function editTime($id)
     {
         $this->idTime = $id;
+
         if ($this->timeEdit) {
             $this->timeEdit = false;
             $this->dateModif = '';
+            $this->dateModifEnd = '';
         } else {
+
             $this->timeEdit = true;
+
         }
     }
 
     public function modifTime($id)
     {
-        if ($this->dateModif != '') {
+        if ($this->dateModifStart != '' && $this->dateModifEnd != '') {
+
+            $start = (new DateStringToCarbon())->handle($this->dateModifStart);
+            $end = (new DateStringToCarbon())->handle($this->dateModifEnd);
+
             $repTime = app(TimerRepositoryContract::class);
             $time = $repTime->fetchById($id);
-            $date = (new DateStringToCarbon())->handle($this->dateModif);
-            $newCount = $time->start->diffInSeconds($this->dateModif);
-            $repTime->modifTime($time, $newCount);
+
+            $repTime->modifTime($time, $start, $end);
 
             $this->updateSelectCommercial($this->commercial);
             $this->timeEdit = false;

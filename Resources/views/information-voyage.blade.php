@@ -61,11 +61,25 @@
     {{--        @dd($devis->data)--}}
     <div class="bg-white h-full w-full h-screen flex flex-col justify-between" style="font-family: 'Lato', sans-serif;">
         <div class="max-w-7xl w-full mx-auto pt-16 px-8 pb-16">
-            <div class="text-red-600 text-4xl font-extrabold text-center underline">Information Voyage</div>
+            <div class="text-red-600 text-4xl font-extrabold text-center underline">Dossier conducteur</div>
             {{--                                    @dd($devis->data)--}}
             @foreach(($devis->data['trajets'] ?? []) as $index => $trajet)
                 <div class="mb-8">
-                    <div class="text-xl font-extrabold underline mb-2">Voyage n°{{$index + 1}}</div>
+
+                    @if($index != 0)
+                        <div class="text-xl font-extrabold underline mb-2">Voyage n°{{$index + 1}}</div>
+                    @endif
+
+                    <div
+                        class="text-4xl font-bold text-blue-400 text-center mt-4">{{ \Carbon\Carbon::createFromTimeString($trajet['aller_date_depart'])->translatedFormat('l d F Y') ?? ''}}</div>
+                    <div class="text-4xl font-bold text-blue-400 text-center mt-4">
+                        Transfert vers {{ $trajet['aller_point_arriver'] ?? ''}}
+                    </div>
+                    <div class="text-2xl font-bold text-center mt-4">
+                        {{ $trajet['aller_pax'] ?? ''}} pax à l'aller / {{ $trajet['retour_pax'] ?? ''}} pax au retour
+                    </div>
+
+
                     <div class="font-bold space-y-2 mt-6">
                         <div>Date de
                             départ: {{ \Carbon\Carbon::createFromTimeString($trajet['aller_date_depart'])->format('d/m/Y') ?? ''}}</div>
@@ -129,5 +143,7 @@
                 <div>Contact d'urgence 06 18 37 37 70</div>
             </div>
         </div>
+
+    @dump($trajet)
 
 @endsection
