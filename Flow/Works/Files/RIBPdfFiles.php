@@ -3,8 +3,6 @@
 namespace Modules\CrmAutoCar\Flow\Works\Files;
 
 use Illuminate\Support\Facades\Storage;
-use Modules\BaseCore\Contracts\Services\PdfContract;
-use Modules\CoreCRM\Actions\Devis\GenerateLinkDevis;
 use Modules\CoreCRM\Flow\Works\Files\WorkFlowFiles;
 
 class RIBPdfFiles extends WorkFlowFiles

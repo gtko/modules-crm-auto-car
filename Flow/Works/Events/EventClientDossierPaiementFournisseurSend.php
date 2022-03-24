@@ -22,6 +22,7 @@ use Modules\CoreCRM\Flow\Works\Variables\UserVariable;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDossierPaiementFournisseurSend;
 use Modules\CrmAutoCar\Flow\Works\Conditions\ConditionDateDepartDevis;
 use Modules\CrmAutoCar\Flow\Works\Conditions\ConditionFournisseurBPA;
+use Modules\CrmAutoCar\Flow\Works\Conditions\ConditionFournisseurSolde;
 use Modules\CrmAutoCar\Flow\Works\Files\CguPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\InformationVoyagePdfFiles;
@@ -56,7 +57,8 @@ class EventClientDossierPaiementFournisseurSend extends \Modules\CoreCRM\Flow\Wo
             ConditionStatus::class,
             ConditionTag::class,
             ConditionDateDepartDevis::class,
-            ConditionFournisseurBPA::class
+            ConditionFournisseurBPA::class,
+            ConditionFournisseurSolde::class
         ];
     }
 

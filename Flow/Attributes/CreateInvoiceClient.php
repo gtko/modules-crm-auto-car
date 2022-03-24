@@ -22,14 +22,14 @@ class CreateInvoiceClient extends Attributes
 
     public static function instance(array $value): FlowAttributes
     {
-        $invoice = app(InvoicesRepositoryContract::class)->fetchById($value['invoice_id']);
+        $invoice = app(InvoicesRepositoryContract::class)->fetchById($value['invoice_id'] ?? 0);
         return new CreateInvoiceClient($invoice);
     }
 
     public function toArray(): array
     {
         return [
-            'invoice_id' => $this->proformat->id ?? ''
+            'invoice_id' => $this->invoice->id ?? ''
         ];
     }
 

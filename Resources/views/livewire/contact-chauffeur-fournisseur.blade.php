@@ -4,6 +4,7 @@
         <span class="text-lg">Contact chauffeur</span>
     </div>
 
+    @if($fournisseurs->count() > 0)
     <div class="px-2 pt-2">
         <x-basecore::inputs.select name="fournisseur" label="" required="required" wire:model="fournisseur">
             <option selected="selected">Fournisseur</option>
@@ -95,5 +96,10 @@
 
         </table>
     </div>
+    @else
+        <p class="px-2 pt-2">
+            Aucun fournisseur en BPA
+        </p>
 
+    @endif
 </div>

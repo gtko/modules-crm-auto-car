@@ -87,7 +87,10 @@ class ContactChauffeurFournisseur extends Component
      */
     public function getFournisseurs()
     {
-        return app(FournisseurRepositoryContract::class)->all();
+        return app(FournisseurRepositoryContract::class)->newQuery()->whereHas('devis', function ($query) {
+            $query->where('dossier_id', $this->dossier->id);
+            $query->where('bpa', true);
+        })->get();
     }
 
     public function render()
