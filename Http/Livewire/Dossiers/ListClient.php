@@ -41,6 +41,7 @@ class ListClient extends Component
     public function query()
     {
         $filter = (new ClientFilterQuery());
+
         $filter->byStatus($this->status);
         $filter->byCommercial($this->commercial);
         $filter->byTag($this->tag);

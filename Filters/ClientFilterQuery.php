@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\CoreCRM\Contracts\Repositories\ClientRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\DossierRepositoryContract;
+use Modules\CoreCRM\Enum\StatusTypeEnum;
 use Modules\CoreCRM\Models\Commercial;
 
 class ClientFilterQuery
@@ -37,8 +38,13 @@ class ClientFilterQuery
     {
         if ($status) {
             $this->query->where('status_id', $status);
+        }else{
+            $this->query->whereHas('status', function($query){
+                $query->whereNotIn('type',[StatusTypeEnum::TYPE_WIN, StatusTypeEnum::TYPE_LOST]);
+            });
         }
     }
+
 
     public function byCommercial($commercial = null)
     {
