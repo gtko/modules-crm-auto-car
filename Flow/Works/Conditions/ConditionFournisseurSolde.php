@@ -20,12 +20,13 @@ class ConditionFournisseurSolde extends WorkFlowCondition
     {
         $data = $this->event->getData();
 
-//        //
-//        $fournisseurs =  $data['proformat']
+
+
+//      $fournisseurs =  $data['proformat']
 //
-//        $price =  $data['proformat']->price;
-//        if($price->paid() >= $price->getPriceTTC()) return 'complet';
-//        if($price->paid() === 0) return 'aucun';
+//      $price =  $data['proformat']->price;
+//      if($price->paid() >= $price->getPriceTTC()) return 'complet';
+//      if($price->paid() === 0) return 'aucun';
 
         return 'complet';
     }

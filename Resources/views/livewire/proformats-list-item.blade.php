@@ -7,6 +7,9 @@
         <div class="flex flex-col">
         <a href="{{route('dossiers.show', [$proformat->devis->dossier->client, $proformat->devis->dossier])}}" class="font-medium whitespace-nowrap">
             {{$proformat->devis->dossier->client->format_name}}
+            @if($proformat->devis->dossier->client->company)
+                <br>  {{$proformat->devis->dossier->client->company}}
+            @endif
         </a>
         <small class="whitespace-nowrap">signé le {{$proformat->created_at->format('d/m/Y H:i')}}</small>
         <div class="text-gray-600 text-xs whitespace-nowrap mt-0.5">
