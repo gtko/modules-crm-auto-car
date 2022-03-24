@@ -29,18 +29,21 @@ class StatsAdminCard extends Component
     public $debut;
     public $fin;
 
-    protected $listeners = ['updateSelectCommercial', 'dateRange', 'resetCard'];
+    protected $listeners = ['updateSelectCommercial', 'dateRange', 'resetCard', 'resetAll'];
 
 
     public function mount(){
         if(Auth::user()->hasRole('commercial')) {
             $this->commercial = Auth::commercial();
         }else{
-            $this->commercial = app(CommercialRepositoryContract::class)->newQuery()->first();
+            $this->commercial = app(CommercialRepositoryContract::class)
+                ->newQuery()
+                ->role('commercial')
+                ->first();
         }
     }
 
-    public function updateSelectCommercial(Commercial $commercial)
+    public function updateSelectCommercial(?Commercial $commercial = null)
     {
         $this->commercial = $commercial;
     }
@@ -51,6 +54,8 @@ class StatsAdminCard extends Component
         $this->debut = $debut;
         $this->fin = $fin;
     }
+
+
 
     public function dateRange($debut, $fin, Commercial $commercial)
     {

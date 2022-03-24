@@ -7,6 +7,7 @@ use Carbon\CarbonPeriod;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Modules\BaseCore\Actions\Dates\DateStringToCarbon;
+use Modules\CoreCRM\Contracts\Repositories\CommercialRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\DossierRepositoryContract;
 use Modules\CoreCRM\Models\Commercial;
 use Modules\CoreCRM\Models\Dossier;
@@ -20,17 +21,23 @@ class StatsFilterDate extends Component
     public $debut;
     public $fin;
 
-    protected $listeners = ['updateSelectCommercial'];
+    protected $listeners = ['updateSelectCommercial', 'resetAll'];
 
     public function mount()
     {
         if (Auth::user()->hasRole('commercial')) {
             $this->commercial = Auth::commercial();
+        }else{
+            $this->commercial = app(CommercialRepositoryContract::class)
+                ->newQuery()
+                ->role('commercial')
+                ->first();
         }
 
     }
 
-    public function updateSelectCommercial(Commercial $commercial)
+
+    public function updateSelectCommercial(?Commercial $commercial = null)
     {
         $this->commercial = $commercial;
     }

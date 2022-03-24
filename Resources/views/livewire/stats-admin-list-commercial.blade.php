@@ -26,6 +26,7 @@
                         <div class="w-2 h-2 bg-red-600 rounded-full"></div>
                     @endif
                 </span>
+
             </span>
                 <div x-show="selected === {{ $commercial->id }}">
                     <livewire:crmautocar::plateau-list-detail :commercialId="$commercial->id" :key="$commercial->id"/>
