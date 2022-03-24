@@ -13,7 +13,7 @@
         <div class="grid grid-cols-12 mt-4">
 
             <select wire:model="paiement_proformat" class="form-control-sm col-span-6 mr-1">
-                <option>Choisir une proforma</option>
+                <option value="">Choisir une proforma</option>
                 @foreach($proformats as $proformat)
                     <option value="{{$proformat->id}}">Facture proforma{{$proformat->number}}</option>
                 @endforeach
@@ -27,7 +27,6 @@
                 <option value="remboursement">Remboursement</option>
                 <option value="avoir">Avoir</option>
             </select>
-
             <input type="number" step="0.00" wire:model="paiement_total" class="form-control-sm col-span-4 mt-1 mr-1"/>
 
             <x-basecore::inputs.date name="paiement_date" class="col-span-4 form-control-sm mt-1 mr-1"
@@ -36,7 +35,19 @@
             <button class="btn btn-primary form-control-sm col-span-4 mt-1 ml-1" wire:click="addPaiment">Ajouter
             </button>
 
+
+
         </div>
+
+            @if($this->price)
+                <div class="grid grid-cols-4 mt-5 text-center font-bold">
+                    <div>Total : @marge($this->price->getPriceTTC())€</div>
+                    <div>Accompte : @marge($this->price->getPriceTTC() / 1.3)€</div>
+                    <div class="text-green-600">Déjà payé : @marge($this->price->paid())€</div>
+                    <div class="text-red-600">Reste : @marge($this->price->remains())€</div>
+                </div>
+            @endif
+
         @endcan
         @if($payments->count() > 0)
         <div>

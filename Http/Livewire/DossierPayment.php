@@ -54,9 +54,20 @@ class DossierPayment extends Component
     }
 
 
+    public function getPriceProperty()
+    {
+        if ($this->paiement_proformat){
+            $proformat = app(ProformatsRepositoryContract::class)
+                ->fetchById($this->paiement_proformat);
+
+            return $proformat->price;
+        }
+
+        return null;
+    }
+
     public function addPaiment(PaymentRepositoryContract $paymentRep, ProformatsRepositoryContract $proformatRep)
     {
-
         if(Auth::user()->cannot('create', Payment::class)){
             abort(403);
         }
@@ -86,7 +97,6 @@ class DossierPayment extends Component
         $this->paiement_type = '';
 
         return redirect()->route('dossiers.show', [$this->client, $this->dossier, 'tab' => 'payment']);
-
     }
 
     public function render(ProformatsRepositoryContract $proformatRep, PaymentRepositoryContract $paymentRep)
