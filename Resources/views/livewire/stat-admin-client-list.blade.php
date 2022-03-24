@@ -27,7 +27,9 @@
                 <tr>
                     <td class="border-b dark:border-dark-5">
                         <span class="flex flex-row items-center">
-                        {{ $time->start->format('d/m/Y H:i') }}
+                            @if (!$timeEdit || ($time->id != $idTime && $timeEdit))
+                                {{ $time->start->format('d/m/Y H:i') }}
+                            @endif
                             @if(Auth::user()->isSuperAdmin())
                                 @if ($timeEdit && $time->id == $idTime)
                                     <x-basecore::inputs.datetime name="date_modif" wire:model="dateModifStart"
@@ -39,11 +41,15 @@
 
                     <td class="border-b dark:border-dark-5">
                         <span class="flex flex-row items-center">
-                            {{ $time->start->addSecond($time->count)->format('d/m/Y H:i')}}
+                             @if (!$timeEdit || ($time->id != $idTime && $timeEdit))
+                                {{ $time->start->addSecond($time->count)->format('d/m/Y H:i')}}
+                            @endif
                             @if(Auth::user()->isSuperAdmin())
-                                <span class="cursor-pointer"
+                                @if (!$timeEdit || ($time->id != $idTime && $timeEdit))
+                                    <span class="cursor-pointer"
 
-                                      wire:click="editTime({{$time->id}})">@icon('edit', 18, 'ml-2')</span>
+                                          wire:click="editTime({{$time->id}})">@icon('edit', 18, 'ml-2')</span>
+                                @endif
                                 @if ($timeEdit && $time->id == $idTime)
                                     <div class="w-72 ml-2 flex flex-row items-center">
 

@@ -90,6 +90,12 @@ class StatAdminClientList extends Component
     public function editTime($id)
     {
         $this->idTime = $id;
+        $time = app(TimerRepositoryContract::class)->fetchById($id);
+
+        $this->dateModifStart = $time->start->toDateTimeLocalString();
+        $this->dateModifEnd = $time->start->clone()->addSeconds($time->count)->toDateTimeLocalString();
+
+
 
         if ($this->timeEdit) {
             $this->timeEdit = false;
@@ -116,6 +122,7 @@ class StatAdminClientList extends Component
 
             $this->updateSelectCommercial($this->commercial);
             $this->timeEdit = false;
+            $this->emit('refresh');
         }
     }
 
