@@ -1,5 +1,7 @@
-<x-basecore::app-layout>
-    <div class="pt-8">
+@extends('basecore::layout.main')
+
+@section('content')
+    <div class="pt-8 p-4 bg-white">
         <div class="text-center underline mb-4">CONDITIONS GENERALES DE LOCATION</div>
 
 
@@ -696,4 +698,4 @@
         <div class="mb-4"> La Société élit domicile au 57, Rue de Clisson – 75013 Paris (France).
         </div>
     </div>
-</x-basecore::app-layout>
+@endsection

@@ -1,5 +1,58 @@
-<x-basecore::app-layout>
-    <div class="pt-8">
+@extends('basecore::layout.main')
+
+@section('content')
+
+    <style>
+        @page {
+            size: 1400px 1980px !important;
+            /* this affects the margin in the printer settings */
+            margin: 0px 0px 0px 0px;
+        }
+
+        @media print {
+
+            html, body{
+                background: white!important;
+            }
+
+            .print-col-span-3 {
+                grid-column: span 3 / span 3 !important;
+            }
+
+            .notcut {
+                position: relative;
+                break-inside: avoid;
+                page-break-inside: avoid;
+                -webkit-region-break-inside: avoid;
+            }
+
+
+            body, .invoice-content {
+                position: relative;
+                max-width: 100% !important;
+                width: 100% !important;
+                margin: 0;
+            }
+
+            .container, .row {
+                padding: 0px;
+                width: 100% !important;
+                max-width: 100% !important;
+            }
+
+            .no-print {
+                display: none;
+            }
+
+            .footer{
+                background: white;
+                color: gray;
+            }
+
+        }
+    </style>
+
+    <div class="pt-8 bg-white p-4">
         <div class="text-center underline mb-4">MENTIONS LEGALES ET POLITIQUE DE CONFIDENTIALITE DU SITE CENTRALE
             AUTOCAR
         </div>
@@ -359,4 +412,4 @@
 
 
     </div>
-</x-basecore::app-layout>
+@endsection

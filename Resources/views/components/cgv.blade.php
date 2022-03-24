@@ -638,7 +638,7 @@
                 que
                 ce
                 soit, il ne pourra prétendre à aucune indemnisation.</p>
-            <h2 class="font-bold text-xl">>Article 15 – Formalités</h2>
+            <h2 class="font-bold text-xl">Article 15 – Formalités</h2>
             <p>Pour les déplacements à l’étranger, chaque participant est invité à se renseigner sur les législations de
                 police
                 et douanière en vigueur et à s’y conformer. Le transporteur ne saurait être tenu pour responsable de

@@ -61,6 +61,9 @@
     {{--        @dd($devis->data)--}}
     <div class="bg-white h-full w-full h-screen flex flex-col justify-between" style="font-family: 'Lato', sans-serif;">
         <div class="max-w-7xl w-full mx-auto pt-16 px-8 pb-16">
+            <div class="flex justify-center">
+                <img src="{{\Illuminate\Support\Facades\Storage::url('/img/logo.jpeg')}}" alt="">
+            </div>
             <div class="text-red-600 text-4xl font-extrabold text-center underline">Dossier conducteur</div>
             {{--                                    @dd($devis->data)--}}
             @foreach(($devis->data['trajets'] ?? []) as $index => $trajet)
@@ -78,72 +81,116 @@
                     <div class="text-2xl font-bold text-center mt-4">
                         {{ $trajet['aller_pax'] ?? ''}} pax à l'aller / {{ $trajet['retour_pax'] ?? ''}} pax au retour
                     </div>
-
-
-                    <div class="font-bold space-y-2 mt-6">
+                    <div class="text-xl font-bold underline mt-4">Contact chauffeur aller :</div>
+                    <span class="text-lg"> <br>{{ $devis->data['aller_tel_chauffeur'] ?? '' }}</span>
+                    <div class="text-xl font-bold underline mt-4">Contact chauffeur aller :</div>
+                    <span class="text-lg"> <br>{{ $devis->data['retour_tel_chauffeur'] ?? '' }}</span>
+                    <div class="text-xl font-bold underline mt-4">Transfert aller :</div>
+                    <div class="mt-4">
                         <div>Date de
-                            départ: {{ \Carbon\Carbon::createFromTimeString($trajet['aller_date_depart'])->format('d/m/Y') ?? ''}}</div>
-                        <div>Heure de
-                            départ: {{ \Carbon\Carbon::createFromTimeString($trajet['aller_date_depart'])->format('h:i:s') ?? ''}}</div>
-                        <div>Lieu de départ: {{ $trajet['aller_distance']['origin_formatted'] ?? ''}}</div>
-                        <div>Lieu de destination: {{ $trajet['retour_distance']['origin_formatted'] ?? ''}}</div>
-                        <div>Contact Chauffeur:
-                            <span> <br> -Aller {{ $devis->data['aller_tel_chauffeur'] ?? '' }}</span>
-                            <span> <br> -Retour {{ $devis->data['retour_tel_chauffeur'] ?? '' }}</span>
+                            départ:
+                            <span
+                                class="font-bold ml-1"> {{ \Carbon\Carbon::createFromTimeString($trajet['aller_date_depart'])->format('d/m/Y') ?? ''}}</span>
+                        </div>
+                        <div>Heure de départ:
+                            <span
+                                class="font-bold ml-1">{{ \Carbon\Carbon::createFromTimeString($trajet['aller_date_depart'])->format('h:i:s') ?? ''}}</span>
+                        </div>
+                        <div>Lieu de départ:
+                            <span
+                                class="font-bold ml-1"> {{ $trajet['aller_distance']['origin_formatted'] ?? ''}}</span>
+                        </div>
+                        <div>Lieu de destination:
+                            <span
+                                class="font-bold ml-1">{{ $trajet['retour_distance']['origin_formatted'] ?? ''}}</span>
                         </div>
                     </div>
-                    <div>
-                        <div class="text-blue-600 py-4">Ce prix comprend</div>
-                        <div class="flex flex-col">
-                            @if ($trajet['inclus_repas_chauffeur'])
-                                <span>-Repas chauffeur</span>
-                            @endif
-                            @if ($trajet['inclus_hebergement'])
-                                <span>-Hébergement</span>
-                            @endif
-                            @if ($trajet['inclus_parking'])
-                                <span>-Parking</span>
-                            @endif
-                            @if ($trajet['inclus_peages'])
-                                <span>-Péages</span>
-                            @endif
+                    <div class="text-xl font-bold underline mt-4">Transfert retour :</div>
+                    <div class="mt-4">
+                        <div>Date de départ:
+                            <span
+                                class="font-bold ml-1">{{ \Carbon\Carbon::createFromTimeString($trajet['retour_date_depart'])->format('d/m/Y') ?? ''}}</span>
                         </div>
-                        <div class="text-blue-600 py-4">Ce prix ne comprend pas</div>
-                        <div class="flex flex-col">
-                            @if (!$trajet['inclus_repas_chauffeur'])
-                                <span>-Repas chauffeur</span>
-                            @endif
-                            @if (!$trajet['inclus_hebergement'])
-                                <span>-Hébergement</span>
-                            @endif
-                            @if (!$trajet['inclus_parking'])
-                                <span>-Parking</span>
-                            @endif
-                            @if (!$trajet['inclus_peages'])
-                                <span>-Péages</span>
-                            @endif
+                        <div>Heure de départ:
+                            <span
+                                class="font-bold ml-1">{{ \Carbon\Carbon::createFromTimeString($trajet['retour_date_depart'])->format('h:i:s') ?? ''}}</span>
+                        </div>
+                        <div>Lieu de départ:
+                            <span
+                                class="font-bold ml-1">{{ $trajet['retour_distance']['origin_formatted'] ?? ''}}</span>
+                        </div>
+                        <div>Lieu de destination:
+                            <span class="font-bold ml-1">{{ $trajet['retour_point_arriver']?? ''}}</span>
                         </div>
                     </div>
-                </div>
-            @endforeach
-            <div class="space-y-4 font-extrabold text-xs">
-                <div class="uppercase"> Rappel de la legislation</div>
-                <div class="uppercase underline">port du masque obligatoire toute la duree du transfert</div>
-                <div>-Amplitude: 12h pour un conducteur et 18h pour deux conducteurs en double équipage</div>
-                <div>-Temps de conduite: 9h de conduite pour un conducteur par jour.</div>
-                <div>-Coupure: une coupure de 45 min toutes les 4h30 de conduite.</div>
-                <div>-De 21h à 06h (heures de nuit) les coupures ont lieu toutes les 4h de conduite.</div>
-                <div>-repos: 1 jour de repos obligatoire sur place pour les voyage de plus de 6 jours</div>
-                <div>Attention il est impératif en cas de contrôle routier d'avoir la liste des participants à bord de
-                    l'autocar
-                </div>
-            </div>
-            <div class="text-lg text-red-600 flex flex-col justify-center items-center mt-8 space-y-6 font-bold">
-                <div>Nous vous souhaitons un excellent voyage</div>
-                <div>Contact d'urgence 06 18 37 37 70</div>
-            </div>
-        </div>
 
-    @dump($trajet)
+
+                    <div class="text-xl underline font-bold mt-8">Ce prix comprend :</div>
+                    <div class="flex flex-col space-y-2 pt-2">
+                        @if ($trajet['inclus_repas_chauffeur'])
+                            <span>-Repas chauffeur</span>
+                        @endif
+                        @if ($trajet['inclus_hebergement'])
+                            <span>-Hébergement</span>
+                        @endif
+                        @if ($trajet['inclus_parking'])
+                            <span>-Parking</span>
+                        @endif
+                        @if ($trajet['inclus_peages'])
+                            <span>-Péages</span>
+                        @endif
+                    </div>
+                    <div class="text-xl underline font-bold mt-4">Ce prix comprend pas:</div>
+                    <div class="flex flex-col space-y-2 pt-2">
+                        @if (!$trajet['inclus_repas_chauffeur'])
+                            <span>-Repas chauffeur</span>
+                        @endif
+                        @if (!$trajet['inclus_hebergement'])
+                            <span>-Hébergement</span>
+                        @endif
+                        @if (!$trajet['inclus_parking'])
+                            <span>-Parking</span>
+                        @endif
+                        @if (!$trajet['inclus_peages'])
+                            <span>-Péages</span>
+                        @endif
+                        <span>-Les éventuels kilométres supplémentaires (1.10€ TTC/kilométre) si modification de programme</span>
+                        <span>-Les éventuels heures supplémentaires (25€ TTC/heure) si modification de programme</span>
+                        <span>-Péages</span>
+                    </div>
+
+                    @endforeach
+                    <div class="space-y-4 text-xs mt-8">
+                        <div class="uppercase font-extrabold"> Rappel de la legislation</div>
+                        <div class="uppercase underline">port du masque obligatoire toute la duree du transfert</div>
+                        <div>-Amplitude: 12h pour un conducteur et 18h pour deux conducteurs en double équipage</div>
+                        <div>-Temps de conduite: 9h de conduite pour un conducteur par jour.</div>
+                        <div>-Coupure: une coupure de 45 min toutes les 4h30 de conduite.</div>
+                        <div>-De 21h à 06h (heures de nuit) les coupures ont lieu toutes les 4h de conduite.</div>
+                        <div>-repos: 1 jour de repos obligatoire sur place pour les voyage de plus de 6 jours</div>
+                        <div>Attention il est impératif en cas de contrôle routier d'avoir la liste des participants à
+                            bord de
+                            l'autocar
+                        </div>
+                    </div>
+                    <div
+                        class="text-lg text-red-600 flex flex-col justify-center items-center mt-12 space-y-6 font-bold">
+                        <div>Nous vous souhaitons un excellent voyage</div>
+                        <div>Contact d'urgence 06 18 37 37 70</div>
+                    </div>
+                        <div class="text-center text-2xl mt-12">
+                            Centrale Autocar
+                        </div>
+                    <div class="text-center mt-2">
+                        Société par Actions Simplifiées - N° Siret : 853 867 703 00011 - R.C.S. Paris 853 867 703 - Code APE : 4939B
+                    </div>
+                </div>
+        </div>
+    </div>
+
+
+
+
+{{--    @dump($trajet)--}}
 
 @endsection

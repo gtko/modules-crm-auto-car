@@ -50,7 +50,7 @@ class StatAdminClientList extends Component
             $this->commercial = app(CommercialRepositoryContract::class)->newQuery()->first();
         }
 
-        $this->times = app(TimerRepositoryContract::class)->getTimeByPeriode($this->commercial, Carbon::now()->subYear(50), Carbon::now()->addHour(1));
+        $this->times = app(TimerRepositoryContract::class)->getTimeByPeriode($this->commercial, Carbon::now()->subYear(50), Carbon::now());
     }
 
     public function addTime()
@@ -77,7 +77,7 @@ class StatAdminClientList extends Component
     {
         $this->addTime = true;
         $this->commercial = $commercial;
-        $this->times = app(TimerRepositoryContract::class)->getTimeByPeriode($this->commercial, Carbon::now()->subYear(50), Carbon::now()->addHour(1));
+        $this->times = app(TimerRepositoryContract::class)->getTimeByPeriode($this->commercial, Carbon::now()->subYear(50), Carbon::now());
 
     }
 
@@ -132,7 +132,7 @@ class StatAdminClientList extends Component
 
             $this->times = app(TimerRepositoryContract::class)->getTimeByPeriode($this->commercial, $start, $fin);
         } else {
-            $this->times = app(TimerRepositoryContract::class)->getTimeByPeriode($this->commercial, Carbon::now()->subYear(50), Carbon::now()->addHour(1));
+            $this->times = app(TimerRepositoryContract::class)->getTimeByPeriode($this->commercial, Carbon::now()->subYear(50), Carbon::now());
         }
 
         return view('crmautocar::livewire.stat-admin-client-list');
