@@ -31,16 +31,16 @@ Route::middleware(['secure.devis'])->group(function () {
     Route::get('/devis/{devis}/{token}', [Index::class, 'index'])->name('devis-view');
     Route::get('/devis/pdf/{devis}/{token}', [Index::class, 'index'])->name('devis-pdf');
 });
-Route::get('/voyage/{devis}', [ValidationInformationVoyageController::class, 'index'])->name('validation-voyage');
+
 Route::middleware(['secure.signate'])->group(function () {
-//    Route::get('/voyage/{devis}', [ValidationInformationVoyageController::class, 'index'])->name('validation-voyage');
     Route::get('invoices/{invoice}', [InvoicesController::class, 'show'])->name('invoices.show');
     Route::get('invoices/{invoice}/pdf', [InvoicesController::class, 'pdf'])->name('invoices.pdf');
+    Route::get('/voyage/{devis}', [ValidationInformationVoyageController::class, 'index'])->name('validation-voyage');
 });
+Route::get('/feuille-route/{devis}', [InfomationVogageController::class, 'index'])->name('feuille-route');
 
 Route::get('/brand1/devis/{devis}', [CentralAutoCarDevisController::class, 'index'])->name('brand1');
 Route::get('/brand2/devis/{devis}', [MonAutoCarController::class, 'index'])->name('brand2');
-Route::get('/information-voyage/{devis}', [InfomationVogageController::class, 'index'])->name('info-voyage');
 
 
 Route::get('proformats/{proformat}', [ProformatsController::class, 'show'])->name('proformats.show');
