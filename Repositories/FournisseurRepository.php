@@ -11,6 +11,8 @@ use Modules\CrmAutoCar\Models\Fournisseur;
 class FournisseurRepository extends \Modules\CoreCRM\Repositories\FournisseurRepository
 {
 
+    protected $disabledVisibility = false;
+
     public function getModel(): Model
     {
         return new Fournisseur();
@@ -19,11 +21,16 @@ class FournisseurRepository extends \Modules\CoreCRM\Repositories\FournisseurRep
 
     public function newQuery(): Builder
     {
+        if($this->disabledVisibility){
+            return parent::newQuery();
+        }
+
         return parent::newQuery()->where('enabled', true);
     }
 
     public function disabled(){
-        return $this->newQuery()->orWhere('enabled', false);
+        $this->disabledVisibility = true;
+        return $this;
     }
 
     public function getBpaByDevis(DevisEntities $devis){

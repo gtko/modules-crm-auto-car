@@ -4,6 +4,7 @@ namespace Modules\CrmAutoCar\Http\Controllers;
 
 use Modules\BaseCore\Http\Controllers\Controller;
 use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
+use Modules\CoreCRM\Contracts\Repositories\FournisseurRepositoryContract;
 use Modules\CrmAutoCar\Models\Brand;
 use Modules\DevisAutoCar\Entities\DevisPrice;
 use Modules\DevisAutoCar\Entities\DevisTrajetPrice;
@@ -25,9 +26,14 @@ class InfomationVogageController extends Controller
 
         $fournisseur_astreinte = '0603315632';
 
+        $fournisseurs = app(FournisseurRepositoryContract::class)->newQuery()
+            ->whereHas('devis', function($query) use ($devis) {
+                $query->where('id', $devis->id);
+            })
+            ->get();
 
+//        dd($fournisseurs);
 
-
-        return view('crmautocar::information-voyage', compact('devis', 'brand', 'price'));
+        return view('crmautocar::information-voyage', compact('devis', 'brand', 'price', 'fournisseur_astreinte'));
     }
 }

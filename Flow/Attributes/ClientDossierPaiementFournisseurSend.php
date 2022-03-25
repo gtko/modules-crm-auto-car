@@ -36,6 +36,8 @@ class ClientDossierPaiementFournisseurSend extends Attributes
         $repFournisseur =  app(FournisseurRepositoryContract::class);
         $repDevis = app(DevisRepositoryContract::class);
 
+        $repFournisseur->disabled();
+
         $user = app(UserEntity::class)::find($value['user_id']);
         $fournisseur = $repFournisseur->fetchById($value['fournisseur_id']);
         $devis = $repDevis ->fetchById($value['devis_id']);

@@ -58,7 +58,9 @@ class ContactChauffeurFournisseur extends Component
         $this->validate();
 
         $devis = app(DevisRepositoryContract::class)->fetchById($this->devis);
-        $fournisseur = app(FournisseurRepositoryContract::class)->fetchById($this->fournisseur);
+        $fournisseur = app(FournisseurRepositoryContract::class)
+            ->disabled()
+            ->fetchById($this->fournisseur);
 
 
 //        dd($devis);
@@ -87,7 +89,9 @@ class ContactChauffeurFournisseur extends Component
      */
     public function getFournisseurs()
     {
-        return app(FournisseurRepositoryContract::class)->newQuery()->whereHas('devis', function ($query) {
+        return app(FournisseurRepositoryContract::class)
+            ->disabled()
+            ->newQuery()->whereHas('devis', function ($query) {
             $query->where('dossier_id', $this->dossier->id);
             $query->where('bpa', true);
         })->get();

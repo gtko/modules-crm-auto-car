@@ -35,8 +35,8 @@ class ClientDossierDemandeFournisseurValidate extends Attributes
         $repDevis = app(DevisRepositoryContract::class);
 
         $user = app(UserEntity::class)::find($value['user_id']);
-        $fournisseur = $repFournisseur->fetchById($value['fournisseur_id']);
-        $devis = $repDevis ->fetchById($value['devis_id']);
+        $fournisseur = $repFournisseur->disabled()->fetchById($value['fournisseur_id']);
+        $devis = $repDevis->fetchById($value['devis_id']);
 
         $price = $repDevis->getPrice($devis, $fournisseur);
 
