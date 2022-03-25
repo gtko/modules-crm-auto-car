@@ -34,7 +34,7 @@ class FournisseurController extends Controller
 
         return view('crmautocar::app.fournisseurs.index', [
             'title' => 'Fournisseurs',
-            'fournisseurs' => $fournisseurRep->fetchAll()
+            'fournisseurs' => $fournisseurRep->disabled()->get()
         ]);
     }
 

@@ -2,6 +2,7 @@
 
 namespace Modules\CrmAutoCar\Repositories;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Modules\CoreCRM\Contracts\Entities\DevisEntities;
 use Modules\CoreCRM\Contracts\Repositories\FournisseurRepositoryContract;
@@ -15,6 +16,15 @@ class FournisseurRepository extends \Modules\CoreCRM\Repositories\FournisseurRep
         return new Fournisseur();
     }
 
+
+    public function newQuery(): Builder
+    {
+        return parent::newQuery()->where('enabled', true);
+    }
+
+    public function disabled(){
+        return $this->newQuery()->orWhere('enabled', false);
+    }
 
     public function getBpaByDevis(DevisEntities $devis){
 
