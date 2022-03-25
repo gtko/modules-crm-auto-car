@@ -29,7 +29,7 @@ class StatsAdminCard extends Component
     public $debut;
     public $fin;
 
-    protected $listeners = ['updateSelectCommercial', 'dateRange', 'resetCard', 'resetAll'];
+    protected $listeners = ['updateSelectCommercial', 'dateRange', 'resetCard', 'resetAll', 'refresh' => '$refresh'];
 
 
     public function mount(){
