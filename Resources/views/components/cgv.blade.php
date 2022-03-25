@@ -27,19 +27,14 @@
                 display: none;
             }
 
+            .break{
+                page-break-after: always;
+            }
+
+            .break-margin-top{
+                margin-top:50px;
+            }
         }
     </style>
-
-
-    <div class="bg-white border border-2 border-gray-400  lg:mb-6 mb-0 mt-6 p-4 lg:order-5 max-w-7xl mx-auto">
-
         @include('crmautocar::cgl')
-    </div>
-
-
-
-
-{{--    <x-crmautocar::devis-client.footer class="h-32"/>/--}}
-
-
 @endsection

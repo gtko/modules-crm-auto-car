@@ -159,8 +159,9 @@
         incompatibles avec la règlementation des conditions de travail et de sécurité.
     </div>
 
+    <div class="break"></div>
 
-    <div class="mb-4 font-bold"> 6.2. Règlementation applicable aux Chauffeurs
+    <div class="mb-4 font-bold break-margin-top"> 6.2. Règlementation applicable aux Chauffeurs
     </div>
     <div class="mb-4"> Les transports publics collectifs occasionnel de personnes mis en place par la Société au
         profit de ses Client tiennent compte du respect de la règlementation applicable en la matière, à savoir :
@@ -287,7 +288,10 @@
     </div>
     <div class="mb-4"> Toute modification du Contrat peut entraîner un réajustement du prix initialement convenu.
     </div>
-    <div class="mb-4 font-bold"> 10.2. Annulation de la location par le Client
+
+
+    <div class="break"></div>
+    <div class="mb-4 font-bold break-margin-top"> 10.2. Annulation de la location par le Client
     </div>
     <div class="mb-4"> Préalablement au transport
     </div>
@@ -397,7 +401,10 @@
     <div class="mb-4"> - Moyen de communication : les coordonnées téléphoniques permettant à la Société de joindre
         le Client à tout moment (vingt-quatre heures sur vingt-quatre et sept jours sur sept).
     </div>
-    <div class="mb-4 font-bold"> 13.2. Caractéristiques des Véhicules loués
+
+    <div class="break"></div>
+
+    <div class="mb-4 font-bold break-margin-top"> 13.2. Caractéristiques des Véhicules loués
     </div>
     <div class="mb-4"> Chaque Véhicule mis à disposition du Client par la Société, doit être :
     </div>
@@ -424,7 +431,7 @@
         départ du transport. Le Client et le Chauffeur sont tenus de vérifier ensemble si d’éventuelles dégradations
         sont intervenues avant le retour du Véhicule à son garage.
     </div>
-    <div class="mb-4 font-bold"> 12.3. Sécurité à bord
+    <div class="mb-4 font-bold"> 13.3. Sécurité à bord
     </div>
     <div class="mb-4"> Le nombre maximal de personnes pouvant être transportées ne peut excéder celui inscrit sur
         l’attestation d’aménagement ou la carte violette du Véhicule.
@@ -487,7 +494,7 @@
     <div class="mb-4"> o Veiller à ce que les personnes ne mangent pas dans le Véhicule sans autorisation du
         Chauffeur.
     </div>
-    <div class="mb-4 font-bold"> 12.4. Bagages
+    <div class="mb-4 font-bold"> 13.4. Bagages
     </div>
     <div class="mb-4"> La Société n’est pas responsable des bagages placés en soute.
     </div>
@@ -513,13 +520,13 @@
     <div class="mb-4"> La Société décline toute responsabilité en cas de détérioration ou de vol de tout ce qui
         pourrait y avoir été laissé.
     </div>
-    <div class="mb-4 font-bold"> 12.5. Horaires et itinéraires
+    <div class="mb-4 font-bold"> 13.5. Horaires et itinéraires
     </div>
     <div class="mb-4"> Les horaires de départ et d’arrivée, ainsi que les itinéraires sont mentionnés au Client à
         titre indicatif et sont susceptibles de modifications, si les circonstances l’imposent notamment pour des
         raisons de législation, de sécurité, de cas fortuit ou de force majeure.
     </div>
-    <div class="mb-4 font-bold"> 12.6. Demandes spéciales
+    <div class="mb-4 font-bold"> 13.6. Demandes spéciales
     </div>
     <div class="mb-4"> Toutes les demandes spéciales (fauteuil roulant, excédant de bagages, repas spéciaux,
         transport d’instruments de musique...) doivent être adressées par écrit à la Société, qui s’efforcera de
@@ -528,7 +535,10 @@
     <div class="mb-4"> Cependant, la Société ne pourra en aucun cas être tenue pour responsable de tous dommages
         pouvant résulter de l’absence de prise en compte d’une demande spéciale.
     </div>
-    <div class="mb-4 font-bold"> Article 14. Modification des Conditions Générales de Location
+
+
+    <div class="break"></div>
+    <div class="mb-4 font-bold break-margin-top"> Article 14. Modification des Conditions Générales de Location
     </div>
     <div class="mb-4"> Les Conditions Générales de Location applicables sont celles en vigueur à la date
         d’acceptation des présentes par le Client, dans les conditions définies à l’Article 5 des présentes.
@@ -670,7 +680,10 @@
     </div>
     <div class="mb-4"><a href="https://ec.europa.eu/consumers/odr/main/index.cfm?event=main.home.show&lng=FR.">https://ec.europa.eu/consumers/odr/main/index.cfm?event=main.home.show&lng=FR.</a>
     </div>
-    <div class="mb-4 font-bold"> Article 25. Loi applicable et juridiction compétente
+
+    <div class="break"></div>
+
+    <div class="mb-4 font-bold break-margin-top"> Article 25. Loi applicable et juridiction compétente
     </div>
     <div class="mb-4"> Les Conditions Générales de Location sont soumises au droit français.
     </div>
