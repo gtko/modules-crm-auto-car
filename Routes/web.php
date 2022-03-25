@@ -32,16 +32,13 @@ use Modules\CrmAutoCar\View\Components\DevisClient\Index;
 
 Route::get('test', function () {
 
+    $rep = app(DecaissementRepositoryContract::class);
+    $dossier = Dossier::find(10);
+    $decaissements  = $rep->getByDossier($dossier);
 
-//    $rep = app(DecaissementRepositoryContract::class);
-//    $dossier = Dossier::find(10);
-//    $decaissements  = $rep->getByDossier($dossier);
-//
-//
-//    dd($decaissements->sum('restant') ?? 0);
-//
-//
-//    return "test";
+    dd($decaissements->sum('restant') ?? 0, $decaissements->sum('payer') ?? 0);
+
+    return "test";
 });
 
 Route::middleware(['secure.devis'])->group(function () {
