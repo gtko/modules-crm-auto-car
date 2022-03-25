@@ -383,7 +383,10 @@
                     <div class="max-w-7xl text-center">
                         <h1 class="text-sm font-semibold uppercase tracking-wide text-bleu">Merci !</h1>
                         <p class="mt-2 text-2xl font-extrabold tracking-tight sm:text-3xl">L'équipe de Centrale AutoCar vous souhaites un excellent voyage</p>
-                        <p class="mt-2 text-base text-red-500">En cas d'urgence contacter le 06 18 37 37 70. <br> Réf du voyage <span class="font-bold">#{{$devis->ref}}</span></p>
+                        <p class="mt-2 text-base text-red-500">
+                            En cas d'urgence contacter le {{$fournisseur_astreinte}}.
+                            <br> Réf du voyage <span class="font-bold">#{{$devis->ref}}</span>
+                        </p>
 
 
                     </div>

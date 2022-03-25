@@ -22,6 +22,12 @@ class InfomationVogageController extends Controller
         }else {
             $price = (new DevisPrice($devis, $brand));
         }
+
+        $fournisseur_astreinte = '0603315632';
+
+
+
+
         return view('crmautocar::information-voyage', compact('devis', 'brand', 'price'));
     }
 }
