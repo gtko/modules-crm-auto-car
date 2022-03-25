@@ -38,11 +38,11 @@
 
 
         </div>
-
+        @endcan
             @if($this->price)
                 <div class="grid grid-cols-4 mt-5 text-center font-bold">
                     <div>Total : @marge($this->price->getPriceTTC())€</div>
-                    <div>Accompte : @marge($this->price->getPriceTTC() / 1.3)€</div>
+                    <div>Accompte : @marge($this->price->getPriceTTC() * 0.3)€</div>
                     <div class="text-green-600">Déjà payé : @marge($this->price->paid())€</div>
                     <div class="text-red-600">Reste : @marge($this->price->remains())€</div>
                 </div>
