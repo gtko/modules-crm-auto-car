@@ -83,6 +83,7 @@
         @endif
 
 
+        @if(count($devis->data['trajets'] ?? []) > 1)
             <livewire:crmautocar::devis-client.recap-devis
                 :devis="$devis"
                 :brand="$brand"
@@ -90,7 +91,7 @@
                 :class="'p-4 grid justify-items-stretch mb-4'"
                 :proformat="$proformat"
             />
-
+        @endif
     </div>
 
     @if(($trajet['commentaire'] ?? false))
