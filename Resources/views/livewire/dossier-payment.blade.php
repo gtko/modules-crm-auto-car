@@ -39,7 +39,7 @@
 
         </div>
         @endcan
-            @if($this->price)
+        @if($this->price)
                 <div class="grid grid-cols-4 mt-5 text-center font-bold">
                     <div>Total : @marge($this->price->getPriceTTC())€</div>
                     <div>Accompte : @marge($this->price->getPriceTTC() * 0.3)€</div>
@@ -48,7 +48,6 @@
                 </div>
             @endif
 
-        @endcan
         @if($payments->count() > 0)
         <div>
             <div class="overflow-x-auto">
