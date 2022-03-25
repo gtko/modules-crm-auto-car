@@ -6,7 +6,7 @@
         <table class="border border-gray-600 w-full border-collapse @if($sidebar) hidden lg:block no-print @endif">
 
             @if($price->getTrajets()->count() > 0 || $price instanceof Modules\DevisAutoCar\Entities\DevisTrajetPrice)
-            <tr class="bg-gray-200 border border-gray-600 border-collapse w-full">
+            <tr class="border border-gray-600 border-collapse w-full">
                 <th scope="row" class=" text-left p-3 text-gray-600">
                     Transport en Autocar
                 </th>
@@ -18,7 +18,7 @@
 
             @if(method_exists($price,"getLines"))
                 @foreach($price->getLines() as $line)
-                        <tr class="bg-gray-200 border border-gray-600 border-collapse w-full">
+                        <tr class="border border-gray-600 border-collapse w-full">
                             <th scope="row" class=" text-left p-3 text-gray-600">
                                {{$line->getLine()}}
                             </th>
@@ -40,7 +40,7 @@
                     </td>
                 </tr>
 
-                <tr class="w-full">
+                <tr class="bg-gray-200 w-full">
                     <th scope="row"
                         class="w-1/3 text-left p-3 text-gray-600 border border-gray-600 border-collapse">
                         TVA 10 %
