@@ -20,7 +20,7 @@
     <link type="text/css" rel="stylesheet" href="/crmautocar/assets/css/style.css">
     <style>
         @page {
-            size: 1400px 2080px!important;
+            size: 1400px 2380px!important;
             /* this affects the margin in the printer settings */
             margin: 0px 0px 0px 0px;
         }
@@ -54,8 +54,8 @@
                                         <div class="logo-name">
                                             <div class="info">
                                                 <img class='mb-3' src="https://www.centrale-autocars.fr/images/logo-centrale-autocar.png" alt="logo">
-                                                <p><a href="mailto:{{$invoice->devis->dossier->commercial->email ?? '--'}}">{{$proformat->devis->dossier->commercial->email ?? '--'}}</a>
-                                                <p class="mb-0"><a href="tel:{{$invoice->devis->dossier->commercial->format_phone ?? '--'}}">{{$proformat->devis->dossier->commercial->format_phone ?? '--'}}</a></p>
+                                                <p><a href="mailto:{{$invoice->devis->dossier->commercial->email ?? '--'}}">{{$invoice->devis->dossier->commercial->email ?? '--'}}</a>
+                                                <p class="mb-0"><a href="tel:{{$invoice->devis->dossier->commercial->format_phone ?? '--'}}">{{$invoice->devis->dossier->commercial->format_phone ?? '--'}}</a></p>
                                             </div>
                                         </div>
                                     </div>
@@ -75,6 +75,7 @@
                                         <div class="info">
                                             <p class="inv-title-1">A l'attention de :</p>
                                             <p class="invo-addr-1">
+                                                {{$invoice->devis->dossier->client->company ?? ''}} <br/>
                                                 {{$invoice->devis->dossier->client->format_name}} <br/>
                                                 {{$invoice->devis->dossier->client->full_address}}
                                             </p>

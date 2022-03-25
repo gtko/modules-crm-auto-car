@@ -2,9 +2,8 @@
 
 @section('content')
 
-    <!-- Start of  Zendesk Widget script -->
-    <script id="ze-snippet" src="https://static.zdassets.com/ekr/snippet.js?key=225d297d-d1ea-4ff3-ab9b-f2d399d53e50"> </script>
-    <!-- End of  Zendesk Widget script -->
+    <script type="text/javascript">window.$crisp=[];window.CRISP_WEBSITE_ID="4e5ad81a-d09c-433f-abe9-fe9c0bde58ab";(function(){d=document;s=d.createElement("script");s.src="https://client.crisp.chat/l.js";s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();</script>
+
 
     <style>
         @page {
@@ -114,6 +113,7 @@
                     <x-crmautocar::devis-client.cgv
                         class="bg-white border border-2 border-gray-400  lg:mb-6 mb-0 mt-6 p-4 lg:order-5 no-print"/>
                 </div>
+
                 <div class="col-span-1 print-col-span-3 flex flex-col">
                     <x-crmautocar::devis-client.client-information
                         :devis="$devis"
