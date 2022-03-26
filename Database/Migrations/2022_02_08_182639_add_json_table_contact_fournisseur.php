@@ -15,7 +15,7 @@ class AddJsonTableContactFournisseur extends Migration
 
     public function down()
     {
-        Schema::table('contact_fournisseur', function (Blueprint $table) {
+        Schema::table('contact_fournisseurs', function (Blueprint $table) {
             $table->dropColumn('data');
         });
     }

@@ -34,7 +34,7 @@ class FournisseurController extends Controller
 
         return view('crmautocar::app.fournisseurs.index', [
             'title' => 'Fournisseurs',
-            'fournisseurs' => $fournisseurRep->disabled()->get()
+            'fournisseurs' => $fournisseurRep->disabled()->all()
         ]);
     }
 
@@ -73,6 +73,13 @@ class FournisseurController extends Controller
             }
             $fournisseur->tagfournisseurs()->attach($tag);
         }
+
+        $data = $fournisseur->data;
+        $data['company'] = $request->company ?? '';
+        $data['astreinte'] = $request->astreinte ?? '';
+        $fournisseur->data = $data;
+        $fournisseur->enabled = $request->enabled ?? false;
+        $fournisseur->save();
 
 
         return redirect()->route('fournisseurs.index')->with('success', 'Fournisseur créé avec succès');

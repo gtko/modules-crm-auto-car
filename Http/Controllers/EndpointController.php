@@ -82,6 +82,9 @@ class EndpointController
         $dossier->data = $formatRequest->all();
         $dossier->save();
 
+        $dossier->client->company = $request->company;
+        $dossier->client->save();
+
 
         return response()->json(['message' => 'Lead created'], 201);
     }

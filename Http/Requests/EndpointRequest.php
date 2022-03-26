@@ -6,6 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * @property string $sexe
+ * @property string $company
  * @property string $prenom
  * @property string $nom
  * @property string $email
@@ -25,6 +26,7 @@ class EndpointRequest extends FormRequest
     {
         return [
             'sexe' => '',
+            'company' => '',
             'prenom' => 'required',
             'nom' => 'required',
             'email' => 'required',
