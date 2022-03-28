@@ -10,6 +10,7 @@ use Illuminate\Foundation\Http\FormRequest;
  * @property string $prenom
  * @property string $nom
  * @property string $email
+ * @property string $commercial_email
  * @property string $tel
  * @property string $type
  * @property string $personnes
@@ -32,6 +33,7 @@ class EndpointRequest extends FormRequest
             'email' => 'required',
             'tel' => 'required',
             'type' => '',
+            'commercial_email' => '',
             'personnes' => '',
             'depart' => '',
             'arrivee' => '',
