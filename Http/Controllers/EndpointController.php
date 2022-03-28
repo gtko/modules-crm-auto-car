@@ -100,6 +100,10 @@ class EndpointController
         $dossier->client->save();
 
 
-        return response()->json(['message' => 'Lead created'], 201);
+        return response()->json(['message' => 'Lead created', 'datas' => [
+            'dossier_id' => $dossier->id,
+            'client_id' => $dossier->client->id,
+            'commercial_id' => $dossier->commercial->id,
+        ]], 201);
     }
 }
