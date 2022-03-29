@@ -32,6 +32,7 @@
 </x-basecore::inputs.group>
 </div>
 <x-basecore::personne.form :disabled-fields="['date_birth', 'gender']"
+                           :required-fields="['email','firstname']"
                            :personne="$fournisseur" :editing="$editing"/>
 
 
