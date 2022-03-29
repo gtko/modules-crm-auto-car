@@ -98,56 +98,65 @@
                         <div class="text-xl font-extrabold underline mb-2">Voyage n°{{$index + 1}}</div>
                     @endif
 
-{{--                    <div class="text-xl font-bold underline mt-4">Contact chauffeur retour :</div>--}}
-{{--                    <span class="text-lg"> <br>--}}
-{{--                        {{ $devis->data['retour_tel_chauffeur'] ?? '' }}--}}
-
-{{--                    </span>--}}
+{{--                <div class="text-xl font-bold underline mt-4">Contact chauffeur retour :</div>--}}
+{{--                <span class="text-lg"> <br>--}}
+{{--                    {{ $devis->data['retour_tel_chauffeur'] ?? '' }}--}}
+{{--                </span>--}}
 
 
                     <div class="grid grid-cols-2 gap-4">
                         <div class="bg-white shadow overflow-hidden sm:rounded-lg
                         @if(!$trajet['retour_date_depart']) col-span-2 @endif
                         ">
-                                                <div class="px-4 py-5 sm:px-6">
-                                                    <h3 class="text-lg leading-6 font-medium text-gray-900">Transfert aller</h3>
-                                                    <p class="mt-1 max-w-2xl text-sm text-gray-500">Tous les détails de votre transfert aller</p>
-                                                </div>
-                                                <div class="border-t border-gray-200">
-                                                    <dl>
-                                                        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                                                            <dt class="text-sm font-medium text-gray-500">Contact chauffeur</dt>
-                                                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                                                {{ $devis->data['aller_tel_chauffeur'] ?? '' }}
-                                                            </dd>
-                                                        </div>
-                                                        <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                                                            <dt class="text-sm font-medium text-gray-500">Date de départ</dt>
-                                                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                                                {{ \Carbon\Carbon::createFromTimeString($trajet['aller_date_depart'])->format('d/m/Y') ?? ''}}
-                                                            </dd>
-                                                        </div>
-                                                        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                                                            <dt class="text-sm font-medium text-gray-500">Heure de départ</dt>
-                                                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                                                {{ \Carbon\Carbon::createFromTimeString($trajet['aller_date_depart'])->format('h:i:s') ?? ''}}
-                                                            </dd>
-                                                        </div>
-                                                        <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                                                            <dt class="text-sm font-medium text-gray-500">Lieu de départ</dt>
-                                                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                                                {{ $trajet['aller_distance']['origin_formatted'] ?? ''}}
-                                                            </dd>
-                                                        </div>
-                                                        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                                                            <dt class="text-sm font-medium text-gray-500">Lieu de destination</dt>
-                                                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                                                {{ $trajet['retour_distance']['origin_formatted'] ?? ''}}
-                                                            </dd>
-                                                        </div>
-                                                    </dl>
-                                                </div>
-                                            </div>
+                            <div class="px-4 py-5 sm:px-6">
+                                <h3 class="text-lg leading-6 font-medium text-gray-900">Transfert aller</h3>
+                                <p class="mt-1 max-w-2xl text-sm text-gray-500">Tous les détails de votre transfert aller</p>
+                            </div>
+                            <div class="border-t border-gray-200">
+                                <dl>
+                                    @foreach($chauffeurs as $chauffeur)
+                                        @if($chauffeur->data['type_tajet'] == 'aller'
+                                            || $chauffeur->data['type_tajet'] == 'aller_retour')
+                                        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <dt class="text-sm font-medium text-gray-500">Contact chauffeur</dt>
+                                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                                {{ $chauffeur->name ?? 'N/A'}} {{ $chauffeur->phone ?? 'N/A'}}
+                                                @if($chauffeur->data['commentaire'] ?? false)
+                                                    <p class="text-gray-700 text-sm">
+                                                        {{ $chauffeur->data['commentaire'] ?? ''}}
+                                                    </p>
+                                                @endif
+                                            </dd>
+                                        </div>
+                                        @endif
+                                    @endforeach
+                                    <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                        <dt class="text-sm font-medium text-gray-500">Date de départ</dt>
+                                        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                            {{ \Carbon\Carbon::createFromTimeString($trajet['aller_date_depart'])->format('d/m/Y') ?? ''}}
+                                        </dd>
+                                    </div>
+                                    <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                        <dt class="text-sm font-medium text-gray-500">Heure de départ</dt>
+                                        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                            {{ \Carbon\Carbon::createFromTimeString($trajet['aller_date_depart'])->format('h:i:s') ?? ''}}
+                                        </dd>
+                                    </div>
+                                    <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                        <dt class="text-sm font-medium text-gray-500">Lieu de départ</dt>
+                                        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                            {{ $trajet['aller_distance']['origin_formatted'] ?? ''}}
+                                        </dd>
+                                    </div>
+                                    <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                        <dt class="text-sm font-medium text-gray-500">Lieu de destination</dt>
+                                        <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                            {{ $trajet['retour_distance']['origin_formatted'] ?? ''}}
+                                        </dd>
+                                    </div>
+                                </dl>
+                            </div>
+                        </div>
                         @if($trajet['retour_date_depart'])
                             <div class="bg-white shadow overflow-hidden sm:rounded-lg">
                         <div class="px-4 py-5 sm:px-6">
@@ -156,12 +165,22 @@
                         </div>
                         <div class="border-t border-gray-200">
                             <dl>
-                                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                                    <dt class="text-sm font-medium text-gray-500">Contact chauffeur</dt>
-                                    <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                        {{ $devis->data['retour_tel_chauffeur'] ?? '' }}
-                                    </dd>
-                                </div>
+                                @foreach($chauffeurs as $chauffeur)
+                                    @if($chauffeur->data['type_tajet'] == 'retour'
+                                        || $chauffeur->data['type_tajet'] == 'aller_retour')
+                                        <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                            <dt class="text-sm font-medium text-gray-500">Contact chauffeur</dt>
+                                            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                                {{ $chauffeur->name ?? 'N/A'}} {{ $chauffeur->phone ?? 'N/A'}} <br>
+                                                @if($chauffeur->data['commentaire'] ?? false)
+                                                <p class="text-gray-700 text-sm">
+                                                    {{ $chauffeur->data['commentaire'] ?? ''}}
+                                                </p>
+                                                @endif
+                                            </dd>
+                                        </div>
+                                    @endif
+                                @endforeach
                                 <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                     <dt class="text-sm font-medium text-gray-500">Date de départ</dt>
                                     <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
