@@ -5,7 +5,7 @@
                 <thead>
                 <tr class="text-gray-700">
                     <th class="whitespace-nowrap" colspan="6">
-                        {{$proformats->count()}} proformats
+                        {{$proformats->count()}} proformas
                     </th>
                 </tr>
                 <tr class="bg-gray-100 text-gray-700">
@@ -23,10 +23,11 @@
                 </thead>
                 <tbody>
                 @foreach($proformats as $index => $proformat)
-
-                    <livewire:crmautocar::proforma-dossier-detail :proforma="$proformat" :client="$client" :dossier="$dossier" :key="$index"/>
-
-
+                    <livewire:crmautocar::proforma-dossier-detail
+                        :proforma="$proformat"
+                        :client="$client"
+                        :dossier="$dossier"
+                        :key="$proformat->id"/>
                 @endforeach
                 </tbody>
             </table>

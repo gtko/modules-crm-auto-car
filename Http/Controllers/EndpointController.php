@@ -33,12 +33,13 @@ class EndpointController
         $dossierExistant = $dossierRep->getByEmail($request->email ?? '');
         $dossierExistant = $dossierExistant->merge($dossierRep->getByPhone($request->tel ?? ''));
 
-        if($request->commercial_email ?? false){
+        if(($request->commercial_email ?? false)){
             $commercial = Commercial::whereHas('personne', function($query) use ($request){
                 $query->whereHas('emails', function($query) use ($request){
                     $query->where('email', '=', $request->commercial_email);
                 });
             })->first();
+
 
             if(!$commercial){
                 return response()->json(['error' => 'Commercial introuvable'], 403);
@@ -47,6 +48,7 @@ class EndpointController
         }else {
             $commercial = Commercial::where('id', 1)->first();
         }
+
 
         foreach ($dossierExistant as $item) {
             if($item->status->type === StatusTypeEnum::TYPE_WIN){

@@ -7,12 +7,9 @@ use Livewire\Component;
 use Modules\CoreCRM\Contracts\Entities\ClientEntity;
 use Modules\CoreCRM\Contracts\Repositories\CommercialRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
-use Modules\CoreCRM\Contracts\Services\FlowContract;
 use Modules\CoreCRM\Models\Dossier;
-use Modules\CrmAutoCar\Flow\Attributes\DevisSendClient;
 use Modules\CrmAutoCar\Flow\Attributes\SendInformationVoyageMailClient;
 use Modules\CrmAutoCar\Flow\Attributes\SendProformat;
-use Modules\CrmAutoCar\Flow\Works\Events\EventSendInformationVoyageMailClient;
 use Modules\CrmAutoCar\Models\Proformat;
 
 class ProformaDossierDetail extends Component
@@ -99,9 +96,6 @@ class ProformaDossierDetail extends Component
 
         $commercial = app(CommercialRepositoryContract::class)->fetchById($this->commercial);
         app(DevisRepositoryContract::class)->changeCommercial($this->proformat->devis, $commercial);
-
-        $this->emit('refreshProforma');
-
     }
 
     public function delete(){
@@ -126,9 +120,18 @@ class ProformaDossierDetail extends Component
             $commercials = app(CommercialRepositoryContract::class)->fetchAll();
         }
 
+        $validate = false;
+        foreach ($this->proformat->devis->fournisseurs as $fourni)
+        {
+            if ($fourni->pivot->validate ?? false) {
+                $validate = true;
+            }
+        }
+
         return view('crmautocar::livewire.proforma-dossier-detail',
             [
-                'commercials' => $commercials
+                'commercials' => $commercials,
+                'validate' => $validate,
             ]);
     }
 }

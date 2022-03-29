@@ -21,6 +21,7 @@ class BlockFournisseur extends Component
     public $dossier;
     public $fournisseurs;
     public $tags;
+    public $devis;
     public $fournisseur_id;
     public $tag_id;
     public $devi_id;
@@ -41,6 +42,11 @@ class BlockFournisseur extends Component
     public function mount(FournisseurRepositoryContract $repFournisseur, $client, $dossier)
     {
         $this->dossier = $dossier->load('devis');
+        foreach ($this->dossier->devis as $devi) {
+            if($devi->validate) {
+                $this->devis[$devi->id] = $devi;
+            }
+        }
         $this->fournisseurs = $repFournisseur->getAllList();
         $this->tags = app(TagFournisseurRepositoryContract::class)->all();
 
