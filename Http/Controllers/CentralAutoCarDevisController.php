@@ -5,8 +5,6 @@ namespace Modules\CrmAutoCar\Http\Controllers;
 
 use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
 use Modules\CoreCRM\Http\Controllers\Controller;
-use Modules\CoreCRM\Services\FlowCRM;
-use Modules\CrmAutoCar\Flow\Attributes\ClientDevisExterneConsultation;
 use Modules\CrmAutoCar\Models\Brand;
 use Modules\DevisAutoCar\Entities\DevisPrice;
 use Modules\DevisAutoCar\Entities\DevisTrajetPrice;

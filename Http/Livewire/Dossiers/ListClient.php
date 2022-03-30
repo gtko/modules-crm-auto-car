@@ -54,7 +54,7 @@ class ListClient extends Component
         $query = $filter->query();
 
         if($this->resa){
-            $status = app(StatusRepositoryContract::class)->fetchById(5);
+            $status = app(StatusRepositoryContract::class)->fetchById(8);
             $query->whereHas('status', function($query) use ($status){
                 $query->where('order', '>=', $status->order);
             });

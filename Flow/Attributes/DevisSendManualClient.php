@@ -11,7 +11,7 @@ class DevisSendManualClient extends Attributes
 {
 
     public function __construct(
-        public DevisEntities $devis
+        public ?DevisEntities $devis
     ){
       parent::__construct();
     }
@@ -25,7 +25,7 @@ class DevisSendManualClient extends Attributes
     public function toArray(): array
     {
         return [
-            'devis_id' => $this->devis->id
+            'devis_id' => $this->devis->id ?? 0
         ];
     }
 

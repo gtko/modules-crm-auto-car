@@ -24,6 +24,10 @@ class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
     }
 
 
+    public function getPriceVenteTTC(){
+        return $this->getPriceTTC();
+    }
+
     public function getPriceVente(){
         return $this->getPriceHT();
     }

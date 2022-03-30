@@ -31,6 +31,7 @@ use Modules\CrmAutoCar\Flow\Works\Files\InformationVoyagePdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\RIBPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Variables\GestionnaireVariable;
 use Modules\CrmAutoCar\Flow\Works\Variables\InformationVoyageVariable;
+use Modules\CrmAutoCar\Models\Fournisseur;
 
 class EventSendInformationVoyageMailFournisseur extends WorkFlowEvent
 {
@@ -68,7 +69,8 @@ class EventSendInformationVoyageMailFournisseur extends WorkFlowEvent
             'devis' => $devis,
             'dossier' => $devis->dossier,
             'commercial' => $devis->dossier->commercial,
-            'client' => $devis->dossier->client
+            'client' => $devis->dossier->client,
+            'fournisseur' => Fournisseur::where('id', $flowAttribute->getDatas()['fournisseur_id'])->first(),
         ];
     }
 
