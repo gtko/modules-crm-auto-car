@@ -18,7 +18,7 @@
     <div class="px-2 pt-2">
         <x-basecore::inputs.select name="devi_id" label="" required="required" wire:model="devi_id">
             <option selected="selected">Devis</option>
-            @foreach($this->devis as $devi)
+            @foreach($this->devis ?? [] as $devi)
                 <option
                     value="{{ $devi->id}}">{{ $devi->ref }}</option>
             @endforeach

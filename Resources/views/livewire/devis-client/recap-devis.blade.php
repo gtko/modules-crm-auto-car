@@ -62,31 +62,31 @@
         <div class="flex-col flex no-print" style="font-size: 12px">
             @if(!empty(($devis->data['trajets'] ?? [])))
                 <span>* Le prix ne comprend pas les élements suivants qui resteront à votre charge : Kilomètres supplémentaires et heures supplémentaires
-                     @if (!($trajet['inclus_peages'] ?? false))
+                     @if (!($trajet['inclus_peages'] ?? null))
                         ,le péages
                     @endif
-                    @if(!($trajet['inclus_parking'] ?? false))
+                    @if(!($trajet['inclus_parking'] ?? null))
                         ,le parking
                     @endif
-                    @if (!($trajet['inclus_hebergement'] ?? false))
+                    @if (!($trajet['inclus_hebergement'] ?? null))
                         ,l'hébergement
                     @endif
-                    @if (!($trajet['inclus_repas_chauffeur'] ?? false))
+                    @if (!($trajet['inclus_repas_chauffeur'] ?? null))
                         ,le repas chauffeur
                     @endif
                     .</span>
-                @if (($trajet['inclus_peages'] ?? false) || ($trajet['inclus_parking'] ?? false) || ($trajet['inclus_hebergement'] ?? false) || ($trajet['inclus_repas_chauffeur'] ?? false))
+                @if (($trajet['inclus_peages'] ?? null) || ($trajet['inclus_parking'] ?? null) || ($trajet['inclus_hebergement'] ?? null) || ($trajet['inclus_repas_chauffeur'] ?? null))
                     <span>* Le prix comprend les élements suivants :
-                        @if (($trajet['inclus_peages'] ?? false))
+                        @if (($trajet['inclus_peages'] ?? null))
                             le péages,
                         @endif
-                        @if($trajet['inclus_parking'] ?? false)
+                        @if($trajet['inclus_parking'] ?? null)
                             le parking,
                         @endif
-                        @if ($trajet['inclus_hebergement'] ?? false)
+                        @if ($trajet['inclus_hebergement'] ?? null)
                             l'hébergement,
                         @endif
-                        @if ($trajet['inclus_repas_chauffeur'] ?? false)
+                        @if ($trajet['inclus_repas_chauffeur'] ?? null)
                             le repas chauffeur
                         @endif
                 </span>
