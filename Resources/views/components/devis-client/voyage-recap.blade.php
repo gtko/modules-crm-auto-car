@@ -31,7 +31,7 @@
     <div style="background-color: #ebf3f7" class="m-4 p-4 space-y-6 text-base">
         <div>Bonjour
             @if($devis->dossier->client->personne->gender === 'male') Monsieur @elseif($devis->dossier->client->personne->gender === 'female') Madame @endif
-            {{ $devis->dossier->client->format_name ?? '' }},</div>
+            {{ $devis->dossier->client->format_name ?? '' }}, {{ $devis->dossier->client->company ?? '' }}</div>
         @if(!empty(($devis->data['trajets'] ?? [])))
             <div>
                 C'est avec plaisir que nous vous envoyons notre offre pour
