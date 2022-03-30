@@ -111,17 +111,17 @@ class StatistiqueRepository implements StatistiqueRepositoryContract
         return ($dossierWin / $dossier->count()) * 100;
     }
 
-    public function getMargeTtcByCommercial(Commercial $commercial,?Carbon $debut = null, ?Carbon $fin = null): float
+    public function getMargeByCommercial(Commercial $commercial,?Carbon $debut = null, ?Carbon $fin = null): float
     {
         return $this->getProformatPriceList($debut, $fin, $commercial)->sum(function($price) use ($fin){
-            return $price->getMargeHT($fin) * (1 + ($price->getTauxTVA() / 100));
+            return $price->getMargeHT($fin);
         });
     }
 
     public function getMargeNetByCommercial(Commercial $commercial,?Carbon $debut = null, ?Carbon $fin = null): float
     {
         return $this->getProformatPriceList($debut, $fin, $commercial)->sum(function($price) use ($fin){
-            return $price->getMargeHT($fin) * (1 + ($price->getTauxTVA() / 100));
+            return $price->getMargeHT($fin);
         }) - ($this->getNombreLead($commercial, $debut, $fin) * $this->getCoutLead());
     }
 
@@ -131,14 +131,14 @@ class StatistiqueRepository implements StatistiqueRepositoryContract
         return $repConfig->getByName('price_lead')->data['price_lead'] ?? 0;
     }
 
-    public function getPanierMoyenTtcByCommercial(Commercial $commercial,?Carbon $debut = null, ?Carbon $fin = null): float
+    public function getPanierMoyenByCommercial(Commercial $commercial,?Carbon $debut = null, ?Carbon $fin = null): float
     {
         $contrat = $this->getNombreContactByCommercial($commercial, $debut, $fin);
         if($contrat === 0){
             return 0;
         }
 
-        return $this->getMargeTtcByCommercial($commercial, $debut, $fin) / $contrat;
+        return $this->getMargeByCommercial($commercial, $debut, $fin) / $contrat;
     }
 
     public function getPanierMoyenNetByCommercial(Commercial $commercial,?Carbon $debut = null, ?Carbon $fin = null): float
@@ -221,19 +221,19 @@ class StatistiqueRepository implements StatistiqueRepositoryContract
         });
     }
 
-    public function getMargeTtcTotal(?Carbon $debut = null, ?Carbon $fin = null): float
+    public function getMargeTotal(?Carbon $debut = null, ?Carbon $fin = null): float
     {
         return $this->getProformatPriceList($debut, $fin)->sum(function($price) use ($fin){
-            return $price->getMargeHT($fin) * (1 + ($price->getTauxTVA() / 100));
+            return $price->getMargeHT($fin);
         });
     }
 
     public function getMargeNetTotal(?Carbon $debut = null, ?Carbon $fin = null): float
     {
-        $margeTTC = $this->getMargeTtcTotal($debut, $fin);
+        $marge = $this->getMargeTotal($debut, $fin);
 
 
-        return $margeTTC - ($this->getNombreLeadTotal($debut, $fin) * $this->getCoutLead());
+        return $marge - ($this->getNombreLeadTotal($debut, $fin) * $this->getCoutLead());
     }
 
     public function getPannierMoyenTotal(?Carbon $debut = null, ?Carbon $fin = null): float
@@ -244,7 +244,7 @@ class StatistiqueRepository implements StatistiqueRepositoryContract
             return 0;
         }
 
-        return ($this->getMargeTtcTotal($debut, $fin)/ $totalLead);
+        return ($this->getMargeTotal($debut, $fin)/ $totalLead);
     }
 
     public function getPannierNetTotal(?Carbon $debut = null, ?Carbon $fin = null): float
