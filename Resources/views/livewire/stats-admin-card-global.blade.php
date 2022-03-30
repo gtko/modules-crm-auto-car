@@ -37,11 +37,11 @@
 
         <div class="px-4 py-5 sm:p-6">
             <dt class="text-base font-normal text-gray-900">
-                Marge TTC
+                Marge HT
             </dt>
             <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
                 <div class="flex items-baseline text-2xl font-semibold text-primary-1">
-                    @marge($this->margeTtc)€
+                    @marge($this->marge)€
                 </div>
             </dd>
         </div>
@@ -59,22 +59,22 @@
 
         <div class="px-4 py-5 sm:p-6">
             <dt class="text-base font-normal text-gray-900">
-                Pannier Moyen TTC
+                Pannier Moyen HT
             </dt>
             <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
                 <div class="flex items-baseline text-2xl font-semibold text-primary-1">
-                    @marge($this->panierMoyenTtc)€
+                    @marge($this->panierMoyen)€
                 </div>
             </dd>
         </div>
 
         <div class="px-4 py-5 sm:p-6">
             <dt class="text-base font-normal text-gray-900">
-                Pannier Net TTC
+                Pannier Net HT
             </dt>
             <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
                 <div class="flex items-baseline text-2xl font-semibold text-primary-1">
-                    @marge($this->panierNetTtc)€
+                    @marge($this->panierNet)€
                 </div>
             </dd>
         </div>

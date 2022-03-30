@@ -18,9 +18,9 @@ class StatsAdminCard extends Component
     public $nombreLead = 0;
     public $nombreContrat = 0;
     public $tauxConversion = 0;
-    public $margeTtc = 0;
+    public $marge = 0;
     public $margeNet = 0;
-    public $panierMoyenTtc = 0;
+    public $panierMoyen = 0;
     public $panierMoyenNet = 0;
     public $margeNetAfterHoraire = 0;
     public $panierMoyenAfterHoraire = 0;
@@ -74,9 +74,9 @@ class StatsAdminCard extends Component
             $this->tauxHoraire = $repStat->getTauxHoraireByCommercial($this->commercial, $this->debut, $this->fin);
             $this->nombreLead = $repStat->getNombreLead($this->commercial, $this->debut, $this->fin);
             $this->nombreContrat = $repStat->getNombreContactByCommercial($this->commercial, $this->debut, $this->fin);
-            $this->margeTtc = $repStat->getMargeTtcByCommercial($this->commercial, $this->debut, $this->fin);
+            $this->marge = $repStat->getMargeByCommercial($this->commercial, $this->debut, $this->fin);
             $this->margeNet = $repStat->getMargeNetByCommercial($this->commercial, $this->debut, $this->fin);
-            $this->panierMoyenTtc = $repStat->getPanierMoyenTtcByCommercial($this->commercial, $this->debut, $this->fin);
+            $this->panierMoyen = $repStat->getPanierMoyenByCommercial($this->commercial, $this->debut, $this->fin);
             $this->panierMoyenNet = $repStat->getPanierMoyenNetByCommercial($this->commercial, $this->debut, $this->fin);
             $this->margeNetAfterHoraire = $repStat->getMargeNetAfterHoraireByCommercial($this->commercial, $this->debut, $this->fin);
             $this->tauxConversion = $repStat->getTauxConversionByCommercial($this->commercial, $this->debut, $this->fin);

@@ -17,9 +17,9 @@ class StatsAdminCardGlobal extends Component
     public $nombreLead = 0;
     public $nombreContact = 0;
     public $tauxConversion = 0;
-    public $margeTtc = 0;
+    public $marge = 0;
     public $margeNet = 0;
-    public $panierMoyenTtc = 0;
+    public $panierMoyen = 0;
 
     public $debut;
     public $fin;
@@ -84,10 +84,10 @@ class StatsAdminCardGlobal extends Component
         $this->nombreLeads = $repStat->getNombreLeadTotal($this->debut, $this->fin);
         $this->nombreContact = $repStat->getNombreContactWinTotal($this->debut, $this->fin);
         $this->tauxConversion = $repStat->getTauxConversionTotal($this->debut, $this->fin);
-        $this->margeTtc = $repStat->getMargeTtcTotal($this->debut, $this->fin);
+        $this->marge = $repStat->getMargeTotal($this->debut, $this->fin);
         $this->margeNet = $repStat->getMargeNetTotal($this->debut, $this->fin);
-        $this->panierMoyenTtc = $repStat->getPannierMoyenTotal($this->debut, $this->fin);
-        $this->panierNetTtc = $repStat->getPannierNetTotal($this->debut, $this->fin);
+        $this->panierMoyen = $repStat->getPannierMoyenTotal($this->debut, $this->fin);
+        $this->panierNet = $repStat->getPannierNetTotal($this->debut, $this->fin);
 
 
         return view('crmautocar::livewire.stats-admin-card-global');
