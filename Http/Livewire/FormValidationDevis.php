@@ -33,9 +33,11 @@ class FormValidationDevis extends Component
                     'aller_date_depart' => $trajetValid['aller_date_depart'] ?? '',
                     'aller_pax' => $trajetValid['aller_pax'] ?? '',
                     'addresse_ramassage' => $trajetValid["addresse_ramassage"] ?? '',
+                    'addresse_destination' => $trajetValid["addresse_destination"] ?? '',
                     'retour_date_depart' => $trajetValid["retour_date_depart"] ?? '',
                     'retour_pax' => $trajetValid["retour_pax"] ?? '',
-                    'addresse_destination' => $trajetValid["addresse_destination"] ?? '',
+                    'addresse_ramassage_retour' => $trajetValid["addresse_ramassage_retour"] ?? '',
+                    'addresse_destination_retour' => $trajetValid["addresse_destination_retour"] ?? '',
                     'contact_nom' => $trajetValid["contact_nom"] ?? '',
                     'contact_prenom' => $trajetValid["contact_prenom"] ?? '',
                     'tel_1' => $trajetValid["tel_1"] ?? '',
@@ -49,9 +51,11 @@ class FormValidationDevis extends Component
                     'aller_date_depart' => $trajetInit['aller_date_depart'] ?? '',
                     'aller_pax' => $trajetInit['aller_pax'] ?? '',
                     'addresse_ramassage' => $trajetInit["addresse_ramassage"] ?? '',
+                    'addresse_destination' => $trajetInit["addresse_destination"] ?? '',
                     'retour_date_depart' => $trajetInit["retour_date_depart"] ?? '',
                     'retour_pax' => $trajetInit["retour_pax"] ?? '',
-                    'addresse_destination' => $trajetInit["addresse_destination"] ?? '',
+                    'addresse_ramassage_retour' => $trajetInit["addresse_ramassage_retour"] ?? '',
+                    'addresse_destination_retour' => $trajetInit["addresse_destination_retour"] ?? '',
                     'contact_nom' => $trajetInit["contact_nom"] ?? '',
                     'contact_prenom' => $trajetInit["contact_prenom"] ?? '',
                     'tel_1' => $trajetInit["tel_1"] ?? '',
@@ -91,9 +95,11 @@ class FormValidationDevis extends Component
                 Arr::set($data, "$key.$id.aller_date_depart", $this->validate[$id]['aller_date_depart']);
                 Arr::set($data, "$key.$id.aller_pax", $this->validate[$id]['aller_pax']);
                 Arr::set($data, "$key.$id.addresse_ramassage", $this->validate[$id]['addresse_ramassage']);
+                Arr::set($data, "$key.$id.addresse_destination", $this->validate[$id]['addresse_destination']);
                 Arr::set($data, "$key.$id.retour_date_depart", $this->validate[$id]['retour_date_depart']);
                 Arr::set($data, "$key.$id.retour_pax", $this->validate[$id]['retour_pax']);
-                Arr::set($data, "$key.$id.addresse_destination", $this->validate[$id]['addresse_destination']);
+                Arr::set($data, "$key.$id.addresse_ramassage_retour", $this->validate[$id]['addresse_ramassage_retour']);
+                Arr::set($data, "$key.$id.addresse_destination_retour", $this->validate[$id]['addresse_destination_retour']);
                 Arr::set($data, "$key.$id.contact_nom", $this->validate[$id]['contact_nom']);
                 Arr::set($data, "$key.$id.contact_prenom", $this->validate[$id]['contact_prenom']);
                 Arr::set($data, "$key.$id.tel_1", $this->validate[$id]['tel_1']);

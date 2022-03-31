@@ -57,6 +57,10 @@ class ValidationInformationVoyage extends Component
                 'retour_date_depart' => $trajet["retour_date_depart"] ?? '',
                 'retour_pax' => $trajet["retour_pax"] ?? '',
                 'addresse_destination' => $trajet["addresse_destination"] ?? '',
+
+                'addresse_ramassage_retour' => $trajet["addresse_ramassage_retour"] ?? '',
+                'addresse_destination_retour' => $trajet["addresse_destination_retour"] ?? '',
+
                 'contact_nom' => '',
                 'contact_prenom' => '',
                 'tel_1' => '',
@@ -80,6 +84,12 @@ class ValidationInformationVoyage extends Component
             'validate.*.retour_date_depart' => 'date de retour',
             'validate.*.retour_pax' => 'nombre de participant',
             'validate.*.addresse_destination' => 'adresse de ramassage',
+            'validate.*.retour_aller_date_depart' => 'date de départ',
+            'validate.*.retour_aller_pax' => 'nombre de participant',
+            'validate.*.retour_addresse_ramassage' => 'adresse de pris en charge',
+            'validate.*.retour_retour_date_depart' => 'date de retour',
+            'validate.*.retour_retour_pax' => 'nombre de participant',
+            'validate.*.retour_addresse_destination' => 'adresse de ramassage',
         ]);
 
         $data = $this->devis->data;

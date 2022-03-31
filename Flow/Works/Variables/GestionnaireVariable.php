@@ -2,7 +2,9 @@
 
 namespace Modules\CrmAutoCar\Flow\Works\Variables;
 
+use Modules\BaseCore\Contracts\Repositories\UserRepositoryContract;
 use Modules\CoreCRM\Flow\Works\Variables\WorkFlowVariable;
+use Modules\CoreCRM\Models\User;
 use Modules\CrmAutoCar\Entities\InvoicePrice;
 
 class GestionnaireVariable extends WorkFlowVariable
@@ -19,9 +21,16 @@ class GestionnaireVariable extends WorkFlowVariable
         $dossier = $this->event->getData()['dossier'];
 
         $follower = $dossier->followers()->first();
- 
+
+        if(!$follower){
+            $follower = $dossier->commercial;
+            if(!$follower){
+                $follower = app(UserRepositoryContract::class)->find(1);
+            }
+        }
+
         return [
-        'email' => $follower->email,
+          'email' => $follower->email,
           'phone' => $follower->phone,
           'nom et prénom' => $follower->format_name,
           'signature' => <<<mark

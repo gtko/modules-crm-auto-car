@@ -1,5 +1,11 @@
 <div>
 
+    <style>
+        html, body {
+            background:white;
+        }
+    </style>
+
     <div class="bg-white h-full w-full h-screen flex flex-col justify-between" style="font-family: 'Lato', sans-serif;">
         <div>
             <x-crmautocar::devis-client.header class="shadow py-4 px-4"/>
@@ -23,7 +29,7 @@
                         <div class="mb-4">
                             <h5 class="my-2 pl-2 font-bold text-2xl">Informations sur votre voyage @if($multiple) {{$idTrajet+1}} @endif</h5>
                             <hr class="text-bleu mb-3">
-                            <h5 class="my-2 pl-2 font-bold text-xl">Adresse de départ</h5>
+                            <h5 class="my-2 pl-2 font-bold text-xl">Aller</h5>
                             <div class="grid grid-cols-2">
                                 <x-basecore::inputs.group class="w-full">
                                     <x-basecore::inputs.datetime label="Date de départ" name="validate.{{$idTrajet}}.aller_date_depart"
@@ -33,12 +39,17 @@
                                 <x-basecore::inputs.group class="w-full">
                                     <x-basecore::inputs.basic label="Nombre de passagers" name="validate.{{$idTrajet}}.aller_pax" wire:model.lazy="validate.{{$idTrajet}}.aller_pax" placeholder="Nombre de passagers"/>
                                 </x-basecore::inputs.group>
+
                                 <x-basecore::inputs.group class="col-span-2">
                                     <x-basecore::inputs.basic class='addressmap' data-trajet="{{$idTrajet}}" data-name="addresse_ramassage" label="Adresse de prise en charge" name="validate.{{$idTrajet}}.addresse_ramassage"  wire:model.lazy="validate.{{$idTrajet}}.addresse_ramassage"/>
                                 </x-basecore::inputs.group>
+                                <x-basecore::inputs.group class="col-span-2">
+                                    <x-basecore::inputs.basic class='addressmap' data-trajet="{{$idTrajet}}" data-name="addresse_destination" label="Adresse de destination" name="validate.{{$idTrajet}}.addresse_destination"  wire:model.lazy="validate.{{$idTrajet}}.addresse_destination"/>
+                                </x-basecore::inputs.group>
+
                             </div>
                             <hr class="text-bleu my-3">
-                            <h5 class="my-2 pl-2 font-bold text-xl">Adresse de destination</h5>
+                            <h5 class="my-2 pl-2 font-bold text-xl">Retour</h5>
                             <div class="grid grid-cols-2">
                                 <x-basecore::inputs.group class="w-full">
                                     <x-basecore::inputs.datetime label="Date de retour" name="validate.{{$idTrajet}}.retour_date_depart" wire:model="validate.{{$idTrajet}}.retour_date_depart" placeholder="Date de départ"/>
@@ -47,7 +58,10 @@
                                     <x-basecore::inputs.basic label="Nombre de passagers" name="validate.{{$idTrajet}}.retour_pax" wire:model.lazy="validate.{{$idTrajet}}.retour_pax" placeholder="Nombre de passagers"/>
                                 </x-basecore::inputs.group>
                                 <x-basecore::inputs.group class="col-span-2">
-                                    <x-basecore::inputs.basic class='addressmap' data-trajet="{{$idTrajet}}" data-name="addresse_destination" label="Adresse de ramassage" name="validate.{{$idTrajet}}.addresse_destination"  wire:model.lazy="validate.{{$idTrajet}}.addresse_destination"/>
+                                    <x-basecore::inputs.basic class='addressmap' data-trajet="{{$idTrajet}}" data-name="addresse_ramassage_retour" label="Adresse de ramassage" name="validate.{{$idTrajet}}.addresse_ramassage_retour"  wire:model.lazy="validate.{{$idTrajet}}.addresse_ramassage_retour"/>
+                                </x-basecore::inputs.group>
+                                <x-basecore::inputs.group class="col-span-2">
+                                    <x-basecore::inputs.basic class='addressmap' data-trajet="{{$idTrajet}}" data-name="addresse_destination_retour" label="Adresse de destination" name="validate.{{$idTrajet}}.addresse_destination_retour"  wire:model.lazy="validate.{{$idTrajet}}.addresse_destination_retour"/>
                                 </x-basecore::inputs.group>
                             </div>
                             <hr class="text-bleu my-3">
