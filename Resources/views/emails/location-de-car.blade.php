@@ -15,11 +15,11 @@
         .button { display: inline-block; color: white; background: #3799bc; border: solid #3799bc; border-width: 10px 20px 8px; font-weight: bold; border-radius: 4px; }
         .button:hover { text-decoration: none; }
         h1, h2, h3, h4, h5, h6 { margin-bottom: 20px; line-height: 1.25; }
-        h1 { font-size: 32px; }
-        h2 { font-size: 28px; }
-        h3 { font-size: 24px; }
-        h4 { font-size: 20px; }
-        h5 { font-size: 16px; }
+        h1 { font-size: 21px; }
+        h2 { font-size: 19px; }
+        h3 { font-size: 17px; }
+        h4 { font-size: 16px; }
+        h5 { font-size: 15px; }
         p, ul, ol { font-size: 16px; font-weight: normal; margin-bottom: 20px; }
         .container { display: block !important; clear: both !important; margin: 0 auto !important; max-width: 580px !important; }
         .container table { width: 100% !important; border-collapse: collapse; }
