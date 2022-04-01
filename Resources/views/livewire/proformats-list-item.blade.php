@@ -40,7 +40,7 @@
 
     <td class="text-center">
         <div class="flex flex-col">
-            <div class="whitespace-nowrap">PV : @marge($price->getPriceVente())€</div>
+            <div class="whitespace-nowrap">PV : @marge($price->getPriceVenteTTC())€</div>
             <div class="whitespace-nowrap">PA : @marge($price->getPriceAchat())€</div>
         </div>
     </td>
@@ -74,10 +74,18 @@
     </td>
 
     <td class="text-center">
-        {{$proformat->devis->date_depart}}
+        @if(!is_string($proformat->devis->date_depart))
+        {{$proformat->devis->date_depart->format('d/m/Y H:i') ?? 'N/A'}}
+        @else
+            {{$proformat->devis->date_depart}}
+        @endif
     </td>
     <td class="text-center">
-        {{$proformat->devis->date_retour}}
+        @if(!is_string($proformat->devis->date_retour))
+            {{$proformat->devis->date_retour->format('d/m/Y H:i') ?? 'N/A'}}
+        @else
+            {{$proformat->devis->date_retour}}
+        @endif
     </td>
     <td>
         @if($proformat->devis->isMultiple)

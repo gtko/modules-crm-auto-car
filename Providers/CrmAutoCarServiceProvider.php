@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Modules\BaseCore\Contracts\Services\CompositeurThemeContract;
+use Modules\BaseCore\Contracts\Views\BeforeMenuContract;
+use Modules\BaseCore\Contracts\Views\BeforeMobileMenuContract;
 use Modules\BaseCore\Entities\TypeView;
 use Modules\CoreCRM\Contracts\Entities\ClientEntity;
 use Modules\CoreCRM\Contracts\Repositories\ClientRepositoryContract;
@@ -173,6 +175,13 @@ class CrmAutoCarServiceProvider extends ServiceProvider
                 'follow-dossier' => new TypeView(TypeView::TYPE_LIVEWIRE, 'corecrm::follower-dossier',  ['roles' => [7]])
             ]);
 
+        app(CompositeurThemeContract::class)->setViews(BeforeMenuContract::class, [
+            'basecore::logo' => new TypeView(TypeView::TYPE_BLADE_COMPONENT, 'crmautocar::logo')
+        ]);
+
+        app(CompositeurThemeContract::class)->setViews(BeforeMobileMenuContract::class, [
+            'basecore::logo' => new TypeView(TypeView::TYPE_BLADE_COMPONENT, 'crmautocar::logo-mobile')
+        ]);
 
         /**
          *  Ordre des tabs

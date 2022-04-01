@@ -24,7 +24,10 @@ class Index extends Component
         $devis = $devisRep->fetchById($devisId);
         $brand = Brand::first();
 
-        if (request()->server('SERVER_ADDR') != \Illuminate\Support\Facades\Request::ip()) {
+        if (
+            request()->server('SERVER_ADDR') != \Illuminate\Support\Facades\Request::ip() &&
+            request()->ip() != '38.242.198.169'
+        ) {
             (new FlowCRM())->add($devis->dossier, new ClientDevisExterneConsultation($devis, Request::ip()));
         }
 

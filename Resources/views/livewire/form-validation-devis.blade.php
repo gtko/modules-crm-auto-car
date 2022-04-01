@@ -5,6 +5,8 @@
         <div class="col-start-1">
             @foreach($this->initiale as $index => $trajetValidate)
                 <div class="text-bleu my-2 font-bold text-xl mt-4">devis initiale {{$index + 1}}</div>
+
+                <div class="text-bleu font-bold mb-2">Aller</div>
                 <x-basecore::inputs.datetime
                     class="form-control-sm"
                     label="Date de départ"
@@ -23,12 +25,22 @@
                 />
                 <x-basecore::inputs.text
                     class="form-control-sm"
-                    label="Adresse de prise en charge"
+                    label="Adresse de prise en charge aller"
                     name="initiale.{{$index}}.addresse_ramassage"
                     wire:model="initiale.{{$index}}.addresse_ramassage"
                     placeholder="Adresse de prise en charge"
                     disabled
                 />
+                <x-basecore::inputs.text
+                    class="form-control-sm"
+                    label="Adresse de destination aller"
+                    name="initiale.{{$index}}.addresse_destination"
+                    wire:model="initiale.{{$index}}.addresse_destination"
+                    placeholder="Adresse de ramassage"
+                    disabled
+                />
+
+                <div class="text-bleu font-bold mt-4 mb-2">Retour</div>
                 <x-basecore::inputs.datetime
                     class="form-control-sm"
                     label="Date de retour"
@@ -47,13 +59,22 @@
                 />
                 <x-basecore::inputs.text
                     class="form-control-sm"
-                    label="Adresse de ramassage"
-                    name="initiale.{{$index}}.addresse_ramassage"
-                    wire:model="initiale.{{$index}}.addresse_ramassage"
+                    label="Adresse de prise en charge retour"
+                    name="initiale.{{$index}}.addresse_ramassage_retour"
+                    wire:model="initiale.{{$index}}.addresse_ramassage_retour"
+                    placeholder="Adresse de prise en charge"
+                    disabled
+                />
+                <x-basecore::inputs.text
+                    class="form-control-sm"
+                    label="Adresse de destination retour"
+                    name="initiale.{{$index}}.addresse_destination_retour"
+                    wire:model="initiale.{{$index}}.addresse_destination_retour"
                     placeholder="Adresse de ramassage"
                     disabled
                 />
 
+                <div class="text-bleu font-bold mt-4 mb-2">Contact</div>
                 <x-basecore::inputs.text
                     class="form-control-sm"
                     label="Nom"
@@ -100,6 +121,7 @@
         <div class="col-start-2">
             @foreach($this->validate as $index => $trajetValidate)
                 <div class="text-bleu my-2 font-bold text-xl mt-4">Modification devis {{$index + 1}}</div>
+                <div class="text-bleu font-bold mb-2">Aller</div>
                 <x-basecore::inputs.datetime
                     :class="'form-control-sm '.((!$delta[$index]['aller_date_depart'])?'bg-red-200':'')"
                     label="Date de départ"
@@ -116,11 +138,20 @@
                 />
                 <x-basecore::inputs.text
                     :class="'form-control-sm '.((!$delta[$index]['addresse_ramassage'])?'bg-red-200':'')"
-                    label="Adresse de prise en charge"
+                    label="Adresse de prise en charge aller"
                     name="validate.{{$index}}.addresse_ramassage"
                     wire:model="validate.{{$index}}.addresse_ramassage"
-                    placeholder="Adresse de prise en charge"
+                    placeholder="Adresse de prise en charge aller"
                 />
+                <x-basecore::inputs.text
+                    :class="'form-control-sm '.((!$delta[$index]['addresse_destination'])?'bg-red-200':'')"
+                    label="Adresse de destination aller"
+                    name="validate.{{$index}}.addresse_destination"
+                    wire:model="validate.{{$index}}.addresse_destination"
+                    placeholder="Adresse de ramassage aller"
+                />
+
+                <div class="text-bleu font-bold mt-4 mb-2">Retour</div>
                 <x-basecore::inputs.datetime
                     :class="'form-control-sm '.((!$delta[$index]['retour_date_depart'])?'bg-red-200':'')"
                     label="Date de retour"
@@ -136,13 +167,21 @@
                     placeholder="Nombre de passager retour"
                 />
                 <x-basecore::inputs.text
-                    :class="'form-control-sm '.((!$delta[$index]['addresse_destination'])?'bg-red-200':'')"
-                    label="Adresse de ramassage"
-                    name="validate.{{$index}}.addresse_destination"
-                    wire:model="validate.{{$index}}.addresse_destination"
+                    :class="'form-control-sm '.((!$delta[$index]['addresse_ramassage_retour'])?'bg-red-200':'')"
+                    label="Adresse de prise en charge retour"
+                    name="validate.{{$index}}.addresse_ramassage_retour"
+                    wire:model="validate.{{$index}}.addresse_ramassage_retour"
+                    placeholder="Adresse de prise en charge"
+                />
+                <x-basecore::inputs.text
+                    :class="'form-control-sm '.((!$delta[$index]['addresse_destination_retour'])?'bg-red-200':'')"
+                    label="Adresse de destination retour"
+                    name="validate.{{$index}}.addresse_destination_retour"
+                    wire:model="validate.{{$index}}.addresse_destination_retour"
                     placeholder="Adresse de ramassage"
                 />
 
+                <div class="text-bleu font-bold mt-4 mb-2">Contact</div>
                 <x-basecore::inputs.text
                     :class="'form-control-sm '.((!$delta[$index]['contact_nom'])?'bg-red-200':'')"
                     label="Nom"

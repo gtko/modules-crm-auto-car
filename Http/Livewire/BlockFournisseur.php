@@ -42,11 +42,6 @@ class BlockFournisseur extends Component
     public function mount(FournisseurRepositoryContract $repFournisseur, $client, $dossier)
     {
         $this->dossier = $dossier->load('devis');
-        foreach ($this->dossier->devis as $devi) {
-            if($devi->validate) {
-                $this->devis[$devi->id] = $devi;
-            }
-        }
         $this->fournisseurs = $repFournisseur->getAllList();
         $this->tags = app(TagFournisseurRepositoryContract::class)->all();
 
@@ -180,6 +175,11 @@ class BlockFournisseur extends Component
 
     public function render()
     {
+        foreach ($this->dossier->devis as $devi) {
+            if($devi->validate) {
+                $this->devis[$devi->id] = $devi;
+            }
+        }
         return view('crmautocar::livewire.block-fournisseur');
     }
 }
