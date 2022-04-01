@@ -222,7 +222,7 @@
                             </div>
                             <ul role="list" class="mt-8 space-y-5 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-x-8 lg:gap-y-5">
 
-                                @if (($trajet['inclus_repas_chauffeur'] ?? null) === true)
+                                @if (($trajet['repas_chauffeur'] ?? null) === 'compris')
                                     <li class="flex items-start lg:col-span-1">
                                         <div class="flex-shrink-0">
                                             <svg class="h-5 w-5 text-green-400" x-description="Heroicon name: solid/check-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -234,7 +234,7 @@
                                         </p>
                                     </li>
                                 @endif
-                                @if (($trajet['inclus_hebergement']?? null) === true)
+                                @if (($trajet['hebergement']?? null) === 'compris')
                                         <li class="flex items-start lg:col-span-1">
                                             <div class="flex-shrink-0">
                                                 <svg class="h-5 w-5 text-green-400" x-description="Heroicon name: solid/check-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -246,7 +246,7 @@
                                             </p>
                                         </li>
                                 @endif
-                                @if (($trajet['inclus_parking'] ?? null) === true)
+                                @if (($trajet['parking'] ?? null) === 'compris')
                                         <li class="flex items-start lg:col-span-1">
                                             <div class="flex-shrink-0">
                                                 <svg class="h-5 w-5 text-green-400" x-description="Heroicon name: solid/check-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -258,7 +258,7 @@
                                             </p>
                                         </li>
                                 @endif
-                                @if (($trajet['inclus_peages'] ?? null) === true)
+                                @if (($trajet['peages'] ?? null) === 'compris')
                                         <li class="flex items-start lg:col-span-1">
                                             <div class="flex-shrink-0">
                                                 <svg class="h-5 w-5 text-green-400" x-description="Heroicon name: solid/check-circle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
@@ -281,7 +281,7 @@
                             </div>
                             <ul role="list" class="mt-8 space-y-5 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-x-8 lg:gap-y-5">
 
-                                @if (($trajet['inclus_repas_chauffeur'] ?? null) === false)
+                                @if (($trajet['repas_chauffeur'] ?? null) === 'non_compris')
                                     <li class="flex items-start lg:col-span-1">
                                         <div class="flex-shrink-0">
                                             <svg class="w-5 h-5 text-red-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>
@@ -291,7 +291,7 @@
                                         </p>
                                     </li>
                                 @endif
-                                @if (($trajet['inclus_hebergement'] ?? null) === false)
+                                @if (($trajet['hebergement'] ?? null) === 'non_compris')
                                     <li class="flex items-start lg:col-span-1">
                                         <div class="flex-shrink-0">
                                             <svg class="w-5 h-5 text-red-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>
@@ -301,7 +301,7 @@
                                         </p>
                                     </li>
                                 @endif
-                                @if (($trajet['inclus_parking'] ?? null) === false)
+                                @if (($trajet['parking'] ?? null) === 'non_compris')
                                     <li class="flex items-start lg:col-span-1">
                                         <div class="flex-shrink-0">
                                             <svg class="w-5 h-5 text-red-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>
@@ -311,7 +311,7 @@
                                         </p>
                                     </li>
                                 @endif
-                                @if (($trajet['inclus_peages'] ?? null) === false)
+                                @if (($trajet['peages'] ?? null) === 'non_compris')
                                     <li class="flex items-start lg:col-span-1">
                                         <div class="flex-shrink-0">
                                             <svg class="w-5 h-5 text-red-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>
