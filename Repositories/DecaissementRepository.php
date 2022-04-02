@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Livewire\HydrationMiddleware\HydratePublicProperties;
 use Modules\BaseCore\Repositories\AbstractRepository;
 use Modules\CoreCRM\Contracts\Entities\DevisEntities;
@@ -14,9 +15,22 @@ use Modules\CoreCRM\Models\Dossier;
 use Modules\CoreCRM\Models\Fournisseur;
 use Modules\CrmAutoCar\Contracts\Repositories\DecaissementRepositoryContract;
 use Modules\CrmAutoCar\Models\Decaissement;
+use phpDocumentor\Reflection\Types\Parent_;
 
 class DecaissementRepository extends AbstractRepository implements DecaissementRepositoryContract
 {
+
+    public function newQuery():Builder
+    {
+        $bureaux = Auth::user()->roles->whereIn('id', config('crmautocar.bureaux_ids'));
+        return parent::newQuery()->whereHas('devis', function($query) use ($bureaux){
+            $query->whereHas('commercial', function($query) use ($bureaux){
+                $query->whereHas('roles', function($query) use ($bureaux){
+                    $query->whereIn('id', $bureaux->pluck('id'));
+                });
+            });
+        });
+    }
 
     public function create(DevisEntities $devi, Fournisseur $fournisseur, float $payer, float $reste, Carbon $date): Decaissement
     {
@@ -45,7 +59,7 @@ class DecaissementRepository extends AbstractRepository implements DecaissementR
 
     public function getByDossier(Dossier $dossier): Collection
     {
-        return Decaissement::whereHas('devis', function ($query) use ($dossier) {
+        return $this->newQuery()->whereHas('devis', function ($query) use ($dossier) {
             $query->whereHas('dossier', function ($query) use ($dossier) {
                 $query->where('id', $dossier->id);
             });
@@ -54,7 +68,7 @@ class DecaissementRepository extends AbstractRepository implements DecaissementR
 
     public function getByDevis(): \Illuminate\Support\Collection
     {
-        $list = Decaissement::with('devis')->get();
+        $list = $this->newQuery()->with('devis')->get();
         $list = $list->groupBy('devis_id', 'fournisseur_id');
         $newList = collect();
         foreach ($list as $listFiltre) {
@@ -124,12 +138,12 @@ class DecaissementRepository extends AbstractRepository implements DecaissementR
 
     public function getCountNombrePaiement(Decaissement $decaissement): int
     {
-        return Decaissement::where('fournisseur_id', $decaissement->fournisseur_id)->where('devis_id', $decaissement->devis_id)->count();
+        return $this->newQuery()->where('fournisseur_id', $decaissement->fournisseur_id)->where('devis_id', $decaissement->devis_id)->count();
     }
 
     public function getDetailPaiement(Decaissement $decaissement): Collection
     {
-        return Decaissement::where('fournisseur_id', $decaissement->fournisseur_id)->where('devis_id', $decaissement->devis_id)->get();
+        return $this->newQuery()->where('fournisseur_id', $decaissement->fournisseur_id)->where('devis_id', $decaissement->devis_id)->get();
     }
 
     public function getModel(): Model
@@ -139,6 +153,6 @@ class DecaissementRepository extends AbstractRepository implements DecaissementR
 
     public function searchQuery(Builder $query, string $value, mixed $parent = null): Builder
     {
-        // TODO: Implement searchQuery() method.
+        return $query;
     }
 }

@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Modules\BaseCore\Repositories\AbstractRepository;
@@ -20,6 +21,18 @@ use Modules\SearchCRM\Entities\SearchResult;
 
 class InvoicesRepository extends AbstractRepository implements InvoicesRepositoryContract
 {
+
+    public function newQuery(): Builder
+    {
+        $bureaux = Auth::user()->roles->whereIn('id', config('crmautocar.bureaux_ids'));
+        return parent::newQuery()->whereHas('devis', function($query) use ($bureaux){
+            $query->whereHas('commercial', function($query) use ($bureaux){
+                $query->whereHas('roles', function($query) use ($bureaux){
+                    $query->whereIn('id', $bureaux->pluck('id'));
+                });
+            });
+        });
+    }
 
     public function getModel(): Model
     {

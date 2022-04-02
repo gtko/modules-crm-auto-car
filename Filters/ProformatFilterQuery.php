@@ -22,15 +22,13 @@ class ProformatFilterQuery
     public function byBureau(UserEntity $user){
         //on récupère son bureau si il en a un
         $bureaux = $user->roles->whereIn('id', config('crmautocar.bureaux_ids'));
-        if($bureaux->count() > 0){
-            $this->query->whereHas('devis', function($query) use ($bureaux){
-               $query->whereHas('commercial', function($query) use ($bureaux){
-                   $query->whereHas('roles', function($query) use ($bureaux){
-                       $query->whereIn('id', $bureaux->pluck('id'));
-                   });
+        $this->query->whereHas('devis', function($query) use ($bureaux){
+           $query->whereHas('commercial', function($query) use ($bureaux){
+               $query->whereHas('roles', function($query) use ($bureaux){
+                   $query->whereIn('id', $bureaux->pluck('id'));
                });
-            });
-        }
+           });
+        });
     }
 
     public function byCommercial(?Commercial $commercial = null)

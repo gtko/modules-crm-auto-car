@@ -3,6 +3,7 @@
 namespace Modules\CrmAutoCar\Repositories;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Auth;
 use Modules\CoreCRM\Contracts\Entities\DevisEntities;
 use Modules\CoreCRM\Models\Fournisseur;
 use Modules\CoreCRM\Repositories\DevisRepository;
@@ -10,6 +11,16 @@ use Modules\CrmAutoCar\Contracts\Repositories\DevisAutocarRepositoryContract;
 
 class DevisAutocarRepository extends DevisRepository implements DevisAutocarRepositoryContract
 {
+
+    public function newQuery(): Builder
+    {
+        $bureaux = Auth::user()->roles->whereIn('id', config('crmautocar.bureaux_ids'));
+        return parent::newQuery()->whereHas('commercial', function($query) use ($bureaux){
+            $query->whereHas('roles', function($query) use ($bureaux){
+                $query->whereIn('id', $bureaux->pluck('id'));
+            });
+        });
+    }
 
     public function bpaFournisseur(DevisEntities $devis, Fournisseur $fournisseur, bool $bpa = true)
     {

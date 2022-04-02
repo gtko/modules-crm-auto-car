@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Modules\BaseCore\Contracts\Entities\UserEntity;
 use Modules\BaseCore\Repositories\AbstractRepository;
 use Modules\CoreCRM\Contracts\Entities\DevisEntities;
@@ -19,6 +20,19 @@ use Modules\SearchCRM\Entities\SearchResult;
 
 class ProformatsRepository extends AbstractRepository implements ProformatsRepositoryContract
 {
+
+
+    public function newQuery(): Builder
+    {
+        $bureaux = Auth::user()->roles->whereIn('id', config('crmautocar.bureaux_ids'));
+        return parent::newQuery()->whereHas('devis', function($query) use ($bureaux){
+            $query->whereHas('commercial', function($query) use ($bureaux){
+                $query->whereHas('roles', function($query) use ($bureaux){
+                    $query->whereIn('id', $bureaux->pluck('id'));
+                });
+            });
+        });
+    }
 
     public function getModel(): Model
     {

@@ -3,7 +3,7 @@
         <x-basecore::breadcrumb-item>Statistiques</x-basecore::breadcrumb-item>
     </x-slot>
 
-    @if(Auth::user()->isSuperAdmin())
+    @if(Auth::user()->isSuperAdmin() || Auth::user()->hasRole('manager'))
         <livewire:crmautocar::stats-filter-date-global/>
         <livewire:crmautocar::stats-admin-card-global/>
     @endif
@@ -13,7 +13,7 @@
             <livewire:crmautocar::stats-admin-list-commercial/>
         </div>
         <div class="col-span-12 lg:col-span-9 xxl:col-span-10">
-            @if(!Auth::user()->isSuperAdmin())
+            @if(!Auth::user()->isSuperAdmin() || Auth::user()->hasRole('manager'))
             <livewire:crmautocar::stats-filter-date/>
             @endif
             <livewire:crmautocar::stats-admin-card/>

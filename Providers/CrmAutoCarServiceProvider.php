@@ -11,6 +11,7 @@ use Modules\BaseCore\Contracts\Views\BeforeMobileMenuContract;
 use Modules\BaseCore\Entities\TypeView;
 use Modules\CoreCRM\Contracts\Entities\ClientEntity;
 use Modules\CoreCRM\Contracts\Repositories\ClientRepositoryContract;
+use Modules\CoreCRM\Contracts\Repositories\CommercialRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\DossierRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\FournisseurRepositoryContract;
@@ -78,6 +79,7 @@ use Modules\CrmAutoCar\Notifications\DevisSendClientNotification;
 use Modules\CrmAutoCar\Notifications\DossierAttribuerNotification;
 use Modules\CrmAutoCar\Repositories\BrandsRepository;
 use Modules\CrmAutoCar\Repositories\ClientRepository;
+use Modules\CrmAutoCar\Repositories\CommercialCrmAutoCarRepository;
 use Modules\CrmAutoCar\Repositories\ConfigRepository;
 use Modules\CrmAutoCar\Repositories\ContactFournisseurRepository;
 use Modules\CrmAutoCar\Repositories\DecaissementRepository;
@@ -140,6 +142,7 @@ class CrmAutoCarServiceProvider extends ServiceProvider
         $this->app->bind(TagFournisseurRepositoryContract::class, TagFournisseurRepository::class);
         $this->app->bind(FournisseurRepositoryContract::class, FournisseurRepository::class);
         $this->app->bind(ClientRepositoryContract::class, ClientRepository::class);
+        $this->app->bind(CommercialRepositoryContract::class, CommercialCrmAutoCarRepository::class);
 
         $this->app->bind(FlowContract::class,FlowAutocarCRM::class);
 

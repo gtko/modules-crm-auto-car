@@ -2,7 +2,7 @@
     <div class="pt-3 text-white" x-data="{selected:{{ Auth::Commercial()->id }}}">
 
         @foreach($this->commercials as $commercial)
-            @if (Auth::user()->IsSuperAdmin() || Auth::Commercial()->id == $commercial->id)
+            @if (Auth::user()->IsSuperAdmin() || Auth::user()->hasRole("manager") || Auth::Commercial()->id == $commercial->id)
                 <span
                     class="flex items-center py-2 rounded-md @if($this->commercial_id == $commercial->id) bg-theme-25 @endif pr-4 pl-2 dark:bg-dark-1 font-medium cursor-pointer">
                  <span
