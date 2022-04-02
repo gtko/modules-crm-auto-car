@@ -1,6 +1,12 @@
 <div class="rows">
     <div class="col-md-12">
+
         <div class="table-section clearfix">
+            @if($plus45j)
+            <p>
+                Le montant de votre acompte est de @marge($this->proforma->price->getAcompteTTC())€ et le solde sera à régler 45j avant votre départ
+            </p>
+            @endif
             <div class="table-responsive">
                 <table class="table invoice-table">
                     <thead class="bg-active">

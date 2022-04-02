@@ -16,6 +16,14 @@ class ReglementListProforma extends Component
     public function render()
     {
         $paiements = $this->proforma->payments;
-        return view('crmautocar::livewire.reglement-list-proforma', compact('paiements'));
+
+        $plus45j = false;
+        if($this->proforma->devis->date_depart) {
+            $plus45j = $this->proforma->created_at->diffInDays($this->proforma->devis->date_depart) > 45;
+        }
+
+
+
+        return view('crmautocar::livewire.reglement-list-proforma', compact('paiements', 'plus45j'));
     }
 }
