@@ -10,30 +10,31 @@
         <div class="grid-cols-2 grid">
 
             <div class="flex-col flex">
-                @if ($this->devis->data['trajets'][$this->trajetid]['inclus_repas_chauffeur'])
+                @if (($this->devis->data['trajets'][$this->trajetid]['repas_chauffeur'] ?? null) == 'compris')
                     <span>-Repas chauffeur</span>
                 @endif
-                @if ($this->devis->data['trajets'][$this->trajetid]['inclus_hebergement'])
+                @if (($this->devis->data['trajets'][$this->trajetid]['hebergement'] ?? null) == 'compris')
                     <span>-Hébergement</span>
                 @endif
-                @if ($this->devis->data['trajets'][$this->trajetid]['inclus_parking'])
+                @if (($this->devis->data['trajets'][$this->trajetid]['parking'] ?? null) == 'compris')
                     <span>-Parking</span>
                 @endif
-                @if ($this->devis->data['trajets'][$this->trajetid]['inclus_peages'])
+                @if (($this->devis->data['trajets'][$this->trajetid]['peages'] ?? null) == 'compris')
                     <span>-Péages</span>
                 @endif
             </div>
             <div class="flex-col flex">
-                @if (!$this->devis->data['trajets'][$this->trajetid]['inclus_repas_chauffeur'])
+                @if (($this->devis->data['trajets'][$this->trajetid]['repas_chauffeur'] ?? null ) == 'non_compris')
                     <span>-Repas chauffeur</span>
                 @endif
-                @if (!$this->devis->data['trajets'][$this->trajetid]['inclus_hebergement'])
+                @if (($this->devis->data['trajets'][$this->trajetid]['hebergement'] ?? null) == 'non_compris')
+                    <span>-Hébergement</span>
                     <span>-Hébergement</span>
                 @endif
-                @if (!$this->devis->data['trajets'][$this->trajetid]['inclus_parking'])
+                @if (($this->devis->data['trajets'][$this->trajetid]['parking'] ?? null) == 'non_compris')
                     <span>-Parking</span>
                 @endif
-                @if (!$this->devis->data['trajets'][$this->trajetid]['inclus_peages'])
+                @if (($this->devis->data['trajets'][$this->trajetid]['peages'] ?? null) == 'non_compris')
                     <span>-Péages</span>
                 @endif
             </div>
