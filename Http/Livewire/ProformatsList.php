@@ -89,6 +89,9 @@ class ProformatsList extends Component
 
         $filter = new ProformatFilterQuery();
 
+        $filter->byBureau(Auth::user());
+
+
         if (!Gate::allows('viewAny', Proformat::class)) {
             $filter->byCommercial(Auth::commercial());
 

@@ -5,6 +5,7 @@ namespace Modules\CrmAutoCar\Policies;
 use App\Models\User;
 use App\Models\Brand;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Modules\BaseCore\Contracts\Entities\UserEntity;
 
 class BrandPolicy
 {
@@ -16,7 +17,7 @@ class BrandPolicy
      * @param  App\Models\User  $user
      * @return mixed
      */
-    public function viewAny(User $user)
+    public function viewAny(UserEntity $user)
     {
         return $user->hasPermissionTo('list brands');
     }
@@ -28,7 +29,7 @@ class BrandPolicy
      * @param  App\Models\Brand  $model
      * @return mixed
      */
-    public function view(User $user, Brand $model)
+    public function view(UserEntity $user, Brand $model)
     {
         return $user->hasPermissionTo('view brands');
     }
@@ -39,7 +40,7 @@ class BrandPolicy
      * @param  App\Models\User  $user
      * @return mixed
      */
-    public function create(User $user)
+    public function create(UserEntity $user)
     {
         return $user->hasPermissionTo('create brands');
     }
@@ -51,7 +52,7 @@ class BrandPolicy
      * @param  App\Models\Brand  $model
      * @return mixed
      */
-    public function update(User $user, Brand $model)
+    public function update(UserEntity $user, Brand $model)
     {
         return $user->hasPermissionTo('update brands');
     }
@@ -63,7 +64,7 @@ class BrandPolicy
      * @param  App\Models\Brand  $model
      * @return mixed
      */
-    public function delete(User $user, Brand $model)
+    public function delete(UserEntity $user, Brand $model)
     {
         return $user->hasPermissionTo('delete brands');
     }
@@ -75,7 +76,7 @@ class BrandPolicy
      * @param  App\Models\Brand  $model
      * @return mixed
      */
-    public function deleteAny(User $user)
+    public function deleteAny(UserEntity $user)
     {
         return $user->hasPermissionTo('delete brands');
     }
@@ -87,7 +88,7 @@ class BrandPolicy
      * @param  App\Models\Brand  $model
      * @return mixed
      */
-    public function restore(User $user, Brand $model)
+    public function restore(UserEntity $user, Brand $model)
     {
         return false;
     }
@@ -99,7 +100,7 @@ class BrandPolicy
      * @param  App\Models\Brand  $model
      * @return mixed
      */
-    public function forceDelete(User $user, Brand $model)
+    public function forceDelete(UserEntity $user, Brand $model)
     {
         return false;
     }
