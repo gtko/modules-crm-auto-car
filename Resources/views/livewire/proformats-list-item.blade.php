@@ -42,6 +42,7 @@
         <div class="flex flex-col">
             <div class="whitespace-nowrap">PV : @marge($price->getPriceVenteTTC())€</div>
             <div class="whitespace-nowrap">PA : @marge($price->getPriceAchat())€</div>
+            <div class="whitespace-nowrap">AC : @marge($price->getAcompteTTC())€</div>
         </div>
     </td>
 
