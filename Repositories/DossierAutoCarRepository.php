@@ -13,12 +13,16 @@ class DossierAutoCarRepository extends \Modules\CoreCRM\Repositories\DossierRepo
 
     public function newQuery(): Builder
     {
-        $bureaux = Auth::user()->roles->whereIn('id', config('crmautocar.bureaux_ids'));
-        return parent::newQuery()->whereHas('commercial', function($query) use ($bureaux){
-                $query->whereHas('roles', function($query) use ($bureaux){
+        if(Auth::check()) {
+            $bureaux = Auth::user()->roles->whereIn('id', config('crmautocar.bureaux_ids'));
+            return parent::newQuery()->whereHas('commercial', function ($query) use ($bureaux) {
+                $query->whereHas('roles', function ($query) use ($bureaux) {
                     $query->whereIn('id', $bureaux->pluck('id'));
                 });
-        });
+            });
+        }
+
+        return parent::newQuery();
     }
 
     public function searchQuery(Builder $query, string $value, mixed $parent = null): Builder

@@ -32,6 +32,7 @@ class GestionnaireVariable extends WorkFlowVariable
         return [
           'email' => $follower->email,
           'phone' => $follower->phone,
+          'avatar' => $follower->avatar_url,
           'nom et prénom' => $follower->format_name,
           'signature' => <<<mark
             <div>
@@ -49,6 +50,7 @@ class GestionnaireVariable extends WorkFlowVariable
             'nom et prénom' => 'Nom et prénom du gestionnaire',
             'email' => 'Email du gestionnaire',
             'phone' => 'Numéro de téléphone du gestionnaire',
+            'avatar' => 'Avatar du gestionnaire',
             'signature' => 'Signature du gestionnaire',
         ];
     }

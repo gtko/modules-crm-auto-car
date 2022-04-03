@@ -22,14 +22,18 @@ class DecaissementRepository extends AbstractRepository implements DecaissementR
 
     public function newQuery():Builder
     {
-        $bureaux = Auth::user()->roles->whereIn('id', config('crmautocar.bureaux_ids'));
-        return parent::newQuery()->whereHas('devis', function($query) use ($bureaux){
-            $query->whereHas('commercial', function($query) use ($bureaux){
-                $query->whereHas('roles', function($query) use ($bureaux){
-                    $query->whereIn('id', $bureaux->pluck('id'));
+        if(Auth::check()) {
+            $bureaux = Auth::user()->roles->whereIn('id', config('crmautocar.bureaux_ids'));
+            return parent::newQuery()->whereHas('devis', function ($query) use ($bureaux) {
+                $query->whereHas('commercial', function ($query) use ($bureaux) {
+                    $query->whereHas('roles', function ($query) use ($bureaux) {
+                        $query->whereIn('id', $bureaux->pluck('id'));
+                    });
                 });
             });
-        });
+        }
+
+        return parent::newQuery();
     }
 
     public function create(DevisEntities $devi, Fournisseur $fournisseur, float $payer, float $reste, Carbon $date): Decaissement
