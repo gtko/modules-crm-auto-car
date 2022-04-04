@@ -12,16 +12,16 @@ class ClientRepository extends \Modules\CoreCRM\Repositories\ClientRepository
 
     public function newQuery(): Builder
     {
-        if(Auth::check()) {
-            $bureaux = Auth::user()->roles->whereIn('id', config('crmautocar.bureaux_ids'));
-            return parent::newQuery()->whereHas('dossiers', function ($query) use ($bureaux) {
-                $query->whereHas('commercial', function ($query) use ($bureaux) {
-                    $query->whereHas('roles', function ($query) use ($bureaux) {
-                        $query->whereIn('id', $bureaux->pluck('id'));
-                    });
-                });
-            });
-        }
+//        if(Auth::check()) {
+//            $bureaux = Auth::user()->roles->whereIn('id', config('crmautocar.bureaux_ids'));
+//            return parent::newQuery()->whereHas('dossiers', function ($query) use ($bureaux) {
+//                $query->whereHas('commercial', function ($query) use ($bureaux) {
+//                    $query->whereHas('roles', function ($query) use ($bureaux) {
+//                        $query->whereIn('id', $bureaux->pluck('id'));
+//                    });
+//                });
+//            });
+//        }
 
         return parent::newQuery();
     }

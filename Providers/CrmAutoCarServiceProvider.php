@@ -54,6 +54,7 @@ use Modules\CrmAutoCar\Flow\Works\Events\EventClientDevisClientSaveValidation;
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDevisExterneConsultation;
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDevisExterneValidation;
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierAttribuer;
+use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierFideliser;
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierFournisseurBpa;
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierPaiementFournisseurSend;
 use Modules\CrmAutoCar\Flow\Works\Events\EventClientDossierRappeler;
@@ -249,7 +250,8 @@ class CrmAutoCarServiceProvider extends ServiceProvider
             EventDevisManualSendClient::class,
             EventSendInformationVoyageMailClient::class,
             EventSendContactChauffeurToClient::class,
-            EventCreateInvoiceClient::class
+            EventCreateInvoiceClient::class,
+            EventClientDossierFideliser::class
         ]);
 
         app(TemplateMailService::class)
