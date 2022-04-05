@@ -63,7 +63,13 @@ Route::prefix('/')
         Route::resource('clients', ClientController::class);
 
         Route::resource('fournisseurs', FournisseurController::class)->except('show');
-        Route::resource('cuves', CuveController::class)->only('index', 'destroy', 'show');
+
+        Route::middleware('protected_crm')
+        ->group(function(){
+            Route::resource('cuves', CuveController::class)->only('index', 'destroy', 'show');
+        });
+
+
         Route::get('proformats', [ProformatsController::class, 'index'])->name('proformats.index');
         Route::get('invoices', [InvoicesController::class, 'index'])->name('invoices.index');
         Route::resource('templates', TemplateController::class)->except('show');

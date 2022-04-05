@@ -3,6 +3,7 @@
 namespace Modules\CrmAutoCar\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Modules\BaseCore\Contracts\Entities\UserEntity;
 use Modules\BaseCore\Http\Controllers\Controller;
 use Modules\CoreCRM\Contracts\Repositories\DossierRepositoryContract;
