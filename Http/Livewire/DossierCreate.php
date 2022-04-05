@@ -2,12 +2,15 @@
 
 namespace Modules\CrmAutoCar\Http\Livewire;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Modules\CoreCRM\Contracts\Repositories\CommercialRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\DossierRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\SourceRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\StatusRepositoryContract;
+use Modules\CoreCRM\Enum\StatusTypeEnum;
+use Modules\CoreCRM\Models\Status;
 
 class DossierCreate extends Component
 {
@@ -58,6 +61,11 @@ class DossierCreate extends Component
 
     public function save()
     {
+        if (Auth::user()->hasRole("commercial")){
+            $this->rules['commercial'] = '';
+            $this->rules['statu'] = '';
+        }
+
         $this->validate();
 
         $data =
@@ -67,6 +75,11 @@ class DossierCreate extends Component
                 'date_arrivee' => $this->arrive_date ?? '',
                 'lieu_arrivee' => $this->arrive_lieu ?? '',
             ];
+
+        if (Auth::user()->hasRole("commercial")){
+            $this->commercial = Auth::user()->id;
+            $this->statu = Status::where('type', StatusTypeEnum::TYPE_NEW)->first()->id;
+        }
 
         $commercial = app(CommercialRepositoryContract::class)->fetchById($this->commercial);
         $source = app(SourceRepositoryContract::class)->fetchById($this->source);

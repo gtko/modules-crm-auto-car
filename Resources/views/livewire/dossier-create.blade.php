@@ -8,23 +8,26 @@
                 @endforeach
             </x-basecore::inputs.select>
         </div>
-        <div>
-            <x-basecore::inputs.select name="commercial" wire:model="commercial" label="Commercial attribué">
-                <option value="">Commercial</option>
-                @foreach($commercials as $commercialList)
-                    <livewire:crmautocar::list-cuve-commercial-detail wire:key="{{$commercialList->id}}" :commercial="$commercialList"/>
-                @endforeach
-            </x-basecore::inputs.select>
-        </div>
-        <div>
-            <x-basecore::inputs.select name="statu" wire:model="statu" label="Status">
-                <option value="">status</option>
 
-                @foreach($status as $statuList)
-                    <option value="{{$statuList->id}}">{{$statuList->label}}</option>
-                @endforeach
-            </x-basecore::inputs.select>
-        </div>
+        @if (!Auth::user()->hasRole("commercial"))
+            <div>
+                <x-basecore::inputs.select name="commercial" wire:model="commercial" label="Commercial attribué">
+                    <option value="">Commercial</option>
+                    @foreach($commercials as $commercialList)
+                        <livewire:crmautocar::list-cuve-commercial-detail wire:key="{{$commercialList->id}}" :commercial="$commercialList"/>
+                    @endforeach
+                </x-basecore::inputs.select>
+            </div>
+            <div>
+                <x-basecore::inputs.select name="statu" wire:model="statu" label="Status">
+                    <option value="">status</option>
+
+                    @foreach($status as $statuList)
+                        <option value="{{$statuList->id}}">{{$statuList->label}}</option>
+                    @endforeach
+                </x-basecore::inputs.select>
+            </div>
+        @endif
     </div>
     <div class="grid grid-cols-2 gap-2 mt-2">
         <div>
