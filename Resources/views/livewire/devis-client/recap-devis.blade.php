@@ -61,36 +61,39 @@
     @if(!$sidebar)
         <div class="flex-col flex no-print" style="font-size: 12px">
             @if(!empty(($devis->data['trajets'] ?? [])))
-                <span>* Le prix ne comprend pas les élements suivants qui resteront à votre charge : Kilomètres supplémentaires et heures supplémentaires
+                <span>* Le prix ne comprend pas les élements suivants qui resteront à votre charge :
                      @if (($trajet['peages'] ?? null) == 'non_compris')
-                        ,le péages
+                        Le péages,
                     @endif
                     @if(($trajet['parking'] ?? null) == 'non_compris')
-                        ,le parking
+                        Le parking,
                     @endif
                     @if (($trajet['hebergement'] ?? null) == 'non_compris')
-                        ,l'hébergement
+                        L'hébergement,
                     @endif
                     @if (($trajet['repas_chauffeur'] ?? null) == 'non_compris')
-                        ,le repas chauffeur
+                        Le repas chauffeur,
                     @endif
-                    .</span>
+                      Kilomètres supplémentaires et Heures supplémentaires.
+                    </span>
                 @if (($trajet['peages'] ?? null)  == 'compris' || ($trajet['parking'] ?? null)  == 'compris' || ($trajet['hebergement'] ?? null)  == 'compris' || ($trajet['repas_chauffeur'] ?? null)  == 'compris')
                     <span>* Le prix comprend les élements suivants :
                         @if (($trajet['peages'] ?? null)  == 'compris')
-                            le péages,
+                            Le péages,
                         @endif
                         @if(($trajet['parking'] ?? null)  == 'compris')
-                            le parking,
+                            Le parking,
                         @endif
                         @if (($trajet['hebergement'] ?? null) == 'compris')
-                            l'hébergement,
+                            L'hébergement,
                         @endif
                         @if (($trajet['repas_chauffeur'] ?? null) == 'compris')
-                            le repas chauffeur
+                            Le repas chauffeur,
                         @endif
-                </span>
+
+                    </span>
                 @endif
+
             @endif
             @if((!$proformat ?? true))
                 <span>** Ce devis est valable 7 jours à compter de sa date d'envoi et sous réserve de disponibilité. Au-delà, le tarif sera soumis à révision.</span>

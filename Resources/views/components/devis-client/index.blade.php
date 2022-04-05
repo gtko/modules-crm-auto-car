@@ -77,31 +77,31 @@
                         <div class="my-6 pb-4 bg-white border border-gray-400 notcut">
                             <livewire:crmautocar::devis-client.voyage :devis="$devis" :trajet-id="$idTrajet"
                                                                       :brand="$brand"/>
+
+                        @if(($devis->data['nombre_bus'] ?? '') || ($devis->data['nombre_chauffeur'] ?? ''))
+                            <div class=" mb-4 p-4 grid notcut justify-items-stretch">
+                                <div class="mb-4">
+                                    <h5 class="text-bleu my-2 pl-2 font-bold text-xl">Informations complémentaires</h5>
+                                    <hr class="text-bleu">
+                                </div>
+                                @if(($devis->data['nombre_bus'] ?? ''))
+                                    <div>
+                                        <span>Nombre d'autocar(s) : </span>
+                                        <span class="font-bold">{{ $devis->data['nombre_bus'] ?? ''}}</span>
+                                    </div>
+                                @endif
+
+                                @if(($devis->data['nombre_chauffeur'] ?? ''))
+                                    <div>
+                                        <span>Nombre de conducteur(s) : </span>
+                                        <span class="font-bold">{{ $devis->data['nombre_chauffeur'] ?? ''}}</span>
+                                    </div>
+                                @endif
+                            </div>
+                        @endif
                         </div>
                     @endforeach
 
-                    @if(($devis->data['nombre_bus'] ?? '') || ($devis->data['nombre_chauffeur'] ?? ''))
-                        <div class="bg-white mb-4 p-4 grid notcut justify-items-stretch border border-gray-400">
-                            <div class="mb-4">
-                                <h5 class="text-bleu my-2 pl-2 font-bold text-xl">Informations complémentaires</h5>
-                                <hr class="text-bleu">
-                            </div>
-                            @if(($devis->data['nombre_bus'] ?? ''))
-                            <div>
-                                <span>Nombre d'autocar(s) : </span>
-                                <span class="font-bold">{{ $devis->data['nombre_bus'] ?? ''}}</span>
-                            </div>
-                            @endif
-
-                            @if(($devis->data['nombre_chauffeur'] ?? ''))
-                            <div>
-                                <span>Nombre de conducteur(s) : </span>
-                                <span class="font-bold">{{ $devis->data['nombre_chauffeur'] ?? ''}}</span>
-                            </div>
-                            @endif
-
-                        </div>
-                    @endif
 
                     @if(count(($devis->data['trajets']) ?? []) < 2 || count(($devis->data['lines'] ?? [])) > 0)
                         <livewire:crmautocar::devis-client.recap-devis

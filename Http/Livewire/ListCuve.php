@@ -59,13 +59,15 @@ class ListCuve extends Component
     public function render()
     {
         $dossierRep = app(DossierRepositoryContract::class);
-        $commercials = app(CommercialRepositoryContract::class)->fetchAll();
+        $commercials = app(CommercialRepositoryContract::class)
+            ->newQuery()
+            ->where('enabled', true)
+            ->role('commercial')
+            ->get();
         $pipelines = app(PipelineRepositoryContract::class)->fetchall();
-
 
         $dossierRep->setQuery($dossierRep->newQuery()->with(['client.personne.emails', 'client.personne.address.country', 'commercial.personne', 'source'])
             ->orderByDesc('created_at'));
-
 
         if ($this->filtre == "attente")
         {
