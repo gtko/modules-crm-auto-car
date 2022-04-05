@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Modules\BaseCore\Helpers\HasInterface;
 use Modules\CoreCRM\Contracts\Repositories\ClientRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\StatusRepositoryContract;
+use Modules\CoreCRM\Enum\StatusTypeEnum;
 
 class DossierAutoCarRepository extends \Modules\CoreCRM\Repositories\DossierRepository
 {
@@ -41,11 +42,14 @@ class DossierAutoCarRepository extends \Modules\CoreCRM\Repositories\DossierRepo
 
 
     public function countDossierResaBlanc(){
+
         return $this->newQuery()
             ->doesntHave('followers')
             ->whereHas('status', function ($query) {
-                $status = app(StatusRepositoryContract::class)->fetchById('6');
-                return $query->where('order', '>=', $status->order);
+                $status = app(StatusRepositoryContract::class)->fetchById('8');
+                $query->where('order', '>=', $status->order);
+                $query->where('order', '<', 800);
+                $query->whereIn('type', [StatusTypeEnum::TYPE_CUSTOM]);
             })
             ->count();
     }
