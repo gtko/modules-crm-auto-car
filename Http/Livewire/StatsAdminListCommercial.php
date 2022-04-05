@@ -14,7 +14,7 @@ class StatsAdminListCommercial extends Component
 
     public function mount(CommercialRepositoryContract $repCommercial)
     {
-        if(Auth::user()->hasRole('commercial')) {
+        if(!Auth::user()->hasRole(['super-admin', 'manager'])){
             $this->commercial_id = Auth::user()->id;
         }else {
             $this->commercial_id = app(CommercialRepositoryContract::class)
@@ -38,8 +38,28 @@ class StatsAdminListCommercial extends Component
 
     public function render(CommercialRepositoryContract $repCommercial)
     {
-        $this->commercials = $repCommercial->newquery()->role('commercial')->get();
+        $this->commercials = $repCommercial->newquery()->role(['commercial', 'Résa', 'manager'])->get();
 
-        return view('crmautocar::livewire.stats-admin-list-commercial');
+        $users = [
+            'commercials' => [],
+            'resas' => [],
+            'managers' => [],
+        ];
+
+        foreach($this->commercials as $commercial){
+            if($commercial->hasRole('commercial')){
+                $users['commercials'][] = $commercial;
+            }
+
+            if($commercial->hasRole('Résa')){
+                $users['resas'][] = $commercial;
+            }
+
+            if($commercial->hasRole('manager')){
+                $users['managers'][] = $commercial;
+            }
+        }
+
+        return view('crmautocar::livewire.stats-admin-list-commercial', compact('users'));
     }
 }
