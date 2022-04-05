@@ -55,7 +55,7 @@ Route::get('cgl', function (){
 
 
 Route::prefix('/')
-    ->middleware(['auth:web', 'verified'])
+    ->middleware(['auth:web', 'verified', 'user_actif'])
     ->group(function () {
 
         Route::get('dashboard', [DashboardController::class, 'index']);
