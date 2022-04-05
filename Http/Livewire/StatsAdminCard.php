@@ -33,7 +33,7 @@ class StatsAdminCard extends Component
 
 
     public function mount(){
-        if(Auth::user()->hasRole('commercial')) {
+        if(!Auth::user()->hasRole(['super-admin', 'manager'])) {
             $this->commercial = Auth::commercial();
         }else{
             $this->commercial = app(CommercialRepositoryContract::class)
