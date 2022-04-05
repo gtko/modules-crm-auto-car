@@ -107,13 +107,17 @@
                                             </thead>
                                             <tbody>
                                             @foreach(($invoice->devis->data['trajets'] ?? []) as $idTrajet => $trajet)
+                                                @php
+                                                    $brand = app(Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract::class)->getDefault();
+                                                    $priceTrajet = (new Modules\DevisAutoCar\Entities\DevisTrajetPrice($proformat->devis, $idTrajet, $brand));
+                                                @endphp
                                                 <tr>
                                                     <td>
                                                        <livewire:crmautocar::devis-client.voyage :devis="$invoice->devis" :trajet-id="$idTrajet" :brand="$brand" :proformat='true'/>
                                                     </td>
                                                     <td class="text-center">1</td>
-                                                    <td class="text-center text-nowrap">@marge($price->getPriceHT())€</td>
-                                                    <td class="text-right text-nowrap">@marge($price->getPriceHT())€</td>
+                                                    <td class="text-center text-nowrap">@marge($priceTrajet->getPriceHT())€</td>
+                                                    <td class="text-right text-nowrap">@marge($priceTrajet->getPriceHT())€</td>
                                                 </tr>
                                             @endforeach
                                             <tr>

@@ -46,9 +46,30 @@
                     <span class="font-bold">{{ $trajet['aller_pax'] ?? ''}}</span>
                 </div>
             </div>
+            @if($proformat)
+                <div class="mt-1">
+                @if(($devis->data['nombre_bus'] ?? ''))
+                    <div>
+                        <span>Nombre d'autocar(s) : </span>
+                        <span class="font-bold">{{ $devis->data['nombre_bus'] ?? ''}}</span>
+                    </div>
+                @endif
+
+                @if(($devis->data['nombre_chauffeur'] ?? ''))
+                    <div>
+                        <span>Nombre de conducteur(s) : </span>
+                        <span class="font-bold">{{ $devis->data['nombre_chauffeur'] ?? ''}}</span>
+                    </div>
+                @endif
+                </div>
+            @endif
         </div>
         @if($trajet['retour_date_depart'] ?? false)
-            <div class="mt-5 p-3">
+           @if($proformat)
+                <div class="mt-1 p-3">
+           @else
+                <div class="mt-5 p-3">
+           @endif
                 <div>
                     Retour le :
                     @if($trajet['retour_date_depart'] ?? false)
@@ -79,6 +100,23 @@
                         <span class="font-bold">{{ $trajet['retour_pax'] ?? ''}}</span>
                     </div>
                 </div>
+                    @if($proformat)
+                        <div class="mt-1">
+                            @if(($devis->data['nombre_bus'] ?? ''))
+                                <div>
+                                    <span>Nombre d'autocar(s) : </span>
+                                    <span class="font-bold">{{ $devis->data['nombre_bus'] ?? ''}}</span>
+                                </div>
+                            @endif
+
+                            @if(($devis->data['nombre_chauffeur'] ?? ''))
+                                <div>
+                                    <span>Nombre de conducteur(s) : </span>
+                                    <span class="font-bold">{{ $devis->data['nombre_chauffeur'] ?? ''}}</span>
+                                </div>
+                            @endif
+                        </div>
+                    @endif
             </div>
         @endif
 
