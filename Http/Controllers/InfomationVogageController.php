@@ -42,6 +42,8 @@ class InfomationVogageController extends Controller
             })
             ->get();
 
+//        dd($chauffeurs);
+
         return view('crmautocar::information-voyage', compact('devis', 'brand', 'price', 'fournisseur_astreinte', 'chauffeurs'));
     }
 }
