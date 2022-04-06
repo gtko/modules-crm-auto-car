@@ -110,7 +110,8 @@ class ProformaDossierDetail extends Component
             $this->proformat->delete();
         }
 
-        $this->emit('refreshProforma');
+        session()->flash('success', 'Suppression de la proformat');
+        return redirect()->route('dossiers.show', [$this->proformat->devis->dossier->client, $this->proformat->devis->dossier, 'tab' => 'proforma']);
     }
 
     public function render()
