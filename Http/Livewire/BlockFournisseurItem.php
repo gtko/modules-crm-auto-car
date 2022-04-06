@@ -64,6 +64,7 @@ class BlockFournisseurItem extends Component
         }
         $this->closePrice();
         $this->emit('update');
+        $this->emit('refreshProforma');
     }
 
     public function validateDemande(DevisRepositoryContract $repDevi)
@@ -73,6 +74,7 @@ class BlockFournisseurItem extends Component
             $prix = $repDevi->getPrice($this->devi, $this->fourni);
             (new FlowCRM())->add($this->devi->dossier, new ClientDossierDemandeFournisseurValidate(Auth::user(), $this->devi, $this->fourni, $prix));
             $this->emit('update');
+            $this->emit('refreshProforma');
         }else{
             return redirect(route('dossiers.show', [$this->devi->dossier->client, $this->devi->dossier]))
                 ->with('error', 'Pas de prix sur le fournisseur');
