@@ -17,21 +17,26 @@ class ClientDossierRappeler extends Attributes
 {
     public Dossier $dossier;
     public UserEntity $commercial;
+    public ?UserEntity $user;
 
-    public function __construct(Dossier $dossier, UserEntity $commercial)
+
+    public function __construct(Dossier $dossier, UserEntity $commercial, ?UserEntity $user)
     {
         parent::__construct();
 
         $this->dossier = $dossier;
         $this->commercial = $commercial;
+        $this->user = $user;
+
     }
 
     public static function instance(array $value): FlowAttributes
     {
         $dossier = app(DossierRepositoryContract::class)->fetchById($value['dossier_id']);
         $commercial = app(UserRepositoryContract::class)->fetchById($value['commercial_id']);
+        $user = app(UserRepositoryContract::class)->fetchById($value['user_id'] ?? 0);
 
-        return (new ClientDossierRappeler($dossier, $commercial));
+        return (new ClientDossierRappeler($dossier, $commercial, $user));
     }
 
     public function toArray(): array
@@ -39,6 +44,7 @@ class ClientDossierRappeler extends Attributes
         return [
             'dossier_id' => $this->dossier->id,
             'commercial_id' => $this->commercial->id,
+            'user_id' => $this->user->id ?? 0,
         ];
     }
 
@@ -48,6 +54,11 @@ class ClientDossierRappeler extends Attributes
     public function getDossier(): Dossier
     {
         return $this->dossier;
+    }
+
+    public function getUser(): ?UserEntity
+    {
+        return $this->user;
     }
 
     /**

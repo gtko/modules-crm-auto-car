@@ -51,6 +51,7 @@ class EventClientDossierRappeler extends WorkFlowEvent
             'dossier' => $flowAttribute->getDossier(),
             'client' => $flowAttribute->getDossier()->client,
             'commercial' => $flowAttribute->getCommercial(),
+            'user' => $flowAttribute->getUser(),
         ];
     }
 
@@ -67,6 +68,7 @@ class EventClientDossierRappeler extends WorkFlowEvent
         return [
             (new DossierVariable($this)),
             (new CommercialVariable($this)),
+            (new UserVariable($this)),
             (new GestionnaireVariable($this)),
             (new ClientVariable($this)),
         ];

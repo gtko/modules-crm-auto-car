@@ -18,8 +18,8 @@ class Arappeler extends Component
 
     public function rappeler(){
 
-
-        app(FlowContract::class)->add($this->dossier, new ClientDossierRappeler($this->dossier, $this->dossier->commercial));
+        app(FlowContract::class)
+            ->add($this->dossier, new ClientDossierRappeler($this->dossier, $this->dossier->commercial, Auth::user()));
 
         return redirect()->route('dossiers.show', [$this->dossier->client, $this->dossier]);
     }
