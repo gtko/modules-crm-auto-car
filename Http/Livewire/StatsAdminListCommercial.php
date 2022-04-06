@@ -41,14 +41,14 @@ class StatsAdminListCommercial extends Component
         $this->commercials = $repCommercial->newquery()->role(['commercial', 'Résa', 'manager'])->get();
 
         $users = [
-            'commercials' => [],
+            'commerciaux' => [],
             'resas' => [],
             'managers' => [],
         ];
 
         foreach($this->commercials as $commercial){
             if($commercial->hasRole('commercial')){
-                $users['commercials'][] = $commercial;
+                $users['commerciaux'][] = $commercial;
             }
 
             if($commercial->hasRole('Résa')){
