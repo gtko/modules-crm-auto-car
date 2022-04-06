@@ -14,7 +14,7 @@ class CentralAutoCarDevisController extends Controller
     public function index($devisId, DevisRepositoryContract $devisRep,)
     {
         $devis = $devisRep->fetchById($devisId);
-        $brand = Brand::first();
+        $brand = Brand::where('id','2')->first();
         $trajetid = null;
         $trajet = $this->devis->data['trajets'][$trajetid] ?? null;
 
