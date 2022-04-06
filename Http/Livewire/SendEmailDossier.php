@@ -111,7 +111,7 @@ class SendEmailDossier extends Component
         $instanceAction = $event->makeAction(ActionsSendNotification::class);
         $instanceAction->initParams([[
             'subject' => $this->email['subject'],
-            'cc' => '{commercial.email}',
+            'cc' => '{client.email}',
             'cci' => $this->email['cci'],
             'from' => $this->email['sender'],
             'files' => $attachments,
