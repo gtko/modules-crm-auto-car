@@ -139,9 +139,8 @@
             <hr class="text-bleu">
         </div>
         <div>
-            <span> {{$trajet['commentaire']}}</span>
+            <span>{!! nl2br($trajet['commentaire']) !!}</span>
         </div>
-
 
     @endif
 </div>
