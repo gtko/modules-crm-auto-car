@@ -13,6 +13,7 @@ use Modules\CoreCRM\Flow\Interfaces\FlowAttributes;
 use Modules\CoreCRM\Models\Fournisseur;
 use Modules\CrmAutoCar\Contracts\Repositories\DecaissementRepositoryContract;
 use Modules\CrmAutoCar\Models\Decaissement;
+use Modules\DevisAutoCar\Models\Devi;
 
 class ClientDevisExterneValidation extends Attributes
 {
@@ -32,7 +33,7 @@ class ClientDevisExterneValidation extends Attributes
     public static function instance(array $value): FlowAttributes
     {
         $devis = app(DevisRepositoryContract::class)->fetchById($value['devis_id']);
-        $data = $devis->data;
+        $data = $devis->data ?? [];
         return new ClientDevisExterneValidation($devis, $value['ip'], $data);
     }
 

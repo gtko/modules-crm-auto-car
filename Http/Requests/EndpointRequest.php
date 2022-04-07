@@ -18,7 +18,9 @@ use Illuminate\Foundation\Http\FormRequest;
  * @property string $arrivee
  * @property string $date_dep
  * @property string $date_ret
- *
+ * @property string $pax_dep
+ * @property string $pax_ret
+ * @property string $type_trajet
  *
  */
 class EndpointRequest extends FormRequest
@@ -39,6 +41,9 @@ class EndpointRequest extends FormRequest
             'arrivee' => '',
             'date_dep' => '',
             'date_ret' => '',
+            'pax_dep' => '',
+            'pax_ret' => '',
+            'type_trajet' => '', //aller , retour, aller retour
             'adresse' => '',
             'ville' => '',
             'code_postal' => '',

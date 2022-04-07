@@ -92,6 +92,9 @@ class EndpointController
             'lieu_depart' => $request->depart,
             'date_arrivee' => $request->date_ret,
             'lieu_arrivee' => $request->arrivee,
+            'pax_dep' => $request->pax_dep,
+            'pax_ret' => $request->pax_ret,
+            'type_trajet' => $request->type_trajet,
         ] + $request->all());
 
         $dossier = (new CreateClient())->create($formatRequest, $commercial, $source, $status);
