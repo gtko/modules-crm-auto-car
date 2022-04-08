@@ -13,6 +13,7 @@ class ClientStoreRequest extends \Modules\CoreCRM\Http\Requests\ClientStoreReque
     {
         return  parent::rules() + [
             'company' => 'string|nullable',
+            'email' => 'nullable',
         ];
     }
 }

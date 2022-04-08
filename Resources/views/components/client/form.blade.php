@@ -93,7 +93,7 @@
                             label="Email"
                             x-model="items[index]"
                             maxlength="255"
-                            required="required"/>
+                        />
                     </x-basecore::inputs.group>
                 </x-basecore::list-inputs>
                 </div>
