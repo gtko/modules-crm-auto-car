@@ -176,9 +176,9 @@ class BlockFournisseur extends Component
     public function render()
     {
         foreach ($this->dossier->devis as $devi) {
-            if($devi->validate) {
+//            if($devi->validate) {
                 $this->devis[$devi->id] = $devi;
-            }
+//            }
         }
         return view('crmautocar::livewire.block-fournisseur');
     }

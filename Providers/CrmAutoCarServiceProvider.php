@@ -261,7 +261,8 @@ class CrmAutoCarServiceProvider extends ServiceProvider
         app(DriversMailService::class)
             ->add('Default', 'smtp')
             ->add('louerunbus.fr', 'monautocar')
-            ->add('autocars-location.fr', 'location-de-car');
+            ->add('autocars-location.fr', 'location-de-car')
+            ->add('reservation', 'reservation');
 
     }
 
