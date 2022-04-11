@@ -11,21 +11,21 @@ class DevisSendClient extends Attributes
 {
 
     public function __construct(
-        public DevisEntities $devis
+        public ?DevisEntities $devis
     ){
       parent::__construct();
     }
 
     public static function instance(array $value): FlowAttributes
     {
-        $devis = app(DevisRepositoryContract::class)->fetchById($value['devis_id']);
+        $devis = app(DevisRepositoryContract::class)->fetchById($value['devis_id'] ?? null);
         return new DevisSendClient($devis);
     }
 
     public function toArray(): array
     {
         return [
-            'devis_id' => $this->devis->id
+            'devis_id' => $this->devis->id ?? null
         ];
     }
 

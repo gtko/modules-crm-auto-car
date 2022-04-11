@@ -32,7 +32,7 @@ class RecapDevis extends Component
         $this->devis = $devis;
         $this->printable = $printable;
         $this->brand = $brand;
-        $this->trajetid = $trajetId ?? 0;
+        $this->trajetid = $trajetId ?? null;
         $this->trajet = $this->devis->data['trajets'][$this->trajetid] ?? null;
         $this->proformat = $proformat;
     }

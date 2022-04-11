@@ -18,10 +18,10 @@ class ClientDossierDevisSendWhatsapp extends Attributes
 {
 
     protected UserEntity $user;
-    protected DevisEntities $devis;
+    protected ?DevisEntities $devis;
 
 
-    public function __construct(UserEntity $user, DevisEntities $devis)
+    public function __construct(UserEntity $user, ?DevisEntities $devis)
     {
         parent::__construct();
         $this->user = $user;
@@ -34,7 +34,7 @@ class ClientDossierDevisSendWhatsapp extends Attributes
         $repDevis = app(DevisRepositoryContract::class);
 
         $user = app(UserEntity::class)::find($value['user_id']);
-        $devis = $repDevis ->fetchById($value['devis_id']);
+        $devis = $repDevis->fetchById($value['devis_id'] ?? null);
 
 
         return new ClientDossierDevisSendWhatsapp($user, $devis);
@@ -44,7 +44,7 @@ class ClientDossierDevisSendWhatsapp extends Attributes
     {
         return [
             'user_id' => $this->user->id,
-            'devis_id' => $this->devis->id,
+            'devis_id' => $this->devis->id ?? null,
         ];
     }
 

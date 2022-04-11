@@ -5,17 +5,30 @@
 
         <table class="border border-gray-600 w-full border-collapse @if($sidebar) hidden lg:block no-print @endif">
 
-            @if($price->getTrajets()->count() > 0 || $price instanceof Modules\DevisAutoCar\Entities\DevisTrajetPrice)
-            <tr class="border border-gray-600 border-collapse w-full">
-                <th scope="row" class=" text-left p-3 text-gray-600">
-                    Transport en Autocar
-                </th>
-                <td class="w-1/3 text-right pr-4 font-bold text-base border border-gray-600 border-collapse">
-                    @marge($price->getPriceHT())€
-                </td>
-            </tr>
-            @endif
+            @if($sidebar)
+                  @foreach($price->getTrajetsPrices() as $index => $trajetPrice)
+                    <tr class="border border-gray-600 border-collapse w-full">
+                        <th scope="row" class=" text-left p-3 text-gray-600 whitespace-nowrap">
+                            Transport en Autocar #{{$index+1}}
+                        </th>
+                        <td class="w-1/3 text-right pr-4 font-bold text-base border border-gray-600 border-collapse">
+                            @marge($trajetPrice->getPriceHT())€
+                        </td>
+                    </tr>
+                  @endforeach
+            @else
+                @if($price->getTrajets()->count() > 0 || $price instanceof Modules\DevisAutoCar\Entities\DevisTrajetPrice)
+                <tr class="border border-gray-600 border-collapse w-full">
+                    <th scope="row" class=" text-left p-3 text-gray-600">
+                        Transport en Autocar
+                    </th>
+                    <td class="w-1/3 text-right pr-4 font-bold text-base border border-gray-600 border-collapse">
+                        @marge($price->getPriceHT())€
+                    </td>
+                </tr>
+                @endif
 
+            @endif
             @if(method_exists($price,"getLines"))
                 @foreach($price->getLines() as $line)
                         <tr class="border border-gray-600 border-collapse w-full">
