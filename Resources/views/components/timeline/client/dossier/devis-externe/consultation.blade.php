@@ -5,10 +5,12 @@
         </x-slot>
         <div class="font-medium">
             Devis
-            <x-corecrm::timeline.timeline-item-link
-                :url="route('devis.edit', [$flow->datas->getDevis()->dossier->client, $flow->datas->getDevis()->dossier, $flow->datas->getDevis()])">
-                devis #{{$flow->datas->getDevis()->ref}}
-            </x-corecrm::timeline.timeline-item-link>
+            @if($flow->datas->getDevis()->dossier->client ?? false)
+                <x-corecrm::timeline.timeline-item-link
+                    :url="route('devis.edit', [$flow->datas->getDevis()->dossier->client ?? null, $flow->datas->getDevis()->dossier ?? null, $flow->datas->getDevis() ?? null])">
+                    devis #{{$flow->datas->getDevis()->ref}}
+                </x-corecrm::timeline.timeline-item-link>
+            @endif
             consulté depuis l'IP
             <span class="text-yellow-600">
             {{ $flow->datas->getIp() }}

@@ -33,7 +33,7 @@ class ClientDossierDevisSendWhatsapp extends Attributes
     {
         $repDevis = app(DevisRepositoryContract::class);
 
-        $user = app(UserEntity::class)::find($value['user_id']);
+        $user = app(UserEntity::class)::find($value['user_id'] ?? null);
         $devis = $repDevis->fetchById($value['devis_id'] ?? null);
 
 
@@ -59,9 +59,9 @@ class ClientDossierDevisSendWhatsapp extends Attributes
     /**
      * @return DevisEntities
      */
-    public function getDevis(): DevisEntities
+    public function getDevis(): ?DevisEntities
     {
-        return $this->devis;
+        return $this->devis ?? null;
     }
 
 

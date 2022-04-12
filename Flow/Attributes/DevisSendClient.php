@@ -29,7 +29,7 @@ class DevisSendClient extends Attributes
         ];
     }
 
-    public function getDevis():DevisEntities
+    public function getDevis():?DevisEntities
     {
         return $this->devis;
     }

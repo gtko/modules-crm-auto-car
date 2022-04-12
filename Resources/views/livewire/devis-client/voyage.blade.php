@@ -80,9 +80,9 @@
                 </div>
                 <div>
                     <span>Départ de </span>
-                    <span class="font-bold">{{ $trajet['aller_distance']['destination_formatted'] ?? '' }} </span>
+                    <span class="font-bold">{{ $trajet['retour_distance']['origin_formatted'] ?? '' }} </span>
                     <span>vers </span>
-                    <span class="font-bold">{{ $trajet['aller_distance']['origin_formatted'] ?? '' }} </span>
+                    <span class="font-bold">{{ $trajet['retour_distance']['destination_formatted'] ?? '' }} </span>
                 </div>
                 <div>
                     <span>Heure de Départ : </span>

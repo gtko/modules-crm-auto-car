@@ -3,6 +3,7 @@
     <td class="w-40">
         {{$proformat->number}}
     </td>
+    @if($proformat->devis->dossier ?? false)
     <td>
         <div class="flex flex-col">
         <a href="{{route('dossiers.show', [$proformat->devis->dossier->client, $proformat->devis->dossier])}}" class="font-medium whitespace-nowrap">
@@ -113,4 +114,7 @@
 
         </div>
     </td>
+    @else
+        <td colspan="11"> Le devis n'existe plus</td>
+    @endif
 </tr>
