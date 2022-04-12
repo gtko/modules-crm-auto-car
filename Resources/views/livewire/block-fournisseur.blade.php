@@ -27,6 +27,7 @@
     <div class="px-2 pt-2">
         <x-basecore::tom-select
             name="fournisseur_id"
+            max-item="99"
             :collection="$fournisseurs"
             label="formatName"
             placeholder="Fournisseurs"
@@ -36,6 +37,7 @@
             name="tag_id"
             :collection="$tags"
             label="name"
+            max-item="99"
             placeholder="Catégories"
         />
     </div>
