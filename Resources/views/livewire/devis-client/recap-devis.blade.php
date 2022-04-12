@@ -9,7 +9,7 @@
                   @foreach($price->getTrajetsPrices() as $index => $trajetPrice)
                     <tr class="border border-gray-600 border-collapse w-full">
                         <th scope="row" class=" text-left p-3 text-gray-600 whitespace-nowrap">
-                            Transport en Autocar #{{$index+1}}
+                            Transport en Autocar @if($price->getTrajets()->count() > 1) #{{$index+1}} @endif
                         </th>
                         <td class="w-1/3 text-right pr-4 font-bold text-base border border-gray-600 border-collapse">
                             @marge($trajetPrice->getPriceHT())€
