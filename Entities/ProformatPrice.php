@@ -63,6 +63,10 @@ class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
         }
     }
 
+    public function getPriceAchatHT(){
+        return $this->getPriceAchat() / (1 + ($this->getTauxTVA() / 100));
+    }
+
     public function paid(){
         return $this->proformat->payments->sum('total') ?? 0;
     }
@@ -98,12 +102,21 @@ class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
 
     public function getMargeOriginHT()
     {
+        $marge = 0;
         $fournisseurs = $this->proformat->devis->fournisseurs;
         if($fournisseurs->count() > 0) {
-            return $this->getPriceVente() - $this->getPriceAchat();
+            if($this->getPriceAchatHT() > 0){
+                $marge =  $this->getPriceHT() - $this->getPriceAchatHT();
+            }
         }
 
-        return 0;
+        //Si fournisseur en BPA et que marge negative on garde
+        $bpa = $fournisseurs->where('pivot.bpa', true)->count() > 0;
+        if($marge < 0 && !$bpa){
+            $marge = 0;
+        }
+
+        return $marge;
     }
 
     public function getMargeHT(?Carbon $limit = null)
