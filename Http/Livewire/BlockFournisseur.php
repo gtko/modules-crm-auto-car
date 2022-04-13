@@ -2,9 +2,14 @@
 
 namespace Modules\CrmAutoCar\Http\Livewire;
 
+use App\Http\Requests\FournisseurStoreRequest;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 use Livewire\Component;
+use Modules\BaseCore\Actions\Personne\CreatePersonne;
+use Modules\BaseCore\Http\Requests\PersonneStoreRequest;
+use Modules\BaseCore\Http\Requests\UserStoreRequest;
 use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\FournisseurRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\TagFournisseurRepositoryContract;
@@ -13,6 +18,7 @@ use Modules\CrmAutoCar\Flow\Attributes\ClientDossierDemandeFournisseurDelete;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDossierDemandeFournisseurSend;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDossierDemandeFournisseurValidate;
 use Modules\CrmAutoCar\Flow\Attributes\DevisSendClient;
+use Modules\CrmAutoCar\Http\Requests\fournisseurUpdateRequest;
 use Modules\CrmAutoCar\Models\Dossier;
 
 
@@ -38,6 +44,7 @@ class BlockFournisseur extends Component
         'tag_id' => 'required_without:fournisseur_id',
         'devi_id' => 'required',
     ];
+    public bool $add = false;
 
     public function mount(FournisseurRepositoryContract $repFournisseur, $client, $dossier)
     {
@@ -171,6 +178,68 @@ class BlockFournisseur extends Component
         (new FlowCRM())->add($this->dossier , new ClientDossierDemandeFournisseurDelete(Auth::user(), $deviModel, $fournisseurModel));
 
         $this->emit('update');
+    }
+
+    public function newFournisseur(){
+        $this->add = true;
+    }
+
+    public function annulerAdd(){
+        $this->add = false;
+    }
+
+    public string $add_company = '';
+    public string $add_firstname = '';
+    public string $add_lastname = '';
+    public string $add_email = '';
+    public string $add_phone = '';
+
+
+    public function createFournisseur(FournisseurRepositoryContract $repFournisseur){
+
+        $request = new fournisseurUpdateRequest();
+
+        $data = [
+            'company' => $this->add_company,
+            'firstname' => $this->add_firstname,
+            'lastname' => $this->add_lastname,
+            'email' => $this->add_email,
+            'phone' => $this->add_phone,
+        ];
+
+        $request->replace($data);
+        try {
+            $request->validate(array_merge($request->rules(), ['company' => 'required']));
+
+            if(!$request->firstname) {
+                $data = array_merge($data, ['firstname' => $request->company]);
+                $request->replace($data);
+            }
+
+            if(!$request->astreinte) {
+                $data = array_merge($data, ['astreinte' => $request->phone]);
+                $request->replace($data);
+            }
+
+            $data = array_merge($data, ['email' => [$request->email], 'phone' => [$request->phone]]);
+            $request->replace($data);
+
+            $personne = (new CreatePersonne())->create($request);
+            $fournisseur = $repFournisseur->create($personne);
+            $this->add = false;
+
+            return redirect()->route('dossiers.show', [$this->dossier->client, $this->dossier])
+                ->with('success', 'Fournisseur créé avec succès');
+
+        }catch( ValidationException $e){
+            foreach ($e->errors() as $name => $message) {
+                foreach($message as $msg) {
+                    $this->addError($name, $msg);
+                }
+            }
+        }
+
+
     }
 
     public function render()
