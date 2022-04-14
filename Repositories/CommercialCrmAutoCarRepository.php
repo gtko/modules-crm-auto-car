@@ -10,7 +10,7 @@ class CommercialCrmAutoCarRepository extends \Modules\CoreCRM\Repositories\Comme
 
     public function newQuery(): Builder
     {
-        if(Auth::check()) {
+        if(Auth::check() && $this->isAllBureau() && !$this->isSearchActivate()) {
             $bureaux = Auth::user()->roles->whereIn('id', config('crmautocar.bureaux_ids'));
             return parent::newQuery()->whereHas('roles', function ($query) use ($bureaux) {
                 $query->whereIn('id', $bureaux->pluck('id'));

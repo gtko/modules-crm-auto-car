@@ -22,7 +22,7 @@ class DecaissementRepository extends AbstractRepository implements DecaissementR
 
     public function newQuery():Builder
     {
-        if(Auth::check()) {
+        if(Auth::check() && $this->isAllBureau() && !$this->isSearchActivate()) {
             $bureaux = Auth::user()->roles->whereIn('id', config('crmautocar.bureaux_ids'));
             return parent::newQuery()->whereHas('devis', function ($query) use ($bureaux) {
                 $query->whereHas('commercial', function ($query) use ($bureaux) {

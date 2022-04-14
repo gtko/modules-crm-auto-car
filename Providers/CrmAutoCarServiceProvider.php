@@ -96,6 +96,7 @@ use Modules\CrmAutoCar\Repositories\StatistiqueRepository;
 use Modules\CrmAutoCar\Repositories\StatistiqueReservationRepository;
 use Modules\CrmAutoCar\Repositories\TagsRepository;
 use Modules\CrmAutoCar\Repositories\TemplateRepository;
+use Modules\CrmAutoCar\Services\FilterBureau;
 use Modules\CrmAutoCar\Services\Google\DistanceMatrixApi;
 use Modules\CrmAutoCar\Services\Paytweak\Paytweak;
 use Modules\CrmAutoCar\Services\FlowAutocarCRM;
@@ -146,6 +147,7 @@ class CrmAutoCarServiceProvider extends ServiceProvider
         $this->app->bind(CommercialRepositoryContract::class, CommercialCrmAutoCarRepository::class);
 
         $this->app->bind(FlowContract::class,FlowAutocarCRM::class);
+        $this->app->singleton(FilterBureau::class);
 
         $this->app->bind(ClientDossierCreate::class, \Modules\CrmAutoCar\Flow\Attributes\ClientDossierCreate::class);
 //        $this->app->bind(\Modules\CrmAutoCar\Flow\Attributes\SendEmailDossier::class, \Modules\CrmAutoCar\Flow\Attributes\SendEmailDossier::class);

@@ -14,7 +14,7 @@ class DevisAutocarRepository extends DevisRepository implements DevisAutocarRepo
 
     public function newQuery(): Builder
     {
-        if(Auth::check()) {
+        if(Auth::check() && $this->isAllBureau() && !$this->isSearchActivate()) {
             $bureaux = Auth::user()->roles->whereIn('id', config('crmautocar.bureaux_ids'));
             return parent::newQuery()->whereHas('commercial', function ($query) use ($bureaux) {
                 $query->whereHas('roles', function ($query) use ($bureaux) {
