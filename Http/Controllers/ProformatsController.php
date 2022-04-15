@@ -11,13 +11,16 @@ use Modules\CrmAutoCar\Contracts\Repositories\ProformatsRepositoryContract;
 use Modules\CrmAutoCar\Entities\ProformatPrice;
 use Modules\CrmAutoCar\Models\Proformat;
 use Modules\CrmAutoCar\Repositories\BrandsRepository;
+use Modules\CrmAutoCar\Services\FilterBureau;
 
 class ProformatsController extends \Modules\CoreCRM\Http\Controllers\Controller
 {
 
     public function __construct(
         public ProformatsRepositoryContract $proformatRep
-    ){}
+    ){
+        app(FilterBureau::class)->activateFilter();
+    }
 
     /**
      * Display a listing of the resource.

@@ -13,6 +13,7 @@ use Modules\CrmAutoCar\Entities\InvoicePrice;
 use Modules\CrmAutoCar\Entities\ProformatPrice;
 use Modules\CrmAutoCar\Models\Invoice;
 use Modules\CrmAutoCar\Models\Proformat;
+use Modules\CrmAutoCar\Services\FilterBureau;
 
 class InvoicesController extends Controller
 {
@@ -23,6 +24,7 @@ class InvoicesController extends Controller
      */
     public function index()
     {
+        app(FilterBureau::class)->activateFilter();
         return view('crmautocar::invoices.index');
     }
 
