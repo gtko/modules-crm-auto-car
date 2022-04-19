@@ -63,9 +63,10 @@
                 </div>
 
 
-                @if($dossiers->lastPage() > 1)
+
                     <div wire:key='link_nav'  class="flex items-center sm:ml-auto">
                         <div class="dark:text-gray-300">{{($dossiers->perPage() * $dossiers->currentPage()) - $dossiers->perPage()}} - {{($dossiers->perPage() * $dossiers->currentPage())}} sur {{$dossiers->total()}}</div>
+                        @if($dossiers->lastPage() > 1)
                         <a wire:key='previous' href="{{$dossiers->appends(request()->input())->previousPageUrl()}}"
                            class="w-5 h-5 ml-5 flex items-center justify-center dark:text-gray-300">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -82,8 +83,8 @@
                                 <polyline points="9 18 15 12 9 6"></polyline>
                             </svg>
                         </a>
+                        @endif
                     </div>
-                @endif
             </div>
             <div class="overflow-x-scroll sm:overflow-x-scroll">
 

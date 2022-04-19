@@ -30,7 +30,7 @@
             name="fournisseur_id"
             max-item="99"
             :collection="$fournisseurs"
-            label="formatName"
+            label="company"
             placeholder="Fournisseurs"
         />
         <h2>Ou</h2>
