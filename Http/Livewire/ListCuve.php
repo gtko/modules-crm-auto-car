@@ -66,28 +66,20 @@ class ListCuve extends Component
             ->get();
         $pipelines = app(PipelineRepositoryContract::class)->fetchall();
 
-        $dossierRep->setQuery($dossierRep->newQuery()->with(['client.personne.emails', 'client.personne.address.country', 'commercial.personne', 'source'])
+        $dossierRep->setQuery($dossierRep->newQuery()
+            ->with(['client.personne.emails', 'commercial.personne', 'source'])
             ->orderByDesc('created_at'));
 
-        if ($this->filtre == "attente")
+        if ($this->filtre == "corbeille")
         {
-            $dossiers = $dossierRep->getDossierNotAttribute();
+            $dossiers = $dossierRep->getQueryDossierTrashed()->paginate(50);
         }
         elseif ($this->filtre == "distribuer")
         {
-            $dossiers = $dossierRep->getDossierAttribute();
+            $dossiers = $dossierRep->getQueryDossierAttribute()->paginate(50);
         }
-        elseif ($this->filtre == 'corbeille') {
-
-            $dossiers = $dossierRep->getDossierTrashed();
-        }
-
-        if($dossiers)
-        {
-            $currentPage = LengthAwarePaginator::resolveCurrentPage();
-            $perPage = 5000;
-            $currentItems = $dossiers->slice($perPage * ($currentPage - 1), $perPage);
-            $dossiers = (new LengthAwarePaginator($currentItems, count($dossiers), $perPage, $currentPage));
+        else{
+            $dossiers = $dossierRep->getQueryDossierNotAttribute()->paginate(50);
         }
 
         return view('crmautocar::livewire.list-cuve', compact(['dossiers', 'commercials', 'pipelines']));
