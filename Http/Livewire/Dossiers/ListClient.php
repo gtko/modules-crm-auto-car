@@ -67,7 +67,20 @@ class ListClient extends Component
                     $query->whereNotIn('id', $status);
                 });
             }
+
+
         }
+
+        $query->orderBy(function($query){
+            $query->from('devis')
+                ->select('updated_at')
+                ->whereColumn(
+                   'devis.dossier_id',
+                   'dossiers.id'
+                )
+                ->orderBy('updated_at', 'desc')
+                ->limit(1);
+        });
 
         return $query;
     }
