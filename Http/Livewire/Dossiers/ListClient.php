@@ -67,8 +67,6 @@ class ListClient extends Component
                     $query->whereNotIn('id', $status);
                 });
             }
-
-
         }
 
         $query->orderBy(function($query){
