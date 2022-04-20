@@ -16,14 +16,15 @@ class InfomationVogageController extends Controller
     {
         $devis = $devisRep->fetchById($devisId);
         $brand = Brand::first();
-        $trajetid = null;
-        $trajet = $this->devis->data['trajets'][$trajetid] ?? null;
+        $trajetid = 0;
+        $trajet = $devis->data['trajets'][$trajetid] ?? null;
 
         if($trajet){
             $price = (new DevisTrajetPrice($devis, $trajetid, $brand));
         }else {
             $price = (new DevisPrice($devis, $brand));
         }
+
 
         $fournisseurs = app(FournisseurRepositoryContract::class)->newQuery()
             ->whereHas('devis', function($query) use ($devis) {

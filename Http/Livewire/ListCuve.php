@@ -16,9 +16,11 @@ class ListCuve extends Component
     public $selection;
     public $commercial;
     public $filtre = 'attente';
+    public $order = 'created_at';
+    public $direction = 'DESC';
     public $all;
 
-    public $queryString = ['filtre'];
+    public $queryString = ['filtre', 'order', 'direction'];
 
     protected $listeners = [
         'dossierSelected',
@@ -66,9 +68,13 @@ class ListCuve extends Component
             ->get();
         $pipelines = app(PipelineRepositoryContract::class)->fetchall();
 
-        $dossierRep->setQuery($dossierRep->newQuery()
-            ->with(['client.personne.emails', 'commercial.personne', 'source'])
-            ->orderByDesc('created_at'));
+
+        $query = $dossierRep->newQuery()
+            ->with(['client.personne.emails', 'commercial.personne', 'source']);
+
+        $query->orderBy($this->order, $this->direction);
+
+        $dossierRep->setQuery($query);
 
         if ($this->filtre == "corbeille")
         {

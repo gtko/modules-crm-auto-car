@@ -127,8 +127,10 @@
                                                 <tr>
                                                     <td>
                                                         <livewire:crmautocar::devis-client.voyage
-                                                            :devis="$proformat->devis" :trajet-id="$idTrajet"
-                                                            :brand="$brand" :proformat='true'/>
+                                                            :devis="$proformat->devis"
+                                                            :trajet-id="$idTrajet"
+                                                            :brand="$brand"
+                                                            :proformat='true'/>
                                                     </td>
                                                     <td class="text-center">1</td>
                                                     <td class="text-center text-nowrap">@marge($priceTrajet->getPriceHT())€
