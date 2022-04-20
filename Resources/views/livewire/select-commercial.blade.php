@@ -14,7 +14,7 @@
                 <button wire:click="changerCommercial()" class="btn btn-primary form-control-sm">Valider</button>
             @else
                 <div class="w-5/6">
-                    <x-basecore::inputs.select name="select_commercial" wire:model="commercialSelect" disabled="disabled"
+                    <x-basecore::inputs.select name="select_commercial" disabled="disabled"
                                                class="form-control-sm">
                         @foreach($commercialsList as $commercial)
                             <option value="{{$commercial->id}}">{{$commercial->format_name}}</option>
