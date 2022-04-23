@@ -68,19 +68,65 @@
             <thead>
             <tr>
                 <th class="whitespace-nowrap"></th>
-                <th class="whitespace-nowrap">Ref</th>
-                <th class="text-center whitespace-nowrap">Nom</th>
-                <th class="text-center whitespace-nowrap">Société</th>
-                <th class="text-center whitespace-nowrap">Statut</th>
+                <x-crmautocar::colsort wire:click="sort('id')"
+                                       class="text-center whitespace-nowrap"
+                                       :active="$order === 'id'"
+                                       :sort="$direction"
+                >
+                    Ref
+                </x-crmautocar::colsort>
+                <x-crmautocar::colsort wire:click="sort('format_name')"
+                                       class="justify-center text-center whitespace-nowrap"
+                                       :active="$order === 'format_name'"
+                                       :sort="$direction"
+                >
+                    Nom
+                </x-crmautocar::colsort>
+                <x-crmautocar::colsort wire:click="sort('company')"
+                                       class="justify-center text-center whitespace-nowrap"
+                                       :active="$order === 'company'"
+                                       :sort="$direction"
+                >
+                    Société
+                </x-crmautocar::colsort>
+                <x-crmautocar::colsort wire:click="sort('statut')"
+                                       class="justify-center text-center whitespace-nowrap"
+                                       :active="$order === 'statut'"
+                                       :sort="$direction"
+                >
+                    Statut
+                </x-crmautocar::colsort>
                 <th class="text-center whitespace-nowrap">tags</th>
-                <th class="text-center whitespace-nowrap">date du voyage</th>
+                <x-crmautocar::colsort wire:click="sort('date_voyage')"
+                                       class="justify-center text-center whitespace-nowrap"
+                                       :active="$order === 'date_voyage'"
+                                       :sort="$direction"
+                >
+                    Date du voyage
+                </x-crmautocar::colsort>
                 @if($resa)
-                    <th class="text-center whitespace-nowrap">Gestionnaires</th>
+                    <x-crmautocar::colsort wire:click="sort('gestionnaire')"
+                                           class="justify-center text-center whitespace-nowrap"
+                                           :active="$order === 'gestionnaire'"
+                                           :sort="$direction"
+                    >
+                        Gestionnaires
+                    </x-crmautocar::colsort>
                 @endif
-
-                <th class="text-center whitespace-nowrap">Commercial</th>
-
-                <th class="text-center whitespace-nowrap">Créer le</th>
+                <x-crmautocar::colsort wire:click="sort('commercial')"
+                                       class="justify-center text-center whitespace-nowrap"
+                                       :active="$order === 'commercial'"
+                                       :sort="$direction"
+                >
+                    Commercial
+                </x-crmautocar::colsort>
+                <x-crmautocar::colsort wire:click="sort('created_at')"
+                                       class="justify-center text-center whitespace-nowrap"
+                                       :active="$order === 'created_at'"
+                                       :sort="$direction"
+                >
+                    Créer le
+                </x-crmautocar::colsort>
                 <th class="text-center whitespace-nowrap"></th>
             </tr>
             </thead>

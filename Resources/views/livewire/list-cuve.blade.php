@@ -93,7 +93,7 @@
                         <thead>
                         <tr>
                             <x-crmautocar::colsort wire:click="sort('format_name')"
-                                                   class="border-b-2 dark:border-dark-5 w-24 text-xs"
+                                                   class="border-b-2 dark:border-dark-5 w-24 text-xs py-2"
                                                    :active="$order === 'format_name'"
                                                    :sort="$direction"
                             >
@@ -102,69 +102,73 @@
                             </x-crmautocar::colsort>
 
                             <x-crmautocar::colsort wire:click="sort('source')"
-                                                   class="border-b-2 dark:border-dark-5 w-24 text-xs"
+                                                   class="border-b-2 dark:border-dark-5 w-24 text-xs  py-2"
                                                    :active="$order === 'source'"
                                                    :sort="$direction"
                             >
                                 Source
                             </x-crmautocar::colsort>
                             <x-crmautocar::colsort wire:click="sort('email')"
-                                                   class="border-b-2 dark:border-dark-5 w-24 text-xs"
+                                                   class="border-b-2 dark:border-dark-5 w-24 text-xs  py-2"
                                                    :active="$order === 'email'"
                                                    :sort="$direction"
                             >
                                 Email
                             </x-crmautocar::colsort>
                             <x-crmautocar::colsort wire:click="sort('commercial')"
-                                                   class="border-b-2 dark:border-dark-5 w-24 text-xs"
+                                                   class="border-b-2 dark:border-dark-5 w-24 text-xs py-2"
                                                    :active="$order === 'commercial'"
                                                    :sort="$direction"
                             >
                                 Commercial
                             </x-crmautocar::colsort>
                             <x-crmautocar::colsort wire:click="sort('phone')"
-                                                   class="border-b-2 dark:border-dark-5 w-24 text-xs"
+                                                   class="border-b-2 dark:border-dark-5 w-24 text-xs py-2"
                                                    :active="$order === 'phone'"
                                                    :sort="$direction"
                             >
                                 Téléphone
                             </x-crmautocar::colsort>
                             <x-crmautocar::colsort wire:click="sort('date_reception')"
-                                                   class="border-b-2 dark:border-dark-5 w-24 text-xs"
+                                                   class="border-b-2 dark:border-dark-5 w-24 text-xs py-2"
                                                    :active="$order === 'date_reception'"
                                                    :sort="$direction"
                             >
                                 Date de réception
                             </x-crmautocar::colsort>
                             <x-crmautocar::colsort wire:click="sort('date_depart')"
-                                                   class="border-b-2 dark:border-dark-5 w-24 text-xs"
+                                                   class="border-b-2 dark:border-dark-5 w-24 text-xs py-2"
                                                    :active="$order === 'date_depart'"
                                                    :sort="$direction"
                             >
                                 Date de départ
                             </x-crmautocar::colsort>
                             <x-crmautocar::colsort wire:click="sort('lieu_depart')"
-                                                   class="border-b-2 dark:border-dark-5 w-24 text-xs"
+                                                   class="border-b-2 dark:border-dark-5 w-24 text-xs py-2"
                                                    :active="$order === 'lieu_depart'"
                                                    :sort="$direction"
                             >
                                 Lieu de départ
                             </x-crmautocar::colsort>
                             <x-crmautocar::colsort wire:click="sort('date_arrivee')"
-                                                   class="border-b-2 dark:border-dark-5 w-24 text-xs"
+                                                   class="border-b-2 dark:border-dark-5 w-24 text-xs py-2"
                                                    :active="$order === 'date_arrivee'"
                                                    :sort="$direction"
                             >
                                 Date d'arrivée
                             </x-crmautocar::colsort>
                             <x-crmautocar::colsort wire:click="sort('lieu_arrivee')"
-                                                   class="border-b-2 dark:border-dark-5 w-24 text-xs"
+                                                   class="border-b-2 dark:border-dark-5 w-24 text-xs py-2"
                                                    :active="$order === 'lieu_arrivee'"
                                                    :sort="$direction"
                             >
                                 Lieu d'arrivée
                             </x-crmautocar::colsort>
-                            <th class="border-b-2 dark:border-dark-5 whitespace-nowrap text-xs">Action</th>
+                            <th>
+                                <div class="border-b-2 dark:border-dark-5 whitespace-nowrap text-xs py-2">
+                                    Action
+                                </div>
+                            </th>
                         </tr>
                         </thead>
                         <tbody>

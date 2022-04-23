@@ -3,6 +3,7 @@
 namespace Modules\CrmAutoCar\Http\Livewire\Dossiers;
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Modules\CoreCRM\Contracts\Repositories\CommercialRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\DossierRepositoryContract;
@@ -11,9 +12,12 @@ use Modules\CoreCRM\Enum\StatusTypeEnum;
 use Modules\CrmAutoCar\Contracts\Repositories\TagsRepositoryContract;
 use Modules\CrmAutoCar\Filters\ClientFilterQuery;
 use Modules\CrmAutoCar\Models\Dossier;
+use Modules\CrmAutoCar\Services\SortableComponent;
 
 class ListClient extends Component
 {
+
+    use SortableComponent;
 
     public $nom_client = '';
     public $status;
@@ -26,7 +30,7 @@ class ListClient extends Component
 
     public $resa = false;
 
-    public $queryString = ['status'];
+    public $queryString = ['status','order', 'direction'];
 
     protected $rules = [
         'nom_client' => '',
@@ -36,6 +40,8 @@ class ListClient extends Component
 
     public function mount($resa = false){
         $this->resa = $resa;
+
+        $this->order = 'updated_at';
     }
 
     public function query()
@@ -69,16 +75,87 @@ class ListClient extends Component
             }
         }
 
-        $query->orderBy(function($query){
-            $query->from('devis')
-                ->select('updated_at')
-                ->whereColumn(
-                   'devis.dossier_id',
-                   'dossiers.id'
-                )
-                ->orderBy('updated_at', 'desc')
-                ->limit(1);
-        });
+
+        $this->querySort($query, [
+            'created_at' => function($query, $direction){
+                $query->orderBy('created_at', $direction);
+            },
+            'updated_at' => function($query, $direction){
+                $query->orderBy(function($query){
+                    $query->from('devis')
+                        ->select('updated_at')
+                        ->whereColumn(
+                            'devis.dossier_id',
+                            'dossiers.id'
+                        )
+                        ->limit(1);
+                }, $direction);
+            },
+            'id' => function($query, $direction){
+                $query->orderBy('id', $direction);
+            },
+            'format_name' => function($query, $direction) {
+                $query->orderBy(function($query){
+                    $query
+                        ->select(DB::raw('CONCAT(personnes.firstname,personnes.lastname) as format_name'))
+                        ->from('clients')
+                        ->leftJoin('personnes', 'personnes.id', '=', 'clients.personne_id')
+                        ->whereColumn('clients.id','dossiers.clients_id')
+                        ->limit(1);
+                }, $direction);
+            },
+            'company' => function($query, $direction) {
+                $query->orderBy(function($query){
+                    $query
+                        ->select('company')
+                        ->from('clients')
+                        ->whereColumn('clients.id','dossiers.clients_id')
+                        ->limit(1);
+                }, $direction);
+            },
+            'statut' => function($query, $direction) {
+                $query->orderBy(function($query){
+                    $query
+                        ->select('statuses.order')
+                        ->from('statuses')
+                        ->whereColumn('statuses.id','dossiers.status_id');
+                }, $direction);
+            },
+            'date_voyage' => function($query, $direction) {
+                $query->orderBy(function($query){
+                    $query->from('devis')
+                        ->select('data->trajets->0->aller_date_depart')
+                        ->whereColumn(
+                            'devis.dossier_id',
+                            'dossiers.id'
+                        )
+                        ->limit(1);
+                }, $direction);
+            },
+            'commercial' => function($query, $direction) {
+                $query->orderBy(function($query){
+                    $query
+                        ->select(DB::raw('CONCAT(personnes.firstname,personnes.lastname) as format_name'))
+                        ->from('users')
+                        ->leftJoin('personnes', 'personnes.id', '=', 'users.personne_id')
+                        ->whereColumn('users.id','dossiers.commercial_id')
+                        ->limit(1);
+                }, $direction);
+            },
+            'gestionnaire' => function($query, $direction) {
+                $query->orderBy(function($query){
+                    $query
+                        ->select(DB::raw('CONCAT(personnes.firstname,personnes.lastname) as format_name'))
+                        ->from('users')
+                        ->leftJoin('personnes', 'personnes.id', '=', 'users.personne_id')
+                        ->leftJoin('dossier_user', 'dossier_user.user_id', '=', 'users.id')
+                        ->whereColumn('dossier_user.dossier_id','dossiers.id')
+                        ->limit(1);
+                }, $direction);
+            },
+        ]);
+
+
 
         return $query;
     }
@@ -97,7 +174,7 @@ class ListClient extends Component
     public function render()
     {
         if (!$this->viewMyLead && Auth::user()->can('viewAll', \Modules\CoreCRM\Models\Dossier::class)) {
-            $dossiers = $this->query()->orderBy('created_at', 'desc')->paginate(50);
+            $dossiers = $this->query()->paginate(50);
         } else {
 
             $dossiers = $this->query()
@@ -105,7 +182,6 @@ class ListClient extends Component
                 ->orWhereHas('followers', function($query){
                     $query->where('user_id', \Auth::user()->id);
                 })
-                ->orderBy('created_at', 'desc')
                 ->paginate(50);
         }
 
