@@ -3,21 +3,27 @@
 namespace Modules\CrmAutoCar\Http\Livewire;
 
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Modules\CoreCRM\Contracts\Repositories\CommercialRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\DossierRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\PipelineRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\SourceRepositoryContract;
 use Modules\CoreCRM\Models\Commercial;
+use Modules\CrmAutoCar\Services\SortableComponent;
 
 class ListCuve extends Component
 {
 
+    use SortableComponent;
+
     public $selection;
     public $commercial;
+
+
     public $filtre = 'attente';
-    public $order = 'created_at';
-    public $direction = 'DESC';
+
+    public $paginate = 10;
     public $all;
 
     public $queryString = ['filtre', 'order', 'direction'];
@@ -72,7 +78,71 @@ class ListCuve extends Component
         $query = $dossierRep->newQuery()
             ->with(['client.personne.emails', 'commercial.personne', 'source']);
 
-        $query->orderBy($this->order, $this->direction);
+        $this->querySort($query, [
+            'created_at' => fn($query, $direction) => $query->orderBy('created_at', $direction),
+            'format_name' => function($query, $direction) {
+                $query->orderBy(function($query){
+                     $query
+                         ->select(DB::raw('CONCAT(personnes.firstname,personnes.lastname) as format_name'))
+                         ->from('clients')
+                         ->leftJoin('personnes', 'personnes.id', '=', 'clients.personne_id')
+                         ->whereColumn('clients.id','dossiers.clients_id')
+                         ->limit(1);
+                 }, $direction);
+            },
+            'status' => function($query, $direction) {
+                $query->orderBy('status_id', $direction);
+            },
+            'email' => function($query, $direction) {
+                $query->orderBy(function($query){
+                    $query->select('emails.email')
+                        ->from('clients')
+                        ->join('personnes', 'personnes.id', '=', 'clients.personne_id')
+                        ->join('email_personne', 'email_personne.personne_id', '=', 'personnes.id')
+                        ->join('emails', 'email_personne.email_id', '=', 'emails.id')
+                        ->whereColumn('clients.id','dossiers.clients_id')
+                        ->limit(1);
+                }, $direction);
+            },
+            'phone' => function($query, $direction) {
+                $query->orderBy(function($query){
+                    $query->select('phones.phone')
+                        ->from('clients')
+                        ->join('personnes', 'personnes.id', '=', 'clients.personne_id')
+                        ->join('personne_phone', 'personne_phone.personne_id', '=', 'personnes.id')
+                        ->join('phones', 'personne_phone.phone_id', '=', 'phones.id')
+                        ->whereColumn('clients.id','dossiers.clients_id')
+                        ->limit(1);
+                }, $direction);
+            },
+            'commercial' => function($query, $direction) {
+                $query->orderBy(function($query){
+                    $query
+                        ->select(DB::raw('CONCAT(personnes.firstname,personnes.lastname) as format_name'))
+                        ->from('users')
+                        ->leftJoin('personnes', 'personnes.id', '=', 'users.personne_id')
+                        ->whereColumn('users.id','dossiers.commercial_id')
+                        ->limit(1);
+                }, $direction);
+            },
+            'date_reception' => function($query, $direction) {
+                $query->orderBy('created_at', $direction);
+            },
+            'date_depart' => function($query, $direction) {
+                $query->orderBy('data->date_depart', $direction);
+            },
+            'lieu_depart' => function($query, $direction) {
+                $query->orderBy('data->lieu_depart', $direction);
+            },
+            'date_arrivee' => function($query, $direction) {
+                $query->orderBy('data->date_arrivee', $direction);
+            },
+            'lieu_arrivee' => function($query, $direction) {
+                $query->orderBy('data->lieu_arrivee', $direction);
+            },
+        ]);
+
+//        dd($query->toSql());
 
         $dossierRep->setQuery($query);
 

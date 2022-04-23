@@ -92,19 +92,78 @@
                     <table class="table table--sm">
                         <thead>
                         <tr>
-                            <th class="border-b-2 dark:border-dark-5 w-24 text-xs">
+                            <x-crmautocar::colsort wire:click="sort('format_name')"
+                                                   class="border-b-2 dark:border-dark-5 w-24 text-xs"
+                                                   :active="$order === 'format_name'"
+                                                   :sort="$direction"
+                            >
                                 <input class="form-check-input flex-none" type="checkbox" wire:model="all" value="all">
                                 Nom
-                            </th>
-                            <th class="border-b-2 dark:border-dark-5 whitespace-nowrap text-xs">Source</th>
-                            <th class="border-b-2 dark:border-dark-5 whitespace-nowrap text-xs">Email</th>
-                            <th class="border-b-2 dark:border-dark-5 whitespace-nowrap text-xs">Commercial</th>
-                            <th class="border-b-2 dark:border-dark-5 whitespace-nowrap text-xs">Téléphone</th>
-                            <th class="border-b-2 dark:border-dark-5 whitespace-nowrap text-xs">Date de réception</th>
-                            <th class="border-b-2 dark:border-dark-5 whitespace-nowrap text-xs">Date de départ</th>
-                            <th class="border-b-2 dark:border-dark-5 whitespace-nowrap text-xs">Lieu de départ</th>
-                            <th class="border-b-2 dark:border-dark-5 whitespace-nowrap text-xs">Date d'arrivée</th>
-                            <th class="border-b-2 dark:border-dark-5 whitespace-nowrap text-xs">Lieu d'arrivée</th>
+                            </x-crmautocar::colsort>
+
+                            <x-crmautocar::colsort wire:click="sort('source')"
+                                                   class="border-b-2 dark:border-dark-5 w-24 text-xs"
+                                                   :active="$order === 'source'"
+                                                   :sort="$direction"
+                            >
+                                Source
+                            </x-crmautocar::colsort>
+                            <x-crmautocar::colsort wire:click="sort('email')"
+                                                   class="border-b-2 dark:border-dark-5 w-24 text-xs"
+                                                   :active="$order === 'email'"
+                                                   :sort="$direction"
+                            >
+                                Email
+                            </x-crmautocar::colsort>
+                            <x-crmautocar::colsort wire:click="sort('commercial')"
+                                                   class="border-b-2 dark:border-dark-5 w-24 text-xs"
+                                                   :active="$order === 'commercial'"
+                                                   :sort="$direction"
+                            >
+                                Commercial
+                            </x-crmautocar::colsort>
+                            <x-crmautocar::colsort wire:click="sort('phone')"
+                                                   class="border-b-2 dark:border-dark-5 w-24 text-xs"
+                                                   :active="$order === 'phone'"
+                                                   :sort="$direction"
+                            >
+                                Téléphone
+                            </x-crmautocar::colsort>
+                            <x-crmautocar::colsort wire:click="sort('date_reception')"
+                                                   class="border-b-2 dark:border-dark-5 w-24 text-xs"
+                                                   :active="$order === 'date_reception'"
+                                                   :sort="$direction"
+                            >
+                                Date de réception
+                            </x-crmautocar::colsort>
+                            <x-crmautocar::colsort wire:click="sort('date_depart')"
+                                                   class="border-b-2 dark:border-dark-5 w-24 text-xs"
+                                                   :active="$order === 'date_depart'"
+                                                   :sort="$direction"
+                            >
+                                Date de départ
+                            </x-crmautocar::colsort>
+                            <x-crmautocar::colsort wire:click="sort('lieu_depart')"
+                                                   class="border-b-2 dark:border-dark-5 w-24 text-xs"
+                                                   :active="$order === 'lieu_depart'"
+                                                   :sort="$direction"
+                            >
+                                Lieu de départ
+                            </x-crmautocar::colsort>
+                            <x-crmautocar::colsort wire:click="sort('date_arrivee')"
+                                                   class="border-b-2 dark:border-dark-5 w-24 text-xs"
+                                                   :active="$order === 'date_arrivee'"
+                                                   :sort="$direction"
+                            >
+                                Date d'arrivée
+                            </x-crmautocar::colsort>
+                            <x-crmautocar::colsort wire:click="sort('lieu_arrivee')"
+                                                   class="border-b-2 dark:border-dark-5 w-24 text-xs"
+                                                   :active="$order === 'lieu_arrivee'"
+                                                   :sort="$direction"
+                            >
+                                Lieu d'arrivée
+                            </x-crmautocar::colsort>
                             <th class="border-b-2 dark:border-dark-5 whitespace-nowrap text-xs">Action</th>
                         </tr>
                         </thead>
