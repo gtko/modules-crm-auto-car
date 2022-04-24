@@ -23,7 +23,7 @@
                     <option value="{{$tagLi->id}}">{{$tagLi->label}}</option>
                 @endforeach
             </x-basecore::inputs.select>
-            @if(\Auth::user()->isSuperAdmin())
+            @if(\Auth::user()->isSuperAdmin() || \Auth::user()->can('changeCommercial', \Modules\CrmAutoCar\Models\Proformat::class))
                 <x-basecore::inputs.select name="commercial" class="form-control-sm" wire:model="commercial">
                     <option value="">Commercial</option>
                     @foreach($commercialList as $commer)
