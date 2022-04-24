@@ -76,6 +76,14 @@ class PopupValition extends Component
         $repDevi->validatedDevis($this->devis, $data);
         $personne = app(PersonneRepositoryContract::class)->update($this->devis->dossier->client->personne, $this->nom, $this->prenom, null, 'male');
 
+
+        //Change company client
+        $client = $this->devis->dossier->client;
+        if($client->company !== $this->societe) {
+            $client->company = $this->societe;
+            $client->save();
+        }
+
         if($this->adresse) {
             if ($personne->address) {
                 $adresse = app(AddressRepositoryContract::class)->update($personne->address, $this->adresse, $this->city, $this->code_zip, $this->country);
