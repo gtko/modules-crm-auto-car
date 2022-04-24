@@ -44,8 +44,8 @@
                 <x-basecore::inputs.datetime
                     class="form-control-sm"
                     label="Date de retour"
-                    name="initiale.{{$index}}.aller_date_depart"
-                    wire:model="initiale.{{$index}}.aller_date_depart"
+                    name="initiale.{{$index}}.retour_date_depart"
+                    wire:model="initiale.{{$index}}.retour_date_depart"
                     placeholder="Date de retour"
                     disabled
                 />
