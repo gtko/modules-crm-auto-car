@@ -26,6 +26,11 @@ class SendEmailDossier extends Attributes
         $this->email = $email;
     }
 
+    public function getType(): string
+    {
+        return static::TYPE_EMAIL;
+    }
+
     public static function instance(array $value): FlowAttributes
     {
 

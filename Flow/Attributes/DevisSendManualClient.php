@@ -22,6 +22,11 @@ class DevisSendManualClient extends Attributes
         return new DevisSendManualClient($devis);
     }
 
+    public function getType(): string
+    {
+        return static::TYPE_EMAIL;
+    }
+
     public function toArray(): array
     {
         return [

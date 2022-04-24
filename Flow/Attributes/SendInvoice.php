@@ -28,6 +28,11 @@ class SendInvoice extends Attributes
         $this->sender = $sender;
     }
 
+    public function getType(): string
+    {
+        return static::TYPE_EMAIL;
+    }
+
     public static function instance(array $value): FlowAttributes
     {
 

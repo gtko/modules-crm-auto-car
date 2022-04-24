@@ -21,6 +21,11 @@ class ClientDossierDevisSendWhatsapp extends Attributes
     protected ?DevisEntities $devis;
 
 
+    public function getType(): string
+    {
+        return static::TYPE_EMAIL;
+    }
+
     public function __construct(UserEntity $user, ?DevisEntities $devis)
     {
         parent::__construct();

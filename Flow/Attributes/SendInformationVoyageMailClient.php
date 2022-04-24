@@ -26,6 +26,11 @@ class SendInformationVoyageMailClient extends Attributes
 
     }
 
+    public function getType(): string
+    {
+        return static::TYPE_EMAIL;
+    }
+
     public static function instance(array $value): FlowAttributes
     {
         $repProforma = app(ProformatsRepositoryContract::class);

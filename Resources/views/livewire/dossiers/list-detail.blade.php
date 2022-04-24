@@ -49,7 +49,7 @@
         @endforeach
     </td>
     <td class="text-center">
-        @foreach($dossier->devis as $devi)
+        @foreach($dossier->devis->where('validate', true) as $devi)
             @if ($devi->date_depart != '' && $devi->date_retour != '')
                 <div class="flex flex-row text-xs whitespace-nowrap">
                     du {{$devi->date_depart->format('d/m/Y')}}
