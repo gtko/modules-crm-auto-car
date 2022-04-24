@@ -120,8 +120,7 @@
             </div>
         @endif
 
-
-        @if(count($devis->data['trajets'] ?? []) > 1)
+        @if(count($devis->data['trajets'] ?? []) >= 1)
             <livewire:crmautocar::devis-client.recap-devis
                 :devis="$devis"
                 :brand="$brand"

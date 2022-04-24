@@ -71,8 +71,11 @@
             <span class="text-bleu text-3xl font-bold">   @marge($price->getPriceTTC())€</span>
         </div>
     @endif
+
     @if(!$sidebar)
-        <div class="flex-col flex no-print" style="font-size: 12px">
+
+        <div class="flex-col flex no-print" style="display:flex;flex-direction:column;font-size: 12px">
+
             @if(!empty(($devis->data['trajets'] ?? [])))
                 <span>* Le prix ne comprend pas les élements suivants qui resteront à votre charge :
                      @if (($trajet['peages'] ?? null) === 'non_compris')
