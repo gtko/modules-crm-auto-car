@@ -7,7 +7,7 @@
         {{$proformat->devis->title ?? ''}}
     </td>
     <td class="border-b dark:border-dark-5">
-        @can('changeCommercial', Proformat::class)
+        @can('changeCommercial', Modules\CrmAutoCar\Models\Proformat::class)
             <div class="flex flex-row w-48">
                 <x-basecore::inputs.select wire:model="commercial" name="commercial"
                                            class="form-control-sm @if($validate ?? false) bg-green-300 @endif">
@@ -71,7 +71,7 @@
                     @icon('pdf', null, 'mr-2')
                 </a>
 
-                @can('delete', Proformat::class)
+                @can('delete', Modules\CrmAutoCar\Models\Proformat::class)
                     <x-basecore::loading-replace wire:target="delete">
                     <span class="flex items-center cursor-pointer" wire:click="delete">
                      @icon('delete', null, 'mr-2')

@@ -2,7 +2,7 @@
     <div class="flex flex-col p-5">
         <span class="ml-1">Dossier suivi par :</span>
         <div class="flex flex-row space-x-1">
-            @if (Auth::user()->can('changeCommercial', Proformat::class))
+            @if (Auth::user()->can('changeCommercial', Modules\CrmAutoCar\Models\Proformat::class))
                 <div class="w-5/6">
                     <x-basecore::inputs.select name="select_commercial" wire:model="commercialSelect"
                                                class="form-control-sm">
