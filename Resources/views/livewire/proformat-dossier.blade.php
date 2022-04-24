@@ -13,7 +13,6 @@
                     <th class="whitespace-nowrap">Titre devis</th>
                     <th class="whitespace-nowrap">Commercial</th>
                     <th class="whitespace-nowrap">Date</th>
-                    <th class="whitespace-nowrap">Devis</th>
                     <th class="whitespace-nowrap">Total</th>
                     <th class="whitespace-nowrap">Marge HT</th>
                     <th class="whitespace-nowrap">Payé</th>

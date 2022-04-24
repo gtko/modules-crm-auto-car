@@ -1,6 +1,9 @@
 <tr @if($validate ?? false) class="bg-green-400" @endif>
-    <td class="border-b dark:border-dark-5 w-48">
-        {{$proformat->number ?? ''}}
+    <td class="border-b dark:border-dark-5">
+        <div class="flex flex-col">
+            <a href="{{route('devis.edit', [$client, $dossier, $proformat->devis])}}">#{{$proformat->devis->ref}}</a>
+            <small class="text-xs whitespace-nowrap">{{$proformat->number ?? ''}}</small>
+        </div>
     </td>
 
     <td class="border-b dark:border-dark-5 whitespace-nowrap">
@@ -28,9 +31,6 @@
     </td>
     <td class="border-b dark:border-dark-5">
         {{$proformat->created_at->format('d/m/Y H:i')}}
-    </td>
-    <td class="border-b dark:border-dark-5">
-        <a href="{{route('devis.edit', [$client, $dossier, $proformat->devis])}}">#{{$proformat->devis->ref}}</a>
     </td>
     <td class="border-b dark:border-dark-5">
         {{ $proformat->devis->getTotal()}}€
