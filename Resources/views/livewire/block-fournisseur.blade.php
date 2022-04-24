@@ -21,7 +21,12 @@
             <option selected="selected">Devis</option>
             @foreach($this->devis ?? [] as $devi)
                 <option
-                    value="{{ $devi->id}}">{{ $devi->ref }}</option>
+                    value="{{ $devi->id}}">
+                    {{ $devi->ref }}
+                    @if($devi->validate)
+                        - (validé)
+                    @endif
+                </option>
             @endforeach
         </x-basecore::inputs.select>
     </div>
