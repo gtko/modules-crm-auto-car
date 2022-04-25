@@ -164,17 +164,53 @@
                 <table class="table table-report sm:mt-2">
                     <thead>
                         <tr>
-                            <th class="whitespace-nowrap">#</th>
-                            <th class="whitespace-nowrap">Client</th>
+                            <x-crmautocar::colsort wire:click="sort('id')"
+                                                   class="text-center whitespace-nowrap"
+                                                   :active="$order === 'id'"
+                                                   :sort="$direction"
+                            >
+                                #
+                            </x-crmautocar::colsort>
+                            <x-crmautocar::colsort wire:click="sort('client')"
+                                                   class="text-center whitespace-nowrap"
+                                                   :active="$order === 'client'"
+                                                   :sort="$direction"
+                            >
+                                Client
+                            </x-crmautocar::colsort>
                             <th class="whitespace-nowrap">Etat</th>
                             <th class="whitespace-nowrap">PV / PA</th>
                             <th class="whitespace-nowrap">Marge HT</th>
                             <th class="whitespace-nowrap">Salaire Diff</th>
-                            <th class="whitespace-nowrap">Fournisseur</th>
-                            <th class="whitespace-nowrap">Date Départ</th>
-                            <th class="whitespace-nowrap">Date Retour</th>
+                            <x-crmautocar::colsort wire:click="sort('fournisseur')"
+                                                   class="text-center whitespace-nowrap"
+                                                   :active="$order === 'fournisseur'"
+                                                   :sort="$direction"
+                            >
+                                Fournisseur
+                            </x-crmautocar::colsort>
+                            <x-crmautocar::colsort wire:click="sort('date_depart')"
+                                                   class="text-center whitespace-nowrap"
+                                                   :active="$order === 'date_depart'"
+                                                   :sort="$direction"
+                            >
+                                Date Départ
+                            </x-crmautocar::colsort>
+                            <x-crmautocar::colsort wire:click="sort('date_retour')"
+                                                   class="text-center whitespace-nowrap"
+                                                   :active="$order === 'date_retour'"
+                                                   :sort="$direction"
+                            >
+                                Date Retour
+                            </x-crmautocar::colsort>
                             <th class="whitespace-nowrap">Multiple dest</th>
-                            <th class="whitespace-nowrap">A encaisser</th>
+                            <x-crmautocar::colsort wire:click="sort('encaisser')"
+                                                   class="text-center whitespace-nowrap"
+                                                   :active="$order === 'encaisser'"
+                                                   :sort="$direction"
+                            >
+                                A encaisser
+                            </x-crmautocar::colsort>
                             <th class="whitespace-nowrap"></th>
                         </tr>
                     </thead>
