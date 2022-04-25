@@ -124,7 +124,7 @@ class ListClient extends Component
             'date_voyage' => function($query, $direction) {
                 $query->orderBy(function($query){
                     $query->from('devis')
-                        ->select('data->trajets->0->aller_date_depart')
+                        ->selectRaw("json_unquote(json_extract(`data`, '$.trajets[0].aller_date_depart'))")
                         ->whereColumn(
                             'devis.dossier_id',
                             'dossiers.id'
