@@ -76,7 +76,7 @@
                     @icon('pdf', null, 'mr-2')
                 </a>
 
-                @can('delete', Modules\CrmAutoCar\Models\Proformat::class)
+                @can('delete', $proformat)
                     <x-basecore::loading-replace wire:target="delete">
                     <span class="flex items-center cursor-pointer" wire:click="delete">
                      @icon('delete', null, 'mr-2')
