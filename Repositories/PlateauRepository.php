@@ -3,7 +3,9 @@
 namespace Modules\CrmAutoCar\Repositories;
 
 use Illuminate\Database\Eloquent\Collection;
+use Modules\BaseCore\Contracts\Entities\UserEntity;
 use Modules\CoreCRM\Models\Commercial;
+use Modules\CoreCRM\Models\User;
 use Modules\CrmAutoCar\Contracts\Repositories\PlateauRepositoryContract;
 
 class PlateauRepository implements PlateauRepositoryContract
@@ -17,9 +19,11 @@ class PlateauRepository implements PlateauRepositoryContract
 
     public function filterByTags(Commercial $commercial): Collection
     {
-        $tags = $commercial->dossiers->groupBy("tags.label");
+        return $commercial->dossiers->groupBy("tags.label");
+    }
 
-
-
+    public function filterFollowerByStatus(UserEntity $commercial): Collection
+    {
+        return $commercial->dossiersFollower->groupBy("status.label");
     }
 }
