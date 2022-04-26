@@ -94,7 +94,7 @@ class FournisseurController extends Controller
      */
     public function edit(Fournisseur $fournisseur)
     {
-        $this->authorize('edit', Fournisseur::class);
+        $this->authorize('update', $fournisseur);
         $tagRep = app(TagFournisseurRepositoryContract::class);
         $tags = $tagRep->all();
         return view('crmautocar::app.fournisseurs.edit', compact('fournisseur', 'tags'));
@@ -110,6 +110,8 @@ class FournisseurController extends Controller
      */
     public function update(fournisseurUpdateRequest $request, UpdatePersonneContract $updatePersonne,Fournisseur $fournisseur): Redirector|RedirectResponse
     {
+        $this->authorize('update', $fournisseur);
+
         $updatePersonne->update($request, $fournisseur->personne);
         //on check les tags si il exist
         $fournisseur->tagfournisseurs()->detach();
