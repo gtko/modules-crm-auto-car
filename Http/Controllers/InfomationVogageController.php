@@ -2,11 +2,16 @@
 
 namespace Modules\CrmAutoCar\Http\Controllers;
 
+use Illuminate\Support\Str;
+use Modules\BaseCore\Actions\Url\SigneRoute;
+use Modules\BaseCore\Contracts\Services\PdfContract;
 use Modules\BaseCore\Http\Controllers\Controller;
 use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\FournisseurRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\ContactFournisseurRepositoryContract;
+use Modules\CrmAutoCar\Contracts\Repositories\DevisAutocarRepositoryContract;
 use Modules\CrmAutoCar\Models\Brand;
+use Modules\CrmAutoCar\Models\Invoice;
 use Modules\DevisAutoCar\Entities\DevisPrice;
 use Modules\DevisAutoCar\Entities\DevisTrajetPrice;
 
@@ -16,35 +21,26 @@ class InfomationVogageController extends Controller
     {
         $devis = $devisRep->fetchById($devisId);
         $brand = Brand::first();
-        $trajetid = 0;
-        $trajet = $devis->data['trajets'][$trajetid] ?? null;
 
-        if($trajet){
-            $price = (new DevisTrajetPrice($devis, $trajetid, $brand));
-        }else {
-            $price = (new DevisPrice($devis, $brand));
-        }
+        return view('crmautocar::information-voyage', compact('devis', 'brand'));
+    }
 
 
-        $fournisseurs = app(FournisseurRepositoryContract::class)->newQuery()
-            ->whereHas('devis', function($query) use ($devis) {
-                $query->where('id', $devis->id);
-            })
-            ->get();
+    public function pdf($devisId){
 
-        $fournisseur_astreinte = $fournisseurs->first()->astreinte;
+        $url = (new SigneRoute())->signer('info-voyage.show', [$devisId]);
 
-        $chauffeurs = app(ContactFournisseurRepositoryContract::class)->newQuery()
-            ->whereHas('fournisseur', function($query) use ($devis, $fournisseurs) {
-                $query->whereIn('id', $fournisseurs->pluck('id'));
-                $query->whereHas('devis', function($query) use ($devis){
-                    $query->where('id', $devis->id);
-                });
-            })
-            ->get();
+        $devis = app(DevisAutocarRepositoryContract::class)->fetchById($devisId);
 
-//        dd($chauffeurs);
+        $pdfService = app(PdfContract::class);
+        $pdfService->setUrl($url);
+        $pdfService->setParamsBrowser([
+            'windowSize'      => [1920, 1000],
+            'enableImages'    => true,
+        ]);
+        $filename = $devis->ref . '-information-voyage-' . Str::slug($devis->dossier->client->format_name)  . '.pdf';
 
-        return view('crmautocar::information-voyage', compact('devis', 'brand', 'price', 'fournisseur_astreinte', 'chauffeurs'));
+        return $pdfService->downloadPdf($filename);
+
     }
 }

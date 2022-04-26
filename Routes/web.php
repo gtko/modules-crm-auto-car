@@ -10,6 +10,7 @@ use Modules\CrmAutoCar\Http\Controllers\DashboardController;
 use Modules\CrmAutoCar\Http\Controllers\DossierController;
 use Modules\CrmAutoCar\Http\Controllers\DossierCreateController;
 use Modules\CrmAutoCar\Http\Controllers\DossierResaController;
+use Modules\CrmAutoCar\Http\Controllers\FeuilleRouteController;
 use Modules\CrmAutoCar\Http\Controllers\FournisseurController;
 use Modules\CrmAutoCar\Http\Controllers\InfomationVogageController;
 use Modules\CrmAutoCar\Http\Controllers\InvoicesController;
@@ -36,10 +37,13 @@ Route::get('/voyage/{devis}', [ValidationInformationVoyageController::class, 'in
 Route::middleware(['secure.signate'])->group(function () {
     Route::get('invoices/{invoice}', [InvoicesController::class, 'show'])->name('invoices.show');
     Route::get('invoices/{invoice}/pdf', [InvoicesController::class, 'pdf'])->name('invoices.pdf');
+    Route::get('info-voyage/{devis}/pdf', [InfomationVogageController::class, 'pdf'])->name('info-voyage.pdf');
+    Route::get('/info-voyage/{devis}', [InfomationVogageController::class, 'index'])->name('info-voyage.show');
 //    Route::get('/voyage/{devis}', [ValidationInformationVoyageController::class, 'index'])->name('validation-voyage');
 });
 
-Route::get('/feuille-route/{devis}', [InfomationVogageController::class, 'index'])->name('feuille-route');
+Route::get('/feuille-route/{devis}', [FeuilleRouteController::class, 'index'])->name('feuille-route');
+
 
 Route::get('/brand1/devis/{devis}', [CentralAutoCarDevisController::class, 'index'])->name('brand1');
 Route::get('/brand2/devis/{devis}', [MonAutoCarController::class, 'index'])->name('brand2');
