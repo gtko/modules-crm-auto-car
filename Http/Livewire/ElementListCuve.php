@@ -27,8 +27,19 @@ class ElementListCuve extends Component
     {
         if (!$value) {
             $this->selection = false;
+            $this->emit('dossierUnselected', $this->dossier);
         } else {
             $this->selection = true;
+            $this->emit('dossierSelected', $this->dossier);
+        }
+    }
+
+    public function updatedSelection($value)
+    {
+        if($value === false) {
+            $this->emit('dossierUnselected', $this->dossier);
+        }else{
+            $this->emit('dossierSelected', $this->dossier);
         }
     }
 

@@ -17,7 +17,7 @@ class ListCuve extends Component
 
     use SortableComponent;
 
-    public $selection;
+    public $selection = [];
     public $commercial;
 
 
@@ -30,6 +30,7 @@ class ListCuve extends Component
 
     protected $listeners = [
         'dossierSelected',
+        "dossierUnselected",
         'refresh' => '$refresh',
     ];
 
@@ -52,6 +53,14 @@ class ListCuve extends Component
 
         $this->selection[] = $value;
 
+    }
+
+    public function dossierUnselected($value){
+        $this->selection = collect($this->selection)
+            ->filter(function ($item) use ($value) {
+                return $item['id'] !== $value['id'];
+            })
+            ->toArray();
     }
 
 

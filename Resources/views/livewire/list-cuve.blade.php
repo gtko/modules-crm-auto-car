@@ -60,8 +60,13 @@
                           class="bg-blue-600 p-2 w-32 text-center text-white rounded ml-2 cursor-pointer flex items-center justify-center">
                         Attribuer
                     </span>
-                </div>
 
+                </div>
+                <div class="flex justify-start items-center ml-3">
+                    @if(count($selection) > 0)
+                        Vous avez sélectionné {{count($selection)}} dossier(s)
+                    @endif
+                </div>
 
 
                     <div wire:key='link_nav'  class="flex items-center sm:ml-auto">
