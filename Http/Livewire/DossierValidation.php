@@ -18,9 +18,8 @@ class DossierValidation extends Component
 {
     public $dossier;
     public $client;
-    public $devis;
 
-    public $devis_id;
+    public $devis;
 
     public function mount(ClientEntity $client, Dossier $dossier){
         $this->client = $client;
@@ -31,54 +30,7 @@ class DossierValidation extends Component
     {
         return [
             'refreshStatusDevis' => '$refresh',
-            'dossiervalidation:confirm_'.$this->devis_id => 'confirmationSend'
         ];
-    }
-
-    public function confirmationSend(){
-        $devis = app(DevisRepositoryContract::class)->fetchById($this->devis_id);
-        $data = $devis->data;
-        $data['sended'] = true;
-        $devis->data = $data;
-        $devis->save();
-
-        return redirect()->route('dossiers.show', [$devis->dossier->client, $devis->dossier, 'tab' => 'validation'])
-            ->with('success', 'La feuille de route a été envoyé avec succès');
-    }
-
-    public function envoyer($devi_id){
-        $this->devis_id = $devi_id;
-        $devis = app(DevisRepositoryContract::class)->fetchById($this->devis_id);
-
-        $observables = [];
-        $fournisseurs = app(FournisseurRepositoryContract::class)->getBpaByDevis($devis);
-
-        foreach($fournisseurs as $fournisseur) {
-            $observables[] = [
-                SendInformationVoyageMailFournisseur::class,
-                [
-                    'user_id' => Auth::id(),
-                    'devis_id' => $this->devis_id,
-                    'data' => [
-                        'fournisseur_name' => $fournisseur->format_name,
-                        'fournisseur_email' => $fournisseur->email,
-                        'fournisseur_id' => $fournisseur->id,
-                    ],
-                ]
-            ];
-        }
-
-        $this->emit('send-mail:open', [
-            'flowable' => [\Modules\CrmAutoCar\Models\Dossier::class, $this->dossier->id],
-            'observable' => $observables,
-            'callback' => 'dossiervalidation:confirm_'.$this->devis_id,
-        ]);
-    }
-
-
-    public function openPopup($devi_id)
-    {
-        $this->emit('popup-validation-devis:open',['devi_id' => $devi_id]);
     }
 
     public function render()
