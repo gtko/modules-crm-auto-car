@@ -25,7 +25,8 @@ use Modules\CrmAutoCar\Flow\Works\Conditions\ConditionDateDepartDevis;
 use Modules\CrmAutoCar\Flow\Works\Conditions\ConditionFournisseurBPA;
 use Modules\CrmAutoCar\Flow\Works\Files\CguPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisPdfFiles;
-use Modules\CrmAutoCar\Flow\Works\Files\InformationVoyagePdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Files\FeuilleDeRoutePdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Files\InformationsVoyagePdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\ProformatPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\RIBPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Variables\GestionnaireVariable;
@@ -91,7 +92,8 @@ class EventClientDossierDemandeFournisseurValidate extends WorkFlowEvent
             (new DevisPdfFiles($this)),
             (new CguPdfFiles($this)),
             (new RIBPdfFiles($this)),
-            (new InformationVoyagePdfFiles($this)),
+            (new FeuilleDeRoutePdfFiles($this)),
+            (new InformationsVoyagePdfFiles($this))
         ];
     }
 

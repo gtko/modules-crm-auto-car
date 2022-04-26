@@ -7,7 +7,7 @@ use Modules\BaseCore\Contracts\Services\PdfContract;
 use Modules\CoreCRM\Actions\Devis\GenerateLinkDevis;
 use Modules\CoreCRM\Flow\Works\Files\WorkFlowFiles;
 
-class InformationVoyagePdfFiles extends WorkFlowFiles
+class InformationsVoyagePdfFiles extends WorkFlowFiles
 {
 
     public function content(): string
@@ -15,14 +15,14 @@ class InformationVoyagePdfFiles extends WorkFlowFiles
         $devis = $this->event->getData()['devis'];
 
         $pdfService = app(PdfContract::class);
-        $pdfService->setUrl((new SigneRoute())->signer('feuille-route', [$devis]));
+        $pdfService->setUrl((new SigneRoute())->signer('info-voyage.show', [$devis]));
 
         return $pdfService->getContentPdf();
     }
 
     public function filename(): string
     {
-        return 'feuille-de-route.pdf';
+        return 'information-voyage.pdf';
     }
 
     public function mimetype(): string
@@ -32,11 +32,11 @@ class InformationVoyagePdfFiles extends WorkFlowFiles
 
     public function name(): string
     {
-        return 'Feuille de route PDF';
+        return 'Informations voyage PDF';
     }
 
     public function description(): string
     {
-        return 'génération du fichier de la feuille de route en PDF';
+        return 'génération du fichier des informations voyage en PDF';
     }
 }

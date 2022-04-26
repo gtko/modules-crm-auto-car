@@ -29,7 +29,7 @@ use Modules\CrmAutoCar\Flow\Works\Files\CguPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisBrand1PdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisBrand2PdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisPdfFiles;
-use Modules\CrmAutoCar\Flow\Works\Files\InformationVoyagePdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Files\FeuilleDeRoutePdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\ProformatPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\RIBPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Variables\GestionnaireVariable;

@@ -30,7 +30,8 @@ use Modules\CrmAutoCar\Flow\Works\Files\CguPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisBrand1PdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisBrand2PdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisPdfFiles;
-use Modules\CrmAutoCar\Flow\Works\Files\InformationVoyagePdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Files\FeuilleDeRoutePdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Files\InformationsVoyagePdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\ProformatPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\RIBPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Variables\ClientValidationVariable;
@@ -89,7 +90,8 @@ class EventSendInformationVoyageMailClient extends WorkFlowEvent
             (new RIBPdfFiles($this)),
             (new DevisPdfFiles($this)),
             (new ProformatPdfFiles($this)),
-            (new InformationVoyagePdfFiles($this)),
+            (new FeuilleDeRoutePdfFiles($this)),
+            (new InformationsVoyagePdfFiles($this))
         ];
     }
 

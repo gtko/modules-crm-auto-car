@@ -24,7 +24,8 @@ use Modules\CrmAutoCar\Flow\Works\Files\CguPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisBrand1PdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisBrand2PdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisPdfFiles;
-use Modules\CrmAutoCar\Flow\Works\Files\InformationVoyagePdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Files\FeuilleDeRoutePdfFiles;
+use Modules\CrmAutoCar\Flow\Works\Files\InformationsVoyagePdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\ProformatPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\RIBPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Variables\ClientValidationVariable;
@@ -83,7 +84,8 @@ class EventCreateProformatClient extends \Modules\CoreCRM\Flow\Works\Events\Work
             (new ProformatPdfFiles($this)),
             (new DevisBrand1PdfFiles($this)),
             (new DevisBrand2PdfFiles($this)),
-            (new InformationVoyagePdfFiles($this)),
+            (new FeuilleDeRoutePdfFiles($this)),
+            (new InformationsVoyagePdfFiles($this))
         ];
     }
 
