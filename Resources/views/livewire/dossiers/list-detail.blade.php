@@ -50,38 +50,38 @@
     </td>
     <td class="text-center">
         @foreach($dossier->devis->where('validate', true) as $devi)
-            @if ($devi->date_depart != '' && $devi->date_retour != '')
-                <div class="flex flex-row text-xs whitespace-nowrap">
-                    du {{$devi->date_depart->format('d/m/Y')}}
-                    au {{$devi->date_retour->format('d/m/Y')}}
+             @if($devi->date_depart != '' || $devi->date_retour != '')
+                <div class="flex flex-col text-xs whitespace-nowrap @if($dossier->devis->where('validate', true)->count() > 1) mb-1 @endif">
+                    @if($devi->date_depart != '') <span>du {{$devi->date_depart->format('d/m/Y')}}</span> @endif
+                    @if($devi->date_retour != '') <span>au {{$devi->date_retour->format('d/m/Y')}}</span> @endif
                 </div>
             @endif
 
-        @endforeach
-    </td>
-    @if($resa)
-        <td ignore-link>
-        <livewire:corecrm::follower-dossier :tomselect="false" :label="false" :roles="[7]" :client="$dossier->client" :dossier="$dossier"/>
-        </td>
-    @endif
-    <td>
-            <div class="flex flex-row justify-start items-center whitespace-nowrap">
-                <div class="w-10 h-10 image-fit zoom-in">
-                    <img alt="" class="tooltip rounded-full" src="{{$dossier->commercial->avatar_url}}">
-                </div>
-                <div class="ml-2">
-                    {{$dossier->commercial->format_name}}
-                </div>
-            </div>
-    </td>
-    <td>
-        {{ $dossier->created_at->format('d-m-Y h:i') }}
-    </td>
-    <td class="table-report__action">
-        <div class="flex justify-center items-center">
-            <a class="flex items-center mr-3" href="/clients/{{$dossier->client->id}}/dossiers/{{$dossier->id}}">
-                @icon('show', null, 'mr-2') Voir
-            </a>
-        </div>
-    </td>
+@endforeach
+</td>
+@if($resa)
+<td ignore-link>
+<livewire:corecrm::follower-dossier :tomselect="false" :label="false" :roles="[7]" :client="$dossier->client" :dossier="$dossier"/>
+</td>
+@endif
+<td>
+<div class="flex flex-row justify-start items-center whitespace-nowrap">
+<div class="w-10 h-10 image-fit zoom-in">
+<img alt="" class="tooltip rounded-full" src="{{$dossier->commercial->avatar_url}}">
+</div>
+<div class="ml-2">
+{{$dossier->commercial->format_name}}
+</div>
+</div>
+</td>
+<td>
+{{ $dossier->created_at->format('d-m-Y h:i') }}
+</td>
+<td class="table-report__action">
+<div class="flex justify-center items-center">
+<a class="flex items-center mr-3" href="/clients/{{$dossier->client->id}}/dossiers/{{$dossier->id}}">
+@icon('show', null, 'mr-2') Voir
+</a>
+</div>
+</td>
 </tr>
