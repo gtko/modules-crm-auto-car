@@ -8,6 +8,7 @@ use Modules\CoreCRM\Contracts\Repositories\ClientRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\DossierRepositoryContract;
 use Modules\CoreCRM\Enum\StatusTypeEnum;
 use Modules\CoreCRM\Models\Commercial;
+use Modules\CrmAutoCar\Repositories\DossierAutoCarRepository;
 
 class ClientFilterQuery
 {
@@ -17,7 +18,7 @@ class ClientFilterQuery
 
     public function __construct()
     {
-        $this->repository = app(DossierRepositoryContract::class);
+        $this->repository = app(DossierAutoCarRepository::class);
         $this->query = $this->repository->newQuery();
     }
 
@@ -65,8 +66,6 @@ class ClientFilterQuery
     public function byDateSignature($date = null)
     {
         if ($date) {
-
-
             $this->query->whereHas('devis', function (Builder $query) use ($date) {
                 $query->whereHas('proformat', function (Builder $query) use ($date) {
                     $dateStart = Carbon::parse($date)->startOfDay();
@@ -76,6 +75,16 @@ class ClientFilterQuery
             });
         }
 
+    }
+
+    public function byBureau($bureauId){
+        if($bureauId){
+            $this->query->whereHas('commercial', function (Builder $query) use ($bureauId) {
+                $query->whereHas('roles', function (Builder $query) use ($bureauId) {
+                    $query->where('id', $bureauId);
+                });
+            });
+        }
     }
 
     public function byDateDepart($dateStart = null, $dateEnd = null)

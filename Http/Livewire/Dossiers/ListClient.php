@@ -16,6 +16,7 @@ use Modules\CrmAutoCar\Filters\ClientFilterQuery;
 use Modules\CrmAutoCar\Models\Dossier;
 use Modules\CrmAutoCar\Models\Tag;
 use Modules\CrmAutoCar\Services\SortableComponent;
+use Spatie\Permission\Models\Role;
 
 class ListClient extends Component
 {
@@ -27,6 +28,7 @@ class ListClient extends Component
     public $status;
     public $tag;
     public $commercial;
+    public $bureau;
     public $departStart;
     public $departEnd;
     public $dateSignatrue;
@@ -60,6 +62,7 @@ class ListClient extends Component
         $filter->byDateSignature($this->dateSignatrue);
         $filter->byDepart($this->departStart);
         $filter->byArrive($this->departEnd);
+        $filter->byBureau($this->bureau);
 
         $query = $filter->query();
 
@@ -83,6 +86,17 @@ class ListClient extends Component
         $this->querySort($query, [
             'created_at' => function($query, $direction){
                 $query->orderBy('created_at', $direction);
+            },
+            'signer_at' => function($query, $direction){
+                $query->orderBy(function($query){
+                    $query
+                        ->select('proformats.created_at')
+                        ->from('devis')
+                        ->join('proformats', 'devis.id', '=', 'proformats.devis_id')
+                        ->whereColumn('devis.dossier_id','dossiers.id')
+                        ->orderBy('proformats.created_at', 'asc')
+                        ->limit(1);
+                }, $direction);
             },
             'updated_at' => function($query, $direction){
                 $query->orderBy(function($query){
@@ -189,10 +203,12 @@ class ListClient extends Component
                 ->paginate(50);
         }
 
+
 //        $pipelineList = app(StatusRepositoryContract::class)->fetchAll();
         $pipelineList = Status::all();
         $pipelineList = $pipelineList->groupBy('pipeline_id');
 
+        $bureauxList = Role::whereIn('id', config('crmautocar.bureaux_ids'))->get();
 
 
         return view('crmautocar::livewire.dossiers.list-client',
@@ -200,7 +216,8 @@ class ListClient extends Component
                 'dossiers' => $dossiers,
                 'pipelineList' => $pipelineList,
                 'commercialList' => app(CommercialRepositoryContract::class)->newquery()->role('commercial')->get(),
-                'tagList' => Tag::all()//app(TagsRepositoryContract::class)->fetchAll()
+                'tagList' => Tag::all(),
+                'bureauxList' => $bureauxList
             ]);
     }
 }

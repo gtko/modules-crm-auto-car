@@ -22,6 +22,9 @@
                     <option value="{{$tagLi->id}}">{{$tagLi->label}}</option>
                 @endforeach
             </x-basecore::inputs.select>
+
+
+
             @if(\Auth::user()->isSuperAdmin() || \Auth::user()->can('changeCommercial', \Modules\CrmAutoCar\Models\Proformat::class))
                 <x-basecore::inputs.select name="commercial" class="form-control-sm" wire:model="commercial">
                     <option value="">Commercial</option>
@@ -29,6 +32,8 @@
                         <option value="{{$commer->id}}">{{$commer->format_name}}</option>
                     @endforeach
                 </x-basecore::inputs.select>
+
+
             @endif
 
 
@@ -36,6 +41,18 @@
 
         </div>
         <div class="mt-4 grid grid grid-cols-4 gap-4">
+
+            @if(\Auth::user()->isSuperAdmin())
+                <div>
+                    <span>Bureau</span>
+                    <x-basecore::inputs.select name="bureau" class="form-control-sm" wire:model="bureau">
+                        <option value="">Bureau</option>
+                        @foreach($bureauxList as $bureau)
+                            <option value="{{$bureau->id}}">{{$bureau->name}}</option>
+                        @endforeach
+                    </x-basecore::inputs.select>
+                </div>
+            @endif
             <div>
                 <span>Depart</span>
                 <x-basecore::inputs.date name="date_de_depart_debut" class="form-control-sm"
@@ -122,12 +139,12 @@
                 >
                     Commercial
                 </x-crmautocar::colsort>
-                <x-crmautocar::colsort wire:click="sort('created_at')"
+                <x-crmautocar::colsort wire:click="sort('signer_at')"
                                        class="justify-center text-center whitespace-nowrap"
-                                       :active="$order === 'created_at'"
+                                       :active="$order === 'signer_at'"
                                        :sort="$direction"
                 >
-                    Créer le
+                    Signer le
                 </x-crmautocar::colsort>
                 <th class="text-center whitespace-nowrap"></th>
             </tr>

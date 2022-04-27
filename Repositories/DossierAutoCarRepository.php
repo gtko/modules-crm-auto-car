@@ -3,14 +3,21 @@
 namespace Modules\CrmAutoCar\Repositories;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Modules\BaseCore\Helpers\HasInterface;
 use Modules\CoreCRM\Contracts\Repositories\ClientRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\StatusRepositoryContract;
 use Modules\CoreCRM\Enum\StatusTypeEnum;
+use Modules\CrmAutoCar\Models\Dossier;
 
 class DossierAutoCarRepository extends \Modules\CoreCRM\Repositories\DossierRepository
 {
+
+    public function getModel(): Model
+    {
+        return new Dossier();
+    }
 
     public function newQuery(): Builder
     {
