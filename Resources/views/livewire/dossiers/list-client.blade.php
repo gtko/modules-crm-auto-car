@@ -87,6 +87,9 @@
             <thead>
             <tr>
                 <th class="whitespace-nowrap"></th>
+                <th class="text-center whitespace-nowrap">
+                    Bureau
+                </th>
                 <x-crmautocar::colsort wire:click="sort('id')"
                                        class="text-center whitespace-nowrap"
                                        :active="$order === 'id'"

@@ -3,6 +3,16 @@
         <div class="w-10 h-10 image-fit zoom-in">
             <img alt="" class="tooltip rounded-full" src="{{$dossier->client->avatar_url}}">
         </div>
+
+    </td>
+    <td class="w-12">
+        <div class="grid grid-cols-2 gap-1">
+            @foreach($dossier->commercial->roles()->whereIn('id', config('crmautocar.bureaux_ids'))->get() as $bureau)
+                <span class="text-xs text-center py-1 px-1 bg-gray-200 whitespace-nowrap overflow-ellipsis rounded">
+                    {{trim(str_replace('Bureau', '',$bureau->name))}}
+                </span>
+            @endforeach
+        </div>
     </td>
     <td>
         <div class="">
