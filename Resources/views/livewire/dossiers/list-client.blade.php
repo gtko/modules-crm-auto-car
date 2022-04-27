@@ -8,7 +8,6 @@
             <x-basecore::inputs.select name="statut" class="form-control-sm" wire:model="status">
                 <option value="">Statut</option>
                 @foreach($pipelineList as $pipeline)
-                    <optgroup label="{{ $pipeline->first()->pipeline->name ?? '' }}">
                         <optgroup label="{{ $pipeline->first()->pipeline->name ?? '' }}">
                             @foreach($pipeline as $statu)
                                 <option value="{{$statu->id}}">{{$statu->label}}</option>

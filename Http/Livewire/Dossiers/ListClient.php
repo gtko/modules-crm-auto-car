@@ -5,19 +5,23 @@ namespace Modules\CrmAutoCar\Http\Livewire\Dossiers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use Livewire\WithPagination;
 use Modules\CoreCRM\Contracts\Repositories\CommercialRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\DossierRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\StatusRepositoryContract;
 use Modules\CoreCRM\Enum\StatusTypeEnum;
+use Modules\CoreCRM\Models\Status;
 use Modules\CrmAutoCar\Contracts\Repositories\TagsRepositoryContract;
 use Modules\CrmAutoCar\Filters\ClientFilterQuery;
 use Modules\CrmAutoCar\Models\Dossier;
+use Modules\CrmAutoCar\Models\Tag;
 use Modules\CrmAutoCar\Services\SortableComponent;
 
 class ListClient extends Component
 {
 
     use SortableComponent;
+    use WithPagination;
 
     public $nom_client = '';
     public $status;
@@ -185,8 +189,10 @@ class ListClient extends Component
                 ->paginate(50);
         }
 
-        $pipelineList = app(StatusRepositoryContract::class)->fetchAll();
+//        $pipelineList = app(StatusRepositoryContract::class)->fetchAll();
+        $pipelineList = Status::all();
         $pipelineList = $pipelineList->groupBy('pipeline_id');
+
 
 
         return view('crmautocar::livewire.dossiers.list-client',
@@ -194,7 +200,7 @@ class ListClient extends Component
                 'dossiers' => $dossiers,
                 'pipelineList' => $pipelineList,
                 'commercialList' => app(CommercialRepositoryContract::class)->newquery()->role('commercial')->get(),
-                'tagList' => app(TagsRepositoryContract::class)->fetchAll()
+                'tagList' => Tag::all()//app(TagsRepositoryContract::class)->fetchAll()
             ]);
     }
 }

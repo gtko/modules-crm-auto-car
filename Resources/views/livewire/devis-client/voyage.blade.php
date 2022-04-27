@@ -32,7 +32,7 @@
             <div>
                 <span>Heure de Départ : </span>
                 <span class="font-bold">
-                             @if($trajet['aller_date_depart'] ?? false)
+                    @if($trajet['aller_date_depart'] ?? false)
                         {{ \Carbon\Carbon::createFromTimeString($trajet['aller_date_depart'] ?? '')->format('H:i') }}
                     @else
                         Aucune heure
@@ -87,6 +87,7 @@
                 <div>
                     <span>Heure de Départ : </span>
                     <span class="font-bold">
+{{--                        @dd($trajet['retour_date_depart'] ?? false)--}}
                             @if($trajet['retour_date_depart'] ?? false)
                             {{ \Carbon\Carbon::createFromTimeString($trajet['retour_date_depart'] ?? '')->format('H:i') }}
                         @else
