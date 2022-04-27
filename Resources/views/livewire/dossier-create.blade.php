@@ -9,7 +9,7 @@
             </x-basecore::inputs.select>
         </div>
 
-        @if (!Auth::user()->hasRole("commercial"))
+        @if (Auth::user()->can('changeCommercial', Modules\CrmAutoCar\Models\Proformat::class))
             <div>
                 <x-basecore::inputs.select name="commercial" wire:model="commercial" label="Commercial attribué">
                     <option value="">Commercial</option>
