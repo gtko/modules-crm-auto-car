@@ -55,7 +55,7 @@ class StatistiqueFournisseurList extends Component
 
        $this->decaissements =  $repDecaissement->getByFiltre($fournisseur, $resteARegler, $periodeStart, $periodeEnd, $dateDepart);
 
-        $this->emit('updateCardTotal', $this->decaissements);
+        $this->emit('updateCardTotal', [$fournisseur, $resteARegler, $periodeStart, $periodeEnd, $dateDepart]);
     }
 
 

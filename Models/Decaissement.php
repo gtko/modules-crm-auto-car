@@ -30,4 +30,5 @@ class Decaissement extends Model
     {
         return $this->belongsTo(Fournisseur::class);
     }
+
 }

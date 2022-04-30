@@ -13,7 +13,6 @@ class StatistiqueFournisseurCountNombrePaiement extends Component
 
     public function mount($decaissement)
     {
-        $this->decaissement = $decaissement;
         $repDecaissement = app(DecaissementRepositoryContract::class);
         $this->count = $repDecaissement->getCountNombrePaiement($decaissement);
     }

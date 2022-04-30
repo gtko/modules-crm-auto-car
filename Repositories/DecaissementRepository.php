@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Livewire\HydrationMiddleware\HydratePublicProperties;
 use Modules\BaseCore\Repositories\AbstractRepository;
 use Modules\CoreCRM\Contracts\Entities\DevisEntities;
 use Modules\CoreCRM\Contracts\Repositories\DossierRepositoryContract;
+use Modules\CoreCRM\Contracts\Repositories\FournisseurRepositoryContract;
 use Modules\CoreCRM\Models\Dossier;
 use Modules\CoreCRM\Models\Fournisseur;
 use Modules\CrmAutoCar\Contracts\Repositories\DecaissementRepositoryContract;
@@ -72,62 +74,113 @@ class DecaissementRepository extends AbstractRepository implements DecaissementR
 
     public function getByDevis(): \Illuminate\Support\Collection
     {
-        $list = $this->newQuery()->with('devis')->get();
-        $list = $list->groupBy('devis_id', 'fournisseur_id');
-        $newList = collect();
-        foreach ($list as $listFiltre) {
-
-            $newList->push($listFiltre->last());
-        }
-        return $newList;
+        return $this->getAllDevisFournisseur();
     }
 
     public function getByFiltre(Fournisseur|string $fournisseur, bool|string $resteAPayer, Carbon|string $periodeStart, Carbon|string $periodeEnd, Carbon|string $deparStart): \Illuminate\Support\Collection
     {
-        $list = $this->getByDevis();
+        $query = app(FournisseurRepositoryContract::class)
+            ->newQuery()
+            ->has("devis")
+            ->with('devis.decaissements');
 
         if ($fournisseur !== '') {
-            $list = $list->where('fournisseur_id', $fournisseur->id);
+            $query->where('id', $fournisseur->id);
         }
+
+
 
         if ($resteAPayer !== '') {
             if($resteAPayer === 'troppayer'){
-                $list = $list->where('restant', '<', 0);
+                $query->whereHas('devis', function($query){
+                    $query->whereHas('decaissements', function($query){
+                        $query->where('restant', '<', 0);
+                    });
+                });
             }else {
                 if ($resteAPayer) {
-                    $list = $list->where('restant', '>', 0);
+                    $query->whereHas('devis', function($query){
+                        $query->whereHas('decaissements', function($query){
+                            $query->where('restant', '>', 0);
+                        });
+                        $query->orWhereDoesntHave('decaissements');
+                    });
                 } else {
-                    $list = $list->where('restant', '=', 0);
+                    $query->whereHas('devis', function($query){
+                        $query->whereHas('decaissements', function($query){
+                            $query->where('restant', 0);
+                        });
+                    });
                 }
             }
         }
 
         if ($periodeStart !== '' && $periodeEnd !== '') {
-            $list = $list->where('date', '>=', $periodeStart->startOfDay())
-                ->where('date', '<=', $periodeEnd->endOfDay());
-
+            $query->whereHas('devis', function($query) use ($periodeStart, $periodeEnd){
+                $query->whereHas('decaissements', function($query) use ($periodeStart, $periodeEnd){
+                    $query->whereBetween('date', [$periodeStart, $periodeEnd]);
+                });
+            });
         }
+
+
+        $devis = $query->get()
+            ->map(function($fournissuer){
+                return $fournissuer->devis;
+            })
+            ->flatten();
 
         if ($deparStart !== '') {
-
-            $newList = collect();
-            foreach ($list as $listFiltre) {
-                if (isset($listFiltre->devis->data['aller_date_depart']) && Carbon::createFromTimeString($listFiltre->devis->data['aller_date_depart'])->startOfDay() == $deparStart) {
-
-                    $newList->push($listFiltre);
-
-                }
-
-            }
-
-            $list = $newList;
+            $devis = $devis->filter(function($devi) use ($deparStart){
+                return isset($devi->data['trajets'][0]['aller_date_depart']) &&
+                    Carbon::createFromTimeString($devi->data['trajets'][0]['aller_date_depart'])->between(
+                        $deparStart,
+                        $deparStart->copy()->endOfDay()
+                    );
+            });
         }
-        return $list;
+
+        return $devis;
     }
 
-    public function getTotalResteARegler(array $decaissements): float
+    protected function getAllDevisFournisseur(){
+        return Cache::remember('getAllDevisFournisseur', '10', function(){
+            $result = app(FournisseurRepositoryContract::class)
+                ->newQuery()
+                ->has("devis")
+                ->with('devis.decaissements')
+                ->get()
+                ->map(function($fournisseur){
+                    return $fournisseur->devis;
+                })
+                ->flatten();
+
+            return $result;
+        });
+    }
+
+    protected function getAllDecaisement(){
+        return Cache::remember('getAllDevisFournisseur', '10', function(){
+            $devis = $this->getAllDevisFournisseur();
+            return $this->newQuery()->with('devis')->whereIn('devis_id', $devis->pluck('id'))->get();
+        });
+    }
+
+    public function getTotalARegler(): float
     {
-        $restant = collect($decaissements)->sum('restant') ?? 0.00;
+        $devis = $this->getAllDevisFournisseur();
+        $total = $devis->sum('pivot.prix') ?? 0.00;
+        if($total > 0){
+            return $total;
+        }
+
+        return 0;
+    }
+
+    public function getTotalResteARegler(): float
+    {
+        $devisPayer = $this->getAllDecaisement();
+        $restant = $devisPayer->sum('restant') ?? 0.00;
         if($restant > 0){
             return $restant;
         }
@@ -135,9 +188,10 @@ class DecaissementRepository extends AbstractRepository implements DecaissementR
         return 0;
     }
 
-    public function getTotalDejaRegler(array $decaissements): float
+    public function getTotalDejaRegler(): float
     {
-        return collect($decaissements)->sum('payer') ?? 0.00;
+        $devisPayer = $this->getAllDecaisement();
+        return $devisPayer->sum('payer') ?? 0.00;
     }
 
     public function getCountNombrePaiement(Decaissement $decaissement): int

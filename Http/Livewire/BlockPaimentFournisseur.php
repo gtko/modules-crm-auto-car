@@ -12,6 +12,7 @@ use Modules\CoreCRM\Services\FlowCRM;
 use Modules\CrmAutoCar\Contracts\Repositories\DecaissementRepositoryContract;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDossierDemandeFournisseurDelete;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDossierPaiementFournisseurSend;
+use Modules\CrmAutoCar\Models\Decaissement;
 
 class BlockPaimentFournisseur extends Component
 {
@@ -94,6 +95,14 @@ class BlockPaimentFournisseur extends Component
         $this->devi_id = '';
 
         (new FlowCRM())->add($this->dossier , new ClientDossierPaiementFournisseurSend(Auth::user(), $deviModel, $fourniModel, $decaissement));
+    }
+
+    public function delete($decaissementID){
+        Decaissement::where('id', $decaissementID)->delete();
+
+        return redirect()
+            ->back()
+            ->with('success','Le paiement a été supprimé avec succès');
     }
 
     public function render()

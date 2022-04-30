@@ -98,6 +98,8 @@
                     Total
                 </th>
 
+                <th></th>
+
             </tr>
             </thead>
             <tbody>
@@ -119,7 +121,13 @@
                     <td class="py-4 whitespace-nowrap text-sm text-center">
                         {{ $total + $paiement->restant }}€
                     </td>
-
+                    <td>
+                        <x-basecore::loading-replace>
+                            <span wire:click="delete({{$paiement->id}})">
+                                @icon('delete',20, 'cursor-pointer text-red-500 hover:text-red-700 w-6 h-6')
+                            </span>
+                        </x-basecore::loading-replace>
+                    </td>
                 </tr>
             @endforeach
 

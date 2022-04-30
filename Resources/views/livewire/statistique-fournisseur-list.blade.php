@@ -5,44 +5,49 @@
             <th class="border-b-2 dark:border-dark-5 whitespace-nowrap">ID Devis</th>
             <th class="border-b-2 dark:border-dark-5 whitespace-nowrap">ID Dossier</th>
             <th class="border-b-2 dark:border-dark-5 whitespace-nowrap">Client</th>
+            <th class="border-b-2 dark:border-dark-5 whitespace-nowrap">Fournisseur</th>
             <th class="border-b-2 dark:border-dark-5 whitespace-nowrap">Prix Fournisseur</th>
             <th class="border-b-2 dark:border-dark-5 whitespace-nowrap">Montant Reglé</th>
             <th class="border-b-2 dark:border-dark-5 whitespace-nowrap">Reste à Reglé</th>
             <th class="border-b-2 dark:border-dark-5 whitespace-nowrap">Départ le</th>
             <th class="border-b-2 dark:border-dark-5 whitespace-nowrap">Retour le</th>
             <th class="border-b-2 dark:border-dark-5 whitespace-nowrap">Nbr de paiements</th>
-
         </tr>
         </thead>
         <tbody>
-        @foreach($decaissements as $decaissement)
-            <tr class="@if($decaissement->restant == 0) bg-green-500 @elseif($decaissement->restant < 0) bg-red-500 text-white @endif">
+        @foreach($decaissements as $devis)
+            <tr class="@if($devis->decaissements->count() > 0 && $devis->decaissements->sum('restant') == 0) bg-green-500 @elseif($devis->decaissements->sum('restant') < 0) bg-red-500 text-white @endif">
                 <td class="border-b dark:border-dark-5">
-                    <a href=''>
-                        {{ $decaissement->devis->ref }}
+                    <a target="_blank" class="cursor-pointer text-blue-500" href='{{route('devis.edit', [$devis->dossier->client, $devis->dossier, $devis])}}'>
+                        {{ $devis->ref }}
                     </a>
                 </td>
-                <td class="border-b dark:border-dark-5">{{ $decaissement->devis->dossier->ref }}</td>
-                <td class="border-b dark:border-dark-5">{{ $decaissement->devis->dossier->client->formatName }}</td>
-                <td class="border-b dark:border-dark-5">{{ $decaissement->payer + $decaissement->restant }}</td>
-                <td class="border-b dark:border-dark-5">{{ $decaissement->payer }}</td>
-                <td class="border-b dark:border-dark-5">{{  $decaissement->restant }}</td>
                 <td class="border-b dark:border-dark-5">
-                    @isset($decaissement->devis->data['aller_date_depart'])
-                        {{ \Carbon\Carbon::createFromTimeString($decaissement->devis->data['aller_date_depart'])->format('d/m/Y') }}
+                    <a target="_blank" class="cursor-pointer text-blue-500" href='{{route('dossiers.show', [$devis->dossier->client, $devis->dossier])}}'>
+                        {{ $devis->dossier->ref }}
+                    </a>
+                </td>
+                <td class="border-b dark:border-dark-5">{{ $devis->dossier->client->formatName }}</td>
+                <td class="border-b dark:border-dark-5">{{ $devis->dossier->client->formatName }}</td>
+                <td class="border-b dark:border-dark-5">@marge($devis->pivot->prix ?? 0)€</td>
+                <td class="border-b dark:border-dark-5">@marge($devis->decaissements->sum('payer'))€</td>
+                <td class="border-b dark:border-dark-5">@marge($devis->decaissements->sum('restant'))€</td>
+                <td class="border-b dark:border-dark-5">
+                    @isset($devis->date_depart)
+                        {{ $devis->date_depart->format('d/m/Y') }}
                     @else
                         N/A
                     @endif
                 </td>
                 <td class="border-b dark:border-dark-5">
-                    @isset($decaissement->devis->data['retour_date_depart'])
-                        {{ \Carbon\Carbon::createFromTimeString($decaissement->devis->data['retour_date_depart'])->format('d/m/Y') }}
+                    @isset($devis->date_retour)
+                        {{ $devis->date_retour->format('d/m/Y') }}
                     @else
                         N/A
                     @endif
                 </td>
                 <td class="border-b dark:border-dark-5">
-                    <livewire:crmautocar::statistique-fournisseur-count-nombre-paiement :decaissement="$decaissement" wire:key="{{ $decaissement->id + 12545 }}"/>
+                    {{ $devis->decaissements->count() }}
                 </td>
             </tr>
         @endforeach

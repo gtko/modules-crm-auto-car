@@ -9,6 +9,7 @@ use Modules\CrmAutoCar\Models\Decaissement;
 
 class StatistiqueFournisseurCard extends Component
 {
+    public $totalARegler = 0;
     public $resteARegler = 0;
     public $dejaRegler = 0;
 
@@ -19,16 +20,17 @@ class StatistiqueFournisseurCard extends Component
     public function mount() {
 
         $repDecaissement = app(DecaissementRepositoryContract::class);
-        $modelDecaissement = $repDecaissement->getByDevis();
-        $this->resteARegler = $repDecaissement->getTotalResteARegler($modelDecaissement->toArray());
-        $this->dejaRegler = $repDecaissement->getTotalDejaRegler($modelDecaissement->toArray());
+        $this->totalARegler = $repDecaissement->getTotalARegler();
+        $this->resteARegler = $repDecaissement->getTotalResteARegler();
+        $this->dejaRegler = $repDecaissement->getTotalDejaRegler();
     }
 
-    public function updateCardTotal($value)
+    public function updateCardTotal()
     {
         $repDecaissement = app(DecaissementRepositoryContract::class);
-        $this->resteARegler = $repDecaissement->getTotalResteARegler($value);
-        $this->dejaRegler = $repDecaissement->getTotalDejaRegler($value);
+        $this->totalARegler = $repDecaissement->getTotalARegler();
+        $this->resteARegler = $repDecaissement->getTotalResteARegler();
+        $this->dejaRegler = $repDecaissement->getTotalDejaRegler();
 
     }
 

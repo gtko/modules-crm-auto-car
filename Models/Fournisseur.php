@@ -16,5 +16,5 @@ class Fournisseur extends \Modules\CoreCRM\Models\Fournisseur
             ->withPivot('prix', 'validate', 'mail_sended', 'bpa')
             ->wherePivot('validate', true);
     }
-
+     
 }
