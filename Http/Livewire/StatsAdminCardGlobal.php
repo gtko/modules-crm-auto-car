@@ -22,13 +22,14 @@ class StatsAdminCardGlobal extends Component
     public $panierMoyen = 0;
 
     public $debut;
+    public $bureau;
     public $fin;
     public $priceLead;
     public $leadPrice;
     public $editPriceLeadActive = false;
     public $shekel;
 
-    protected $listeners = ['dateRangeGlobal', 'resetCardGlobal'];
+    protected $listeners = ['dateRangeGlobal', 'resetCardGlobal', 'filterBureau'];
 
     protected $rules = [
         'priceLead' => 'required|numeric'
@@ -39,6 +40,10 @@ class StatsAdminCardGlobal extends Component
     {
         $this->debut = $debut;
         $this->fin = $fin;
+    }
+
+    public function filterBureau($bureau){
+        $this->bureau = $bureau;
     }
 
     public function editPriceLead()
@@ -81,6 +86,10 @@ class StatsAdminCardGlobal extends Component
     {
         $this->leadPrice = $repConfig->getByName('price_lead')->data['price_lead'] ?? 0;
         $this->shekel = app(ShekelRepositoryContract::class)->getPrice();
+
+
+        $repStat->filterByBureau($this->bureau);
+
         $this->nombreLeads = $repStat->getNombreLeadTotal($this->debut, $this->fin);
         $this->nombreContact = $repStat->getNombreContactWinTotal($this->debut, $this->fin);
         $this->tauxConversion = $repStat->getTauxConversionTotal($this->debut, $this->fin);

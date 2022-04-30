@@ -50,7 +50,8 @@ class TagsRepository extends AbstractRepository implements TagsRepositoryContrac
 
     public function attachDossier(Dossier $dossier, Tag $tag): Tag
     {
-      $tag->dossiers()->sync($dossier);
+      $tag->dossiers()->detach($dossier);
+      $tag->dossiers()->attach($dossier);
       $tag->save();
 
       return $tag;

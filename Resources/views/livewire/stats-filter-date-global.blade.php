@@ -1,5 +1,13 @@
 <div>
-    <div class="grid grid-cols-3 gap-6 mt-8">
+    <div class="grid grid-cols-4 gap-6 mt-8">
+        @if(\Auth::user()->isSuperAdmin())
+            <x-basecore::inputs.select name="bureau" class="form-control-sm" wire:model="bureau">
+                <option value="">Bureau</option>
+                @foreach($bureauxList as $bureau)
+                    <option value="{{$bureau->id}}">{{$bureau->name}}</option>
+                @endforeach
+            </x-basecore::inputs.select>
+        @endif
         <x-basecore::inputs.date name='debut' wire:model="debut"/>
         <x-basecore::inputs.date name='fin' wire:model="fin"/>
         <x-basecore::button class="w-full" wire:click="filtre">Filtrer</x-basecore::button>

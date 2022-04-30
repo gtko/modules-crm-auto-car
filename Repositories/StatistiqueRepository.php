@@ -23,8 +23,32 @@ use Modules\TimerCRM\Contracts\Repositories\TimerRepositoryContract;
 class StatistiqueRepository implements StatistiqueRepositoryContract
 {
 
+    public $commercialRepository;
+
+
+    public function __construct(CommercialRepositoryContract $commercialRepository)
+    {
+        $this->commercialRepository = $commercialRepository;
+    }
+
+    public function setQuery(Builder $query)
+    {
+        $this->commercialRepository->setQuery($query);
+    }
+
+    public function filterByBureau($bureauId){
+        if($bureauId){
+            $this->setQuery(
+                $this->commercialRepository->newQuery()
+                    ->whereHas('roles', function (Builder $query) use ($bureauId) {
+                        $query->where('id', $bureauId);
+                    })
+            );
+        }
+    }
+
     protected function getCollectionLeadByCommercial(Commercial $commercial, Carbon|null $debut = null, Carbon|null $fin = null){
-        $repCommercial = app(CommercialRepositoryContract::class);
+        $repCommercial =  $this->commercialRepository;
 
         if ($debut == null && $fin == null) {
             return $repCommercial->getDossiers($commercial);

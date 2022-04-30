@@ -20,9 +20,9 @@ class ClientDossierPaiementFournisseurSend extends Attributes
     protected UserEntity $user;
     protected DevisEntities $devis;
     protected Fournisseur $fournisseur;
-    protected Decaissement $decaissement;
+    protected ?Decaissement $decaissement;
 
-    public function __construct(UserEntity $user, DevisEntities $devis, Fournisseur $fournisseur, Decaissement $decaissement)
+    public function __construct(UserEntity $user, DevisEntities $devis, Fournisseur $fournisseur, ?Decaissement $decaissement)
     {
         parent::__construct();
         $this->user = $user;
@@ -53,7 +53,7 @@ class ClientDossierPaiementFournisseurSend extends Attributes
             'user_id' => $this->user->id,
             'devis_id' => $this->devis->id,
             'fournisseur_id' => $this->fournisseur->id,
-            'decaissement_id' => $this->decaissement->id,
+            'decaissement_id' => $this->decaissement->id ?? 0,
         ];
     }
 
@@ -84,7 +84,7 @@ class ClientDossierPaiementFournisseurSend extends Attributes
     /**
      * @return Decaissement
      */
-    public function getDecaissement(): Decaissement
+    public function getDecaissement(): ?Decaissement
     {
         return $this->decaissement;
     }

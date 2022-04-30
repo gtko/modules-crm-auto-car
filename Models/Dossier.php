@@ -9,7 +9,10 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Modules\BaseCore\Models\Personne;
+use Modules\CoreCRM\Models\User;
 use Modules\TaskCalendarCRM\Models\Task;
+use Spatie\Permission\Models\Role;
 
 class Dossier extends \Modules\CoreCRM\Models\Dossier
 {
@@ -29,6 +32,32 @@ class Dossier extends \Modules\CoreCRM\Models\Dossier
     public function tasks():MorphMany
     {
         return $this->morphMany(Task::class, 'taskable');
+    }
+
+    public function personneClient(){
+        return $this->hasOneThrough(Personne::class, Client::class, 'id', 'id', 'clients_id', 'personne_id');
+    }
+
+    public function personneCommercial(){
+        return $this->hasOneThrough(Personne::class, User::class, 'id', 'id', 'commercial_id', 'personne_id');
+    }
+
+
+
+    public function getDateDepartAttribute(){
+        return $this->data['date_depart'] ?? null;
+    }
+
+    public function getDateArriveAttribute(){
+        return $this->data['date_arrivee'] ?? null;
+    }
+
+    public function getLieuDepartAttribute(){
+        return $this->data['lieu_depart'] ?? null;
+    }
+
+    public function getLieuArriveAttribute(){
+        return $this->data['lieu_arrivee'] ?? null;
     }
 
     /**

@@ -5,6 +5,8 @@
         </h2>
     </x-slot>
 
-    <livewire:crmautocar::dossiers.list-client/>
+{{--    <livewire:crmautocar::dossiers.list-client/>--}}
+
+    <livewire:crmautocar::datatable.list-dossier/>
 
 </x-basecore::app-layout>

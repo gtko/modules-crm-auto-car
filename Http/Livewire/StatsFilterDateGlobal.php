@@ -4,15 +4,14 @@ namespace Modules\CrmAutoCar\Http\Livewire;
 
 use Livewire\Component;
 use Modules\BaseCore\Actions\Dates\DateStringToCarbon;
+use Spatie\Permission\Models\Role;
 
 class StatsFilterDateGlobal extends Component
 {
     public $debut = '';
     public $fin = '';
+    public $bureau = '';
     public $badge = '';
-
-
-
 
     public function clear()
     {
@@ -32,10 +31,16 @@ class StatsFilterDateGlobal extends Component
             $fin = (new DateStringToCarbon())->handle($this->fin);
             $this->badge = 'du ' . $debut->format('d/m/Y') . ' au ' . $fin->format('d/m/Y');
         }
+
+        if($this->bureau){
+            $this->emit('filterBureau', $this->bureau);
+        }
+
     }
 
     public function render()
     {
-        return view('crmautocar::livewire.stats-filter-date-global');
+        $bureauxList = Role::whereIn('id', config('crmautocar.bureaux_ids'))->get();
+        return view('crmautocar::livewire.stats-filter-date-global', compact('bureauxList'));
     }
 }

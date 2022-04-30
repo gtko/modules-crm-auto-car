@@ -8,6 +8,7 @@ use Modules\CoreCRM\Models\Commercial;
 
 interface StatistiqueRepositoryContract
 {
+    public function filterByBureau($bureauId);
 
     public function getNombreHeureByCommercial(Commercial $commercial,?Carbon $debut = null, ?Carbon $fin = null): string;
     public function getTauxHoraireByCommercial(Commercial $commercial,?Carbon $debut = null, ?Carbon $fin = null): float;
