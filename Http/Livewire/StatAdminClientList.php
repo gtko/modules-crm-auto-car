@@ -27,14 +27,8 @@ class StatAdminClientList extends Component
     public $modifDateStart;
     public $modifDateEnd;
 
-    public $start;
-    public $end;
-
-    protected $listeners =
-        [
-            'updateSelectCommercial', 'dateRange',
-            '$refresh'
-        ];
+    public $debut;
+    public $fin;
 
     protected $rules = [
         'modifDateStart' => 'required',
@@ -42,15 +36,31 @@ class StatAdminClientList extends Component
 
     ];
 
-    public function mount()
+    public function mount($filtre)
     {
-        if (Auth::user()->hasRole('commercial')) {
-            $this->commercial = Auth::commercial();
-        } else {
-            $this->commercial = app(CommercialRepositoryContract::class)->newQuery()->first();
+
+        $this->debut = $filtre['debut'] ?? null;
+        $this->fin = $filtre['fin'] ?? null;
+        $this->bureau = $filtre['bureau'] ?? null;
+        $this->commercial = $filtre['commercial'] ?? null;
+
+        if($this->debut){
+            $this->debut = \Illuminate\Support\Carbon::parse($this->debut);
         }
 
-        $this->times = app(TimerRepositoryContract::class)->getTimeByPeriode($this->commercial, Carbon::now()->subYear(50), Carbon::now());
+        if($this->fin){
+            $this->fin = Carbon::parse($this->fin);
+        }
+
+        if($this->commercial){
+            $this->commercial = app(CommercialRepositoryContract::class)->fetchById($this->commercial);
+        }
+
+        if(Auth::user()->isSuperAdmin()){
+            $this->addTime = true;
+        }
+
+        $this->times = app(TimerRepositoryContract::class)->getTimeByPeriode($this->commercial, $this->debut, $this->fin);
     }
 
     public function addTime()
@@ -73,19 +83,6 @@ class StatAdminClientList extends Component
         $this->emit('refresh');
     }
 
-    public function updateSelectCommercial(Commercial $commercial)
-    {
-        $this->addTime = true;
-        $this->commercial = $commercial;
-        $this->times = app(TimerRepositoryContract::class)->getTimeByPeriode($this->commercial, Carbon::now()->subYear(50), Carbon::now());
-
-    }
-
-    public function dateRange($debut, $fin)
-    {
-        $this->start = $debut;
-        $this->end = $fin;
-    }
 
     public function editTime($id)
     {
@@ -94,8 +91,6 @@ class StatAdminClientList extends Component
 
         $this->dateModifStart = $time->start->toDateTimeLocalString();
         $this->dateModifEnd = $time->start->clone()->addSeconds($time->count)->toDateTimeLocalString();
-
-
 
         if ($this->timeEdit) {
             $this->timeEdit = false;
@@ -133,11 +128,8 @@ class StatAdminClientList extends Component
             $this->dossiers = $repCommercial->getClients($this->commercial);
         }
 
-        if ($this->start && $this->end) {
-            $start = (new DateStringToCarbon())->handle($this->start);
-            $fin = (new DateStringToCarbon())->handle($this->end);
-
-            $this->times = app(TimerRepositoryContract::class)->getTimeByPeriode($this->commercial, $start, $fin);
+        if ($this->debut && $this->fin) {
+            $this->times = app(TimerRepositoryContract::class)->getTimeByPeriode($this->commercial, $this->debut, $this->fin);
         } else {
             $this->times = app(TimerRepositoryContract::class)->getTimeByPeriode($this->commercial, Carbon::now()->subYear(50), Carbon::now());
         }

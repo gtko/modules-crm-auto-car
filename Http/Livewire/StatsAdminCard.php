@@ -14,6 +14,7 @@ use Modules\TimerCRM\Contracts\Repositories\TimerRepositoryContract;
 class StatsAdminCard extends Component
 {
     public $nombeHeureTravail = 0;
+    public $nombeJourTravail = 0;
     public $tauxHoraire = 0;
     public $nombreLead = 0;
     public $nombreContrat = 0;
@@ -28,49 +29,34 @@ class StatsAdminCard extends Component
     public $commercial;
     public $debut;
     public $fin;
+    public $bureau;
 
-    protected $listeners = ['updateSelectCommercial', 'dateRange', 'resetCard', 'resetAll', 'refresh' => '$refresh'];
+    public function mount($filtre){
 
+        $this->debut = $filtre['debut'] ?? null;
+        $this->fin = $filtre['fin'] ?? null;
+        $this->bureau = $filtre['bureau'] ?? null;
+        $this->commercial = $filtre['commercial'] ?? null;
 
-    public function mount(){
-        if(!Auth::user()->hasRole(['super-admin', 'manager'])) {
-            $this->commercial = Auth::commercial();
-        }else{
-            $this->commercial = app(CommercialRepositoryContract::class)
-                ->newQuery()
-                ->role('commercial')
-                ->first();
+        if($this->debut){
+            $this->debut = \Illuminate\Support\Carbon::parse($this->debut);
+        }
+
+        if($this->fin){
+            $this->fin = Carbon::parse($this->fin);
+        }
+
+        if($this->commercial){
+            $this->commercial = app(CommercialRepositoryContract::class)->fetchById($this->commercial);
         }
     }
 
-    public function updateSelectCommercial(?Commercial $commercial = null)
-    {
-        $this->commercial = $commercial;
-    }
-
-    public function resetCard(Commercial $commercial, $debut, $fin)
-    {
-        $this->commercial = $commercial;
-        $this->debut = $debut;
-        $this->fin = $fin;
-    }
-
-
-
-    public function dateRange($debut, $fin, Commercial $commercial)
-    {
-        $this->commercial = $commercial;
-
-        if ($debut && $fin) {
-            $this->debut = (new DateStringToCarbon())->handle($debut);
-            $this->fin = (new DateStringToCarbon())->handle($fin);
-        }
-    }
 
     public function render(StatistiqueRepositoryContract $repStat, TimerRepositoryContract $repTimer)
     {
         if ($this->commercial) {
             $this->nombeHeureTravail = $repTimer->getTotalTimeByCommercialPeriode($this->commercial, $this->debut, $this->fin);
+            $this->nombeJourTravail = $repTimer->getTotalDaysPresentielByCommercialPeriode($this->commercial, $this->debut, $this->fin);
             $this->tauxHoraire = $repStat->getTauxHoraireByCommercial($this->commercial, $this->debut, $this->fin);
             $this->nombreLead = $repStat->getNombreLead($this->commercial, $this->debut, $this->fin);
             $this->nombreContrat = $repStat->getNombreContactByCommercial($this->commercial, $this->debut, $this->fin);

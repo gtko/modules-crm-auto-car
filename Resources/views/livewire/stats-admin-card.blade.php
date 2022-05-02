@@ -13,6 +13,17 @@
 
         <div class="px-4 py-5 sm:p-6">
             <dt class="text-base font-normal text-gray-900">
+                Nombre de jours présentiel
+            </dt>
+            <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">
+                <div class="flex items-baseline text-center text-2xl font-semibold text-primary-1">
+                    {{ $this->nombeJourTravail }}
+                </div>
+            </dd>
+        </div>
+
+        <div class="px-4 py-5 sm:p-6">
+            <dt class="text-base font-normal text-gray-900">
                 Taux horaire
             </dt>
             <dd class="mt-1 flex justify-between items-baseline md:block lg:flex">

@@ -12,33 +12,50 @@ class StatsAdminListCommercial extends Component
     protected $commercials;
     public $commercial_id;
 
-    public function mount(CommercialRepositoryContract $repCommercial)
+    public $filtreIn = [];
+
+    public $queryString = ['commercial_id'];
+
+    public function mount($filtre)
     {
-        if(!Auth::user()->hasRole(['super-admin', 'manager'])){
-            $this->commercial_id = Auth::user()->id;
-        }else {
-            $this->commercial_id = app(CommercialRepositoryContract::class)
+        $this->filtreIn = $filtre;
+
+        if(!$this->commercial_id) {
+            if (!Auth::user()->hasRole(['super-admin', 'manager'])) {
+                $this->commercial_id = Auth::user()->id;
+            } else {
+                $this->commercial_id = app(CommercialRepositoryContract::class)
                     ->newQuery()
                     ->role('commercial')
                     ->first()->id;
+            }
         }
+    }
 
-        $commercial = $repCommercial->fetchById($this->commercial_id);
-        $this->emit('updateSelectCommercial', $commercial);
+    public function getKeyProperty(){
+        return  md5(json_encode($this->filtre));
+    }
+
+    public function getFiltreProperty(){
+        return array_merge($this->filtreIn, [
+            'commercial' => $this->commercial_id,
+            ]
+        );
     }
 
 
-    public function selectCommercial(CommercialRepositoryContract $repCommercial, $commercialId)
+    public function selectCommercial($commercialId)
     {
-
         $this->commercial_id = $commercialId;
-        $commercial = $repCommercial->fetchById($commercialId);
-        $this->emit('updateSelectCommercial', $commercial);
     }
 
     public function render(CommercialRepositoryContract $repCommercial)
     {
-        $this->commercials = $repCommercial->newquery()->role(['commercial', 'Résa', 'manager'])->get();
+        $this->commercials = $repCommercial
+            ->newquery()
+            ->role(['commercial', 'Résa', 'manager'])
+            ->get()
+            ->sortBy('format_name');
 
         $users = [
             'commerciaux' => [],
