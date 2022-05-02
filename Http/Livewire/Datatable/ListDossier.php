@@ -279,13 +279,18 @@ class ListDossier extends Component implements Tables\Contracts\HasTable
         return 4;
     }
 
+    protected function getDefaultStatusProperty(){
+        return ['4','7','8','9'];
+    }
+
     protected function getTableFilters(): array
     {
         $filters = [
 
             Tables\Filters\MultiSelectFilter::make('status')
                 ->options(fn() => Status::all()->pluck('label', 'id'))
-                ->column('status_id'),
+                ->column('status_id')
+                ->default($this->getDefaultStatusProperty()),
             Tables\Filters\MultiSelectFilter::make('tag')
                 ->options(fn() => Tag::all()->pluck('label', 'id'))
                 ->query(function ($query, $data) {
