@@ -239,6 +239,7 @@ class StatistiqueRepository implements StatistiqueRepositoryContract
             $query->has('proformat');
         });
 
+
         return $query->count();
     }
 
