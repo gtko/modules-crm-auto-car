@@ -101,7 +101,7 @@ class StatistiqueRepository implements StatistiqueRepositoryContract
     {
         $repCommercial = $this->commercialRepository;
 
-        if ($debut == null && $fin == null) {
+        if ($debut == null || $fin == null) {
             $commercials = $repCommercial->fetchAll();
             $leadCount = 0;
             foreach ($commercials as $commercial) {

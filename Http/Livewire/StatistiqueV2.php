@@ -18,7 +18,6 @@ class StatistiqueV2 extends Component
 
     public function mount(){
 
-
         if(!$this->debut) {
             $this->debut = now()->startOfMonth()->format('Y-m-d');
         }
@@ -30,7 +29,6 @@ class StatistiqueV2 extends Component
         $this->bureau = '';
         $this->badge = '';
 
-        $this->filtre();
     }
 
 
@@ -39,11 +37,20 @@ class StatistiqueV2 extends Component
     }
 
     public function getFiltreProperty(){
-        return [
-            'debut' => $this->debut,
-            'fin' => $this->fin,
+
+        $date = $this->debut && $this->fin;
+        $filtre =  [
             'bureau' => $this->bureau,
         ];
+
+        if($date){
+            $filtre['debut'] = $this->debut;
+            $filtre['fin'] = $this->fin;
+        }
+
+        $this->filtre();
+
+        return $filtre;
     }
 
     public function clear()
@@ -51,8 +58,6 @@ class StatistiqueV2 extends Component
         $this->debut = null;
         $this->fin = null;
         $this->badge = '';
-        $this->emit('resetCardGlobal', $this->debut, $this->fin);
-        $this->emit('dateRange', '', '');
     }
 
     public function filtre()
@@ -67,6 +72,7 @@ class StatistiqueV2 extends Component
     public function render()
     {
 
+        $this->filtre();
         $bureauxList = Role::whereIn('id', config('crmautocar.bureaux_ids'))->get();
 
         return view('crmautocar::livewire.statistique-v2', compact('bureauxList'));
