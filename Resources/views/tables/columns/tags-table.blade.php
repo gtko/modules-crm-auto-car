@@ -1,15 +1,15 @@
 <div class="text-center space-y-1" x-data="{open: false}">
     @foreach($getState() as $index => $tag)
         @if ($index < 2)
-            <div style="background-color:{{$tag->color}}"
+            <div style="background-color:{{$tag->color ?? '#e6e6e6'}}"
                  class="py-1 px-2 rounded text-xs text-white font-medium whitespace-nowrap">
-                {{$tag->label}}
+                {{$tag->label ?? $tag->name ?? ''}}
             </div>
         @else
 
             <div style="background-color:{{$tag->color}}" x-show="open"
                  class="py-1 px-2 rounded text-xs text-white font-medium whitespace-nowrap">
-                {{$tag->label}}
+                {{$tag->label?? $tag->name ?? ''}}
             </div>
         @endif
 

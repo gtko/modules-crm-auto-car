@@ -308,11 +308,8 @@ class ListFormulaire extends Component implements Tables\Contracts\HasTable
         ];
     }
 
-
-
     public function render()
     {
         return view('crmautocar::livewire.datatable.list-dossier');
     }
-
 }
