@@ -33,14 +33,14 @@
                 <td class="border-b dark:border-dark-5">@marge($devis->decaissements->sum('payer'))€</td>
                 <td class="border-b dark:border-dark-5">@marge($devis->decaissements->sum('restant'))€</td>
                 <td class="border-b dark:border-dark-5">
-                    @isset($devis->date_depart)
+                    @if(!empty($devis->date_depart))
                         {{ $devis->date_depart->format('d/m/Y') }}
                     @else
                         N/A
                     @endif
                 </td>
                 <td class="border-b dark:border-dark-5">
-                    @isset($devis->date_retour)
+                    @if(!empty($devis->date_retour))
                         {{ $devis->date_retour->format('d/m/Y') }}
                     @else
                         N/A
