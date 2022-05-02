@@ -55,6 +55,12 @@ class ProformatFilterQuery
         }
     }
 
+    public function margeDefinitve(){
+        $this->query->whereHas('devis', function($query){
+           $query->has('fournisseursBPA');
+        });
+    }
+
     public function byMargeEdited(?Carbon $dateStart = null,?Carbon $dateEnd = null)
     {
         if(!$dateStart){

@@ -28,6 +28,7 @@ class ProformatsList extends Component
     public $commercial;
 
     public $paid;
+    public $margeEnd;
     public $contact;
     public $infovoyage;
     public $margeEdited;
@@ -114,6 +115,8 @@ class ProformatsList extends Component
         if($this->infovoyage === 'non') $filter->notInfoVoyage();
 
         if($this->toinvoice === 'oui') $filter->toInvoice();
+        if($this->margeEnd === 'oui') $filter->margeDefinitve();
+
 
         if($this->margeEdited === 'oui') $filter->byMargeEdited($this->dateStart, $this->dateEnd);
         else{

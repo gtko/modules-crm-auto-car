@@ -133,6 +133,14 @@
                 </div>
 
                 <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+                    <x-basecore::inputs.select name="margeEnd" wire:model="margeEnd">
+                        <option value="" default>Marge definitive</option>
+                        <option value="oui">Oui</option>
+                        <option value="non">Non</option>
+                    </x-basecore::inputs.select>
+                </div>
+
+                <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
                     <x-basecore::inputs.select name="contact" wire:model="contact">
                         <option value="" default>Contact chauffeur</option>
                         <option value="oui">Oui</option>
