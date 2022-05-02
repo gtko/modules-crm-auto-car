@@ -6,8 +6,9 @@ use Livewire\Component;
 use Modules\BaseCore\Actions\Dates\DateStringToCarbon;
 use Spatie\Permission\Models\Role;
 
-class StatsFilterDateGlobal extends Component
+class StatistiqueV2 extends Component
 {
+
     public $debut = '';
     public $fin = '';
     public $bureau = '';
@@ -16,12 +17,33 @@ class StatsFilterDateGlobal extends Component
     public $queryString = ['debut', 'fin'];
 
     public function mount(){
-        $this->debut = now()->startOfMonth()->format('Y-m-d');
-        $this->fin = now()->endOfMonth()->format('Y-m-d');
+
+
+        if(!$this->debut) {
+            $this->debut = now()->startOfMonth()->format('Y-m-d');
+        }
+
+        if(!$this->fin) {
+            $this->fin = now()->endOfMonth()->format('Y-m-d');
+        }
+
         $this->bureau = '';
         $this->badge = '';
 
         $this->filtre();
+    }
+
+
+    public function getKeyProperty(){
+        return  md5(json_encode($this->filtre));
+    }
+
+    public function getFiltreProperty(){
+        return [
+            'debut' => $this->debut,
+            'fin' => $this->fin,
+            'bureau' => $this->bureau,
+        ];
     }
 
     public function clear()
@@ -36,22 +58,17 @@ class StatsFilterDateGlobal extends Component
     public function filtre()
     {
         if ($this->debut && $this->fin) {
-            $this->emit('dateRangeGlobal', $this->debut, $this->fin);
-            $this->emit('dateRange', $this->debut, $this->fin);
             $debut = (new DateStringToCarbon())->handle($this->debut);
             $fin = (new DateStringToCarbon())->handle($this->fin);
             $this->badge = 'du ' . $debut->format('d/m/Y') . ' au ' . $fin->format('d/m/Y');
         }
-
-        if($this->bureau){
-            $this->emit('filterBureau', $this->bureau);
-        }
-
     }
 
     public function render()
     {
+
         $bureauxList = Role::whereIn('id', config('crmautocar.bureaux_ids'))->get();
-        return view('crmautocar::livewire.stats-filter-date-global', compact('bureauxList'));
+
+        return view('crmautocar::livewire.statistique-v2', compact('bureauxList'));
     }
 }

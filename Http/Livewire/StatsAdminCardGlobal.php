@@ -2,6 +2,7 @@
 
 namespace Modules\CrmAutoCar\Http\Livewire;
 
+use Illuminate\Support\Carbon;
 use Livewire\Component;
 use Modules\BaseCore\Actions\Dates\DateStringToCarbon;
 use Modules\CoreCRM\Models\Commercial;
@@ -13,6 +14,9 @@ use Modules\TimerCRM\Contracts\Repositories\TimerRepositoryContract;
 class StatsAdminCardGlobal extends Component
 {
 
+    public $debut;
+    public $bureau;
+    public $fin;
 
     public $nombreLead = 0;
     public $nombreContact = 0;
@@ -21,30 +25,33 @@ class StatsAdminCardGlobal extends Component
     public $margeNet = 0;
     public $panierMoyen = 0;
 
-    public $debut;
-    public $bureau;
-    public $fin;
+
     public $priceLead;
     public $leadPrice;
     public $editPriceLeadActive = false;
     public $shekel;
 
-    protected $listeners = ['dateRangeGlobal', 'resetCardGlobal', 'filterBureau'];
-
     protected $rules = [
         'priceLead' => 'required|numeric'
     ];
 
+    public function mount($filtre){
+        $this->debut = $filtre['debut'] ?? null;
+        $this->fin = $filtre['fin'] ?? null;
+        $this->bureau = $filtre['bureau'] ?? null;
 
-    public function resetCardGlobal($debut, $fin)
-    {
-        $this->debut = $debut;
-        $this->fin = $fin;
+
+        if($this->debut){
+            $this->debut = Carbon::parse($this->debut);
+        }
+
+        if($this->fin){
+            $this->fin = Carbon::parse($this->fin);
+        }
+
+
     }
 
-    public function filterBureau($bureau){
-        $this->bureau = $bureau;
-    }
 
     public function editPriceLead()
     {
@@ -72,21 +79,10 @@ class StatsAdminCardGlobal extends Component
 
     }
 
-    public
-    function dateRangeGlobal($debut, $fin)
-    {
-        if ($debut && $fin) {
-            $this->debut = (new DateStringToCarbon())->handle($debut);
-            $this->fin = (new DateStringToCarbon())->handle($fin);
-        }
-    }
-
-    public
-    function render(StatistiqueRepositoryContract $repStat, TimerRepositoryContract $repTimer, ConfigsRepositoryContract $repConfig)
+    public function render(StatistiqueRepositoryContract $repStat, TimerRepositoryContract $repTimer, ConfigsRepositoryContract $repConfig)
     {
         $this->leadPrice = $repConfig->getByName('price_lead')->data['price_lead'] ?? 0;
         $this->shekel = app(ShekelRepositoryContract::class)->getPrice();
-
 
         $repStat->filterByBureau($this->bureau);
 
