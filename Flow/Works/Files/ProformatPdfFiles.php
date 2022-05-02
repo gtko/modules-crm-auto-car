@@ -20,7 +20,7 @@ class ProformatPdfFiles extends \Modules\CoreCRM\Flow\Works\Files\WorkFlowFiles
 
     public function filename(): string
     {
-        return 'proformat.pdf';
+        return 'proforma.pdf';
     }
 
     public function mimetype(): string
