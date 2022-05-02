@@ -48,8 +48,6 @@ class StatsAdminCardGlobal extends Component
         if($this->fin){
             $this->fin = Carbon::parse($this->fin);
         }
-
-
     }
 
 

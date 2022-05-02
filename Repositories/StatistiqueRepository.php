@@ -24,24 +24,56 @@ class StatistiqueRepository implements StatistiqueRepositoryContract
 {
 
     public $commercialRepository;
+    public $dossierRepository;
+    public $proformaRepository;
 
 
-    public function __construct(CommercialRepositoryContract $commercialRepository)
+    public function __construct(
+        CommercialRepositoryContract $commercialRepository,
+        DossierRepositoryContract $dossierRepository,
+        ProformatsRepositoryContract $proformaRepository
+    )
     {
         $this->commercialRepository = $commercialRepository;
-    }
+        $this->dossierRepository = $dossierRepository;
+        $this->proformaRepository = $proformaRepository;
 
-    public function setQuery(Builder $query)
-    {
-        $this->commercialRepository->setQuery($query);
+
+
+        $this->commercialRepository->setQuery(
+            $this->commercialRepository->newQuery()->where('id', '!=', 1)
+        );
+
     }
 
     public function filterByBureau($bureauId){
         if($bureauId){
-            $this->setQuery(
+            $this->commercialRepository->setQuery(
                 $this->commercialRepository->newQuery()
-                    ->whereHas('roles', function (Builder $query) use ($bureauId) {
-                        $query->where('id', $bureauId);
+                ->whereHas('roles', function (Builder $query) use ($bureauId) {
+                    $query->where('id', $bureauId);
+                })
+            );
+
+            $this->dossierRepository->setQuery(
+                $this->dossierRepository->newQuery()
+                    ->whereHas('commercial', function (Builder $query) use ($bureauId) {
+                        $query->whereHas('roles', function (Builder $query) use ($bureauId) {
+                            $query->where('id', $bureauId);
+                        });
+                    })
+            );
+
+            $this->proformaRepository->setQuery(
+                $this->proformaRepository->newQuery()
+                    ->whereHas('devis', function (Builder $query) use ($bureauId) {
+                        $query->whereHas('dossier', function (Builder $query) use ($bureauId) {
+                            $query->whereHas('commercial', function (Builder $query) use ($bureauId) {
+                                $query->whereHas('roles', function (Builder $query) use ($bureauId) {
+                                    $query->where('id', $bureauId);
+                                });
+                            });
+                        });
                     })
             );
         }
@@ -51,10 +83,10 @@ class StatistiqueRepository implements StatistiqueRepositoryContract
         $repCommercial =  $this->commercialRepository;
 
         if ($debut == null && $fin == null) {
-            return $repCommercial->getDossiers($commercial);
+            return $this->dossierRepository->getDossiersByCommercial($commercial)->get();
 
         } else {
-            return $repCommercial->getDossiers($commercial)
+            return $this->dossierRepository->getDossiersByCommercial($commercial)
                 ->where('created_at', '>=', $debut->startOfDay())
                 ->where('created_at', '<=', $fin->endOfDay());
         }
@@ -67,19 +99,19 @@ class StatistiqueRepository implements StatistiqueRepositoryContract
 
     public function getNombreLeadTotal(?Carbon $debut = null, ?Carbon $fin = null): int
     {
-        $repCommercial = app(CommercialRepositoryContract::class);
+        $repCommercial = $this->commercialRepository;
 
         if ($debut == null && $fin == null) {
             $commercials = $repCommercial->fetchAll();
             $leadCount = 0;
             foreach ($commercials as $commercial) {
-                $leadCount += $repCommercial->getDossiers($commercial)->count();
+                $leadCount += $this->dossierRepository->getDossiersByCommercial($commercial)->count();
             }
         } else {
             $commercials = $repCommercial->fetchAll();
             $leadCount = 0;
             foreach ($commercials as $commercial) {
-                $leadCount += $repCommercial->getDossiers($commercial)
+                $leadCount += $this->dossierRepository->getDossiersByCommercial($commercial)
                     ->where('created_at', '>=', $debut->startOfDay())
                     ->where('created_at', '<=', $fin->endOfDay())
                     ->count();
@@ -108,7 +140,7 @@ class StatistiqueRepository implements StatistiqueRepositoryContract
 
     public function getNombreContactByCommercial(Commercial $commercial,?Carbon $debut = null, ?Carbon $fin = null): int
     {
-        $repository = app(DossierRepositoryContract::class);
+        $repository = $this->dossierRepository;
         $query = $repository->newQuery()
             ->where('commercial_id', $commercial->id)
             ->whereHas('devis', function($q){
@@ -197,7 +229,7 @@ class StatistiqueRepository implements StatistiqueRepositoryContract
 
     public function getNombreContactWinTotal(?Carbon $debut = null, ?Carbon $fin = null): int
     {
-        $query = app(DossierRepositoryContract::class)->newQuery();
+        $query = $this->dossierRepository->newQuery();
         if($debut && $fin) {
             $query->where('created_at', '>=', $debut->startOfDay())
                 ->where('created_at', '<=', $fin->endOfDay());
@@ -223,7 +255,7 @@ class StatistiqueRepository implements StatistiqueRepositoryContract
 
     protected function getProformatPriceList(?Carbon $debut = null, ?Carbon $fin = null, $commercial = null)
     {
-        $rep = app(ProformatsRepositoryContract::class);
+        $rep = $this->proformaRepository;
         $query = $rep->newQuery();
         $query->has('devis');
 

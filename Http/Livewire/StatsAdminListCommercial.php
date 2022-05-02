@@ -2,6 +2,7 @@
 
 namespace Modules\CrmAutoCar\Http\Livewire;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Modules\CoreCRM\Contracts\Repositories\CommercialRepositoryContract;
@@ -51,11 +52,19 @@ class StatsAdminListCommercial extends Component
 
     public function render(CommercialRepositoryContract $repCommercial)
     {
+
         $this->commercials = $repCommercial
             ->newquery()
-            ->role(['commercial', 'Résa', 'manager'])
-            ->get()
-            ->sortBy('format_name');
+            ->role(['commercial', 'Résa', 'manager']);
+
+            if($this->filtre['bureau']){
+                $this->commercials->whereHas('roles', function (Builder $query){
+                    $query->where('id', $this->filtre['bureau']);
+                });
+            }
+
+        $this->commercials = $this->commercials->get()
+                ->sortBy('format_name');
 
         $users = [
             'commerciaux' => [],
