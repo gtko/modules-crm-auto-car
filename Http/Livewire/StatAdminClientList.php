@@ -115,7 +115,6 @@ class StatAdminClientList extends Component
 
             $repTime->modifTime($time, $start, $end);
 
-            $this->updateSelectCommercial($this->commercial);
             $this->timeEdit = false;
             $this->emit('refresh');
         }

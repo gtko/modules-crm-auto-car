@@ -9,7 +9,15 @@
                     <x-basecore::inputs.datetime name="modif_date_end" wire:model="modifDateEnd" label="Au"/>
                 </div>
                 <div>
-                    <button class="btn btn-primary mt-8" wire:click="addTime">Ajouter des heures</button>
+                    <x-basecore::loading-replace wire:target="addTime">
+                        <x-slot name="loader">
+                            <button class="btn btn-primary mt-8 flex items-center space-x-2">
+                                @icon('spinner', 20, 'animate-spin mr-2')
+                                Ajouter des heures
+                            </button>
+                        </x-slot>
+                        <button class="btn btn-primary mt-8" wire:click="addTime">Ajouter des heures</button>
+                    </x-basecore::loading-replace>
                 </div>
             </div>
         @endif
@@ -70,9 +78,11 @@
                     </td>
                     <td class="border-b dark:border-dark-5">
                         @if(Auth::user()->isSuperAdmin())
-                            <span wire:click="delete({{$time->id}})">
-                            @icon('delete', null, 'mr-2')
-                        </span>
+                            <x-basecore::loading-replace wire:target="delete({{$time->id}})">
+                                <span wire:click="delete({{$time->id}})" class="cursor-pointer">
+                                    @icon('delete', null, 'mr-2')
+                                </span>
+                            </x-basecore::loading-replace>
                         @endif
                     </td>
                 </tr>
