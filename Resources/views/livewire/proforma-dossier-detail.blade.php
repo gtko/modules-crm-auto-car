@@ -33,6 +33,13 @@
         {{$proformat->created_at->format('d/m/Y H:i')}}
     </td>
     <td class="border-b dark:border-dark-5">
+        @if($proformat->acceptation_date)
+            {{$proformat->acceptation_date->format('d/m/Y H:i')}}
+        @else
+            <span class="text-red-500 whitespace-nowrap">Non accepté</span>
+        @endif
+    </td>
+    <td class="border-b dark:border-dark-5">
         {{ $proformat->devis->getTotal()}}€
     </td>
     <td class="border-b dark:border-dark-5">

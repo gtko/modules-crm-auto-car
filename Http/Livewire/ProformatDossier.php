@@ -20,10 +20,6 @@ class ProformatDossier extends Component
         $this->dossier = $dossier;
     }
 
-    public function sendProformat(){
-        dd('ICI');
-    }
-
 
     public function render(ProformatsRepositoryContract $proformatRep)
     {
