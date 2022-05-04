@@ -88,6 +88,19 @@ class BlockFournisseurItem extends Component
         }
     }
 
+    public function refuseDemande(DevisRepositoryContract $repDevi)
+    {
+
+            $repDevi->refusedFournisseur($this->devi, $this->fourni);
+
+
+            $prix = $repDevi->getPrice($this->devi, $this->fourni);
+            (new FlowCRM())->add($this->devi->dossier, new ClientDossierDemandeFournisseurValidate(Auth::user(), $this->devi, $this->fourni, $prix ?? null));
+            $this->emit('update');
+            $this->emit('refreshProforma');
+
+    }
+
     public function delete(DevisRepositoryContract $repDevi)
     {
         $repDevi->detachFournisseur($this->devi, $this->fourni);

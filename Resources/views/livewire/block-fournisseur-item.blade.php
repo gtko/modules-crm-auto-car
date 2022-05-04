@@ -1,4 +1,4 @@
-<tr class="@if($fourni->pivot->bpa ?? false) bg-blue-500 text-white @else @if($fourni->pivot->validate ?? false) bg-green-500 @else bg-white  @endif @endif">
+<tr class="@if($fourni->pivot->bpa ?? false) bg-blue-500 text-white @else @if($fourni->pivot->validate ?? false) bg-green-500 @elseif($fourni->pivot->refused ?? false) bg-red-500 @else bg-white  @endif @endif">
     @if($fourni->formatName ?? false)
     <td class="py-4 whitespace-nowrap text-sm font-medium text-center">
         {{ $devi->ref }}
@@ -32,7 +32,6 @@
                               >@icon('check', null)
                              </span>
                           @else
-                              @if(!($fourni->pivot->bpa ?? false))
                                   <span
                                       wire:click="delete({{ $devi->id }}, {{ $fourni->id }})"
                                       class="cursor-pointer  hover:text-red-600"
@@ -40,7 +39,6 @@
                                   >
                                       @icon('delete', 20)
                                   </span>
-                              @endif
                               @if($fourni->pivot->validate ?? false)
                                   @if(!($fourni->pivot->bpa ?? false))
                                   <span
@@ -61,7 +59,13 @@
                                       wire:click="validateDemande({{ $devi->id }}, {{ $fourni->id }})"
                                       class="cursor-pointer  hover:text-green-600"
                                       title="Valider la demande fournisseur"
-                                  >@icon('checkCircle', 20, 'mr-2')
+                                  >@icon('checkCircle', 20,'')
+                                  </span>
+                                  <span
+                                      wire:click="refuseDemande({{ $devi->id }}, {{ $fourni->id }})"
+                                      class="cursor-pointer  hover:text-red-600"
+                                      title="Refuser la demande fournisseur"
+                                  >@icon('close', 20, 'mr-2')
                                   </span>
                              @endif
                           @endif
