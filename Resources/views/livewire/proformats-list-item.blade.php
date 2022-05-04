@@ -12,7 +12,12 @@
                 <br>  {{$proformat->devis->dossier->client->company}}
             @endif
         </a>
-        <small class="whitespace-nowrap">signé le {{$proformat->created_at->format('d/m/Y H:i')}}</small>
+            <small class="whitespace-nowrap">signé le {{$proformat->created_at->format('d/m/Y H:i')}}</small>
+        @if($proformat->acceptation_date)
+            <small class="whitespace-nowrap"> Accepté le {{$proformat->acceptation_date->format('d/m/Y H:i')}}</small>
+        @else
+            <small class="text-red-500 whitespace-nowrap">Non accepté</small>
+        @endif
         <div class="text-gray-600 text-xs whitespace-nowrap mt-0.5">
             <a href="{{route('devis.edit', [$proformat->devis->dossier->client, $proformat->devis->dossier, $proformat->devis])}}">devis#{{$proformat->devis->ref}}</a>
         </div>
@@ -21,7 +26,7 @@
 
     <td class="text-center">
        <div class="flex justify-between">
-           <a href='{{route('dossiers.show', [$proformat->devis->dossier->client,$proformat->devis->dossier])}}' class="rounded-full cursor-pointer p-1 hover:bg-gray-300 mr-2">
+           <a target='_blank' href='{{route('dossiers.show', [$proformat->devis->dossier->client,$proformat->devis->dossier])}}' class="rounded-full cursor-pointer p-1 hover:bg-gray-300 mr-2">
                @icon('edit')
            </a>
            <span class="rounded-full cursor-pointer p-1 hover:bg-gray-300 mr-2

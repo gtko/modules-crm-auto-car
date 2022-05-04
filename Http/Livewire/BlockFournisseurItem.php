@@ -71,6 +71,13 @@ class BlockFournisseurItem extends Component
     {
         if($this->price != null) {
             $repDevi->validateFournisseur($this->devi, $this->fourni);
+
+            $proforma = $this->devi->proformat;
+            if(!$proforma->acceptation_date) {
+                $proforma->acceptation_date = now();
+                $proforma->save();
+            }
+
             $prix = $repDevi->getPrice($this->devi, $this->fourni);
             (new FlowCRM())->add($this->devi->dossier, new ClientDossierDemandeFournisseurValidate(Auth::user(), $this->devi, $this->fourni, $prix));
             $this->emit('update');
@@ -85,7 +92,6 @@ class BlockFournisseurItem extends Component
     {
         $repDevi->detachFournisseur($this->devi, $this->fourni);
         (new FlowCRM())->add($this->devi->dossier , new ClientDossierDemandeFournisseurDelete(Auth::user(), $this->devi, $this->fourni));
-
         $this->emit('update');
     }
 

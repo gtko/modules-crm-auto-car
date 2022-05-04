@@ -54,10 +54,11 @@ class ProformaDossierDetail extends Component
     public function saveAcception(){
 
         $this->validate();
-
-        $this->proformat->acceptation_date = $this->acceptation_date;
-        $this->proformat->save();
-        $this->closeEditDate();
+        if(Auth::user()->isSuperAdmin()) {
+            $this->proformat->acceptation_date = $this->acceptation_date;
+            $this->proformat->save();
+            $this->closeEditDate();
+        }
     }
 
     public function editDate(){

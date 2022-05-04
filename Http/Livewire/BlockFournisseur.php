@@ -11,6 +11,7 @@ use Modules\BaseCore\Actions\Personne\CreatePersonne;
 use Modules\BaseCore\Http\Requests\PersonneStoreRequest;
 use Modules\BaseCore\Http\Requests\UserStoreRequest;
 use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
+use Modules\CoreCRM\Contracts\Repositories\DossierRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\FournisseurRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\TagFournisseurRepositoryContract;
 use Modules\CoreCRM\Services\FlowCRM;
@@ -242,8 +243,21 @@ class BlockFournisseur extends Component
 
     }
 
-    public function render()
+    public function render(FournisseurRepositoryContract $repFournisseur)
     {
+
+        $this->dossier = app(DossierRepositoryContract::class)->newquery()->where('id', $this->dossier->id)->first();
+        $this->fournisseurs = $repFournisseur->getAllList();
+        $this->tags = app(TagFournisseurRepositoryContract::class)->all();
+
+        foreach ($this->dossier->devis as $devi)
+        {
+            foreach ($devi->fournisseurs as $fourni)
+            {
+                $this->price[$fourni->id] = $fourni->pivot->prix;
+            }
+        }
+
         foreach ($this->dossier->devis as $devi) {
 //            if($devi->validate) {
                 $this->devis[$devi->id] = $devi;

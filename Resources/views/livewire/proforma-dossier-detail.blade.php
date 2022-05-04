@@ -49,7 +49,9 @@
             @else
                 <span class="text-red-500 whitespace-nowrap">Non accepté</span>
             @endif
-            <span wire:click="editDate()" class="cursor-pointer">@icon('edit', null, 'mr-2')</span>
+            @if(\Illuminate\Support\Facades\Auth::user()->isSuperAdmin())
+                <span wire:click="editDate()" class="cursor-pointer">@icon('edit', null, 'mr-2')</span>
+            @endif
         @endif
         </div>
     </td>

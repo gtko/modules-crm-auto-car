@@ -14,6 +14,10 @@ class ProformatDossier extends Component
     public $client;
     public $commercial;
 
+    protected $listeners = [
+        'refreshProforma' => '$refresh',
+    ];
+
     public function mount(ClientEntity $client, Dossier $dossier)
     {
         $this->client = $client;

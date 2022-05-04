@@ -1,4 +1,5 @@
-<tr class="@if($fourni->pivot->bpa ?? false) bg-blue-500 text-white @else @if($fourni->pivot->validate) bg-green-500 @else bg-white  @endif @endif">
+<tr class="@if($fourni->pivot->bpa ?? false) bg-blue-500 text-white @else @if($fourni->pivot->validate ?? false) bg-green-500 @else bg-white  @endif @endif">
+    @if($fourni->formatName ?? false)
     <td class="py-4 whitespace-nowrap text-sm font-medium text-center">
         {{ $devi->ref }}
     </td>
@@ -8,10 +9,10 @@
     </td>
     <td class="py-4 whitespace-nowrap text-sm text-center">
 
-        @if(!$fourni->pivot->validate && $this->editPrice)
+        @if(!($fourni->pivot->validate ?? false) && $this->editPrice)
             <input type="number" class="w-24" wire:model="price">
         @else
-            {{ $fourni->pivot->prix }} €
+            {{ $fourni->pivot->prix ?? 0}} €
         @endif
 
     </td>
@@ -31,7 +32,7 @@
                               >@icon('check', null)
                              </span>
                           @else
-                              @if(!$fourni->pivot->bpa)
+                              @if(!($fourni->pivot->bpa ?? false))
                                   <span
                                       wire:click="delete({{ $devi->id }}, {{ $fourni->id }})"
                                       class="cursor-pointer  hover:text-red-600"
@@ -40,8 +41,8 @@
                                       @icon('delete', 20)
                                   </span>
                               @endif
-                              @if($fourni->pivot->validate)
-                                  @if(!$fourni->pivot->bpa ?? false)
+                              @if($fourni->pivot->validate ?? false)
+                                  @if(!($fourni->pivot->bpa ?? false))
                                   <span
                                       wire:click="bpa({{ $devi->id }}, {{ $fourni->id }})"
                                       class="cursor-pointer  hover:text-green-600"
@@ -67,4 +68,5 @@
 
                       </span>
     </td>
+    @endif
 </tr>
