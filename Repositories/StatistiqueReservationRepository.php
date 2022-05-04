@@ -29,7 +29,8 @@ class StatistiqueReservationRepository extends AbstractRepository implements Sta
         return Cache::remember($key, 1, function() use ($dateStart, $dateEnd){
             $query =  $this->newQuery()->with('payments', 'devis.dossier');
             if($dateStart && $dateEnd){
-                $query->whereBetween('created_at', [$dateStart->startOfDay()->startOfMonth(), $dateEnd->endOfDay()->endOfMonth()]);
+                $query->dateReservation($dateStart->startOfDay()->startOfMonth(), $dateEnd->endOfDay()->endOfMonth());
+//                $query->whereBetween('created_at', [$dateStart->startOfDay()->startOfMonth(), $dateEnd->endOfDay()->endOfMonth()]);
             }
 
             return $query->has('devis')->get();

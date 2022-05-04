@@ -51,15 +51,7 @@ class ProformatFilterQuery
     public function byCreatedAt(?Carbon $dateStart = null,?Carbon $dateEnd = null)
     {
         if($dateStart && $dateEnd){
-            $this->query->where(function($q) use ($dateStart, $dateEnd){
-                $q->whereNull('acceptation_date');
-                $q->whereBetween('created_at',[$dateStart,$dateEnd]);
-            });
-            $this->query->orWhere(function($q) use ($dateStart, $dateEnd){
-                $q->whereNotNull('acceptation_date');
-                $q->whereBetween('acceptation_date',[$dateStart,$dateEnd]);
-            });
-
+            $this->query->dateReservation($dateStart, $dateEnd);
         }
     }
 

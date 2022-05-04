@@ -5,14 +5,14 @@
     </td>
     <td class="py-4 text-sm text-center">
 
-        {{ $fourni->formatName }}
+        {{ $fourni->company }}
     </td>
     <td class="py-4 whitespace-nowrap text-sm text-center">
 
         @if(!($fourni->pivot->validate ?? false) && $this->editPrice)
             <input type="number" class="w-24" wire:model="price">
         @else
-            {{ $fourni->pivot->prix ?? 0}} €
+            {{ $fourni->pivot->prix ?? '--'}} €
         @endif
 
     </td>

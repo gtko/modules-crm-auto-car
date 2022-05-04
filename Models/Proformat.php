@@ -74,6 +74,19 @@ class Proformat extends Model
         });
     }
 
+    public function scopeDateReservation($query, $dateStart, $dateEnd){
+        $query->where(function($q) use ($dateStart, $dateEnd){
+            $q->whereNull('acceptation_date');
+            $q->whereBetween('created_at',[$dateStart,$dateEnd]);
+        });
+        $query->orWhere(function($q) use ($dateStart, $dateEnd){
+            $q->whereNotNull('acceptation_date');
+            $q->whereBetween('acceptation_date',[$dateStart,$dateEnd]);
+        });
+
+        return $query;
+    }
+
     public function contactFournisseurs():Collection
     {
         return $this->devis->dossier->contactFournisseurs;
