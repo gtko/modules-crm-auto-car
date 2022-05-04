@@ -18,10 +18,10 @@ use Modules\DevisAutoCar\Models\Devi;
 class ClientDevisExterneValidation extends Attributes
 {
 
-    protected DevisEntities $devis;
+    protected ?DevisEntities $devis;
     protected string $ip;
 
-    public function __construct(DevisEntities $devis, string $ip, array $data = [])
+    public function __construct(?DevisEntities $devis, string $ip, array $data = [])
     {
         parent::__construct();
 
@@ -40,16 +40,16 @@ class ClientDevisExterneValidation extends Attributes
     public function toArray(): array
     {
         return [
-            'devis_id' => $this->devis->id,
+            'devis_id' => $this->devis->id ?? null,
             'ip' => $this->ip,
-            'data' => $this->devis->data
+            'data' => $this->devis->data ?? []
         ];
     }
 
     /**
      * @return DevisEntities
      */
-    public function getDevis(): DevisEntities
+    public function getDevis(): ?DevisEntities
     {
         return $this->devis;
     }
