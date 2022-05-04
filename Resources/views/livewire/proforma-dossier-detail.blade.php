@@ -33,11 +33,25 @@
         {{$proformat->created_at->format('d/m/Y H:i')}}
     </td>
     <td class="border-b dark:border-dark-5">
-        @if($proformat->acceptation_date)
-            {{$proformat->acceptation_date->format('d/m/Y H:i')}}
+        <div class="flex justify-center items-center space-x-2">
+        @if($editDate ?? false)
+            <div class="flex flex-col">
+                <x-basecore::inputs.datetime label="" name="acceptation_date"
+                     wire:model="acceptation_date"
+                     placeholder="Accepté le"
+                     required
+                />
+            </div>
+            <span wire:click="saveAcception()" class="cursor-pointer">@icon('checkCircle', null, 'mr-2')</span>
         @else
-            <span class="text-red-500 whitespace-nowrap">Non accepté</span>
+            @if($proformat->acceptation_date)
+                {{$proformat->acceptation_date->format('d/m/Y H:i')}}
+            @else
+                <span class="text-red-500 whitespace-nowrap">Non accepté</span>
+            @endif
+            <span wire:click="editDate()" class="cursor-pointer">@icon('edit', null, 'mr-2')</span>
         @endif
+        </div>
     </td>
     <td class="border-b dark:border-dark-5">
         {{ $proformat->devis->getTotal()}}€

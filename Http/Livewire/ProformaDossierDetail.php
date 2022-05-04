@@ -18,6 +18,13 @@ class ProformaDossierDetail extends Component
     public $dossier;
     public $client;
     public $commercial;
+    public $editDate = false;
+
+    public $acceptation_date = '';
+
+    protected $rules = [
+        'acceptation_date' => 'date',
+    ];
 
     protected $listeners =
         [
@@ -38,6 +45,27 @@ class ProformaDossierDetail extends Component
         $this->client = $client;
         $this->dossier = $dossier;
         $this->commercial = $proforma->devis->commercial->id;
+        if($this->proformat->acceptation_date) {
+            //2022-08-15T09:00
+            $this->acceptation_date = $this->proformat->acceptation_date->format('Y-m-d\TH:i');
+        }
+    }
+
+    public function saveAcception(){
+
+        $this->validate();
+
+        $this->proformat->acceptation_date = $this->acceptation_date;
+        $this->proformat->save();
+        $this->closeEditDate();
+    }
+
+    public function editDate(){
+       $this->editDate = true;
+    }
+
+    public function closeEditDate(){
+        $this->editDate = false;
     }
 
     public function sendInformationVoyage(){
