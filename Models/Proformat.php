@@ -23,6 +23,7 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
  * @property array $data
  * @property \Illuminate\Support\Carbon $created_at
  * @property \Illuminate\Support\Carbon $updated_at
+ * @property \Illuminate\Support\Carbon $acceptation_date
  * @property \Modules\CoreCRM\Contracts\Entities\DevisEntities $devis
  * @property-read \Illuminate\Database\Eloquent\Collection $payments
  * @property-read \Illuminate\Database\Eloquent\Collection $marges
@@ -32,13 +33,17 @@ class Proformat extends Model
 //    use QueryCacheable;
 //    protected $cacheFor = 3600;
 
-    protected $fillable = ['devis_id', 'number', 'total', 'data'];
+    protected $fillable = ['devis_id', 'number', 'total', 'data', 'acceptation_date'];
 
     public $with = ['marges', 'devis'];
 
     protected $casts = [
         'avoirs' => 'array',
         'data' => 'array',
+    ];
+
+    protected $dates = [
+        'acceptation_date'
     ];
 
     public function devis():BelongsTo
