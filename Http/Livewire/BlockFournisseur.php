@@ -226,7 +226,14 @@ class BlockFournisseur extends Component
             $request->replace($data);
 
             $personne = (new CreatePersonne())->create($request);
-            $fournisseur = $repFournisseur->create($personne);
+
+            $data = [
+                'company' => $this->add_company,
+                'enabled' => true,
+
+            ];
+
+            $fournisseur = $repFournisseur->create($personne, $data);
             $this->add = false;
 
             return redirect()->route('dossiers.show', [$this->dossier->client, $this->dossier])

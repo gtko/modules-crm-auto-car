@@ -4,7 +4,6 @@
             {{ $devi->ref }}
         </td>
         <td class="py-4 text-sm text-center">
-
             {{ $fourni->company }}
         </td>
         <td class="py-4 whitespace-nowrap text-sm text-center">
