@@ -15,10 +15,10 @@ use Modules\CrmAutoCar\Models\Proformat;
 class SendInformationVoyageMailClient extends Attributes
 {
     protected UserEntity $user;
-    protected Proformat $proforma;
+    protected ?Proformat $proforma;
 
 
-    public function __construct(UserEntity $user, Proformat $proforma)
+    public function __construct(UserEntity $user, ?Proformat $proforma)
     {
         parent::__construct();
         $this->user = $user;
@@ -44,7 +44,7 @@ class SendInformationVoyageMailClient extends Attributes
     {
         return [
             'user_id' => $this->user->id,
-            'proforma_id' => $this->proforma->id,
+            'proforma_id' => $this->proforma->id ?? 0,
         ];
     }
 
@@ -64,7 +64,7 @@ class SendInformationVoyageMailClient extends Attributes
         return $this->proforma;
     }
 
-    public function getProformat(): Proformat
+    public function getProformat(): ?Proformat
     {
         return $this->getProforma();
     }

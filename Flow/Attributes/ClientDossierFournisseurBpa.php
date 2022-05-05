@@ -18,11 +18,11 @@ class ClientDossierFournisseurBpa extends Attributes
 {
 
     protected UserEntity $user;
-    protected DevisEntities $devis;
+    protected ?DevisEntities $devis;
     protected Fournisseur $fournisseur;
     protected Decaissement $decaissement;
 
-    public function __construct(UserEntity $user, DevisEntities $devis, Fournisseur $fournisseur)
+    public function __construct(UserEntity $user, ?DevisEntities $devis, Fournisseur $fournisseur)
     {
         parent::__construct();
         $this->user = $user;
@@ -48,7 +48,7 @@ class ClientDossierFournisseurBpa extends Attributes
     {
         return [
             'user_id' => $this->user->id,
-            'devis_id' => $this->devis->id,
+            'devis_id' => $this->devis->id ?? 0,
             'fournisseur_id' => $this->fournisseur->id,
         ];
     }
@@ -64,7 +64,7 @@ class ClientDossierFournisseurBpa extends Attributes
     /**
      * @return DevisEntities
      */
-    public function getDevis(): DevisEntities
+    public function getDevis(): ?DevisEntities
     {
         return $this->devis;
     }

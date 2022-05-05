@@ -29,11 +29,20 @@
             </select>
             <input type="number" step="0.00" wire:model="paiement_total" class="form-control-sm col-span-4 mt-1 mr-1"/>
 
-            <x-basecore::inputs.date name="paiement_date" class="col-span-4 form-control-sm mt-1 mr-1"
+            <div class="col-span-4 mt-1 mr-1">
+                <x-basecore::inputs.date name="paiement_date"
                                      wire:model="paiement_date"/>
-
-            <button class="btn btn-primary form-control-sm col-span-4 mt-1 ml-1" wire:click="addPaiment">Ajouter
-            </button>
+            </div>
+                <button wire:loading wire:target="addPaiment"
+                        class="btn btn-primary col-span-4 mt-1 ml-1"
+                >
+                    <span class="flex items-center justify-center w-full">@icon('spinner', 20, 'animate-spin mr-2') sauvegarde</span>
+                </button>
+                <button wire:loading.remove wire:target="addPaiment"
+                        class="btn btn-primary col-span-4 mt-1 ml-1"
+                        wire:click="addPaiment">
+                    Ajouter
+                </button>
 
 
 

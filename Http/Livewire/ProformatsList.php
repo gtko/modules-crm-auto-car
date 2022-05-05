@@ -92,15 +92,12 @@ class ProformatsList extends Component
     {
         $commercials = $repcommercial->fetchAll();
 
-
         $filter = new ProformatFilterQuery();
 
         $filter->byBureau(Auth::user());
 
-
         if (!Gate::allows('viewAny', Proformat::class)) {
             $filter->byCommercial(Auth::commercial());
-
         }else{
             $filter->byCommercial($this->commercial);
         }
@@ -191,7 +188,6 @@ class ProformatsList extends Component
             },
         ]);
 
-
         $proformats = $query
             ->paginate(50);
 
@@ -202,7 +198,6 @@ class ProformatsList extends Component
         for($date = $firstDate->clone()->startOfDay()->startOfMonth();$date->lessThanOrEqualTo($dateNow);$date->addMonth()){
             $byMois[] = $date->clone()->startOfMonth();
         }
-
 
         $repStats->setQuery($filter->query());
         [$totalVente, $totalAchat, $totalMarge, $totalEncaissement,$salaireDiff] = [

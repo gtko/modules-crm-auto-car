@@ -18,10 +18,10 @@ class ClientDossierDevisValidation extends Attributes
 {
 
     protected UserEntity $user;
-    protected DevisEntities $devis;
+    protected ?DevisEntities $devis;
 
 
-    public function __construct(UserEntity $user, DevisEntities $devis)
+    public function __construct(UserEntity $user, ?DevisEntities $devis)
     {
         parent::__construct();
         $this->user = $user;
@@ -44,7 +44,7 @@ class ClientDossierDevisValidation extends Attributes
     {
         return [
             'user_id' => $this->user->id,
-            'devis_id' => $this->devis->id,
+            'devis_id' => $this->devis->id ?? 0,
         ];
     }
 
@@ -59,7 +59,7 @@ class ClientDossierDevisValidation extends Attributes
     /**
      * @return DevisEntities
      */
-    public function getDevis(): DevisEntities
+    public function getDevis(): ?DevisEntities
     {
         return $this->devis;
     }

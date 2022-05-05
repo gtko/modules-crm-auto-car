@@ -27,8 +27,6 @@ class CreateProformat extends Component
         $repDevi = app(DevisRepositoryContract::class);
         $proformatRep = app(ProformatsRepositoryContract::class);
         if(!$this->devis->proformat()->exists()) {
-
-
             $data = [
                 'paiement_type_validation' => 'virement',
                 'nom_validation' => $this->devis->dossier->client->lastname ?? '',

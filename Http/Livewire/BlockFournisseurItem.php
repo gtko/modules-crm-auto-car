@@ -111,7 +111,7 @@ class BlockFournisseurItem extends Component
 
     public function render()
     {
-        $this->fourni = $this->devi->fournisseurs->where('id', $this->fourni->id)->first();
+        $this->fourni = $this->devi->fournisseurs->where('id', $this->fourni->id ?? 0)->first();
         return view('crmautocar::livewire.block-fournisseur-item');
     }
 }
