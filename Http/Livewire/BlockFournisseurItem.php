@@ -9,6 +9,7 @@ use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
 use Modules\CoreCRM\Services\FlowCRM;
 use Modules\CrmAutoCar\Contracts\Repositories\DevisAutocarRepositoryContract;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDossierDemandeFournisseurDelete;
+use Modules\CrmAutoCar\Flow\Attributes\ClientDossierDemandeFournisseurRefuse;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDossierDemandeFournisseurValidate;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDossierFournisseurBpa;
 use Modules\CrmAutoCar\Models\Fournisseur;
@@ -86,6 +87,19 @@ class BlockFournisseurItem extends Component
             return redirect(route('dossiers.show', [$this->devi->dossier->client, $this->devi->dossier]))
                 ->with('error', 'Pas de prix sur le fournisseur');
         }
+    }
+
+    public function refuseDemande(DevisRepositoryContract $repDevi)
+    {
+
+            $repDevi->refusedFournisseur($this->devi, $this->fourni);
+
+
+            $prix = $repDevi->getPrice($this->devi, $this->fourni);
+            (new FlowCRM())->add($this->devi->dossier, new ClientDossierDemandeFournisseurRefuse(Auth::user(), $this->devi, $this->fourni, $prix ?? null));
+            $this->emit('update');
+            $this->emit('refreshProforma');
+
     }
 
     public function delete(DevisRepositoryContract $repDevi)
