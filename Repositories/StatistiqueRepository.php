@@ -50,6 +50,7 @@ class StatistiqueRepository implements StatistiqueRepositoryContract
         if($bureauId){
             $this->commercialRepository->setQuery(
                 $this->commercialRepository->newQuery()
+                ->where('id', '!=', 1)
                 ->whereHas('roles', function (Builder $query) use ($bureauId) {
                     $query->where('id', $bureauId);
                 })
@@ -58,6 +59,7 @@ class StatistiqueRepository implements StatistiqueRepositoryContract
             $this->dossierRepository->setQuery(
                 $this->dossierRepository->newQuery()
                     ->whereHas('commercial', function (Builder $query) use ($bureauId) {
+                        $query->where('id', '!=', 1);
                         $query->whereHas('roles', function (Builder $query) use ($bureauId) {
                             $query->where('id', $bureauId);
                         });
@@ -69,6 +71,7 @@ class StatistiqueRepository implements StatistiqueRepositoryContract
                     ->whereHas('devis', function (Builder $query) use ($bureauId) {
                         $query->whereHas('dossier', function (Builder $query) use ($bureauId) {
                             $query->whereHas('commercial', function (Builder $query) use ($bureauId) {
+                                $query->where('id', '!=', 1);
                                 $query->whereHas('roles', function (Builder $query) use ($bureauId) {
                                     $query->where('id', $bureauId);
                                 });

@@ -372,6 +372,7 @@ class ListDossier extends Component implements Tables\Contracts\HasTable
                 ->query(function (Builder $query, $data) {
                     if ($data['value'] ?? false) {
                         return $query->whereHas('commercial', function (Builder $query) use ($data) {
+                            $query->where('id', '!=', 1);
                             $query->whereHas('roles', function (Builder $query) use ($data) {
                                 $query->where('id', $data['value']);
                             });
