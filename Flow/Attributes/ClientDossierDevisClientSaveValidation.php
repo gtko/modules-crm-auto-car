@@ -18,10 +18,10 @@ use Modules\CrmAutoCar\Models\Decaissement;
 class ClientDossierDevisClientSaveValidation extends Attributes
 {
 
-    protected DevisEntities $devis;
+    protected ?DevisEntities $devis;
 
 
-    public function __construct(DevisEntities $devis)
+    public function __construct(?DevisEntities $devis)
     {
         parent::__construct();
         $this->devis = $devis;
@@ -38,14 +38,14 @@ class ClientDossierDevisClientSaveValidation extends Attributes
     public function toArray(): array
     {
         return [
-            'devis_id' => $this->devis->id,
+            'devis_id' => $this->devis->id ?? 0,
         ];
     }
 
     /**
      * @return DevisEntities
      */
-    public function getDevis(): DevisEntities
+    public function getDevis(): ?DevisEntities
     {
         return $this->devis;
     }

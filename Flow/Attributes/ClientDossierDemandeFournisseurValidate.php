@@ -17,7 +17,7 @@ class ClientDossierDemandeFournisseurValidate extends Attributes
 
     public function __construct(
         UserEntity $user,
-        DevisEntities $devis,
+        ?DevisEntities $devis,
         Fournisseur $fournisseur,
         float $price
     ){
@@ -38,7 +38,11 @@ class ClientDossierDemandeFournisseurValidate extends Attributes
         $fournisseur = $repFournisseur->disabled()->fetchById($value['fournisseur_id']);
         $devis = $repDevis->fetchById($value['devis_id']);
 
-        $price = $repDevis->getPrice($devis, $fournisseur);
+        if($devis) {
+            $price = $repDevis->getPrice($devis, $fournisseur);
+        } else {
+            $price = 0;
+        }
 
         return new ClientDossierDemandeFournisseurValidate($user, $devis, $fournisseur, $price);
     }
@@ -47,7 +51,7 @@ class ClientDossierDemandeFournisseurValidate extends Attributes
     {
         return [
             'user_id' => $this->user->id,
-            'devis_id' => $this->devis->id,
+            'devis_id' => $this->devis->id ?? 0,
             'fournisseur_id' => $this->fournisseur->id,
             'price' => $this->price,
         ];
@@ -68,7 +72,7 @@ class ClientDossierDemandeFournisseurValidate extends Attributes
     /**
      * @return DevisEntities
      */
-    public function getDevis(): DevisEntities
+    public function getDevis(): ?DevisEntities
     {
         return $this->devis;
     }
