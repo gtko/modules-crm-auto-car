@@ -280,7 +280,7 @@ class ListDossier extends Component implements Tables\Contracts\HasTable
     }
 
     protected function getDefaultStatusProperty(){
-        return ['4','7','8','9'];
+        return ['4'];
     }
 
     protected function getTableFilters(): array
