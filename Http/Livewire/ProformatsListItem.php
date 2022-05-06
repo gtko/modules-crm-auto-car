@@ -9,6 +9,7 @@ use Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\ProformatsRepositoryContract;
 use Modules\CrmAutoCar\Entities\ProformatPrice;
 use Modules\CrmAutoCar\Flow\Attributes\ProformatEditMarge;
+use Modules\CrmAutoCar\Models\Dossier;
 use Modules\CrmAutoCar\Models\Proformat;
 use Modules\CrmAutoCar\Repositories\BrandsRepository;
 use Modules\DevisAutoCar\Entities\DevisPrice;
@@ -54,7 +55,8 @@ class ProformatsListItem extends Component
             $this->marge
         );
 
-        app(FlowContract::class)->add($this->proformat->devis->dossier, new ProformatEditMarge($marge));
+        $dossier = Dossier::find($this->proformat->devis->dossier_id);
+        app(FlowContract::class)->add($dossier, new ProformatEditMarge($marge));
 
         $this->emit('proformats.refresh');
     }

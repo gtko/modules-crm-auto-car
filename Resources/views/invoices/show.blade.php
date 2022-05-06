@@ -109,7 +109,7 @@
                                             @foreach(($invoice->devis->data['trajets'] ?? []) as $idTrajet => $trajet)
                                                 @php
                                                     $brand = app(Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract::class)->getDefault();
-                                                    $priceTrajet = (new Modules\DevisAutoCar\Entities\DevisTrajetPrice($proformat->devis, $idTrajet, $brand));
+                                                    $priceTrajet = (new Modules\DevisAutoCar\Entities\DevisTrajetPrice($invoice->devis, $idTrajet, $brand));
                                                 @endphp
                                                 <tr>
                                                     <td>

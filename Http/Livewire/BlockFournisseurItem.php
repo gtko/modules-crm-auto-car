@@ -2,22 +2,28 @@
 
 namespace Modules\CrmAutoCar\Http\Livewire;
 
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
 use Modules\BaseCore\Contracts\Entities\UserEntity;
 use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
+use Modules\CoreCRM\Contracts\Repositories\FournisseurRepositoryContract;
 use Modules\CoreCRM\Services\FlowCRM;
+use Modules\CrmAutoCar\Contracts\Repositories\DemandeFournisseurRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\DevisAutocarRepositoryContract;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDossierDemandeFournisseurDelete;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDossierDemandeFournisseurRefuse;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDossierDemandeFournisseurValidate;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDossierFournisseurBpa;
+use Modules\CrmAutoCar\Models\DemandeFournisseur;
 use Modules\CrmAutoCar\Models\Fournisseur;
+use Modules\CrmAutoCar\Models\Traits\EnumStatusDemandeFournisseur;
 use Modules\DevisAutoCar\Models\Devi;
 
 class BlockFournisseurItem extends Component
 {
     public $fourni;
+    public $demande;
     public $devi;
     public $price = null;
     public $editPrice = false;
@@ -31,12 +37,13 @@ class BlockFournisseurItem extends Component
 
     ];
 
-    public function mount(Fournisseur $fournisseur, Devi $devis) {
+    public function mount(DemandeFournisseur $demande) {
 
-        $this->devi = $devis;
-        $this->fourni = $this->devi->fournisseurs->where('id', $fournisseur->id)->first();
-        $this->price = $this->fourni->pivot->prix ?? null;
-        $this->bpa = $this->fourni->pivot->bpa ?? false;
+        $this->demande = $demande;
+        $this->fourni = $demande->fournisseur;
+        $this->devi = $demande->devis;
+        $this->price = $demande->prix ?? '--';
+        $this->bpa = $demande->bpa ?? false;
     }
 
     public function editerPrice(){
@@ -47,9 +54,9 @@ class BlockFournisseurItem extends Component
         $this->editPrice = false;
     }
 
-    public function bpa(DevisAutocarRepositoryContract $repDevi)
+    public function bpa(DemandeFournisseurRepositoryContract $demandRep)
     {
-        $repDevi->bpaFournisseur($this->devi, $this->fourni);
+        $demandRep->update($this->demande, ['status' => EnumStatusDemandeFournisseur::STATUS_BPA]);
         (new FlowCRM())->add($this->devi->dossier , new ClientDossierFournisseurBpa(Auth::user(), $this->devi, $this->fourni));
 
         $this->emit('update');
@@ -58,28 +65,28 @@ class BlockFournisseurItem extends Component
             ->with('success', 'Fournisseur validé');
     }
 
-    public function savePrice(DevisRepositoryContract $repDevi) {
+    public function savePrice(DemandeFournisseurRepositoryContract $demandRep) {
         if($this->price != null)
         {
-            $repDevi->savePriceFournisseur($this->devi, $this->fourni, $this->price);
+            $demandRep->update($this->demande, ['prix' => $this->price]);
         }
         $this->closePrice();
         $this->emit('update');
         $this->emit('refreshProforma');
     }
 
-    public function validateDemande(DevisRepositoryContract $repDevi)
+    public function validateDemande(DemandeFournisseurRepositoryContract $demandRep)
     {
         if($this->price != null) {
-            $repDevi->validateFournisseur($this->devi, $this->fourni);
+            $demandRep->update($this->demande, ['status' => EnumStatusDemandeFournisseur::STATUS_VALIDATE]);
 
             $proforma = $this->devi->proformat;
-            if(!$proforma->acceptation_date) {
+            if($proforma && !$proforma->acceptation_date) {
                 $proforma->acceptation_date = now();
                 $proforma->save();
             }
 
-            $prix = $repDevi->getPrice($this->devi, $this->fourni);
+            $prix = $this->demande->prix;
             (new FlowCRM())->add($this->devi->dossier, new ClientDossierDemandeFournisseurValidate(Auth::user(), $this->devi, $this->fourni, $prix));
             $this->emit('update');
             $this->emit('refreshProforma');
@@ -89,29 +96,24 @@ class BlockFournisseurItem extends Component
         }
     }
 
-    public function refuseDemande(DevisRepositoryContract $repDevi)
+    public function refuseDemande(DemandeFournisseurRepositoryContract $demandRep)
     {
-
-            $repDevi->refusedFournisseur($this->devi, $this->fourni);
-
-
-            $prix = $repDevi->getPrice($this->devi, $this->fourni);
+            $demandRep->update($this->demande, ['status' => EnumStatusDemandeFournisseur::STATUS_REFUSED]);
+            $prix = $this->demande->price;
             (new FlowCRM())->add($this->devi->dossier, new ClientDossierDemandeFournisseurRefuse(Auth::user(), $this->devi, $this->fourni, $prix ?? null));
             $this->emit('update');
             $this->emit('refreshProforma');
-
     }
 
-    public function delete(DevisRepositoryContract $repDevi)
+    public function delete(DemandeFournisseurRepositoryContract $demandRep)
     {
-        $repDevi->detachFournisseur($this->devi, $this->fourni);
-        (new FlowCRM())->add($this->devi->dossier , new ClientDossierDemandeFournisseurDelete(Auth::user(), $this->devi, $this->fourni));
+        $demandRep->cancel($this->demande);
+        (new FlowCRM())->add($this->devi->dossier, new ClientDossierDemandeFournisseurDelete(Auth::user(), $this->devi, $this->fourni));
         $this->emit('update');
     }
 
     public function render()
     {
-        $this->fourni = $this->devi->fournisseurs->where('id', $this->fourni->id ?? 0)->first();
         return view('crmautocar::livewire.block-fournisseur-item');
     }
 }

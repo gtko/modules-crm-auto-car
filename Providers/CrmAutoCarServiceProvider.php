@@ -36,6 +36,7 @@ use Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\ConfigsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\ContactFournisseurRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\DecaissementRepositoryContract;
+use Modules\CrmAutoCar\Contracts\Repositories\DemandeFournisseurRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\DevisAutocarRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\InvoicesRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\PaymentRepositoryContract;
@@ -84,6 +85,7 @@ use Modules\CrmAutoCar\Repositories\CommercialCrmAutoCarRepository;
 use Modules\CrmAutoCar\Repositories\ConfigRepository;
 use Modules\CrmAutoCar\Repositories\ContactFournisseurRepository;
 use Modules\CrmAutoCar\Repositories\DecaissementRepository;
+use Modules\CrmAutoCar\Repositories\DemandeFournisseurRepository;
 use Modules\CrmAutoCar\Repositories\DevisAutocarRepository;
 use Modules\CrmAutoCar\Repositories\DossierAutoCarRepository;
 use Modules\CrmAutoCar\Repositories\FournisseurRepository;
@@ -145,6 +147,8 @@ class CrmAutoCarServiceProvider extends ServiceProvider
         $this->app->bind(FournisseurRepositoryContract::class, FournisseurRepository::class);
         $this->app->bind(ClientRepositoryContract::class, ClientRepository::class);
         $this->app->bind(CommercialRepositoryContract::class, CommercialCrmAutoCarRepository::class);
+
+        $this->app->bind(DemandeFournisseurRepositoryContract::class, DemandeFournisseurRepository::class);
 
         $this->app->bind(FlowContract::class,FlowAutocarCRM::class);
         $this->app->singleton(FilterBureau::class);

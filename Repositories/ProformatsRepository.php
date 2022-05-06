@@ -15,6 +15,7 @@ use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
 use Modules\CoreCRM\Enum\StatusTypeEnum;
 use Modules\CoreCRM\Models\Commercial;
 use Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract;
+use Modules\CrmAutoCar\Contracts\Repositories\DemandeFournisseurRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\InvoicesRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\ProformatsRepositoryContract;
 use Modules\CrmAutoCar\Models\Invoice;
@@ -154,6 +155,15 @@ class ProformatsRepository extends AbstractRepository implements ProformatsRepos
         $devis->save();
 
         $price = new DevisPrice($duplicateDevis, app(BrandsRepositoryContract::class)->getDefault());
+
+        //On créer des fournisseurs en négatif si il sont validate
+        $demandeRep = app(DemandeFournisseurRepositoryContract::class);
+        $demandes = $demandeRep->getDemandeByDevis($devis);
+        foreach($demandes as $demande){
+            if($demande->isValidate() || $demande->isBPA()){
+                $demandeRep->cancel($demande, $duplicateDevis);
+            }
+        } 
 
         //On créer la proformat negative
         $proformaRep = app(ProformatsRepositoryContract::class);

@@ -15,7 +15,8 @@
 
     <div>
         <livewire:crmautocar::statistique-fournisseur-card/>
-        <livewire:crmautocar::statistique-fournisseur-filtre/>
-        <livewire:crmautocar::statistique-fournisseur-list/>
+{{--        <livewire:crmautocar::statistique-fournisseur-filtre/>--}}
+{{--        <livewire:crmautocar::statistique-fournisseur-list/>--}}
+        <livewire:crmautocar::datatable.list-demande-fournisseur/>
     </div>
 </x-basecore::app-layout>

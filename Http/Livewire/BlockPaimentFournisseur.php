@@ -10,9 +10,11 @@ use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\FournisseurRepositoryContract;
 use Modules\CoreCRM\Services\FlowCRM;
 use Modules\CrmAutoCar\Contracts\Repositories\DecaissementRepositoryContract;
+use Modules\CrmAutoCar\Contracts\Repositories\DemandeFournisseurRepositoryContract;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDossierDemandeFournisseurDelete;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDossierPaiementFournisseurSend;
 use Modules\CrmAutoCar\Models\Decaissement;
+use Modules\CrmAutoCar\Models\Traits\EnumStatusDemandeFournisseur;
 
 class BlockPaimentFournisseur extends Component
 {
@@ -105,12 +107,17 @@ class BlockPaimentFournisseur extends Component
             ->with('success','Le paiement a été supprimé avec succès');
     }
 
-    public function render()
+    public function render(DemandeFournisseurRepositoryContract $demandeRep)
     {
         $repDecaissement = app(DecaissementRepositoryContract::class);
         $this->paiements = $repDecaissement->getByDossier($this->dossier);
 
+        $demandeRep->setQuery($demandeRep->newQuery()
+            ->where('status', '=', EnumStatusDemandeFournisseur::STATUS_BPA)
+            ->where('status', '=', EnumStatusDemandeFournisseur::STATUS_VALIDATE)
+        );
+        $demandes = $demandeRep->getDemandeByDossier($this->dossier);
 
-        return view('crmautocar::livewire.block-paiment-fournisseur');
+        return view('crmautocar::livewire.block-paiment-fournisseur', compact('demandes'));
     }
 }

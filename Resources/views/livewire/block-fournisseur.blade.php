@@ -19,7 +19,7 @@
     <div class="px-2 pt-2">
         <x-basecore::inputs.select name="devi_id" label="" required="required" wire:model="devi_id">
             <option selected="selected">Devis</option>
-            @foreach($this->devis ?? [] as $devi)
+            @foreach($devis ?? [] as $devi)
                 <option
                     value="{{ $devi->id}}">
                     {{ $devi->ref }}
@@ -59,10 +59,10 @@
                     <thead class="bg-gray-200">
                     <tr>
                         <th scope="col" class="py-3  text-xs font-medium uppercase tracking-wider">
-                            Devis ID
+                            #
                         </th>
                         <th scope="col" class="py-3  text-xs font-medium uppercase tracking-wider">
-                            Fournisseur
+                            Ref
                         </th>
                         <th scope="col" class="py-3  text-xs font-medium uppercase tracking-wider">
                             Prix
@@ -73,10 +73,8 @@
                     </thead>
                     <tbody>
                     <!-- Odd row -->
-                    @foreach($dossier->devis as $devi)
-                        @foreach($devi->fournisseurs as $fourni)
-                            <livewire:crmautocar::block-fournisseur-item :key="$devi->id.'_'.$fourni->id" :devis="$devi" :fournisseur="$fourni"/>
-                        @endforeach
+                    @foreach($demandeFournisseurs as $demande)
+                            <livewire:crmautocar::block-fournisseur-item :key="$demande->id" :demande="$demande"/>
                     @endforeach
                     </tbody>
                 </table>

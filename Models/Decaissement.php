@@ -21,6 +21,12 @@ use Modules\CoreCRM\Models\Fournisseur;
 
 class Decaissement extends Model
 {
+
+    public function demande():BelongsTo
+    {
+        return $this->belongsTo(DemandeFournisseur::class, 'demande_id');
+    }
+
     public function devis():BelongsTo
     {
         return $this->belongsTo(app(DevisEntities::class)::class, 'devis_id', 'id');

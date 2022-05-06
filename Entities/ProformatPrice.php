@@ -9,6 +9,7 @@ use Modules\CrmAutoCar\Contracts\Repositories\ProformatsRepositoryContract;
 use Modules\CrmAutoCar\Models\Brand;
 use Modules\CrmAutoCar\Models\Invoice;
 use Modules\CrmAutoCar\Models\Proformat;
+use Modules\CrmAutoCar\Models\Traits\EnumStatusDemandeFournisseur;
 use Modules\DevisAutoCar\Models\Devi;
 
 class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
@@ -39,32 +40,32 @@ class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
     }
 
     public function achatValidated(){
-       $fournisseurs = $this->proformat->devis->fournisseurs;
+        $demandes = $this->proformat->devis->demandeFournisseurs;
 
-       if($fournisseurs->where('pivot.bpa', true)->count() > 0) {
+       if ($demandes->whereIn('status', EnumStatusDemandeFournisseur::HAS_ACHAT_VALIDE)->count() > 0) {
            return true;
        }
 
        return false;
     }
 
-    public function getPriceAchat(){
+    public function getPriceAchat($forceOrigin = false){
         //Si marge modifier on recalcule l'achat
-        if($this->margeEdited()){
-            return $this->getPriceHt() - $this->getMargeHT();
+        if($this->margeEdited() && $forceOrigin === false){
+            return ($this->getPriceHt() - $this->getDeltaMargeHT()) * (1 + ($this->getTauxTVA() / 100));
         }else {
-            $fournisseurs = $this->proformat->devis->fournisseurs;
+            $demandes = $this->proformat->devis->demandeFournisseurs;
 
-            if ($fournisseurs->where('pivot.bpa', true)->count() > 0) {
-                return $fournisseurs->where('pivot.bpa', true)->sum('pivot.prix');
+            if ($this->achatValidated()) {
+                return $demandes->sum('prix');
             }
 
-            return $fournisseurs->where('pivot.prix', '>', 0)->min('pivot.prix');
+            return $demandes->min('pivot.prix');
         }
     }
 
-    public function getPriceAchatHT(){
-        return $this->getPriceAchat() / (1 + ($this->getTauxTVA() / 100));
+    public function getPriceAchatHT($forceOrigin = false){
+        return $this->getPriceAchat($forceOrigin) / (1 + ($this->getTauxTVA() / 100));
     }
 
     public function paid(){
@@ -103,17 +104,9 @@ class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
     public function getMargeOriginHT()
     {
         $marge = 0;
-        $fournisseurs = $this->proformat->devis->fournisseurs;
-        if($fournisseurs->count() > 0) {
-            if($this->getPriceAchatHT() > 0){
-                $marge =  $this->getPriceHT() - $this->getPriceAchatHT();
-            }
-        }
-
-        //Si fournisseur en BPA et que marge negative on garde
-        $bpa = $fournisseurs->where('pivot.bpa', true)->count() > 0;
-        if($marge < 0 && !$bpa){
-            $marge = 0;
+        $demandes = $this->proformat->devis->demandeFournisseurs;
+        if($demandes->count() > 0) {
+           $marge =  $this->getPriceHT() - $this->getPriceAchatHT(true);
         }
 
         return $marge;
@@ -131,7 +124,13 @@ class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
         return $this->repository->hasMargeEdited($this->proformat);
     }
 
+    public function getDeltaMargeHT()
+    {
+        return $this->getMargeHT() - $this->getMargeOriginHT();
+    }
+
     public function getSalaireDiff(?Carbon $limit = null){
+
         return $this->getMargeHT($limit) - $this->getMargeOriginHT();
     }
 

@@ -8,6 +8,16 @@
     <hr>
 
     <div class="px-2 pt-2">
+        <x-basecore::inputs.select name="demande_id" label="" required="required" wire:model="demande_id">
+            <option selected="selected">Devis</option>
+            @foreach($demandes as $demande)
+                <option
+                    value="{{ $demande->id}}">#{{$demande->id}} - {{$demande->fournisseur->formatName}} - {{ $demande->devis->ref }} ({{$demande->prix}}€)</option>
+            @endforeach
+        </x-basecore::inputs.select>
+    </div>
+
+    <div class="px-2 pt-2">
         <x-basecore::inputs.select name="devi_id" label="" required="required" wire:model="devi_id">
             <option selected="selected">Devis</option>
             @foreach($dossier->devis as $devi)
@@ -94,6 +104,10 @@
                 <th scope="col" class="py-3  text-xs font-medium uppercase tracking-wider">
                     Reste à payé
                 </th>
+
+                <th scope="col" class="py-3  text-xs font-medium uppercase tracking-wider">
+                    Payé
+                </th>
                 <th scope="col" class=" text-xs font-medium  uppercase tracking-wider">
                     Total
                 </th>
@@ -110,13 +124,16 @@
                 @php $total = $total + $paiement->payer @endphp
                 <tr class="bg-white">
                     <td class="py-4 whitespace-nowrap text-sm font-medium text-center">
-                        {{$paiement->devis->ref }}
+                        {{$paiement->demande->devis->ref }}
                     </td>
                     <td class="py-4 whitespace-nowrap text-sm font-medium text-center">
-                        {{$paiement->fournisseur->formatName }}
+                        {{$paiement->demande->fournisseur->formatName }}
                     </td>
                     <td class="py-4 whitespace-nowrap text-sm text-center">
                         {{ $paiement->restant }}€
+                    </td>
+                    <td class="py-4 whitespace-nowrap text-sm text-center">
+                        {{ $paiement->payer }}€
                     </td>
                     <td class="py-4 whitespace-nowrap text-sm text-center">
                         {{ $total + $paiement->restant }}€

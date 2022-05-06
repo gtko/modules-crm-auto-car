@@ -42,4 +42,9 @@ class FournisseurRepository extends \Modules\CoreCRM\Repositories\FournisseurRep
             })
             ->get();
     }
+
+    public function createDemande($devis, $fournisseur, $price, ){
+
+    }
+
 }

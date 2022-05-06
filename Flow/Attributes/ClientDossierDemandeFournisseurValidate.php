@@ -39,7 +39,7 @@ class ClientDossierDemandeFournisseurValidate extends Attributes
         $devis = $repDevis->fetchById($value['devis_id']);
 
         if($devis) {
-            $price = $repDevis->getPrice($devis, $fournisseur);
+            $price = $value['price'] ?? 0;
         } else {
             $price = 0;
         }
