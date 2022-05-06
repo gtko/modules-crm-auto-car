@@ -73,7 +73,9 @@
     <td class="text-center">
         <div class="flex flex-col">
         @forelse($proformat->devis->fournisseursValidated as $fournisseur)
-            <div class="whitespace-nowrap">{{$fournisseur->format_name}}</div>
+            <div class="whitespace-nowrap">{{$fournisseur->data['company'] ??' N/A'}}</div>
+
+
         @empty
             <div class="text-red-500">Aucun fournisseur</div>
         @endforelse

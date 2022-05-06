@@ -2,6 +2,7 @@
 
 namespace Modules\CrmAutoCar\Http\Livewire;
 
+use Carbon\Carbon;
 use Filament\Forms\Components\Select;
 use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
@@ -265,6 +266,7 @@ class ListFormulaire extends Component implements Tables\Contracts\HasTable
             ->action(function ($records, array $data): void {
                 foreach ($records as $record) {
                     $record->commercial()->associate($data['commercialID']);
+                    $record->attribution = Carbon::now();
                     $record->save();
                 }
             })
