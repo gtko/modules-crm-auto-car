@@ -15,10 +15,10 @@ use Modules\CrmAutoCar\Models\Proformat;
 class SendProformat extends Attributes
 {
 
-    public Proformat $proformat;
+    public ?Proformat $proformat;
     public UserEntity $sender;
 
-    public function __construct(Proformat $proformat, User $sender)
+    public function __construct(?Proformat $proformat, User $sender)
     {
         parent::__construct();
 
@@ -43,13 +43,13 @@ class SendProformat extends Attributes
     public function toArray(): array
     {
         return [
-            'proformat_id' => $this->proformat->id,
+            'proformat_id' => $this->proformat->id ?? 0,
             'user_id' => $this->sender->id,
         ];
     }
 
 
-    public function getProformat(): Proformat
+    public function getProformat(): ?Proformat
     {
         return $this->proformat;
     }

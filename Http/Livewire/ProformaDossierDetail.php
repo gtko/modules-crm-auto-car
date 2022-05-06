@@ -8,6 +8,7 @@ use Modules\CoreCRM\Contracts\Entities\ClientEntity;
 use Modules\CoreCRM\Contracts\Repositories\CommercialRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
 use Modules\CoreCRM\Models\Dossier;
+use Modules\CrmAutoCar\Contracts\Repositories\ProformatsRepositoryContract;
 use Modules\CrmAutoCar\Flow\Attributes\SendInformationVoyageMailClient;
 use Modules\CrmAutoCar\Flow\Attributes\SendProformat;
 use Modules\CrmAutoCar\Models\Proformat;
@@ -125,6 +126,17 @@ class ProformaDossierDetail extends Component
 
         $commercial = app(CommercialRepositoryContract::class)->fetchById($this->commercial);
         app(DevisRepositoryContract::class)->changeCommercial($this->proformat->devis, $commercial);
+    }
+
+    public function cancel(ProformatsRepositoryContract $proformaRep){
+        if (Auth::user()->cannot('delete', Proformat::class)) {
+            abort(403);
+        }
+
+        $proformaRep->cancel($this->proformat);
+
+        session()->flash('success', 'Annulation de la proformat');
+        return redirect()->route('dossiers.show', [$this->proformat->devis->dossier->client, $this->proformat->devis->dossier, 'tab' => 'proforma']);
     }
 
     public function delete(){

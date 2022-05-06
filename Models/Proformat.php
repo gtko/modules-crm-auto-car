@@ -14,6 +14,7 @@ use Modules\CoreCRM\Models\Dossier;
 use Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\ContactFournisseurRepositoryContract;
 use Modules\CrmAutoCar\Entities\ProformatPrice;
+use Modules\CrmAutoCar\Models\Traits\hasCanceled;
 use Modules\CrmAutoCar\Repositories\BrandsRepository;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 /**
@@ -33,9 +34,14 @@ class Proformat extends Model
 //    use QueryCacheable;
 //    protected $cacheFor = 3600;
 
+    const STATUS_CANCELED = 'canceled';
+    const STATUS_NORMAL = 'normal';
+
+    use hasCanceled;
+
     protected $fillable = ['devis_id', 'number', 'total', 'data', 'acceptation_date'];
 
-    public $with = ['marges', 'devis'];
+    public $with = ['marges', 'devis','canceled', 'original'];
 
     protected $casts = [
         'avoirs' => 'array',

@@ -1,4 +1,10 @@
-<tr @if($validate ?? false) class="bg-green-400" @endif>
+<tr
+    @if($proformat->hasCanceled())
+        class="bg-red-400 text-red-900"
+    @else
+        @if($validate ?? false) class="bg-green-400" @endif
+    @endif
+>
     <td class="border-b dark:border-dark-5">
         <div class="flex flex-col">
             <a href="{{route('devis.edit', [$client, $dossier, $proformat->devis])}}">#{{$proformat->devis->ref}}</a>
@@ -84,13 +90,13 @@
                 </span>
                 </x-basecore::loading-replace>
 
-                <x-basecore::loading-replace wire:target="sendInformationVoyage">
-                <span class="flex items-center cursor-pointer" wire:click="sendInformationVoyage">
-                   @icon('badgeCheck', null, 'mr-2')
-                </span>
-                </x-basecore::loading-replace>
-
-
+                @if(!$profomat->isCanceller())
+                    <x-basecore::loading-replace wire:target="sendInformationVoyage">
+                    <span class="flex items-center cursor-pointer" wire:click="sendInformationVoyage">
+                       @icon('badgeCheck', null, 'mr-2')
+                    </span>
+                    </x-basecore::loading-replace>
+                @endif
             </div>
             <div class="flex justify-center items-center">
 
@@ -100,6 +106,11 @@
                 </a>
 
                 @can('delete', $proformat)
+                    <x-basecore::loading-replace wire:target="cancel">
+                         <span class="flex items-center cursor-pointer" wire:click="cancel">
+                            @icon('refund', null, 'mr-2')
+                         </span>
+                    </x-basecore::loading-replace>
                     <x-basecore::loading-replace wire:target="delete">
                     <span class="flex items-center cursor-pointer" wire:click="delete">
                      @icon('delete', null, 'mr-2')

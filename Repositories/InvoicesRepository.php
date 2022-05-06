@@ -200,6 +200,7 @@ class InvoicesRepository extends AbstractRepository implements InvoicesRepositor
         }
 
         $invoice->status = Invoice::STATUS_CANCELED;
+        $invoice->canceled()->associate($newInvoice);
         $invoice->save();
 
         DB::commit();

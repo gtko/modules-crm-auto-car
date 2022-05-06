@@ -26,4 +26,6 @@ interface ProformatsRepositoryContract extends SearchableRepository, RepositoryF
     public function hasMargeEdited(Proformat $proformat):bool;
 
     public function toInvoice():Collection;
+
+    public function cancel(Proformat $proforma):Proformat;
 }

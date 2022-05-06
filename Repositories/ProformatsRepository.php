@@ -7,15 +7,20 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Modules\BaseCore\Contracts\Entities\UserEntity;
 use Modules\BaseCore\Repositories\AbstractRepository;
 use Modules\CoreCRM\Contracts\Entities\DevisEntities;
+use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
 use Modules\CoreCRM\Enum\StatusTypeEnum;
 use Modules\CoreCRM\Models\Commercial;
+use Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract;
+use Modules\CrmAutoCar\Contracts\Repositories\InvoicesRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\ProformatsRepositoryContract;
 use Modules\CrmAutoCar\Models\Invoice;
 use Modules\CrmAutoCar\Models\Marge;
 use Modules\CrmAutoCar\Models\Proformat;
+use Modules\DevisAutoCar\Entities\DevisPrice;
 use Modules\SearchCRM\Entities\SearchResult;
 
 class ProformatsRepository extends AbstractRepository implements ProformatsRepositoryContract
@@ -123,4 +128,45 @@ class ProformatsRepository extends AbstractRepository implements ProformatsRepos
        })
            ->get();
     }
+
+    public function cancel(Proformat $proforma): Proformat
+    {
+        DB::beginTransaction();
+        $devisRep = app(DevisRepositoryContract::class);
+
+        $devis = $proforma->devis;
+
+        //On duplique le devis
+        $duplicateDevis = $devisRep->duplicate($devis);
+        $data = $duplicateDevis->data;
+        foreach(($data['trajets']  ?? []) as $indexTrajet => $trajet){
+            foreach(($trajet['brands'] ?? []) as $indexBrand => $brand){
+                $data['trajets'][$indexTrajet]['brands'][$indexBrand] = 0 - ( (int) $data['trajets'][$indexTrajet]['brands'][$indexBrand]);
+            }
+        }
+        $duplicateDevis->data = $data;
+        $duplicateDevis->save();
+
+        $price = new DevisPrice($duplicateDevis, app(BrandsRepositoryContract::class)->getDefault());
+
+        //On créer la proformat negative
+        $proformaRep = app(ProformatsRepositoryContract::class);
+        $numberProformat = $proformaRep->getNextNumber();
+        $newProformat = $proformaRep->create($duplicateDevis, $price->getPriceTTC(), $numberProformat);
+
+        //on deplace les paiements sur la nouvelle proformat
+        $paiements = $proforma->payments;
+        foreach($paiements as $paiement){
+            $paiement->proformat_id = $newProformat->id;
+            $paiement->save();
+        }
+
+        $proforma->status = Invoice::STATUS_CANCELED;
+        $proforma->canceled()->associate($newProformat);
+        $proforma->save();
+
+        DB::commit();
+        return $newProformat;
+    }
+
 }

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\CoreCRM\Contracts\Entities\DevisEntities;
 use Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract;
 use Modules\CrmAutoCar\Entities\InvoicePrice;
+use Modules\CrmAutoCar\Models\Traits\hasCanceled;
 use Modules\CrmAutoCar\Repositories\BrandsRepository;
 
 /**
@@ -22,9 +23,13 @@ use Modules\CrmAutoCar\Repositories\BrandsRepository;
  */
 class Invoice extends Model
 {
-
     const STATUS_CANCELED = 'canceled';
     const STATUS_NORMAL = 'normal';
+
+    use hasCanceled;
+
+
+    protected $with = ['canceled', 'original'];
 
     protected $fillable = ['devis_id', 'number', 'total', 'data'];
 
@@ -47,10 +52,6 @@ class Invoice extends Model
     public function isRefund():bool
     {
         return $this->total < 0;
-    }
-
-    public function hasCanceled(){
-        return $this->status === self::STATUS_CANCELED;
     }
 
 }
