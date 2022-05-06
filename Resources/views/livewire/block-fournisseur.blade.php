@@ -33,7 +33,7 @@
     <div class="px-2 pt-2">
         <x-basecore::tom-select
             name="fournisseur_id"
-            :max-item="99"
+            max-item="99"
             :collection="$fournisseurs"
             label="company"
             placeholder="Fournisseurs"
