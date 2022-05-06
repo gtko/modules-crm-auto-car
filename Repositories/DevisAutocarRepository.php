@@ -8,6 +8,7 @@ use Modules\CoreCRM\Contracts\Entities\DevisEntities;
 use Modules\CoreCRM\Models\Fournisseur;
 use Modules\CoreCRM\Repositories\DevisRepository;
 use Modules\CrmAutoCar\Contracts\Repositories\DevisAutocarRepositoryContract;
+use Modules\CrmAutoCar\Models\Traits\EnumStatusCancel;
 
 class DevisAutocarRepository extends DevisRepository implements DevisAutocarRepositoryContract
 {
@@ -23,7 +24,7 @@ class DevisAutocarRepository extends DevisRepository implements DevisAutocarRepo
             });
         }
 
-        return parent::newQuery();
+        return parent::newQuery()->where('status', '!=', EnumStatusCancel::STATUS_CANCELLER);
     }
 
     public function bpaFournisseur(DevisEntities $devis, Fournisseur $fournisseur, bool $bpa = true)

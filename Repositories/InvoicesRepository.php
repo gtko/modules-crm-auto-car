@@ -16,6 +16,7 @@ use Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\InvoicesRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\ProformatsRepositoryContract;
 use Modules\CrmAutoCar\Models\Invoice;
+use Modules\CrmAutoCar\Models\Traits\EnumStatusCancel;
 use Modules\DevisAutoCar\Entities\DevisPrice;
 use Modules\SearchCRM\Entities\SearchResult;
 
@@ -178,14 +179,26 @@ class InvoicesRepository extends AbstractRepository implements InvoicesRepositor
             }
         }
         $duplicateDevis->data = $data;
+        $duplicateDevis->status = EnumStatusCancel::STATUS_CANCELLER;
         $duplicateDevis->save();
 
         $price = new DevisPrice($duplicateDevis, app(BrandsRepositoryContract::class)->getDefault());
+
+        $devis->status = EnumStatusCancel::STATUS_CANCELED;
+        $devis->canceled()->associate($duplicateDevis);
+        $devis->save();
 
         //On créer la proformat negative
         $proformaRep = app(ProformatsRepositoryContract::class);
         $numberProformat = $proformaRep->getNextNumber();
         $newProformat = $proformaRep->create($duplicateDevis, $price->getPriceTTC(), $numberProformat);
+
+        $newProformat->status = EnumStatusCancel::STATUS_CANCELLER;
+        $newProformat->save();
+
+        $proforma->status = EnumStatusCancel::STATUS_CANCELED;
+        $proforma->canceled()->associate($newProformat);
+        $proforma->save();
 
         //On créer la facture negative
         $invoiceRep = app(InvoicesRepositoryContract::class);
@@ -199,7 +212,7 @@ class InvoicesRepository extends AbstractRepository implements InvoicesRepositor
             $paiement->save();
         }
 
-        $invoice->status = Invoice::STATUS_CANCELED;
+        $invoice->status = EnumStatusCancel::STATUS_CANCELED;
         $invoice->canceled()->associate($newInvoice);
         $invoice->save();
 
