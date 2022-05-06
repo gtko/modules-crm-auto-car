@@ -77,10 +77,29 @@
     </td>
     <td class="text-center">
         <div class="flex flex-col">
-        @forelse($proformat->devis->fournisseursValidated as $fournisseur)
-            <div class="whitespace-nowrap">{{$fournisseur->data['company'] ??' N/A'}}</div>
+        @forelse($proformat->devis->demandeFournisseurs as $demande)
+            @switch($demande->status)
+                @case(\Modules\CrmAutoCar\Models\Traits\EnumStatusDemandeFournisseur::STATUS_BPA)
+                    <div class="whitespace-nowrap text-blue-500">
+                        @break
+                @case(\Modules\CrmAutoCar\Models\Traits\EnumStatusDemandeFournisseur::STATUS_VALIDATE)
+                    <div class="whitespace-nowrap text-green-500">
+                        @break
+                @case(\Modules\CrmAutoCar\Models\Traits\EnumStatusCancel::STATUS_CANCELED)
+                @case(\Modules\CrmAutoCar\Models\Traits\EnumStatusCancel::STATUS_CANCELLER)
+                    <div class="whitespace-nowrap text-gray-500">
+                    @break
+                @default()
+                    <div class="whitespace-nowrap text-red-500">
+                        @break
+            @endswitch
 
-
+                    {{$demande->fournisseur->data['company'] ??' N/A'}}
+                        @if($demande->status == \Modules\CrmAutoCar\Models\Traits\EnumStatusCancel::STATUS_CANCELED ||
+                            $demande->status == \Modules\CrmAutoCar\Models\Traits\EnumStatusCancel::STATUS_CANCELLER)
+                            <span class="whitespace-nowrap">(Annulé)</span>
+                        @endif
+                </div>
         @empty
             <div class="text-red-500">Aucun fournisseur</div>
         @endforelse

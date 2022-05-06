@@ -26,6 +26,8 @@ class ProformatsListItem extends Component
     public function mount(Proformat $proformat, $class = ''){
         $this->proformat = $proformat;
 
+        $this->proformat->load('devis.demandeFournisseurs');
+
         $price = $this->getPrice();
         $this->marge = $price->getMargeHT();
         $this->class = $class;
