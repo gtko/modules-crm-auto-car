@@ -1,5 +1,5 @@
 
-<tr class="{{$class}}">
+<tr class="{{$class}} ">
     <td class="w-40">
         {{$proformat->number}}
     </td>
@@ -12,12 +12,17 @@
                 <br>  {{$proformat->devis->dossier->client->company}}
             @endif
         </a>
-            <small class="whitespace-nowrap">signé le {{$proformat->created_at->format('d/m/Y H:i')}}</small>
-        @if($proformat->acceptation_date)
-            <small class="whitespace-nowrap"> Accepté le {{$proformat->acceptation_date->format('d/m/Y H:i')}}</small>
+
+        @if($proformat->hasCancel())
+            <span class="text-red-600 whitespace-nowrap">(Annulé)</span>
         @else
-            <small class="text-red-500 whitespace-nowrap">Non accepté</small>
+            @if($proformat->acceptation_date)
+                <small class="whitespace-nowrap"> Accepté le {{$proformat->acceptation_date->format('d/m/Y H:i')}}</small>
+            @else
+                <small class="text-red-500 whitespace-nowrap">Non accepté</small>
+            @endif
         @endif
+
         <div class="text-gray-600 text-xs whitespace-nowrap mt-0.5">
             <a href="{{route('devis.edit', [$proformat->devis->dossier->client, $proformat->devis->dossier, $proformat->devis])}}">devis#{{$proformat->devis->ref}}</a>
         </div>

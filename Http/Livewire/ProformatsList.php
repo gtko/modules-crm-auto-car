@@ -50,6 +50,7 @@ class ProformatsList extends Component
         $this->mois = $this->dateStart->format('d/m/Y');
 
         $this->order = 'created_at';
+        $this->direction = 'desc';
     }
 
     public function updatedMois()
