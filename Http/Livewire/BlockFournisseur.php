@@ -187,6 +187,7 @@ class BlockFournisseur extends Component
 
     public function annulerAdd(){
         $this->add = false;
+        return redirect()->route('dossiers.show', [$this->dossier->client, $this->dossier]);
     }
 
     public string $add_company = '';
