@@ -4,7 +4,6 @@ namespace Modules\CrmAutoCar\Models\Traits;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
-use Modules\CrmAutoCar\Models\Invoice;
 
 /**
  * Trait hasCanceled
@@ -14,24 +13,26 @@ use Modules\CrmAutoCar\Models\Invoice;
 trait hasCanceled
 {
 
-
-
-    public function hasCanceled(){
-        return $this->status === self::STATUS_CANCELED;
+    public function hasCancel(){
+        return $this->hasCanceled() || $this->hasCanceller();
     }
 
-    public function isCanceller(){
-        return false;//!$this->original;
+    public function hasCanceled(){
+        return $this->status === EnumStatusCancel::STATUS_CANCELED;
+    }
+
+    public function hasCanceller(){
+        return $this->status === EnumStatusCancel::STATUS_CANCELLER;
     }
 
     public function canceled():BelongsTo
     {
         return $this->belongsTo(self::class, 'cancel_id', 'id');
     }
-
-    public function original():HasOne
-    {
-        return $this->hasOne(self::class, 'cancel_id', 'id');
-    }
+//
+//    public function original():HasOne
+//    {
+//        return $this->hasOne(self::class, 'cancel_id', 'id');
+//    }
 
 }

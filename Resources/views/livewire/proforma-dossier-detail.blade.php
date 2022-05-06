@@ -1,8 +1,8 @@
 <tr
-    @if($proformat->hasCanceled())
-        class="bg-red-400 text-red-900"
-    @else
-        @if($validate ?? false) class="bg-green-400" @endif
+    @if($proformat->hasCancel())
+        class="bg-red-100"
+    @elseif($validate ?? false)
+        class="bg-green-400"
     @endif
 >
     <td class="border-b dark:border-dark-5">
@@ -19,7 +19,8 @@
         @can('changeCommercial', Modules\CrmAutoCar\Models\Proformat::class)
             <div class="flex flex-row w-48">
                 <x-basecore::inputs.select wire:model="commercial" name="commercial"
-                                           class="form-control-sm @if($validate ?? false) bg-green-300 @endif">
+                                           class="{{($proformat->hasCancel()) ? 'bg-red-100' : ((($validate ?? false)) ? 'bg-green-400' : '')}}"
+                >
                     <option value="">Commercial</option>
                     @foreach($commercials as $commer)
                         <option value="{{$commer->id}}">{{$commer->format_name}}</option>
@@ -90,13 +91,11 @@
                 </span>
                 </x-basecore::loading-replace>
 
-                @if(!$profomat->isCanceller())
                     <x-basecore::loading-replace wire:target="sendInformationVoyage">
                     <span class="flex items-center cursor-pointer" wire:click="sendInformationVoyage">
                        @icon('badgeCheck', null, 'mr-2')
                     </span>
                     </x-basecore::loading-replace>
-                @endif
             </div>
             <div class="flex justify-center items-center">
 

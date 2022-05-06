@@ -20,6 +20,7 @@ use Modules\CrmAutoCar\Contracts\Repositories\ProformatsRepositoryContract;
 use Modules\CrmAutoCar\Models\Invoice;
 use Modules\CrmAutoCar\Models\Marge;
 use Modules\CrmAutoCar\Models\Proformat;
+use Modules\CrmAutoCar\Models\Traits\EnumStatusCancel;
 use Modules\DevisAutoCar\Entities\DevisPrice;
 use Modules\SearchCRM\Entities\SearchResult;
 
@@ -145,7 +146,12 @@ class ProformatsRepository extends AbstractRepository implements ProformatsRepos
             }
         }
         $duplicateDevis->data = $data;
+        $duplicateDevis->status = EnumStatusCancel::STATUS_CANCELLER;
         $duplicateDevis->save();
+
+        $devis->status = EnumStatusCancel::STATUS_CANCELED;
+        $devis->canceled()->associate($duplicateDevis);
+        $devis->save();
 
         $price = new DevisPrice($duplicateDevis, app(BrandsRepositoryContract::class)->getDefault());
 
@@ -153,6 +159,8 @@ class ProformatsRepository extends AbstractRepository implements ProformatsRepos
         $proformaRep = app(ProformatsRepositoryContract::class);
         $numberProformat = $proformaRep->getNextNumber();
         $newProformat = $proformaRep->create($duplicateDevis, $price->getPriceTTC(), $numberProformat);
+        $newProformat->status = EnumStatusCancel::STATUS_CANCELLER;
+        $newProformat->save();
 
         //on deplace les paiements sur la nouvelle proformat
         $paiements = $proforma->payments;
@@ -161,11 +169,12 @@ class ProformatsRepository extends AbstractRepository implements ProformatsRepos
             $paiement->save();
         }
 
-        $proforma->status = Invoice::STATUS_CANCELED;
+        $proforma->status = EnumStatusCancel::STATUS_CANCELED;
         $proforma->canceled()->associate($newProformat);
         $proforma->save();
 
         DB::commit();
+
         return $newProformat;
     }
 

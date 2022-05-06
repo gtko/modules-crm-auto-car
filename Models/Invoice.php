@@ -23,13 +23,10 @@ use Modules\CrmAutoCar\Repositories\BrandsRepository;
  */
 class Invoice extends Model
 {
-    const STATUS_CANCELED = 'canceled';
-    const STATUS_NORMAL = 'normal';
+
 
     use hasCanceled;
 
-
-    protected $with = ['canceled', 'original'];
 
     protected $fillable = ['devis_id', 'number', 'total', 'data'];
 

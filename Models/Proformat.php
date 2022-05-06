@@ -34,14 +34,11 @@ class Proformat extends Model
 //    use QueryCacheable;
 //    protected $cacheFor = 3600;
 
-    const STATUS_CANCELED = 'canceled';
-    const STATUS_NORMAL = 'normal';
-
     use hasCanceled;
 
     protected $fillable = ['devis_id', 'number', 'total', 'data', 'acceptation_date'];
 
-    public $with = ['marges', 'devis','canceled', 'original'];
+    public $with = ['marges', 'devis'];
 
     protected $casts = [
         'avoirs' => 'array',
