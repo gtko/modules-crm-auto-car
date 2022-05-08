@@ -25,10 +25,7 @@ class StatFournisseurDatatableQuery
     {
         return $this->repository->newQuery()
             ->with('devis.dossier.client')
-            ->where(function(Builder $query) {
-                $query->where('status', '=', EnumStatusDemandeFournisseur::STATUS_VALIDATE);
-                $query->orWhere('status', '=', EnumStatusDemandeFournisseur::STATUS_BPA);
-            })
+            ->where('status', '!=', EnumStatusDemandeFournisseur::STATUS_WAITING)
             ->whereHas('devis', function (Builder $query) {
                 $query->has('dossier');
             });

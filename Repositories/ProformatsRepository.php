@@ -163,7 +163,7 @@ class ProformatsRepository extends AbstractRepository implements ProformatsRepos
             if($demande->isValidate() || $demande->isBPA()){
                 $demandeRep->cancel($demande, $duplicateDevis);
             }
-        } 
+        }
 
         //On créer la proformat negative
         $proformaRep = app(ProformatsRepositoryContract::class);
