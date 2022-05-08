@@ -2,36 +2,59 @@
 
 namespace Modules\CrmAutoCar\Http\Livewire;
 
+use Filament\Tables\Concerns\InteractsWithTable;
+use Filament\Tables\Contracts\HasTable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Livewire\Component;
 use Modules\CrmAutoCar\Contracts\Repositories\DecaissementRepositoryContract;
+use Modules\CrmAutoCar\Http\Livewire\Datatable\ListDemandeFournisseur;
+use Modules\CrmAutoCar\Http\Livewire\Datatable\StatFournisseurDatatableQuery;
 use Modules\CrmAutoCar\Models\Decaissement;
 
-class StatistiqueFournisseurCard extends Component
+class StatistiqueFournisseurCard extends Component implements HasTable
 {
-    public $totalARegler = 0;
-    public $resteARegler = 0;
-    public $dejaRegler = 0;
+    use InteractsWithTable;
 
-    protected $listeners = [
-        'updateCardTotal'
+
+    protected $queryString = [
+        'tableFilters',
+        'tableSortColumn',
+        'tableSortDirection',
+        'tableSearchQuery' => ['except' => ''],
     ];
 
-    public function mount() {
+    protected $listeners = [
+        'refreshQuery'
+    ];
 
-        $repDecaissement = app(DecaissementRepositoryContract::class);
-        $this->totalARegler = $repDecaissement->getTotalARegler();
-        $this->resteARegler = $repDecaissement->getTotalResteARegler();
-        $this->dejaRegler = $repDecaissement->getTotalDejaRegler();
+    public function refreshQuery($datas)
+    {
+        $this->tableFilters = $datas[0];
+        $this->tableSearchQuery = $datas[1];
     }
 
-    public function updateCardTotal()
+    protected function getTableQuery(): Builder
     {
-        $repDecaissement = app(DecaissementRepositoryContract::class);
-        $this->totalARegler = $repDecaissement->getTotalARegler();
-        $this->resteARegler = $repDecaissement->getTotalResteARegler();
-        $this->dejaRegler = $repDecaissement->getTotalDejaRegler();
+        return app(StatFournisseurDatatableQuery::class)->getTableQuery();
+    }
 
+
+    protected function getTableFilters(): array
+    {
+        return app(StatFournisseurDatatableQuery::class)->getTableFilters();
+    }
+
+    public function getTotalAReglerProperty(){
+        return $this->getFilteredTableQuery()->sum('prix') ?? 0.00;
+    }
+
+    public function getResteAReglerProperty(){
+        return $this->totalARegler - $this->DejaRegler;
+    }
+
+    public function getDejaReglerProperty(){
+        return $this->getFilteredTableQuery()->sum('payer') ?? 0.00;
     }
 
     public function render()

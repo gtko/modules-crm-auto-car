@@ -16,6 +16,7 @@ use Modules\CoreCRM\Contracts\Repositories\FournisseurRepositoryContract;
 use Modules\CoreCRM\Models\Dossier;
 use Modules\CoreCRM\Models\Fournisseur;
 use Modules\CrmAutoCar\Contracts\Repositories\DecaissementRepositoryContract;
+use Modules\CrmAutoCar\Contracts\Repositories\DemandeFournisseurRepositoryContract;
 use Modules\CrmAutoCar\Models\Decaissement;
 use Modules\CrmAutoCar\Models\DemandeFournisseur;
 use phpDocumentor\Reflection\Types\Parent_;
@@ -147,17 +148,7 @@ class DecaissementRepository extends AbstractRepository implements DecaissementR
 
     protected function getAllDevisFournisseur(){
         return Cache::remember('getAllDevisFournisseur', '10', function(){
-            $result = app(FournisseurRepositoryContract::class)
-                ->newQuery()
-                ->has("devis")
-                ->with('devis.decaissements')
-                ->get()
-                ->map(function($fournisseur){
-                    return $fournisseur->devis;
-                })
-                ->flatten();
-
-            return $result;
+            return app(DemandeFournisseurRepositoryContract::class)->newQuery()->get();
         });
     }
 
@@ -170,30 +161,19 @@ class DecaissementRepository extends AbstractRepository implements DecaissementR
 
     public function getTotalARegler(): float
     {
-        $devis = $this->getAllDevisFournisseur();
-        $total = $devis->sum('pivot.prix') ?? 0.00;
-        if($total > 0){
-            return $total;
-        }
-
-        return 0;
+        $demandeFournisseur = $this->getAllDevisFournisseur();
+        return $demandeFournisseur->sum('prix') ?? 0.00;
     }
 
     public function getTotalResteARegler(): float
     {
-        $devisPayer = $this->getAllDecaisement();
-        $restant = $devisPayer->sum('restant') ?? 0.00;
-        if($restant > 0){
-            return $restant;
-        }
-
-        return 0;
+        return $this->getTotalARegler() - $this->getTotalDejaRegler();
     }
 
     public function getTotalDejaRegler(): float
     {
-        $devisPayer = $this->getAllDecaisement();
-        return $devisPayer->sum('payer') ?? 0.00;
+        $demandeFournisseur = $this->getAllDevisFournisseur();
+        return $demandeFournisseur->sum('payer') ?? 0.00;
     }
 
     public function getCountNombrePaiement(Decaissement $decaissement): int
