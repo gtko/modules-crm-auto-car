@@ -101,16 +101,25 @@ class ListDemandeFournisseur extends Component implements Tables\Contracts\HasTa
 
             Tables\Columns\TextColumn::make('prix')
                 ->label('Prix Fournisseur')
+                ->formatStateUsing(function(Model $record) {
+                    return ($record->prix ?? 0 ) . ' €';
+                })
                 ->sortable()
                 ->toggleable(true),
 
-            Tables\Columns\TextColumn::make('payer')
+            Tables\Columns\TextColumn::make("payer")
                 ->label('Montant Réglé')
+                ->formatStateUsing(function(Model $record) {
+                    return ($record->payer ?? 0) . "€";
+                })
                 ->sortable()
                 ->toggleable(true),
 
-            Tables\Columns\TextColumn::make('restant')
+            Tables\Columns\TextColumn::make('reste')
                 ->label('Reste à régler')
+                ->formatStateUsing(function(Model $record) {
+                    return ($record->reste ?? $record->prix) . "€";
+                })
                 ->sortable()
                 ->toggleable(true),
 
@@ -119,7 +128,8 @@ class ListDemandeFournisseur extends Component implements Tables\Contracts\HasTa
                 ->sortable()
                 ->toggleable(true),
 
-            Tables\Columns\TextColumn::make('decaissements.count')
+            Tables\Columns\TextColumn::make('decaissements_count')
+                ->counts('decaissements')
                 ->label('Nombre de paiement Fournisseur')
                 ->sortable()
                 ->toggleable(true),

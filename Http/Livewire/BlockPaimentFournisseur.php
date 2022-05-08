@@ -79,6 +79,10 @@ class BlockPaimentFournisseur extends Component
         $date = (new DateStringToCarbon())->handle($this->date);
         $decaissement = $repDecaissement->create($demandeModel, $this->payer, $this->reste, $date);
 
+        $demandeModel->payer = $repDecaissement->getPayer($demandeModel);
+        $demandeModel->reste = $demandeModel->prix - $demandeModel->payer;
+        $demandeModel->save();
+
 
         (new FlowCRM())->add($this->dossier , new ClientDossierPaiementFournisseurSend(Auth::user(), $demandeModel->devis, $demandeModel->fournisseur, $decaissement));
 
