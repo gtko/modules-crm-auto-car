@@ -124,8 +124,10 @@ class BlockPaimentFournisseur extends Component
         $this->paiements = $repDecaissement->getByDossier($this->dossier);
 
         $demandeRep->setQuery($demandeRep->newQuery()
-            ->where('status', '=', EnumStatusDemandeFournisseur::STATUS_BPA)
-            ->orWhere('status', '=', EnumStatusDemandeFournisseur::STATUS_VALIDATE)
+            ->where(function($query){
+                $query->where('status', '=', EnumStatusDemandeFournisseur::STATUS_BPA)
+                ->orWhere('status', '=', EnumStatusDemandeFournisseur::STATUS_VALIDATE);
+            })
         );
         $demandes = $demandeRep->getDemandeByDossier($this->dossier);
 

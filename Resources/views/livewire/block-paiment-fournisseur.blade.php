@@ -12,7 +12,7 @@
             <option value='0' selected="selected">Demande fournisseur</option>
             @foreach($demandes as $demande)
                 <option
-                    value="{{$demande->id}}">#{{$demande->id}} - {{$demande->fournisseur->formatName}} - {{ $demande->devis->ref }} ({{$demande->prix}}€)</option>
+                    value="{{$demande->id}}">#{{$demande->id}} - {{$demande->fournisseur->formatName ?? "fournisseur inexistant"}} - {{ $demande->devis->ref ?? 'Devis inexistant' }} ({{$demande->prix}}€)</option>
             @endforeach
         </x-basecore::inputs.select>
     </div>
