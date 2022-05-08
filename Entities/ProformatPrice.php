@@ -43,7 +43,7 @@ class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
         $demandes = $this->proformat->devis->demandeFournisseurs;
 
        if ($demandes->whereIn('status', EnumStatusDemandeFournisseur::HAS_ACHAT_VALIDE)->count() > 0) {
-           return true;
+           return $demandes;
        }
 
        return false;
@@ -56,11 +56,11 @@ class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
         }else {
             $demandes = $this->proformat->devis->demandeFournisseurs;
 
-            if ($this->achatValidated()) {
-                return $demandes->sum('prix');
+            if (($demandeValidated=$this->achatValidated())) {
+                return $demandeValidated->sum('prix');
             }
 
-            return $demandes->min('pivot.prix');
+            return $demandes->min('prix');
         }
     }
 

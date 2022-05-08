@@ -163,9 +163,9 @@ class ProformaDossierDetail extends Component
         }
 
         $validate = false;
-        foreach ($this->proformat->devis->fournisseurs as $fourni)
+        foreach ($this->proformat->devis->demandeFournisseurs as $demande)
         {
-            if ($fourni->pivot->validate ?? false) {
+            if ($demande->isValidate() || $demande->isBPA()) {
                 $validate = true;
             }
         }
