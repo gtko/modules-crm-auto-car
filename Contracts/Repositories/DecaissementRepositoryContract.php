@@ -8,12 +8,13 @@ use Modules\CoreCRM\Contracts\Entities\DevisEntities;
 use Modules\CoreCRM\Models\Dossier;
 use Modules\CoreCRM\Models\Fournisseur;
 use Modules\CrmAutoCar\Models\Decaissement;
+use Modules\CrmAutoCar\Models\DemandeFournisseur;
 
 
 interface DecaissementRepositoryContract
 {
-    public function create(DevisEntities $devi, Fournisseur $fournisseur, float $payer, float $reste, Carbon $date): Decaissement;
-    public function getPayer(DevisEntities $devi, Fournisseur $fournisseur): ?float;
+    public function create(DemandeFournisseur $demandeFournisseur, float $payer, float $reste, Carbon $date): Decaissement;
+    public function getPayer(DemandeFournisseur $demandeFournisseur): ?float;
     public function getByDossier(Dossier $dossier): Collection;
     public function getByDevis(): \Illuminate\Support\Collection;
     public function getByFiltre(Fournisseur|string $fournisseur, bool|string $resteAPayer, Carbon|string $periodeStart, Carbon|string $periodeEnd, Carbon|string $deparStart): \Illuminate\Support\Collection;

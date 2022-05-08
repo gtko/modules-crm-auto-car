@@ -19,8 +19,6 @@ use Modules\CrmAutoCar\Models\Traits\EnumStatusDemandeFournisseur;
 class BlockPaimentFournisseur extends Component
 {
 
-    public $fournisseur_id;
-    public $devi_id;
     public $payer;
     public $fournisseurs;
     public $reste;
@@ -28,12 +26,13 @@ class BlockPaimentFournisseur extends Component
     public $paiements;
     public $date;
 
+    public $demande_id;
+
     protected $rules = [
-        'fournisseur_id' => 'required',
-        'devi_id' => 'required',
+        'demande_id' => 'required',
         'reste' => '',
         'payer' => 'required|numeric|min:1',
-        'date' => 'required'
+        'date' => 'date|required'
     ];
 
     public function mount($client, $dossier)
@@ -41,25 +40,15 @@ class BlockPaimentFournisseur extends Component
         $this->dossier = $dossier;
     }
 
-    public function updatedDeviId($deviId)
+    public function updatedDemandeId($demandeID)
     {
-        $this->devi_id = $deviId;
-        $repDevi = app(DevisRepositoryContract::class);
-        $deviModel = $repDevi->fetchById($deviId);
-        $this->fournisseurs = $repDevi->getFournsisseurValidate($deviModel);
-    }
-
-    public function updatedFournisseurId($fournisseurId)
-    {
-        if($fournisseurId) {
-            $repDevi = app(DevisRepositoryContract::class);
-            $repFourni = app(FournisseurRepositoryContract::class);
+        if($demandeID && $demandeID != 0) {
+            $repDemande = app(DemandeFournisseurRepositoryContract::class);
             $repDecaissement = app(DecaissementRepositoryContract::class);
 
-            $fourniModel = $repFourni->fetchById($fournisseurId);
-            $deviModel = $repDevi->fetchById($this->devi_id);
-            $this->total = $repDevi->getPrice($deviModel, $fourniModel);
-            $this->payer = $repDecaissement->getPayer($deviModel, $fourniModel);
+            $demandeModel = $repDemande->fetchById((int) $demandeID);
+            $this->total = $demandeModel->prix ?? 0;
+            $this->payer = $repDecaissement->getPayer($demandeModel);
 
             if ($this->payer == null) {
                 $this->reste = $this->total;
@@ -69,7 +58,7 @@ class BlockPaimentFournisseur extends Component
             $this->payer = 0;
         }else{
             $this->reset([
-                'fournisseur_id',
+                'demande_id',
                 'total',
                 'payer',
                 'reste'
@@ -82,21 +71,23 @@ class BlockPaimentFournisseur extends Component
     {
         $this->validate();
         $repDecaissement = app(DecaissementRepositoryContract::class);
-        $repDevi = app(DevisRepositoryContract::class);
-        $repFourni = app(FournisseurRepositoryContract::class);
-
-        $deviModel = $repDevi->fetchById($this->devi_id);
-        $fourniModel = $repFourni->fetchById($this->fournisseur_id);
+        $repDemande = app(DemandeFournisseurRepositoryContract::class);
+        $demandeModel = $repDemande->fetchById((int) $this->demande_id);
 
         $this->reste = $this->reste - $this->payer ;
 
         $date = (new DateStringToCarbon())->handle($this->date);
-        $decaissement = $repDecaissement->create($deviModel, $fourniModel, $this->payer, $this->reste, $date);
+        $decaissement = $repDecaissement->create($demandeModel, $this->payer, $this->reste, $date);
 
-        $this->fournisseur_id = '';
-        $this->devi_id = '';
 
-        (new FlowCRM())->add($this->dossier , new ClientDossierPaiementFournisseurSend(Auth::user(), $deviModel, $fourniModel, $decaissement));
+        (new FlowCRM())->add($this->dossier , new ClientDossierPaiementFournisseurSend(Auth::user(), $demandeModel->devis, $demandeModel->fournisseur, $decaissement));
+
+        $this->reset([
+            'demande_id',
+            'total',
+            'payer',
+            'reste'
+        ]);
     }
 
     public function delete($decaissementID){
@@ -114,9 +105,10 @@ class BlockPaimentFournisseur extends Component
 
         $demandeRep->setQuery($demandeRep->newQuery()
             ->where('status', '=', EnumStatusDemandeFournisseur::STATUS_BPA)
-            ->where('status', '=', EnumStatusDemandeFournisseur::STATUS_VALIDATE)
+            ->orWhere('status', '=', EnumStatusDemandeFournisseur::STATUS_VALIDATE)
         );
         $demandes = $demandeRep->getDemandeByDossier($this->dossier);
+
 
         return view('crmautocar::livewire.block-paiment-fournisseur', compact('demandes'));
     }

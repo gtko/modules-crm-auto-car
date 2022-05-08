@@ -9,38 +9,15 @@
 
     <div class="px-2 pt-2">
         <x-basecore::inputs.select name="demande_id" label="" required="required" wire:model="demande_id">
-            <option selected="selected">Devis</option>
+            <option value='0' selected="selected">Demande fournisseur</option>
             @foreach($demandes as $demande)
                 <option
-                    value="{{ $demande->id}}">#{{$demande->id}} - {{$demande->fournisseur->formatName}} - {{ $demande->devis->ref }} ({{$demande->prix}}€)</option>
+                    value="{{$demande->id}}">#{{$demande->id}} - {{$demande->fournisseur->formatName}} - {{ $demande->devis->ref }} ({{$demande->prix}}€)</option>
             @endforeach
         </x-basecore::inputs.select>
     </div>
 
-    <div class="px-2 pt-2">
-        <x-basecore::inputs.select name="devi_id" label="" required="required" wire:model="devi_id">
-            <option selected="selected">Devis</option>
-            @foreach($dossier->devis as $devi)
-                <option
-                    value="{{ $devi->id}}">{{ $devi->ref }}</option>
-            @endforeach
-        </x-basecore::inputs.select>
-    </div>
-
-    @if ($this->devi_id)
-
-        <div class="px-2 pt-2">
-            <x-basecore::inputs.select name="fournisseur_id" label="" required="required"
-                                       wire:model="fournisseur_id">
-                <option selected="selected">Fournisseur</option>
-                @foreach($fournisseurs as $fourni)
-                    <option
-                        value="{{ $fourni->id}}">{{ $fourni->personne->firstname . ' ' . $fourni->personne->lastname }}</option>
-                @endforeach
-            </x-basecore::inputs.select>
-        </div>
-
-        @if ($this->fournisseur_id)
+    @if ($this->demande_id)
 
             <div class="px-2 pt-2">
                 <x-basecore::inputs.date
@@ -48,7 +25,6 @@
                     label="Date du paiment"
                     required="required"
                     wire:model="date"
-
                 >
                 </x-basecore::inputs.date>
             </div>
@@ -87,7 +63,6 @@
                 <x-basecore::button wire:click="payer">Payer</x-basecore::button>
             </div>
         @endif
-    @endif
 
     <div>
 
@@ -139,7 +114,7 @@
                         {{ $total + $paiement->restant }}€
                     </td>
                     <td>
-                        <x-basecore::loading-replace>
+                        <x-basecore::loading-replace wire:target="delete({{$paiement->id}})">
                             <span wire:click="delete({{$paiement->id}})">
                                 @icon('delete',20, 'cursor-pointer text-red-500 hover:text-red-700 w-6 h-6')
                             </span>

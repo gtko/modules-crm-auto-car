@@ -27,7 +27,10 @@ class ProformatDossier extends Component
 
     public function render(ProformatsRepositoryContract $proformatRep)
     {
-        $proformats = $proformatRep->newQuery()->whereIn('devis_id', $this->dossier->devis->pluck('id'))->paginate(25);
+        $proformats = $proformatRep->newQuery()
+            ->whereIn('devis_id', $this->dossier->devis->pluck('id'))
+            ->orderBy('created_at', 'desc')
+            ->paginate(25);
 
         return view('crmautocar::livewire.proformat-dossier', compact('proformats'));
     }

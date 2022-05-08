@@ -17,6 +17,7 @@ use Modules\CoreCRM\Models\Dossier;
 use Modules\CoreCRM\Models\Fournisseur;
 use Modules\CrmAutoCar\Contracts\Repositories\DecaissementRepositoryContract;
 use Modules\CrmAutoCar\Models\Decaissement;
+use Modules\CrmAutoCar\Models\DemandeFournisseur;
 use phpDocumentor\Reflection\Types\Parent_;
 
 class DecaissementRepository extends AbstractRepository implements DecaissementRepositoryContract
@@ -38,23 +39,24 @@ class DecaissementRepository extends AbstractRepository implements DecaissementR
         return parent::newQuery();
     }
 
-    public function create(DevisEntities $devi, Fournisseur $fournisseur, float $payer, float $reste, Carbon $date): Decaissement
+    public function create(DemandeFournisseur $demandeFournisseur, float $payer, float $reste, Carbon $date): Decaissement
     {
 
         $decaissement = new Decaissement();
         $decaissement->payer = $payer;
         $decaissement->restant = $reste;
         $decaissement->date = $date;
-        $decaissement->devis()->associate($devi);
-        $decaissement->fournisseur()->associate($fournisseur);
+        $decaissement->demande()->associate($demandeFournisseur);
+        $decaissement->devis()->associate($demandeFournisseur->devis);
+        $decaissement->fournisseur()->associate($demandeFournisseur->fournisseur);
         $decaissement->save();
 
         return $decaissement;
     }
 
-    public function getPayer(DevisEntities $devi, Fournisseur $fournisseur): ?float
+    public function getPayer(DemandeFournisseur $demandeFournisseur): ?float
     {
-        $paiements = Decaissement::where('devis_id', $devi->id)->where('fournisseur_id', $fournisseur->id)->orderBy('id', 'desc')->get();
+        $paiements = Decaissement::where('demande_id', $demandeFournisseur->id)->get();
         $dejaPayer = 0;
         foreach ($paiements as $paiement) {
             $dejaPayer = $dejaPayer + $paiement->payer;
