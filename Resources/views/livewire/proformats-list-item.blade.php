@@ -77,7 +77,7 @@
     </td>
     <td class="text-center">
         <div class="flex flex-col">
-        @forelse($proformat->devis->demandeFournisseurs as $demande)
+        @forelse($proformat->devis->demandeFournisseurs->where('status', "!=", Modules\CrmAutoCar\Models\Traits\EnumStatusDemandeFournisseur::STATUS_WAITING) as $demande)
             @switch($demande->status)
                 @case(\Modules\CrmAutoCar\Models\Traits\EnumStatusDemandeFournisseur::STATUS_BPA)
                     <div class="whitespace-nowrap text-blue-500">
