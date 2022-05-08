@@ -60,7 +60,14 @@
             </div>
 
             <div class="m-2">
-                <x-basecore::button wire:click="payer">Payer</x-basecore::button>
+                <x-basecore::loading-replace wire:target="payer">
+                    <x-slot name="loader">
+                        <x-basecore::button>
+                            @icon('spinner',16, 'animate-spin mr-2') Payer
+                        </x-basecore::button>
+                    </x-slot>
+                    <x-basecore::button wire:click="payer">Payer</x-basecore::button>
+                </x-basecore::loading-replace>
             </div>
         @endif
 

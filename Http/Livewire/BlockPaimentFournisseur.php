@@ -4,6 +4,7 @@ namespace Modules\CrmAutoCar\Http\Livewire;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Modules\BaseCore\Actions\Dates\DateStringToCarbon;
 use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
@@ -70,6 +71,8 @@ class BlockPaimentFournisseur extends Component
     public function payer()
     {
         $this->validate();
+
+        DB::beginTransaction();
         $repDecaissement = app(DecaissementRepositoryContract::class);
         $repDemande = app(DemandeFournisseurRepositoryContract::class);
         $demandeModel = $repDemande->fetchById((int) $this->demande_id);
@@ -83,6 +86,7 @@ class BlockPaimentFournisseur extends Component
         $demandeModel->reste = $demandeModel->prix - $demandeModel->payer;
         $demandeModel->save();
 
+        DB::commit();
 
         (new FlowCRM())->add($this->dossier , new ClientDossierPaiementFournisseurSend(Auth::user(), $demandeModel->devis, $demandeModel->fournisseur, $decaissement));
 
@@ -95,7 +99,19 @@ class BlockPaimentFournisseur extends Component
     }
 
     public function delete($decaissementID){
-        Decaissement::where('id', $decaissementID)->delete();
+
+        DB::beginTransaction();
+        $decaissement = Decaissement::where('id', $decaissementID)->first();
+        $repDecaissement = app(DecaissementRepositoryContract::class);
+        $repDemande = app(DemandeFournisseurRepositoryContract::class);
+        $demandeModel = $repDemande->fetchById((int) $decaissement->demande_id);
+        $decaissement->delete();
+
+        $demandeModel->payer = $repDecaissement->getPayer($demandeModel);
+        $demandeModel->reste = $demandeModel->prix - $demandeModel->payer;
+        $demandeModel->save();
+
+        DB::commit();
 
         return redirect()
             ->back()
