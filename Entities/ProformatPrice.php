@@ -105,7 +105,10 @@ class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
     {
         $marge = 0;
         $demandes = $this->proformat->devis->demandeFournisseurs;
-        if($demandes->where('prix', '>', 0)->count() > 0) {
+        if(
+            $demandes->where('prix', '>', 0)->count() > 0 ||
+            $demandes->whereIn('status', EnumStatusDemandeFournisseur::HAS_ACHAT_VALIDE)->count() > 0
+        ) {
            $marge =  $this->getPriceHT() - $this->getPriceAchatHT(true);
         }
 
