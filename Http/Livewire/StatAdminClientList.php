@@ -60,7 +60,11 @@ class StatAdminClientList extends Component
             $this->addTime = true;
         }
 
-        $this->times = app(TimerRepositoryContract::class)->getTimeByPeriode($this->commercial, $this->debut, $this->fin);
+        if($this->commercial) {
+            $this->times = app(TimerRepositoryContract::class)->getTimeByPeriode($this->commercial, $this->debut, $this->fin);
+        }else{
+            $this->times = collect([]);
+        }
     }
 
     public function addTime()
@@ -125,12 +129,13 @@ class StatAdminClientList extends Component
     {
         if ($this->commercial) {
             $this->dossiers = $repCommercial->getClients($this->commercial);
-        }
-
-        if ($this->debut && $this->fin) {
-            $this->times = app(TimerRepositoryContract::class)->getTimeByPeriode($this->commercial, $this->debut, $this->fin);
-        } else {
-            $this->times = app(TimerRepositoryContract::class)->getTimeByPeriode($this->commercial, Carbon::now()->subYear(50), Carbon::now());
+            if ($this->debut && $this->fin) {
+                $this->times = app(TimerRepositoryContract::class)->getTimeByPeriode($this->commercial, $this->debut, $this->fin);
+            } else {
+                $this->times = app(TimerRepositoryContract::class)->getTimeByPeriode($this->commercial, Carbon::now()->subYear(50), Carbon::now());
+            }
+        }else{
+            $this->times = collect([]);
         }
 
         return view('crmautocar::livewire.stat-admin-client-list');

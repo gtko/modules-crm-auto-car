@@ -53,7 +53,7 @@ class ClientDossierDemandeFournisseurValidate extends Attributes
             'user_id' => $this->user->id,
             'devis_id' => $this->devis->id ?? 0,
             'fournisseur_id' => $this->fournisseur->id,
-            'price' => $this->price,
+            'price' => $this->price ?? 0,
         ];
     }
 

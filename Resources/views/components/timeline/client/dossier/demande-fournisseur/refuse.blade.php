@@ -10,10 +10,6 @@
                 :url="route('devis.edit', [$flow->datas->getDevis()->dossier->client, $flow->datas->getDevis()->dossier, $flow->datas->getDevis()])">
                 devis #{{$flow->datas->getDevis()->ref}}
             </x-corecrm::timeline.timeline-item-link>
-            @if($flow->datas->getPrice() != 0)
-                au prix de
-                {{$flow->datas->getPrice()}}€
-            @endif
             est <span class="text-red-600">refusée</span>
 
             par

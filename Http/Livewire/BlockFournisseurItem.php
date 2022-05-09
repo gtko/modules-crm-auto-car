@@ -77,7 +77,7 @@ class BlockFournisseurItem extends Component
 
     public function validateDemande(DemandeFournisseurRepositoryContract $demandRep)
     {
-        if($this->price != null && $this->price != "--") {
+        if($this->price != null && $this->price != "--" && $this->price != 0) {
             $demandRep->update($this->demande, ['status' => EnumStatusDemandeFournisseur::STATUS_VALIDATE]);
 
             $proforma = $this->devi->proformat;
@@ -88,6 +88,7 @@ class BlockFournisseurItem extends Component
 
             $prix = (float) $this->demande->prix;
             (new FlowCRM())->add($this->devi->dossier, new ClientDossierDemandeFournisseurValidate(Auth::user(), $this->devi, $this->fourni, $prix));
+
             $this->emit('update');
             $this->emit('refreshProforma');
         }else{
@@ -99,8 +100,7 @@ class BlockFournisseurItem extends Component
     public function refuseDemande(DemandeFournisseurRepositoryContract $demandRep)
     {
             $demandRep->update($this->demande, ['status' => EnumStatusDemandeFournisseur::STATUS_REFUSED]);
-            $prix = $this->demande->prix;
-            (new FlowCRM())->add($this->devi->dossier, new ClientDossierDemandeFournisseurRefuse(Auth::user(), $this->devi, $this->fourni, $prix ?? null));
+            (new FlowCRM())->add($this->devi->dossier, new ClientDossierDemandeFournisseurRefuse(Auth::user(), $this->devi, $this->fourni));
             $this->emit('update');
             $this->emit('refreshProforma');
     }

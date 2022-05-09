@@ -19,18 +19,15 @@ class ClientDossierDemandeFournisseurRefuse extends Attributes
         UserEntity $user,
         ?DevisEntities $devis,
         Fournisseur $fournisseur,
-        float $price
     ){
         parent::__construct();
         $this->user = $user;
         $this->devis = $devis;
         $this->fournisseur = $fournisseur;
-        $this->price = $price;
     }
 
     public static function instance(array $value): FlowAttributes
     {
-
         $repFournisseur =  app(FournisseurRepositoryContract::class);
         $repDevis = app(DevisRepositoryContract::class);
 
@@ -38,7 +35,7 @@ class ClientDossierDemandeFournisseurRefuse extends Attributes
         $fournisseur = $repFournisseur->disabled()->fetchById($value['fournisseur_id']);
         $devis = $repDevis->fetchById($value['devis_id']);
 
-        return new ClientDossierDemandeFournisseurRefuse($user, $devis, $fournisseur, $value['price']);
+        return new ClientDossierDemandeFournisseurRefuse($user, $devis, $fournisseur);
     }
 
     public function toArray(): array
@@ -47,17 +44,10 @@ class ClientDossierDemandeFournisseurRefuse extends Attributes
             'user_id' => $this->user->id,
             'devis_id' => $this->devis->id ?? 0,
             'fournisseur_id' => $this->fournisseur->id,
-            'price' => $this->price,
         ];
     }
 
-    /**
-     * @return float
-     */
-    public function getPrice(): float
-    {
-        return $this->price;
-    }
+
     public function getUser():UserEntity
     {
         return $this->user;
