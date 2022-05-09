@@ -50,9 +50,9 @@
                               >
                                       @icon('delete', 20)
                                   </span>
-                              @if($demande->isValidate())
+                              @if($demande->isValidate() || $demande->isBPA())
                                   @if(!$demande->isBPA())
-                                      <span
+                                      <span 
                                           wire:click="bpa"
                                           class="cursor-pointer  hover:text-green-600"
                                           title="BPA reçu"
@@ -73,7 +73,7 @@
                                   >@icon('checkCircle', 20,'')
                                   </span>
 
-                                  @if($demande->isValidate() && !$demande->isRefused())
+                                  @if(!$demande->isRefused())
                                       <span
                                           wire:click="refuseDemande"
                                           class="cursor-pointer  hover:text-red-600"

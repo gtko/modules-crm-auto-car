@@ -38,11 +38,7 @@ class ClientDossierDemandeFournisseurRefuse extends Attributes
         $fournisseur = $repFournisseur->disabled()->fetchById($value['fournisseur_id']);
         $devis = $repDevis->fetchById($value['devis_id']);
 
-        if($devis) {
-            $price = $repDevis->getPrice($devis, $fournisseur);
-        }
-
-        return new ClientDossierDemandeFournisseurRefuse($user, $devis, $fournisseur, $price);
+        return new ClientDossierDemandeFournisseurRefuse($user, $devis, $fournisseur, $value['price']);
     }
 
     public function toArray(): array
