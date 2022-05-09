@@ -43,7 +43,7 @@ class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
         $demandes = $this->proformat->devis->demandeFournisseurs;
 
        if ($demandes->whereIn('status', EnumStatusDemandeFournisseur::HAS_ACHAT_VALIDE)->count() > 0) {
-           return $demandes;
+           return true;
        }
 
        return false;
@@ -56,11 +56,11 @@ class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
         }else {
             $demandes = $this->proformat->devis->demandeFournisseurs;
 
-            if (($demandeValidated=$this->achatValidated())) {
-                return $demandeValidated->sum('prix');
+            if ($this->achatValidated()) {
+                return $demandes->whereIn('status', EnumStatusDemandeFournisseur::HAS_ACHAT_VALIDE)->sum('prix');
             }
 
-            return $demandes->min('prix');
+            return $demandes->where('prix', ">", 0)->min('prix');
         }
     }
 
@@ -105,8 +105,12 @@ class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
     {
         $marge = 0;
         $demandes = $this->proformat->devis->demandeFournisseurs;
-        if($demandes->count() > 0) {
+        if($demandes->where('prix', '>', 0)->count() > 0) {
            $marge =  $this->getPriceHT() - $this->getPriceAchatHT(true);
+        }
+
+        if($demandes->whereIn('status', EnumStatusDemandeFournisseur::HAS_ACHAT_VALIDE)->count() == 0 && $marge < 0) {
+            $marge = 0;
         }
 
         return $marge;
@@ -117,6 +121,7 @@ class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
         if($this->repository->hasMargeEdited($this->proformat)){
             return $this->repository->getLastMarge($this->proformat, $limit);
         }
+
         return  $this->getMargeOriginHT();
     }
 
