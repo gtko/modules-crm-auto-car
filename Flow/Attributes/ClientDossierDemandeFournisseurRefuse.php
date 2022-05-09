@@ -19,7 +19,7 @@ class ClientDossierDemandeFournisseurRefuse extends Attributes
         UserEntity $user,
         ?DevisEntities $devis,
         Fournisseur $fournisseur,
-        float $price
+        float $price = null
     ){
         parent::__construct();
         $this->user = $user;
