@@ -87,17 +87,6 @@
             <x-basecore::inputs.text name="lastname" label="Nom du contact" wire:model="add_lastname" />
             <x-basecore::inputs.email name="email" label="Email" wire:model="add_email" />
             <x-basecore::inputs.text name="phone" label="Téléphone" wire:model="add_phone" />
-            <x-basecore::inputs.group>
-                <label>Catégories du fournisseur</label>
-                <x-basecore::tom-select
-                    name="tag_ids"
-                    :collection="$tags"
-                    label="name"
-                    id="name"
-                    placeholder="Tags"
-                    :create="true"
-                />
-            </x-basecore::inputs.group>
             <div class="px-2 pt-2 flex justify-between items-center">
                 <button wire:click="annulerAdd" class="btn btn-secondary ">Annuler</button>
                 <button wire:click="createFournisseur" class="btn btn-primary ">Créer</button>
