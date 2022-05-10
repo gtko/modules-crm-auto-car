@@ -168,105 +168,146 @@
             <div class="block sm:flex items-center h-10">
                 <h2 class="text-lg font-medium truncate mr-5">Réservations</h2>
             </div>
-            <div class="w-full overflow-auto  mt-8 sm:mt-0">
-                <table class="table table-report sm:mt-2">
-                    <thead>
-                        <tr>
+            <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-4 lg:-mx-4">
+                <div class="inline-block min-w-full py-2 align-middle">
+                    <div class="overflow-hidden shadow-sm ring-1 ring-black ring-opacity-5">
+                    <table class="min-w-full divide-y divide-gray-300">
+                        <thead class="bg-gray-50">
+                            <tr class="bg-white rounded shadow">
+                                <x-crmautocar::colsort wire:click="sort('id')"
+                                                       class="whitespace-nowrap py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 lg:pl-8"
+                                                       :active="$order === 'id'"
+                                                       :sort="$direction"
+                                >
+                                    #
+                                </x-crmautocar::colsort>
+                                <x-crmautocar::colsort wire:click="sort('client')"
+                                                       class="whitespace-nowrap w-48 px-3 py-3.5 text-left text-sm font-semibold text-gray-90"
+                                                       :active="$order === 'client'"
+                                                       :sort="$direction"
+                                >
+                                    Client
+                                </x-crmautocar::colsort>
+                                <th class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90">Etat</th>
+                                <th class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90">PV / PA</th>
+                                <th class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90">Marge HT</th>
+                                <th class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90">Salaire Diff</th>
+                                <x-crmautocar::colsort wire:click="sort('fournisseur')"
+                                                       class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90"
+                                                       :active="$order === 'fournisseur'"
+                                                       :sort="$direction"
+                                >
+                                    Fournisseur
+                                </x-crmautocar::colsort>
+                                <x-crmautocar::colsort wire:click="sort('date_depart')"
+                                                       class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90"
+                                                       :active="$order === 'date_depart'"
+                                                       :sort="$direction"
+                                >
+                                    Date Départ
+                                </x-crmautocar::colsort>
+                                <x-crmautocar::colsort wire:click="sort('date_retour')"
+                                                       class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90"
+                                                       :active="$order === 'date_retour'"
+                                                       :sort="$direction"
+                                >
+                                    Date Retour
+                                </x-crmautocar::colsort>
+                                <th class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90">Multiple dest</th>
+                                <x-crmautocar::colsort wire:click="sort('encaisser')"
+                                                       class="px-3 py-3.5 text-left text-sm font-semibold text-gray-90"
+                                                       :active="$order === 'encaisser'"
+                                                       :sort="$direction"
+                                >
+                                    A encaisser
+                                </x-crmautocar::colsort>
+                                <th class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90"></th>
+                            </tr>
+                        </thead>
+                        <tbody wire:loading.remove class="divide-y divide-gray-200 bg-white">
+                            @forelse($proformats as $proformat)
+                                <livewire:crmautocar::proformats-list-item :key="$proformat->id" :ref="$proformat->id" :proformat="$proformat"/>
+                            @empty
+                                <tr>
+                                    <td colspan="11" class="p-5">
+                                        <h3 class="text-lg text-gray-600">
+                                            <div class="flex justify-start items-center">
+                                                @icon('empty', null, 'mr-2')
+                                                Aucune réservation trouvée
+                                            </div>
+                                        </h3>
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                        <tbody wire:loading>
+                            <tr>
+                                <td colspan="11">
+                                    <div class="text-lg text-gray-600 w-full p-5">
+                                        <div class="flex justify-start items-center w-full">
+                                            @icon('spinner', null, 'animate-spin mr-2')
+                                            Chargement ...
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tfoot class="bg-gray-50">
+                           <tr class="bg-white rounded shadow">
                             <x-crmautocar::colsort wire:click="sort('id')"
-                                                   class="text-center whitespace-nowrap"
+                                                   class="whitespace-nowrap py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6 lg:pl-8"
                                                    :active="$order === 'id'"
                                                    :sort="$direction"
                             >
                                 #
                             </x-crmautocar::colsort>
                             <x-crmautocar::colsort wire:click="sort('client')"
-                                                   class="text-center whitespace-nowrap"
+                                                   class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90"
                                                    :active="$order === 'client'"
                                                    :sort="$direction"
                             >
                                 Client
                             </x-crmautocar::colsort>
-                            <th class="whitespace-nowrap">Etat</th>
-                            <th class="whitespace-nowrap">PV / PA</th>
-                            <th class="whitespace-nowrap">Marge HT</th>
-                            <th class="whitespace-nowrap">Salaire Diff</th>
+                            <th class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90">Etat</th>
+                            <th class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90">PV / PA</th>
+                            <th class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90">Marge HT</th>
+                            <th class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90">Salaire Diff</th>
                             <x-crmautocar::colsort wire:click="sort('fournisseur')"
-                                                   class="text-center whitespace-nowrap"
+                                                   class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90"
                                                    :active="$order === 'fournisseur'"
                                                    :sort="$direction"
                             >
                                 Fournisseur
                             </x-crmautocar::colsort>
                             <x-crmautocar::colsort wire:click="sort('date_depart')"
-                                                   class="text-center whitespace-nowrap"
+                                                   class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90"
                                                    :active="$order === 'date_depart'"
                                                    :sort="$direction"
                             >
                                 Date Départ
                             </x-crmautocar::colsort>
                             <x-crmautocar::colsort wire:click="sort('date_retour')"
-                                                   class="text-center whitespace-nowrap"
+                                                   class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90"
                                                    :active="$order === 'date_retour'"
                                                    :sort="$direction"
                             >
                                 Date Retour
                             </x-crmautocar::colsort>
-                            <th class="whitespace-nowrap">Multiple dest</th>
+                            <th class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90">Multiple dest</th>
                             <x-crmautocar::colsort wire:click="sort('encaisser')"
-                                                   class="text-center whitespace-nowrap"
+                                                   class="px-3 py-3.5 text-left text-sm font-semibold text-gray-90"
                                                    :active="$order === 'encaisser'"
                                                    :sort="$direction"
                             >
                                 A encaisser
                             </x-crmautocar::colsort>
-                            <th class="whitespace-nowrap"></th>
+                            <th class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90"></th>
                         </tr>
-                    </thead>
-                    <tbody wire:loading.remove>
-                        @forelse($proformats as $proformat)
-                            <livewire:crmautocar::proformats-list-item :key="$proformat->id" :ref="$proformat->id" :proformat="$proformat"/>
-                        @empty
-                            <tr>
-                                <td colspan="11" class="p-5">
-                                    <h3 class="text-lg text-gray-600">
-                                        <div class="flex justify-start items-center">
-                                            @icon('empty', null, 'mr-2')
-                                            Aucune réservation trouvée
-                                        </div>
-                                    </h3>
-                                </td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                    <tbody wire:loading>
-                        <tr>
-                            <td colspan="11">
-                                <div class="text-lg text-gray-600 w-full p-5">
-                                    <div class="flex justify-start items-center w-full">
-                                        @icon('spinner', null, 'animate-spin mr-2')
-                                        Chargement ...
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                    <tr>
-                        <th class="whitespace-nowrap">#</th>
-                        <th class="whitespace-nowrap">Client</th>
-                        <th class="whitespace-nowrap">Etat</th>
-                        <th class="whitespace-nowrap">PV / PA</th>
-                        <th class="whitespace-nowrap">Marge HT</th>
-                        <th class="whitespace-nowrap">Fournisseur</th>
-                        <th class="whitespace-nowrap">Date Départ</th>
-                        <th class="whitespace-nowrap">Date Retour</th>
-                        <th class="whitespace-nowrap">A encaisser</th>
-                        <th class="whitespace-nowrap"></th>
-                    </tr>
-                    </tfoot>
-                </table>
+                        </tfoot>
+                    </table>
+                </div>
+                </div>
             </div>
-
             {{$proformats->links()}}
 
         </div>
