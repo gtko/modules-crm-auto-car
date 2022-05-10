@@ -101,19 +101,28 @@ class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
         return $this->paid() === 0.0 && $this->proformat->payments->count() > 0 && $this->getPriceTTC() < 0;
     }
 
-    public function getMargeOriginHT()
+    public function getMargeOriginHT($forceOrigin = false)
     {
         $marge = 0;
         $demandes = $this->proformat->devis->demandeFournisseurs;
-        if(
-            $demandes->where('prix', '>', 0)->count() > 0 ||
-            $demandes->whereIn('status', EnumStatusDemandeFournisseur::HAS_ACHAT_VALIDE)->count() > 0
-        ) {
-           $marge =  $this->getPriceHT() - $this->getPriceAchatHT(true);
-        }
 
-        if($demandes->whereIn('status', EnumStatusDemandeFournisseur::HAS_ACHAT_VALIDE)->count() == 0 && $marge < 0) {
-            $marge = 0;
+        if(
+            $demandes->where('prix', '!=', 0)
+                ->where('prix', '!=', '')
+                ->count() > 0
+        ) {
+
+            if (
+                $demandes->where('prix', '>', 0)->count() > 0 ||
+                $demandes->whereIn('status', EnumStatusDemandeFournisseur::HAS_ACHAT_VALIDE)->count() > 0
+            ) {
+                $marge = $this->getPriceHT() - $this->getPriceAchatHT($forceOrigin);
+            }
+
+            if ($demandes->whereIn('status', EnumStatusDemandeFournisseur::HAS_ACHAT_VALIDE)->count() == 0 && $marge < 0) {
+                $marge = 0;
+            }
+
         }
 
         return $marge;
@@ -134,7 +143,12 @@ class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
 
     public function getDeltaMargeHT()
     {
-        return $this->getMargeHT() - $this->getMargeOriginHT();
+        $delta =  $this->getMargeOriginHT(true) -  $this->getMargeHT();
+        if($this->getMargeOriginHT(true) === $this->getMargeHT()){
+            $delta = $this->getMargeHT();
+        }
+
+        return $delta;
     }
 
     public function getSalaireDiff(?Carbon $limit = null){

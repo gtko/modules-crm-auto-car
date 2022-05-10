@@ -5,10 +5,14 @@
         </x-slot>
         <div class="font-medium">
             Devis
+            @if($flow->datas->getDevis())
             <x-corecrm::timeline.timeline-item-link
                 :url="route('devis.edit', [$flow->datas->getDevis()->dossier->client, $flow->datas->getDevis()->dossier, $flow->datas->getDevis()])">
                 devis #{{$flow->datas->getDevis()->ref}}
             </x-corecrm::timeline.timeline-item-link>
+            @else
+                <span>Devis n'existe plus</span>
+            @endif
             <span class="text-green-400">
             Validé
             </span>

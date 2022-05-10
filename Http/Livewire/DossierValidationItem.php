@@ -9,6 +9,7 @@ use Modules\CoreCRM\Contracts\Entities\DevisEntities;
 use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\FournisseurRepositoryContract;
 use Modules\CoreCRM\Models\Dossier;
+use Modules\CrmAutoCar\Contracts\Repositories\DemandeFournisseurRepositoryContract;
 use Modules\CrmAutoCar\Flow\Attributes\SendInformationVoyageMailFournisseur;
 use Modules\DevisAutoCar\Models\Devi;
 
@@ -49,9 +50,10 @@ class DossierValidationItem extends Component
         $devis = app(DevisRepositoryContract::class)->fetchById($this->devis->id);
 
         $observables = [];
-        $fournisseurs = app(FournisseurRepositoryContract::class)->getBpaByDevis($devis);
+        $demandes = app(DemandeFournisseurRepositoryContract::class)->getDemandeByDevis($devis);
 
-        foreach($fournisseurs as $fournisseur) {
+        foreach($demandes as $demande) {
+            $fournisseur = $demande->fournisseur;
             $observables[] = [
                 SendInformationVoyageMailFournisseur::class,
                 [

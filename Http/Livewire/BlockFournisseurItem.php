@@ -32,9 +32,7 @@ class BlockFournisseurItem extends Component
     protected $listeners = ['update' => '$refresh'];
 
     protected $rules = [
-        'fournisseur_id' => 'required',
-        'devi_id' => 'required',
-
+        'price' => 'required|numeric',
     ];
 
     public function mount(DemandeFournisseur $demande) {
@@ -66,11 +64,14 @@ class BlockFournisseurItem extends Component
     }
 
     public function savePrice(DemandeFournisseurRepositoryContract $demandRep) {
+
+        $this->validate();
+
         if($this->price != null)
         {
             $demandRep->update($this->demande, ['prix' => $this->price]);
         }
-        $this->closePrice();
+
         $this->emit('update');
         $this->emit('refreshProforma');
     }
@@ -78,6 +79,7 @@ class BlockFournisseurItem extends Component
     public function validateDemande(DemandeFournisseurRepositoryContract $demandRep)
     {
         if($this->price != null && $this->price != "--" && $this->price != 0) {
+
             $demandRep->update($this->demande, ['status' => EnumStatusDemandeFournisseur::STATUS_VALIDATE]);
 
             $proforma = $this->devi->proformat;

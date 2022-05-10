@@ -5,9 +5,13 @@
     <div class="flex items-center">
         <div class="font-medium">
             Demande fournisseur {{$flow->datas->getFournisseur()->formatName}} ({{$flow->datas->getFournisseur()->email}}) pour le
+            @if($flow->datas->getDevis())
             <x-corecrm::timeline.timeline-item-link :url="route('devis.edit', [$flow->datas->getDevis()->dossier->client, $flow->datas->getDevis()->dossier, $flow->datas->getDevis()])">
               devis #{{$flow->datas->getDevis()->ref}}
             </x-corecrm::timeline.timeline-item-link>
+            @else
+                <span>Devis n'existe plus</span>
+            @endif
             au prix de
             {{$flow->datas->getPrice()}}€
             est <span class="text-green-600">validée</span>

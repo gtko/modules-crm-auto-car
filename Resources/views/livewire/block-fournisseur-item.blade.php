@@ -11,7 +11,7 @@
         <td class="py-4 whitespace-nowrap text-sm font-medium text-center">
             {{ $demande->id }}
         </td>
-        <td class="py-4 whitespace-nowrap text-sm font-medium text-center">
+        <td class="py-4 text-sm font-medium text-center">
             <div class="flex flex-col">
                 <span>{{ $fourni->company }}</span>
                 <small>{{ $devi->ref }}</small>
@@ -19,8 +19,19 @@
         </td>
         <td class="py-4 whitespace-nowrap text-sm text-center">
 
-            @if(!$demande->isValidate() && $this->editPrice)
-                <input type="number" class="w-24" wire:model="price">
+            @if(!$demande->isValidate() && !$demande->isBPA())
+                <div class="flex items-center space-x-2">
+                <input type="number" class="w-20 text-sm" wire:model.lazy="price">
+                    <x-basecore::loading-replace wire:target="savePrice">
+                        <span
+                            wire:click="savePrice"
+                            class="cursor-pointer  hover:text-primary-1"
+                            title="sauvegarder le prix"
+                        >
+                            @icon('cash', null)
+                        </span>
+                    </x-basecore::loading-replace>
+                </div>
             @else
                 {{ $demande->prix ?? '--'}} €
             @endif
@@ -29,20 +40,6 @@
         <td class="whitespace-nowrap text-sm text-right">
             @if(!$demande->hasCancel())
                       <span class="flex flex-row justify-center items-center space-x-0.5">
-                          @if($this->editPrice)
-                              <span
-                                  wire:click="closePrice"
-                                  class="cursor-pointer hover:text-red-600"
-                                  title="annuler"
-                              >@icon('close', null)
-                             </span>
-                              <span
-                                  wire:click="savePrice"
-                                  class="cursor-pointer  hover:text-green-600"
-                                  title="Sauvegarder le prix"
-                              >@icon('check', null)
-                             </span>
-                          @else
                               <span
                                   wire:click="delete"
                                   class="cursor-pointer  hover:text-red-600"
@@ -52,7 +49,7 @@
                                   </span>
                               @if($demande->isValidate() || $demande->isBPA())
                                   @if(!$demande->isBPA())
-                                      <span 
+                                      <span
                                           wire:click="bpa"
                                           class="cursor-pointer  hover:text-green-600"
                                           title="BPA reçu"
@@ -60,12 +57,7 @@
                                   </span>
                                   @endif
                               @else
-                                  <span
-                                      wire:click="editerPrice"
-                                      class="cursor-pointer  hover:text-primary-1"
-                                      title="editer le prix"
-                                  >@icon('cash', null)
-                                  </span>
+
                                   <span
                                       wire:click="validateDemande"
                                       class="cursor-pointer  hover:text-green-600"
@@ -82,8 +74,6 @@
                                   </span>
                                   @endif
                               @endif
-                          @endif
-
                       </span>
             @else
                 <span class="flex flex-row justify-center items-center space-x-0.5">

@@ -24,9 +24,29 @@ use Modules\CrmAutoCar\Http\Controllers\TagController;
 use Modules\CrmAutoCar\Http\Controllers\TemplateController;
 use Modules\CrmAutoCar\Http\Controllers\ValidationInformationVoyageController;
 use Modules\CrmAutoCar\Http\Controllers\VuePlateauController;
+use Modules\CrmAutoCar\Models\Proformat;
 use Modules\CrmAutoCar\View\Components\Cgv;
 use Modules\CrmAutoCar\View\Components\DevisClient\Index;
 
+
+Route::get('/test/price', function () {
+
+    $proformats = Proformat::where('number', '2022-04-pf_34')->get();
+
+    foreach($proformats as $proformat) {
+        $price = $proformat->price;
+        dd(
+            $price->getPriceHT(),
+            $price->getPriceAchat(),
+            $price->getPriceAchat(true),
+            $price->getMargeOriginHT(),
+            $price->getDeltaMargeHT(),
+            $price->getSalaireDiff(),
+            $price->getMargeOriginHT(true),
+            $price->getMargeHT()
+        );
+    }
+});
 
 Route::middleware(['secure.devis'])->group(function () {
     Route::get('/devis/{devis}/{token}', [Index::class, 'index'])->name('devis-view');

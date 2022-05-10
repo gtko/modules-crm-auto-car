@@ -6,7 +6,7 @@
         <div class="font-medium">
             <span class="text-green-600">
             Paiement de
-            {{ $flow->datas->getDecaissement()->payer }}€
+            {{ $flow->datas->getDecaissement()->payer ?? '--' }}€
                 </span>
             au fournisseur
             {{$flow->datas->getFournisseur()->formatName}} ({{$flow->datas->getFournisseur()->email}})
