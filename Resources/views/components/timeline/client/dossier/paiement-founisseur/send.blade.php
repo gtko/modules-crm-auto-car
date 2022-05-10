@@ -3,24 +3,34 @@
         <img alt="" src="{{$flow->datas->getUser()->avatar_url}}"/>
     </x-slot>
     <div class="flex items-center">
+
         <div class="font-medium">
             <span class="text-green-600">
-            Paiement de
-            {{ $flow->datas->getDecaissement()->payer ?? '--' }}€
-                </span>
+                Paiement de
+                {{ $flow->datas->getDecaissement()->payer ?? '--' }}€
+            </span>
             au fournisseur
+            @if($flow->datas->getFournisseur())
             {{$flow->datas->getFournisseur()->formatName}} ({{$flow->datas->getFournisseur()->email}})
+             @else
+                <div>aucun fournisseur</div>
+            @endif
             pour le
-            <x-corecrm::timeline.timeline-item-link
-                :url="route('devis.edit', [$flow->datas->getDevis()->dossier->client, $flow->datas->getDevis()->dossier, $flow->datas->getDevis()])">
-                devis #{{$flow->datas->getDevis()->ref}}
-            </x-corecrm::timeline.timeline-item-link>
+            @if($flow->datas->getDevis())
+                <x-corecrm::timeline.timeline-item-link
+                    :url="route('devis.edit', [$flow->datas->getDevis()->dossier->client, $flow->datas->getDevis()->dossier, $flow->datas->getDevis()])">
+                    devis #{{$flow->datas->getDevis()->ref}}
+                </x-corecrm::timeline.timeline-item-link>
+            @else
+                <div>aucun devis</div>
+            @endif
             par
             <x-corecrm::timeline.timeline-item-link :url="route('users.show', $flow->datas->getUser())">
                 {{$flow->datas->getUser()->format_name}}
             </x-corecrm::timeline.timeline-item-link>
 
         </div>
+
         <div class="text-xs text-gray-500 ml-auto">{{$flow->created_at->format('H:i')}}</div>
     </div>
 </x-corecrm::timeline-item>

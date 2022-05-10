@@ -36,6 +36,7 @@ class BlockFournisseur extends Component
     public $tags;
     public $fournisseur_id;
     public $tag_id;
+    public $tag_ids;
     public $devi_id;
     public $price = null;
     public $editPrice = false;
@@ -205,7 +206,18 @@ class BlockFournisseur extends Component
             ];
 
             $fournisseur = $repFournisseur->create($personne, $data);
+
+            $tagRep = app(TagFournisseurRepositoryContract::class);
+            foreach(($this->tag_ids ?? []) as $name){
+                $tag = $tagRep->newQuery()->where('name', $name)->first();
+                if(!$tag){
+                    $tag = $tagRep->create($name);
+                }
+                $fournisseur->tagfournisseurs()->attach($tag);
+            }
+
             $this->add = false;
+
 
             return redirect()->route('dossiers.show', [$this->dossier->client, $this->dossier])
                 ->with('success', 'Fournisseur créé avec succès');
