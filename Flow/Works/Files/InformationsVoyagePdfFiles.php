@@ -4,7 +4,6 @@ namespace Modules\CrmAutoCar\Flow\Works\Files;
 
 use Modules\BaseCore\Actions\Url\SigneRoute;
 use Modules\BaseCore\Contracts\Services\PdfContract;
-use Modules\CoreCRM\Actions\Devis\GenerateLinkDevis;
 use Modules\CoreCRM\Flow\Works\Files\WorkFlowFiles;
 
 class InformationsVoyagePdfFiles extends WorkFlowFiles
