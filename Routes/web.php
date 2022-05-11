@@ -35,16 +35,7 @@ Route::get('/test/price', function () {
 
     foreach($proformats as $proformat) {
         $price = $proformat->price;
-        dd(
-            $price->getPriceHT(),
-            $price->getPriceAchat(),
-            $price->getPriceAchat(true),
-            $price->getMargeOriginHT(),
-            $price->getDeltaMargeHT(),
-            $price->getSalaireDiff(),
-            $price->getMargeOriginHT(true),
-            $price->getMargeHT()
-        );
+        throw new \Exception("Mauvais prix test sentry");
     }
 });
 

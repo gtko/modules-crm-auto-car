@@ -245,8 +245,9 @@
                 </div>
                 </div>
             </div>
+            <div class="mt-2">
             {{$proformats->links()}}
-
+            </div>
         </div>
     </div>
 

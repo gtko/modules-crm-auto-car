@@ -20,7 +20,7 @@ use Modules\CrmAutoCar\Services\SortableComponent;
 
 class ProformatsList extends Component
 {
-
+    use WithPagination;
     use SortableComponent;
 
     public $mois;
