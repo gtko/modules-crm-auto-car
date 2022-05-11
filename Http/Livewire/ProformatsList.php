@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
+use Livewire\WithPagination;
 use Modules\CoreCRM\Contracts\Repositories\CommercialRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\ProformatsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\StatistiqueReservationRepositoryContract;
