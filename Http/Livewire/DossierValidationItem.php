@@ -11,6 +11,7 @@ use Modules\CoreCRM\Contracts\Repositories\FournisseurRepositoryContract;
 use Modules\CoreCRM\Models\Dossier;
 use Modules\CrmAutoCar\Contracts\Repositories\DemandeFournisseurRepositoryContract;
 use Modules\CrmAutoCar\Flow\Attributes\SendInformationVoyageMailFournisseur;
+use Modules\CrmAutoCar\Models\Traits\EnumStatusDemandeFournisseur;
 use Modules\DevisAutoCar\Models\Devi;
 
 class DossierValidationItem extends Component
@@ -50,7 +51,9 @@ class DossierValidationItem extends Component
         $devis = app(DevisRepositoryContract::class)->fetchById($this->devis->id);
 
         $observables = [];
-        $demandes = app(DemandeFournisseurRepositoryContract::class)->getDemandeByDevis($devis);
+        $demandeRep = app(DemandeFournisseurRepositoryContract::class);
+        $demandeRep->setQuery($demandeRep->newQuery()->where('status', EnumStatusDemandeFournisseur::STATUS_VALIDATE));
+        $demandes = $demandeRep->getDemandeByDevis($devis);
 
         foreach($demandes as $demande) {
             $fournisseur = $demande->fournisseur;
