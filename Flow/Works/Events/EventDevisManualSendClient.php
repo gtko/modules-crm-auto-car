@@ -3,12 +3,6 @@
 namespace Modules\CrmAutoCar\Flow\Works\Events;
 
 use Modules\CoreCRM\Flow\Attributes\Attributes;
-use Modules\CoreCRM\Flow\Works\Actions\ActionsAddCall;
-use Modules\CoreCRM\Flow\Works\Actions\ActionsAddNote;
-use Modules\CoreCRM\Flow\Works\Actions\ActionsAjouterTag;
-use Modules\CoreCRM\Flow\Works\Actions\ActionsChangeStatus;
-use Modules\CoreCRM\Flow\Works\Actions\ActionsSendNotification;
-use Modules\CoreCRM\Flow\Works\Actions\ActionsSupprimerTag;
 use Modules\CoreCRM\Flow\Works\CategoriesEventEnum;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionCountDevis;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionCountDossier;
@@ -19,7 +13,6 @@ use Modules\CoreCRM\Flow\Works\Variables\ClientVariable;
 use Modules\CoreCRM\Flow\Works\Variables\CommercialVariable;
 use Modules\CoreCRM\Flow\Works\Variables\DeviVariable;
 use Modules\CoreCRM\Flow\Works\Variables\DossierVariable;
-use Modules\CrmAutoCar\Flow\Attributes\DevisSendClient;
 use Modules\CrmAutoCar\Flow\Attributes\DevisSendManualClient;
 use Modules\CrmAutoCar\Flow\Works\Conditions\ConditionDateDepartDevis;
 use Modules\CrmAutoCar\Flow\Works\Files\CguPdfFiles;
@@ -28,11 +21,9 @@ use Modules\CrmAutoCar\Flow\Works\Files\DevisBrand2PdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\FeuilleDeRoutePdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\InformationsVoyagePdfFiles;
-use Modules\CrmAutoCar\Flow\Works\Files\ProformatPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\RIBPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Variables\GestionnaireVariable;
 use Modules\CrmAutoCar\Flow\Works\Variables\InformationVoyageVariable;
-use Modules\CrmAutoCar\Flow\Works\Variables\ProformatVariable;
 
 class EventDevisManualSendClient extends WorkFlowEvent
 {
