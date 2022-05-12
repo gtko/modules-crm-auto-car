@@ -52,7 +52,7 @@ class DossierValidationItem extends Component
 
         $observables = [];
         $demandeRep = app(DemandeFournisseurRepositoryContract::class);
-        $demandeRep->setQuery($demandeRep->newQuery()->where('status', EnumStatusDemandeFournisseur::STATUS_VALIDATE));
+        $demandeRep->setQuery($demandeRep->newQuery()->where('status', EnumStatusDemandeFournisseur::STATUS_BPA));
         $demandes = $demandeRep->getDemandeByDevis($devis);
 
         foreach($demandes as $demande) {
