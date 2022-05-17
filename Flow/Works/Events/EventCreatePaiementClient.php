@@ -22,6 +22,7 @@ use Modules\CrmAutoCar\Flow\Attributes\CreateProformatClient;
 use Modules\CrmAutoCar\Flow\Works\Conditions\ConditionClientSolde;
 use Modules\CrmAutoCar\Flow\Works\Conditions\ConditionClientTypeValidation;
 use Modules\CrmAutoCar\Flow\Works\Conditions\ConditionDateDepartDevis;
+use Modules\CrmAutoCar\Flow\Works\Conditions\ConditionPaiementTypeValidation;
 use Modules\CrmAutoCar\Flow\Works\Files\CguPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisBrand1PdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisBrand2PdfFiles;
@@ -63,7 +64,8 @@ class EventCreatePaiementClient extends \Modules\CoreCRM\Flow\Works\Events\WorkF
             ConditionTag::class,
             ConditionDateDepartDevis::class,
             ConditionClientTypeValidation::class,
-            ConditionClientSolde::class
+            ConditionClientSolde::class,
+            ConditionPaiementTypeValidation::class
         ];
     }
 

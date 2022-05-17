@@ -44,6 +44,8 @@ class PaiementVariable extends \Modules\CoreCRM\Flow\Works\Variables\WorkFlowVar
 
         $paytweak->disconnect();
 
+        $payment = $datas['payment'] ?? null;
+
         return [
           'lien' => $active['url'] ?? '',
           'total-lien' => $price,
@@ -52,7 +54,8 @@ class PaiementVariable extends \Modules\CoreCRM\Flow\Works\Variables\WorkFlowVar
           'tva' => $priceProformat->getPriceTVA(),
           'taux-tva' => $priceProformat->getTauxTVA(),
           'reste' =>  $priceProformat->remains(),
-          'payé' => $priceProformat->paid()
+          'payé' => $priceProformat->paid(),
+          'somme-payé' => $payment->total ?? 0
         ];
     }
 
@@ -66,7 +69,8 @@ class PaiementVariable extends \Modules\CoreCRM\Flow\Works\Variables\WorkFlowVar
             'tva' => 'Total de la TVA',
             'taux-tva' => 'Taux de TVA',
             'reste' =>  'Reste à payer',
-            'payé' => 'Déjà Payé'
+            'payé' => 'Déjà Payé',
+            'somme-payé' => 'Somme payé sur ce paiement'
         ];
     }
 }

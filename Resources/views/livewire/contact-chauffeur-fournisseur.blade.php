@@ -4,27 +4,18 @@
         <span class="text-lg">Contact chauffeur</span>
     </div>
 
-    @if($fournisseurs->count() > 0)
+    @if($demandeFournisseur->count() > 0)
     <div class="px-2 pt-2">
-        <x-basecore::inputs.select name="fournisseur" label="" required="required" wire:model="fournisseur">
+        <x-basecore::inputs.select name="fournisseur" label="" required="required" wire:model="demandeSelect">
             <option selected="selected">Fournisseur</option>
-            @foreach($fournisseurs as $fournisseurSelect)
-                <option value="{{ $fournisseurSelect->id }}">{{ $fournisseurSelect->format_name }}</option>
+            @foreach($demandeFournisseur as $demande)
+                <option
+                    value="{{$demande->id}}">#{{$demande->id}} - {{$demande->fournisseur->formatName ?? "fournisseur inexistant"}} - {{ $demande->devis->ref ?? 'Devis inexistant' }} ({{$demande->prix}}€)</option>
             @endforeach
         </x-basecore::inputs.select>
     </div>
 
-
-    <div class="px-2 pt-2">
-        <x-basecore::inputs.select name="devis" label="" required="required" wire:model="devis">
-            <option selected="selected" value="">Devis</option>
-            @foreach($dossier->devis as $devisSelect)
-                <option value="{{ $devisSelect->id }}">{{ $devisSelect->ref }}</option>
-            @endforeach
-        </x-basecore::inputs.select>
-    </div>
-
-    @if($devis)
+    @if($demandeSelect)
         @if($this->nbrTrajet > 1)
             <div class="px-2 pt-2">
                 <x-basecore::inputs.select name="trajet" label="" required="required" wire:model="trajet">
@@ -32,8 +23,6 @@
                     @for ($i = 0; $i < $this->nbrTrajet; $i++)
                         <option value="{{$i}}">Trajet {{ $i + 1 }}</option>
                     @endfor
-
-
                 </x-basecore::inputs.select>
             </div>
         @endif

@@ -40,7 +40,7 @@ class BlockFournisseurItem extends Component
         $this->demande = $demande;
         $this->fourni = $demande->fournisseur;
         $this->devi = $demande->devis;
-        $this->price = $demande->prix ?? '--';
+        $this->price = $demande->prix ?? 0;
         $this->bpa = $demande->bpa ?? false;
     }
 

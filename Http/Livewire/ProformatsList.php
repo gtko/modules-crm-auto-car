@@ -93,6 +93,14 @@ class ProformatsList extends Component
     ): Factory|View|Application
     {
         $commercials = $repcommercial->fetchAll();
+        //on prend le mois de la première facture et on va jusqu'au mois actuel avec l'année
+        $firstDate = $proformatRep->newQuery()->orderBy('created_at', 'asc')->first()->created_at ?? now();
+        $dateNow = now()->startOfDay()->startOfMonth();
+        $byMois = [];
+        for($date = $firstDate->clone()->startOfDay()->startOfMonth();$date->lessThanOrEqualTo($dateNow);$date->addMonth()){
+            $byMois[] = $date->clone()->startOfMonth();
+        }
+
 
         $filter = new ProformatFilterQuery();
 
@@ -121,6 +129,16 @@ class ProformatsList extends Component
         else{
             $filter->byCreatedAt($this->dateStart, $this->dateEnd);
         }
+
+        $repStats->setQuery($filter->query());
+        [$totalVente, $totalAchat, $totalMarge, $totalEncaissement,$salaireDiff] = [
+            $repStats->getTotalVente($this->dateStart, $this->dateEnd),
+            $repStats->getTotalAchat($this->dateStart, $this->dateEnd),
+            $repStats->getTotalMargeHT($this->dateStart, $this->dateEnd),
+            $repStats->getTotalAEncaisser($this->dateStart, $this->dateEnd),
+            $repStats->getSalaireDiff($this->dateStart, $this->dateEnd),
+        ];
+
 
         $query = $filter->query();
         $this->querySort($query, [
@@ -193,22 +211,7 @@ class ProformatsList extends Component
         $proformats = $query
             ->paginate(50);
 
-        //on prend le mois de la première facture et on va jusqu'au mois actuel avec l'année
-        $firstDate = $proformatRep->newQuery()->first()->created_at ?? now();
-        $dateNow = now()->startOfDay()->startOfMonth();
-        $byMois = [];
-        for($date = $firstDate->clone()->startOfDay()->startOfMonth();$date->lessThanOrEqualTo($dateNow);$date->addMonth()){
-            $byMois[] = $date->clone()->startOfMonth();
-        }
 
-        $repStats->setQuery($filter->query());
-        [$totalVente, $totalAchat, $totalMarge, $totalEncaissement,$salaireDiff] = [
-            $repStats->getTotalVente($this->dateStart, $this->dateEnd),
-            $repStats->getTotalAchat($this->dateStart, $this->dateEnd),
-            $repStats->getTotalMargeHT($this->dateStart, $this->dateEnd),
-            $repStats->getTotalAEncaisser($this->dateStart, $this->dateEnd),
-            $repStats->getSalaireDiff($this->dateStart, $this->dateEnd),
-        ];
 
         return view('crmautocar::livewire.proformats-list', [
             'proformats' => $proformats,

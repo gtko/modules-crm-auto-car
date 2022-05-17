@@ -23,22 +23,28 @@ class GestionnaireVariable extends WorkFlowVariable
         $follower = $dossier->followers()->first();
 
         if(!$follower){
-            $follower = $dossier->commercial;
-            if(!$follower){
-                $follower = app(UserRepositoryContract::class)->find(1);
-            }
+            $format_name = 'Emilie Garcin';
+            $email = 'contact@centrale-autocar.com';
+            $phone = '01 87 21 14 76';
+        }else{
+            $format_name = $follower->format_name ?? 'Emilie Garcin';
+            $email = $follower->email ?? 'contact@centrale-autocar.com';
+            $phone = $follower->phone ?? '01 87 21 14 76';
         }
 
+
+
+
         return [
-          'email' => $follower->email,
-          'phone' => $follower->phone,
-          'avatar' => $follower->avatar_url,
-          'nom et prénom' => $follower->format_name,
+          'email' => $follower->email ?? 'contact@centrale-autocar.com',
+          'phone' => $follower->phone ?? '01 87 21 14 76',
+          'avatar' => $follower->avatar_url ?? '',
+          'nom et prénom' => $follower->format_name ?? 'Emilie Garcin',
           'signature' => <<<mark
             <div>
-                $follower->format_name <br>
-                $follower->email <br>
-                $follower->phone <br>
+                $format_name <br>
+                $email <br>
+                $phone <br>
             </div>
           mark
         ];

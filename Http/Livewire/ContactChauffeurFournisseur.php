@@ -9,13 +9,14 @@ use Modules\CoreCRM\Contracts\Repositories\DossierRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\FournisseurRepositoryContract;
 use Modules\CoreCRM\Models\Dossier;
 use Modules\CrmAutoCar\Contracts\Repositories\ContactFournisseurRepositoryContract;
+use Modules\CrmAutoCar\Contracts\Repositories\DemandeFournisseurRepositoryContract;
+use Modules\CrmAutoCar\Models\Traits\EnumStatusDemandeFournisseur;
 
 class ContactChauffeurFournisseur extends Component
 {
     public $dossier;
     public $client;
-    public $fournisseur;
-    public $devis;
+    public $demandeSelect;
     public $type_trajet;
     public $trajet;
     public $nbrTrajet;
@@ -39,13 +40,12 @@ class ContactChauffeurFournisseur extends Component
         $this->dossier = $dossier;
     }
 
-    public function updatedDevis()
+    public function updatedDemandeSelect()
     {
-        if ($this->devis) {
-            $devis = app(DevisRepositoryContract::class)->fetchById($this->devis);
-            $this->nbrTrajet = count($devis->data['trajets']) ?? null;
+        if ($this->demandeSelect) {
+            $demande = app(DemandeFournisseurRepositoryContract::class)->fetchById($this->demandeSelect);
+            $this->nbrTrajet = count($demande->devis->data['trajets']) ?? null;
         }
-
     }
 
     /**
@@ -57,13 +57,8 @@ class ContactChauffeurFournisseur extends Component
     {
         $this->validate();
 
-        $devis = app(DevisRepositoryContract::class)->fetchById($this->devis);
-        $fournisseur = app(FournisseurRepositoryContract::class)
-            ->disabled()
-            ->fetchById($this->fournisseur);
+        $demande = app(DemandeFournisseurRepositoryContract::class)->fetchById($this->demandeSelect);
 
-
-//        dd($devis);
         $data =
             [
                 'type_tajet' => $this->type_trajet,
@@ -71,7 +66,7 @@ class ContactChauffeurFournisseur extends Component
                 'sended' => false,
 
             ];
-        app(ContactFournisseurRepositoryContract::class)->create($this->dossier, $fournisseur, $devis, $this->name, $this->phone, $data, $this->trajet);
+        app(ContactFournisseurRepositoryContract::class)->create($this->dossier, $demande->fournisseur, $demande->devis, $this->name, $this->phone, $data, $this->trajet);
 
         $this->reset([
             'name',
@@ -79,22 +74,20 @@ class ContactChauffeurFournisseur extends Component
             'commentaire',
             'trajet',
             'type_trajet',
-            'devis',
-            'fournisseur',
         ]);
     }
 
     /***
      * @return \Illuminate\Database\Eloquent\Collection|\Modules\CrmAutoCar\Models\Fournisseur[]
      */
-    public function getFournisseurs()
+    public function getDemandeFournisseur()
     {
-        return app(FournisseurRepositoryContract::class)
-            ->disabled()
+        return app(DemandeFournisseurRepositoryContract::class)
             ->newQuery()->whereHas('devis', function ($query) {
-            $query->where('dossier_id', $this->dossier->id);
-            $query->where('bpa', true);
-        })->get();
+                $query->where('dossier_id', $this->dossier->id);
+            })
+            ->where('status', EnumStatusDemandeFournisseur::STATUS_BPA)
+            ->get();
     }
 
     public function render()
@@ -102,7 +95,7 @@ class ContactChauffeurFournisseur extends Component
         $contacts = app(ContactFournisseurRepositoryContract::class)->getByDossier($this->dossier);
 
         return view('crmautocar::livewire.contact-chauffeur-fournisseur', [
-            'fournisseurs' => $this->getFournisseurs(),
+            'demandeFournisseur' => $this->getDemandeFournisseur(),
             'contacts' => $contacts
         ]);
     }

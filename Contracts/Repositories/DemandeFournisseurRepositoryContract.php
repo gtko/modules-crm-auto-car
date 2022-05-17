@@ -5,12 +5,13 @@ namespace Modules\CrmAutoCar\Contracts\Repositories;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Modules\BaseCore\Interfaces\RepositoryFetchable;
 use Modules\CoreCRM\Contracts\Entities\DevisEntities;
 use Modules\CrmAutoCar\Models\DemandeFournisseur;
 use Modules\CrmAutoCar\Models\Fournisseur;
 
 
-interface DemandeFournisseurRepositoryContract
+interface DemandeFournisseurRepositoryContract extends RepositoryFetchable
 {
 
     public function create(DevisEntities $devis, $fournisseur, $data = []): DemandeFournisseur;
