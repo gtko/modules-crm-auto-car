@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
+use Mediconesystems\LivewireDatatables\DateColumn;
 use Modules\CoreCRM\Models\Commercial;
 use Modules\CoreCRM\Models\Status;
 use Modules\CrmAutoCar\Actions\ExportDossier;
@@ -51,7 +52,11 @@ class ListDemandeFournisseur extends Component implements Tables\Contracts\HasTa
     protected function getTableQuery(): Builder
     {
         $this->emit('refreshQuery', [$this->tableFilters, $this->tableSearchQuery]);
-        return app(StatFournisseurDatatableQuery::class)->getTableQuery();
+        $query =  app(StatFournisseurDatatableQuery::class)->getTableQuery();
+
+//        dd($query->limit(10)->get()->groupBy('devi_id'));
+
+        return $query;
     }
 
 
@@ -66,6 +71,9 @@ class ListDemandeFournisseur extends Component implements Tables\Contracts\HasTa
 
             Tables\Columns\TextColumn::make('devis.id')
                 ->label('ID Devis')
+                ->formatStateUsing(function(Model $record) {
+                    return $record->ref;
+                })
                 ->url(function(Model $record) {
                     return route('devis.edit', [$record->devis->dossier->client, $record->devis->dossier, $record->devis]);
                     })
@@ -74,6 +82,9 @@ class ListDemandeFournisseur extends Component implements Tables\Contracts\HasTa
 
             Tables\Columns\TextColumn::make('devis.dossier.id')
                 ->label('ID Dossier')
+                ->formatStateUsing(function(Model $record) {
+                    return $record->ref;
+                })
                 ->url(function(Model $record) {
                     return route('dossiers.show', [$record->devis->dossier->client, $record->devis->dossier]);
                 })
@@ -117,6 +128,12 @@ class ListDemandeFournisseur extends Component implements Tables\Contracts\HasTa
                 ->formatStateUsing(function(Model $record) {
                     return ($record->reste ?? $record->prix) . "€";
                 })
+                ->sortable()
+                ->toggleable(true),
+
+            Tables\Columns\TextColumn::make('created_at')
+                ->label('Date')
+                ->dateTime()
                 ->sortable()
                 ->toggleable(true),
 

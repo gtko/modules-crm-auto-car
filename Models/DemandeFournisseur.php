@@ -16,6 +16,8 @@ use Modules\DevisAutoCar\Models\Devi;
  * @property int $user_id
  * @property string $status
  * @property float $prix
+ * @property float $payer
+ * @property float $reste
  * @property boolean $validate
  * @property boolean $bpa
  * @property boolean $refused
@@ -42,6 +44,8 @@ class DemandeFournisseur extends Model
         'created_at',
         'updated_at',
         'status',
+        'payer',
+        'reste',
         'canceled_id'
     ];
 
@@ -62,6 +66,16 @@ class DemandeFournisseur extends Model
     public function decaissements():HasMany
     {
         return $this->hasMany(Decaissement::class,'demande_id');
+    }
+
+
+    public function computeStats(){
+
+        $this->payer = $this->decaissements->sum('payer') ?? 0;
+        $this->reste = $this->prix - $this->payer;
+        $this->save();
+
+        return $this;
     }
 
     public function isBPA():bool

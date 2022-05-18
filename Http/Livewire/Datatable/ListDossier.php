@@ -107,6 +107,17 @@ class ListDossier extends Component implements Tables\Contracts\HasTable
                 ->label('Tags')
                 ->toggleable(true),
 
+            Tables\Columns\TextColumn::make('date_depart')
+                ->label('Date de départ')
+                ->sortable()
+                ->searchable()
+                ->toggleable(true),
+            Tables\Columns\TextColumn::make('lieu_depart')
+                ->label('Lieu de départ')
+                ->sortable(['data->lieu_depart'])
+                ->searchable()
+                ->toggleable(true),
+
             DateVoyageColumn::make('devis')
                 ->label('Date du voyage')
                 ->sortable()
@@ -138,6 +149,12 @@ class ListDossier extends Component implements Tables\Contracts\HasTable
         if (filled($sortCol = $this->getTableSortColumn()) && filled($sortDir = $this->getTableSortDirection())) {
 
             $ordersBy = [
+                'date_depart' => function($query, $direction) {
+                    return $query->orderByRaw("STR_TO_DATE(json_unquote(json_extract(data, '$.date_depart')), '%d/%c/%Y') $direction");
+                },
+                'date_arrive' => function($query, $direction) {
+                    return $query->orderByRaw("STR_TO_DATE(json_unquote(json_extract(data, '$.date_arrive')), '%d/%c/%Y') $direction");
+                },
                 'created_at' => function ($query, $direction) {
                     $query->orderBy('created_at', $direction);
                 },

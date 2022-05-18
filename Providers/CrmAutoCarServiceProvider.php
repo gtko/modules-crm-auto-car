@@ -152,9 +152,8 @@ class CrmAutoCarServiceProvider extends ServiceProvider
         $this->app->bind(DemandeFournisseurRepositoryContract::class, DemandeFournisseurRepository::class);
 
         $this->app->bind(FlowContract::class,FlowAutocarCRM::class);
-        $this->app->singleton(FilterBureau::class);
-
-        $this->app->singleton(StatFournisseurDatatableQuery::class);
+        $this->app->scoped(FilterBureau::class);
+        $this->app->scoped(StatFournisseurDatatableQuery::class);
 
         $this->app->bind(ClientDossierCreate::class, \Modules\CrmAutoCar\Flow\Attributes\ClientDossierCreate::class);
 //        $this->app->bind(\Modules\CrmAutoCar\Flow\Attributes\SendEmailDossier::class, \Modules\CrmAutoCar\Flow\Attributes\SendEmailDossier::class);

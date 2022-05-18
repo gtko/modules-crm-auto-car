@@ -25,16 +25,20 @@ class StatFournisseurDatatableQuery
     {
         return $this->repository->newQuery()
             ->with('devis.dossier.client')
-            ->where('status', '!=', EnumStatusDemandeFournisseur::STATUS_WAITING)
-            ->whereHas('devis', function (Builder $query) {
-                $query->has('dossier');
+            ->where(function($query){
+                $query->has('fournisseur')
+                ->where('status', '=', EnumStatusDemandeFournisseur::STATUS_BPA)
+                ->whereHas('devis', function (Builder $query) {
+                    $query->has('dossier');
+                });
             });
+
     }
 
     public function getTableFilters(): array
     {
         $filters = [
-            MultiSelectFilter::make('status')
+         /*   MultiSelectFilter::make('status')
                 ->options([
                     EnumStatusDemandeFournisseur::STATUS_BPA => 'BPA',
                     EnumStatusDemandeFournisseur::STATUS_VALIDATE => 'Validé',
@@ -42,7 +46,7 @@ class StatFournisseurDatatableQuery
                     EnumStatusCancel::STATUS_CANCELED => 'Annulé',
                     EnumStatusCancel::STATUS_CANCELLER => 'Remboursement',
                 ])
-                ->column('status'),
+                ->column('status'),*/
 
             MultiSelectFilter::make('fournisseur')
                 ->options(function (): array {
