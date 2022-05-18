@@ -38,7 +38,7 @@ class Proformat extends Model
 
     protected $fillable = ['devis_id', 'number', 'total', 'data', 'acceptation_date'];
 
-    public $with = ['marges', 'devis'];
+    public $with = ["marges"];
 
     protected $casts = [
         'avoirs' => 'array',

@@ -24,6 +24,7 @@ use Modules\CrmAutoCar\Models\Traits\EnumStatusDemandeFournisseur;
 use Modules\CrmAutoCar\Repositories\DossierAutoCarRepository;
 use Modules\CrmAutoCar\Tables\Columns\BureauColumn;
 use Modules\CrmAutoCar\Tables\Columns\DateVoyageColumn;
+use Modules\CrmAutoCar\Tables\Columns\DateVoyageSingleColumn;
 use Modules\CrmAutoCar\Tables\Columns\TagsTable;
 use pxlrbt\FilamentExcel\Actions\ExportAction;
 use Spatie\Permission\Models\Role;
@@ -71,9 +72,6 @@ class ListDemandeFournisseur extends Component implements Tables\Contracts\HasTa
 
             Tables\Columns\TextColumn::make('devis.id')
                 ->label('ID Devis')
-                ->formatStateUsing(function(Model $record) {
-                    return $record->ref;
-                })
                 ->url(function(Model $record) {
                     return route('devis.edit', [$record->devis->dossier->client, $record->devis->dossier, $record->devis]);
                     })
@@ -82,9 +80,6 @@ class ListDemandeFournisseur extends Component implements Tables\Contracts\HasTa
 
             Tables\Columns\TextColumn::make('devis.dossier.id')
                 ->label('ID Dossier')
-                ->formatStateUsing(function(Model $record) {
-                    return $record->ref;
-                })
                 ->url(function(Model $record) {
                     return route('dossiers.show', [$record->devis->dossier->client, $record->devis->dossier]);
                 })
@@ -94,6 +89,11 @@ class ListDemandeFournisseur extends Component implements Tables\Contracts\HasTa
             Tables\Columns\TextColumn::make('devis.dossier.client.format_name')
                 ->label('Client')
                 ->sortable()
+                ->toggleable(true),
+
+            Tables\Columns\TextColumn::make('devis.dossier.client.company')
+                ->label('Client Company')
+                ->limit(20)
                 ->toggleable(true),
 
             Tables\Columns\TextColumn::make('fournisseur.company')
@@ -131,13 +131,7 @@ class ListDemandeFournisseur extends Component implements Tables\Contracts\HasTa
                 ->sortable()
                 ->toggleable(true),
 
-            Tables\Columns\TextColumn::make('created_at')
-                ->label('Date')
-                ->dateTime()
-                ->sortable()
-                ->toggleable(true),
-
-            DateVoyageColumn::make('devis')
+            DateVoyageSingleColumn::make('devis')
                 ->label('Date du voyage')
                 ->sortable()
                 ->toggleable(true),
