@@ -16,6 +16,8 @@ use Modules\CrmAutoCar\Contracts\Repositories\ContactFournisseurRepositoryContra
 use Modules\CrmAutoCar\Entities\ProformatPrice;
 use Modules\CrmAutoCar\Models\Traits\hasCanceled;
 use Modules\CrmAutoCar\Repositories\BrandsRepository;
+use Modules\SearchCRM\Entities\SearchResult;
+use Modules\SearchCRM\Interfaces\SearchableModel;
 use Rennokki\QueryCache\Traits\QueryCacheable;
 /**
  * @property int $id
@@ -29,7 +31,7 @@ use Rennokki\QueryCache\Traits\QueryCacheable;
  * @property-read \Illuminate\Database\Eloquent\Collection $payments
  * @property-read \Illuminate\Database\Eloquent\Collection $marges
  */
-class Proformat extends Model
+class Proformat extends Model implements SearchableModel
 {
 //    use QueryCacheable;
 //    protected $cacheFor = 3600;
@@ -64,6 +66,17 @@ class Proformat extends Model
         return $this->hasMany(Marge::class);
     }
 
+
+//    public function getNumberAttribute()
+//    {
+//        $number =  $this->attributes['number'] ?? '';
+//        $number = last(explode('pf', $number ?? ''));
+//        $number = (int) str_replace('_', '', $number);
+//
+//
+//        return 'PF' . $this->created_at->format('Ym'). $number;
+//    }
+
     public function getPriceAttribute():ProformatPrice
     {
         return (new ProformatPrice($this,  app(BrandsRepositoryContract::class)->getDefault()));
@@ -95,4 +108,21 @@ class Proformat extends Model
         return $this->devis->dossier->contactFournisseurs;
     }
 
+    public function getSearchResult(): SearchResult
+    {
+        $dossier = $this->devis->dossier;
+        $client = $dossier->client;
+
+        $result = new SearchResult(
+            $this,
+            "#{$this->number} - " . $client->format_name,
+            route('dossiers.show', [$client, $dossier]),
+            'Proformas',
+            html:"<small>{$this->created_at->format('d/m/Y')}</small> - <small>{$this->devis->commercial->format_name}</small>"
+        );
+
+        $result->setImg($client->avatar_url);
+
+        return $result;
+    }
 }

@@ -22,4 +22,7 @@ interface StatistiqueReservationRepositoryContract extends RepositoryFetchable, 
 
     public function getTotalAEncaisser(?Carbon $dateStart = null, ?Carbon $dateEnd = null):float;
     public function getSalaireDiff(?Carbon $dateStart = null, ?Carbon $dateEnd = null):float;
+
+    public function isBalanced():bool;
+
 }

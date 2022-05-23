@@ -70,20 +70,20 @@ class ListDemandeFournisseur extends Component implements Tables\Contracts\HasTa
                 ->sortable()
                 ->toggleable(true),
 
-            Tables\Columns\TextColumn::make('devis.id')
+            Tables\Columns\TextColumn::make('devis.ref')
                 ->label('ID Devis')
                 ->url(function(Model $record) {
                     return route('devis.edit', [$record->devis->dossier->client, $record->devis->dossier, $record->devis]);
                     })
-                ->sortable()
+                ->sortable('devis.id')
                 ->toggleable(true),
 
-            Tables\Columns\TextColumn::make('devis.dossier.id')
+            Tables\Columns\TextColumn::make('devis.dossier.ref')
                 ->label('ID Dossier')
                 ->url(function(Model $record) {
                     return route('dossiers.show', [$record->devis->dossier->client, $record->devis->dossier]);
                 })
-                ->sortable()
+                ->sortable('devis.dossier.id')
                 ->toggleable(true),
 
             Tables\Columns\TextColumn::make('devis.dossier.client.format_name')

@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Cache;
 use Modules\BaseCore\Repositories\AbstractRepository;
 use Modules\CrmAutoCar\Contracts\Repositories\StatistiqueReservationRepositoryContract;
 use Modules\CrmAutoCar\Models\Proformat;
+use Modules\CrmAutoCar\Models\Traits\EnumStatusCancel;
 
 class StatistiqueReservationRepository extends AbstractRepository implements StatistiqueReservationRepositoryContract
 {
@@ -90,5 +91,12 @@ class StatistiqueReservationRepository extends AbstractRepository implements Sta
         });
     }
 
+
+    public function isBalanced():bool
+    {
+        return Proformat::
+        whereIn('status',[EnumStatusCancel::STATUS_CANCELED, EnumStatusCancel::STATUS_CANCELLER] )
+            ->sum('total') === 0;
+    }
 
 }

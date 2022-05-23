@@ -130,7 +130,7 @@ class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
 
     public function getMargeHT(?Carbon $limit = null)
     {
-        if($this->repository->hasMargeEdited($this->proformat)){
+        if($this->margeEdited()){
             return $this->repository->getLastMarge($this->proformat, $limit);
         }
 

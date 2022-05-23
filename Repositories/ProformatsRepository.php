@@ -82,6 +82,21 @@ class ProformatsRepository extends AbstractRepository implements ProformatsRepos
 
     public function searchQuery(Builder $query, string $value, mixed $parent = null): Builder
     {
+
+//        preg_match("#(PF)([0-9]{4})([0-9]{2})([0-9]+)#", $value, $matches);
+//
+//        //2022-05-pf_99
+//        /*array:5 [▼
+//          0 => "PF202205165"
+//          1 => "PF"
+//          2 => "2022"
+//          3 => "05"
+//          4 => "165"
+//        ]*/
+//
+//        $value = ($matches[2] ?? '' ). '-' . ($matches[3] ?? '') . '-pf_' . ($matches[4] ?? '');
+
+
         return $query->where('number', 'LIKE', '%'.$value.'%');
     }
 
@@ -113,7 +128,7 @@ class ProformatsRepository extends AbstractRepository implements ProformatsRepos
 
     public function hasMargeEdited(Proformat $proformat): bool
     {
-        return $proformat->marges->count() > 0;
+        return ($proformat->marges->count() ?? 0) > 0 && $proformat->status != EnumStatusCancel::STATUS_CANCELED && $proformat->status != EnumStatusCancel::STATUS_CANCELLER ;
     }
 
     public function toInvoice(): Collection

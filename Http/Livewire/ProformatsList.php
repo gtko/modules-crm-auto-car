@@ -131,12 +131,13 @@ class ProformatsList extends Component
         }
 
         $repStats->setQuery($filter->query());
-        [$totalVente, $totalAchat, $totalMarge, $totalEncaissement,$salaireDiff] = [
+        [$totalVente, $totalAchat, $totalMarge, $totalEncaissement,$salaireDiff, $isBalanced] = [
             $repStats->getTotalVente($this->dateStart, $this->dateEnd),
             $repStats->getTotalAchat($this->dateStart, $this->dateEnd),
             $repStats->getTotalMargeHT($this->dateStart, $this->dateEnd),
             $repStats->getTotalAEncaisser($this->dateStart, $this->dateEnd),
             $repStats->getSalaireDiff($this->dateStart, $this->dateEnd),
+            $repStats->isBalanced(),
         ];
 
 
@@ -221,7 +222,8 @@ class ProformatsList extends Component
             'totalMarge' => $totalMarge,
             'totalEncaissement' => $totalEncaissement,
             'salaireDiff' => $salaireDiff,
-            'byMois' => $byMois
+            'byMois' => $byMois,
+            'isBalanced' => $isBalanced,
         ]);
     }
 }

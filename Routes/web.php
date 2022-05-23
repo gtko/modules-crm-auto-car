@@ -25,18 +25,35 @@ use Modules\CrmAutoCar\Http\Controllers\TemplateController;
 use Modules\CrmAutoCar\Http\Controllers\ValidationInformationVoyageController;
 use Modules\CrmAutoCar\Http\Controllers\VuePlateauController;
 use Modules\CrmAutoCar\Models\Proformat;
+use Modules\CrmAutoCar\Models\Traits\EnumStatusCancel;
 use Modules\CrmAutoCar\View\Components\Cgv;
 use Modules\CrmAutoCar\View\Components\DevisClient\Index;
 
 
 Route::get('/test/price', function () {
 
-    $proformats = Proformat::where('number', '2022-04-pf_34')->get();
+    $proformats = Proformat::
+    whereIn('status',[EnumStatusCancel::STATUS_CANCELED, EnumStatusCancel::STATUS_CANCELLER] )
+        ->sum('total');
 
-    foreach($proformats as $proformat) {
-        $price = $proformat->price;
-        throw new \Exception("Mauvais prix test sentry");
-    }
+
+//    foreach($proformats as $proformat){
+//
+//        $total = $proformat->total + $proformat->canceled->total;
+//        if($total != 0) {
+//            dump(
+//                $proformat->devis->dossier->ref,
+//                $proformat->number,
+//                "Total => " . $total,
+//                $proformat->number . " == " . $proformat->total,
+//                $proformat->canceled->number . " == " . $proformat->canceled->total
+//            );
+//        }
+//
+//    }
+
+    dd($proformats);
+
 });
 
 Route::middleware(['secure.devis'])->group(function () {

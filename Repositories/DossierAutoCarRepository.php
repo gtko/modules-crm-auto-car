@@ -37,11 +37,11 @@ class DossierAutoCarRepository extends \Modules\CoreCRM\Repositories\DossierRepo
     {
         $query = parent::searchQuery($query, $value, $parent);
 
-//        if (!HasInterface::has(ClientRepositoryContract::class, $parent)) {
-//            $query->orWhereHas('client', function ($query) use ($value) {
-//                return app(ClientRepositoryContract::class)->searchQuery($query, $value, $this);
-//            });
-//        }
+        if (!HasInterface::has(ClientRepositoryContract::class, $parent)) {
+            $query->orWhereHas('client', function ($query) use ($value) {
+                return app(ClientRepositoryContract::class)->searchQuery($query, $value, $this);
+            });
+        }
 
         return $query;
     }
