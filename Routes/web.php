@@ -32,25 +32,25 @@ use Modules\CrmAutoCar\View\Components\DevisClient\Index;
 
 Route::get('/test/price', function () {
 
-    $proformats = Proformat::
-    whereIn('status',[EnumStatusCancel::STATUS_CANCELED, EnumStatusCancel::STATUS_CANCELLER] )
-        ->sum('total');
+    $proformats = Proformat::whereIn('status',[EnumStatusCancel::STATUS_CANCELED] )
+        ->get();
 
 
-//    foreach($proformats as $proformat){
-//
-//        $total = $proformat->total + $proformat->canceled->total;
-//        if($total != 0) {
-//            dump(
-//                $proformat->devis->dossier->ref,
-//                $proformat->number,
-//                "Total => " . $total,
-//                $proformat->number . " == " . $proformat->total,
-//                $proformat->canceled->number . " == " . $proformat->canceled->total
-//            );
-//        }
-//
-//    }
+    foreach($proformats as $proformat){
+
+
+        $total = $proformat->total + ($proformat->canceled->total ?? 0);
+        if($total != 0) {
+            dump(
+                $proformat->devis->dossier->ref,
+                $proformat->number ?? 0,
+                "Total => " . $total,
+                $proformat->number . " == " . $proformat->total,
+                ($proformat->canceled->number ?? 0) . " == " . ($proformat->canceled->total ?? 0)
+            );
+        }
+
+    }
 
     dd($proformats);
 

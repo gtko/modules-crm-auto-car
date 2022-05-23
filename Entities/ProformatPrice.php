@@ -42,11 +42,7 @@ class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
     public function achatValidated(){
         $demandes = $this->proformat->devis->demandeFournisseurs;
 
-       if ($demandes->whereIn('status', EnumStatusDemandeFournisseur::HAS_ACHAT_VALIDE)->count() > 0) {
-           return true;
-       }
-
-       return false;
+        return $demandes->whereIn('status', EnumStatusDemandeFournisseur::HAS_ACHAT_VALIDE)->count() > 0;
     }
 
     public function getPriceAchat($forceOrigin = false){
@@ -54,13 +50,7 @@ class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
         if($this->margeEdited() && $forceOrigin === false){
             return ($this->getPriceHt() - $this->getDeltaMargeHT()) * (1 + ($this->getTauxTVA() / 100));
         }else {
-            $demandes = $this->proformat->devis->demandeFournisseurs;
-
-            if ($this->achatValidated()) {
-                return $demandes->whereIn('status', EnumStatusDemandeFournisseur::HAS_ACHAT_VALIDE)->sum('prix');
-            }
-
-            return $demandes->where('prix', ">", 0)->min('prix');
+            return $this->getDemandeFournisseurForMarge()->sum('prix');
         }
     }
 
@@ -101,6 +91,19 @@ class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
         return $this->paid() === 0.0 && $this->proformat->payments->count() > 0 && $this->getPriceTTC() < 0;
     }
 
+
+    public function getDemandeFournisseurForMarge()
+    {
+        $demandes = $this->proformat->devis->demandeFournisseurs;
+
+        if ($this->achatValidated()) {
+            return $demandes->whereIn('status', EnumStatusDemandeFournisseur::HAS_ACHAT_VALIDE);
+        }
+
+        return $demandes->where('prix', ">", 0)->sortBy('prix')->take(1);
+    }
+
+
     public function getMargeOriginHT($forceOrigin = false)
     {
         $marge = 0;
@@ -116,7 +119,12 @@ class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
                 $demandes->where('prix', '>', 0)->count() > 0 ||
                 $demandes->whereIn('status', EnumStatusDemandeFournisseur::HAS_ACHAT_VALIDE)->count() > 0
             ) {
-                $marge = $this->getPriceHT() - $this->getPriceAchatHT($forceOrigin);
+                $priceAchat = $this->getPriceAchatHT($forceOrigin);
+                if($priceAchat == 0){
+                    $marge = 0;
+                }else {
+                    $marge = $this->getPriceHT() - $priceAchat;
+                }
             }
 
             if ($demandes->whereIn('status', EnumStatusDemandeFournisseur::HAS_ACHAT_VALIDE)->count() == 0 && $marge < 0) {
