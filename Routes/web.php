@@ -30,7 +30,31 @@ use Modules\CrmAutoCar\View\Components\Cgv;
 use Modules\CrmAutoCar\View\Components\DevisClient\Index;
 
 
-Route::get('/test/price', function () {
+Route::get('/utils/cancel-with-marge', function () {
+
+    $proformats = Proformat::whereIn('status',[EnumStatusCancel::STATUS_CANCELED] )
+        ->get();
+
+
+    foreach($proformats as $proformat){
+        if($proformat->cancel_id){
+            $balanced = $proformat->price->getMargeHT() + $proformat->canceled->price->getMargeHt() == 0;
+            if(!$balanced){
+                dump($proformat->number . " => " . $proformat->price->getMargeHT() .
+                ' || ' . $proformat->canceled->number . ' => ' . $proformat->canceled->price->getMargeHt()
+                ." || Result " . ($proformat->price->getMargeHT() + $proformat->canceled->price->getMargeHt()) );
+            }
+        }else{
+            dump('ERROR PAS DE CANCELLER ===> ' . $proformat->number);
+        }
+
+    }
+
+    dd($proformats);
+
+});
+
+Route::get('/utils/blanced', function () {
 
     $proformats = Proformat::whereIn('status',[EnumStatusCancel::STATUS_CANCELED] )
         ->get();

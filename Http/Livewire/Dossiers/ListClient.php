@@ -47,7 +47,8 @@ class ListClient extends Component
     public function mount($resa = false){
         $this->resa = $resa;
 
-        $this->order = 'updated_at';
+        $this->order = 'signer_at';
+        $this->direction = 'desc';
     }
 
     public function query()
