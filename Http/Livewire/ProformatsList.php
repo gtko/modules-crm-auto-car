@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Modules\BaseCore\Contracts\Repositories\UserRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\CommercialRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\ProformatsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\StatistiqueReservationRepositoryContract;
@@ -26,6 +27,7 @@ class ProformatsList extends Component
 
     public $mois;
     public $commercialSelect;
+    public $gestionnaire;
     public $commercial;
 
     public $paid;
@@ -39,7 +41,7 @@ class ProformatsList extends Component
 
     public $toinvoice;
 
-    public $queryString = ['toinvoice','order', 'direction'];
+    public $queryString = ['mois', 'gestionnaire', 'commercialSelect','toinvoice','order', 'direction', 'paid', 'margeEnd', 'contact', 'infovoyage', 'margeEdited', 'dateStart', 'dateEnd'];
 
     public $listeners = [
         'proformats.refresh' => '$refresh',
@@ -48,7 +50,10 @@ class ProformatsList extends Component
     public function mount(){
         $this->dateStart = now()->startOfMonth();
         $this->dateEnd = now()->endOfMonth();
-        $this->mois = $this->dateStart->format('d/m/Y');
+
+        if(!$this->mois) {
+            $this->mois = $this->dateStart->format('d/m/Y');
+        }
 
         $this->order = 'created_at';
         $this->direction = 'desc';
@@ -89,10 +94,17 @@ class ProformatsList extends Component
 
     public function render(ProformatsRepositoryContract $proformatRep,
                            CommercialRepositoryContract $repcommercial,
-                           StatistiqueReservationRepositoryContract $repStats
+                           StatistiqueReservationRepositoryContract $repStats,
+          UserRepositoryContract $userRep
     ): Factory|View|Application
     {
+
+        $this->filtre();
+
         $commercials = $repcommercial->fetchAll();
+        $gestionnaires = $userRep->newQuery()->whereHas('roles', function($query){
+            $query->where('id', 7);
+        })->get();
         //on prend le mois de la première facture et on va jusqu'au mois actuel avec l'année
         $firstDate = $proformatRep->newQuery()->orderBy('created_at', 'asc')->first()->created_at ?? now();
         $dateNow = now()->startOfDay()->startOfMonth();
@@ -104,7 +116,7 @@ class ProformatsList extends Component
 
         $filter = new ProformatFilterQuery();
 
-        $filter->byBureau(Auth::user());
+//        $filter->byBureau(Auth::user());
 
         if (!Gate::allows('viewAny', Proformat::class)) {
             $filter->byCommercial(Auth::commercial());
@@ -112,6 +124,7 @@ class ProformatsList extends Component
             $filter->byCommercial($this->commercial);
         }
 
+        $filter->byGestionnaire($this->gestionnaire);
         if($this->paid === 'oui') $filter->paid();
         if($this->paid === 'non') $filter->notPaid();
 
@@ -123,6 +136,8 @@ class ProformatsList extends Component
 
         if($this->toinvoice === 'oui') $filter->toInvoice();
         if($this->margeEnd === 'oui') $filter->margeDefinitve();
+
+//        dd($filter->query()->toSql(), $this->margeEnd);
 
 
         if($this->margeEdited === 'oui') $filter->byMargeEdited($this->dateStart, $this->dateEnd);
@@ -217,6 +232,7 @@ class ProformatsList extends Component
         return view('crmautocar::livewire.proformats-list', [
             'proformats' => $proformats,
             'commercials' => $commercials,
+            'gestionnaires' => $gestionnaires,
             'totalVente' => $totalVente,
             'totalAchat' => $totalAchat,
             'totalMarge' => $totalMarge,

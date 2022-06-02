@@ -42,7 +42,10 @@ class ListFormulaire extends Component implements Tables\Contracts\HasTable
 
     protected function getTableQuery(): Builder
     {
-        $query = $this->repository->newQuery();
+        $query = $this->repository->newQuery()
+        ->whereHas('status', function($query){
+            $query->where('id', 4);
+        });
 
         return $query;
     }

@@ -72,6 +72,14 @@
                         @endforeach
                     </x-basecore::inputs.select>
                 </div>
+                    <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+                        <x-basecore::inputs.select name="gestionnaire" wire:model="gestionnaire">
+                            <option value="" default>Choisissez un gestionnaire</option>
+                            @foreach($gestionnaires as $gestionnaire)
+                                <option value="{{ $gestionnaire->id }}">{{ $gestionnaire->formatName }}</option>
+                            @endforeach
+                        </x-basecore::inputs.select>
+                    </div>
                 @endcan
 
                 <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">

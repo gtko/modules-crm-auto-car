@@ -7,6 +7,7 @@ use Modules\BaseCore\Contracts\Entities\UserEntity;
 use Modules\CoreCRM\Enum\StatusTypeEnum;
 use Modules\CoreCRM\Models\Commercial;
 use Modules\CrmAutoCar\Contracts\Repositories\ProformatsRepositoryContract;
+use Modules\CrmAutoCar\Models\Traits\EnumStatusDemandeFournisseur;
 
 class ProformatFilterQuery
 {
@@ -36,10 +37,25 @@ class ProformatFilterQuery
         if($commercial){
             $this->query->where(function() use ($commercial){
                 $this->query->hasCommercial($commercial);
-                $this->query->orWhereHas('devis', function($query) use ($commercial){
-                    $query->whereHas('dossier', function($query) use ($commercial){
-                        $query->whereHas('followers', function($query) use ($commercial){
-                            $query->where('id', $commercial->id);
+//                $this->query->orWhereHas('devis', function($query) use ($commercial){
+//                    $query->whereHas('dossier', function($query) use ($commercial){
+//                        $query->whereHas('followers', function($query) use ($commercial){
+//                            $query->where('id', $commercial->id);
+//                        });
+//                    });
+//                });
+            });
+        }
+    }
+
+    public function byGestionnaire($user = null)
+    {
+        if($user){
+            $this->query->where(function() use ($user){
+                $this->query->WhereHas('devis', function($query) use ($user){
+                    $query->whereHas('dossier', function($query) use ($user){
+                        $query->whereHas('followers', function($query) use ($user){
+                            $query->where('id', $user);
                         });
                     });
                 });
@@ -57,7 +73,9 @@ class ProformatFilterQuery
 
     public function margeDefinitve(){
         $this->query->whereHas('devis', function($query){
-           $query->has('fournisseursBPA');
+           $query->whereHas('demandeFournisseurs', function($query){
+               $query->where('status', EnumStatusDemandeFournisseur::STATUS_BPA);
+           });
         });
     }
 

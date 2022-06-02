@@ -195,7 +195,7 @@ class ListClient extends Component
     public function render()
     {
         if (!$this->viewMyLead && Auth::user()->can('viewAll', \Modules\CoreCRM\Models\Dossier::class)) {
-            $dossiers = $this->query()->paginate(50);
+            $dossiers = $this->query()->paginate(25);
         } else {
 
             $dossiers = $this->query()
@@ -203,7 +203,7 @@ class ListClient extends Component
                 ->orWhereHas('followers', function($query){
                     $query->where('user_id', \Auth::user()->id);
                 })
-                ->paginate(50);
+                ->paginate(25);
         }
 
 
