@@ -54,7 +54,7 @@
                     </div>
                 </div>
             </x-slot>
-            <livewire:crmautocar::stats-admin-card :filtre="$this->filtre" :key="'admin_card'.$this->key"/>
+{{--            <livewire:crmautocar::stats-admin-card :filtre="$this->filtre" :key="'admin_card'.$this->key"/>--}}
             <livewire:crmautocar::stat-admin-client-list :filtre="$this->filtre" :key="'client_list'.$this->key"/>
         </x-basecore::loading-replace>
     </div>

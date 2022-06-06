@@ -32,6 +32,12 @@ class ProformatFilterQuery
         });
     }
 
+    public function ignoreOldCrm(){
+        $this->query->whereHas('devis', function($query){
+            $query->whereNotBetween("id",[3585,22564]);
+        });
+    }
+
     public function byCommercial(?Commercial $commercial = null)
     {
         if($commercial){

@@ -119,6 +119,7 @@ class ProformatsRepository extends AbstractRepository implements ProformatsRepos
     public function toInvoice(): Collection
     {
        return $this->newQuery()->whereHas('devis', function($query){
+           $query->whereNotBetween("id",[3585,22564]);
            $query->doesntHave('invoice');
         })
            ->whereHas('devis', function($query){

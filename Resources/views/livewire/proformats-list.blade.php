@@ -127,6 +127,12 @@
                         <option value="oui">Réservation avec marge modifié</option>
                     </x-basecore::inputs.select>
                 </div>
+                <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+                    <x-basecore::inputs.select name="ignoreoldcrm" wire:model="ignoreoldcrm">
+                        <option value="" default>Ignore fiche ancien CRM</option>
+                        <option value="oui">Ignorer</option>
+                    </x-basecore::inputs.select>
+                </div>
             </div>
         </div>
 

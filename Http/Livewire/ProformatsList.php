@@ -35,13 +35,14 @@ class ProformatsList extends Component
     public $contact;
     public $infovoyage;
     public $margeEdited;
+    public $ignoreoldcrm;
 
     public $dateStart;
     public $dateEnd;
 
     public $toinvoice;
 
-    public $queryString = ['mois', 'gestionnaire', 'commercialSelect','toinvoice','order', 'direction', 'paid', 'margeEnd', 'contact', 'infovoyage', 'margeEdited', 'dateStart', 'dateEnd'];
+    public $queryString = ['mois', 'gestionnaire','ignoreoldcrm', 'commercialSelect','toinvoice','order', 'direction', 'paid', 'margeEnd', 'contact', 'infovoyage', 'margeEdited', 'dateStart', 'dateEnd'];
 
     public $listeners = [
         'proformats.refresh' => '$refresh',
@@ -136,6 +137,8 @@ class ProformatsList extends Component
 
         if($this->toinvoice === 'oui') $filter->toInvoice();
         if($this->margeEnd === 'oui') $filter->margeDefinitve();
+
+        if($this->ignoreoldcrm === 'oui') $filter->ignoreOldCrm();
 
 //        dd($filter->query()->toSql(), $this->margeEnd);
 

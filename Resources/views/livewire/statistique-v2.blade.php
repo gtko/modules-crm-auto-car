@@ -29,9 +29,9 @@
                 </div>
             </div>
         </x-slot>
-        @if(Auth::user()->isSuperAdmin() || Auth::user()->hasRole('manager'))
-            <livewire:crmautocar::stats-admin-card-global :filtre="$this->filtre" :key="'admin_global_' . $this->key"/>
-        @endif
+{{--        @if(Auth::user()->isSuperAdmin() || Auth::user()->hasRole('manager'))--}}
+{{--            <livewire:crmautocar::stats-admin-card-global :filtre="$this->filtre" :key="'admin_global_' . $this->key"/>--}}
+{{--        @endif--}}
 
         <livewire:crmautocar::stats-admin-list-commercial :filtre="$this->filtre" :key="'list_commercial' . $this->key"/>
     </x-basecore::loading-replace>

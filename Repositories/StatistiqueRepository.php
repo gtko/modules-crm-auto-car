@@ -41,7 +41,8 @@ class StatistiqueRepository implements StatistiqueRepositoryContract
 
 
         $this->commercialRepository->setQuery(
-            $this->commercialRepository->newQuery()->where('id', '!=', 1)
+            $this->commercialRepository->newQuery()
+                ->where('id', '!=', 1)
         );
 
     }
