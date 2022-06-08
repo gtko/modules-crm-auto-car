@@ -34,7 +34,9 @@ class ProformatFilterQuery
 
     public function ignoreOldCrm(){
         $this->query->whereHas('devis', function($query){
-            $query->whereNotBetween("id",[3585,22564]);
+            $query->whereHas('dossier', function($query) {
+                $query->whereNotBetween("id", [3585, 22564]);
+            });
         });
     }
 

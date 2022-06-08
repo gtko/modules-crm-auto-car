@@ -49,8 +49,8 @@ class InvoicesList extends Component
 
         if (!Gate::allows('viewAny', Proformat::class)) {
             $query->WhereHas('devis', function($query){
-                $query->whereNotBetween("id",[3585,22564]);
                 $query->whereHas('dossier', function($query){
+                    $query->whereNotBetween("id",[3585,22564]);
                     $query->whereHas('commercial', function($query){
                         $query->where('id', Auth::commercial()->id);
                     });
@@ -62,8 +62,8 @@ class InvoicesList extends Component
 
             $queryProformat = $proformatRep->newQuery();
             $queryProformat->WhereHas('devis', function($query){
-                $query->whereNotBetween("id",[3585,22564]);
                 $query->whereHas('dossier', function($query){
+                    $query->whereNotBetween("id",[3585,22564]);
                     $query->whereHas('commercial', function($query){
                         $query->where('id', Auth::commercial()->id);
                     });
@@ -77,7 +77,9 @@ class InvoicesList extends Component
 
         $query->whereHas('devis', function($query){
             $query->whereHas('proformat');
-            $query->whereNotBetween("id",[3585,22564]);
+            $query->whereHas('dossier', function($query) {
+                $query->whereNotBetween("id", [3585, 22564]);
+            });
         });
 
         if($this->start && $this->end) {

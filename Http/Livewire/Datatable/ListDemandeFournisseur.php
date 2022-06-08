@@ -247,7 +247,6 @@ class ListDemandeFournisseur extends Component implements Tables\Contracts\HasTa
                 ->withHeadings()
                 ->withExportable(ExportDossier::class)
                 ->icon('fileicon-microsoft-excel'),
-            ListFormulaire::getActionBulkAttribution(),
         ];
     }
 

@@ -29,9 +29,11 @@ class StatFournisseurDatatableQuery
                 $query->has('fournisseur')
 //                ->where('status', '=', EnumStatusDemandeFournisseur::STATUS_BPA)
                 ->whereHas('devis', function (Builder $query) {
-                    $query->has('dossier');
-                    $query->whereNotBetween("id",[3585,22564]);
+                    $query->whereHas('dossier', function($query){
+                        $query->whereNotBetween("id",[3585,22564]);
+                    });
                 });
+
             });
     }
 
