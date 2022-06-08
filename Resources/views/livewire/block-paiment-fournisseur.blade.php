@@ -77,23 +77,17 @@
             <thead class="bg-gray-200">
             <tr>
                 <th scope="col" class="py-3  text-xs font-medium uppercase tracking-wider">
-                    Devi id
-                </th>
-                <th scope="col" class="py-3  text-xs font-medium uppercase tracking-wider">
-                    Fourni
+                    Devi id / Frs
                 </th>
 
                 <th scope="col" class="py-3  text-xs font-medium uppercase tracking-wider">
-                    Reste à payé
-                </th>
-
-                <th scope="col" class="py-3  text-xs font-medium uppercase tracking-wider">
-                    Payé
+                    Reste / Payé
                 </th>
                 <th scope="col" class=" text-xs font-medium  uppercase tracking-wider">
                     Total
                 </th>
 
+                <th>Date</th>
                 <th></th>
 
             </tr>
@@ -106,19 +100,17 @@
                 @php $total = $total + $paiement->payer @endphp
                 <tr class="bg-white">
                     <td class="py-4 whitespace-nowrap text-sm font-medium text-center">
-                        {{$paiement->demande->devis->ref }}
-                    </td>
-                    <td class="py-4 whitespace-nowrap text-sm font-medium text-center">
+                        {{$paiement->demande->devis->ref }}<br>
                         {{$paiement->demande->fournisseur->formatName }}
                     </td>
                     <td class="py-4 whitespace-nowrap text-sm text-center">
-                        {{ $paiement->restant }}€
-                    </td>
-                    <td class="py-4 whitespace-nowrap text-sm text-center">
-                        {{ $paiement->payer }}€
+                        {{ $paiement->restant }}€ / {{ $paiement->payer }}€
                     </td>
                     <td class="py-4 whitespace-nowrap text-sm text-center">
                         {{ $total + $paiement->restant }}€
+                    </td>
+                    <td>
+                        {{$paiement->created_at->format('d/m/Y')}}
                     </td>
                     <td>
                         <x-basecore::loading-replace wire:target="delete({{$paiement->id}})">

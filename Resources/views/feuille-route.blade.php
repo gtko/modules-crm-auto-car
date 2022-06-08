@@ -76,7 +76,7 @@
                         <img src="{{asset('/assets/img/autocar.jpg')}}" alt="" class="w-full">
                     </div>
                 </div>
-                @php($trajet = (($devis->data['trajets'] ?? [])[$chauffeur->trajet_index] ?? null))
+                @php($trajet = (($devis->data['trajets'] ?? [])[$chauffeur->trajet_index ?? 0] ?? null))
                 @if($trajet)
                         <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
                             <div class="text-center">
@@ -337,6 +337,10 @@
                                         </li>
                                 </ul>
                             </div>
+                        </div>
+                @else
+                        <div>
+                             Pas de trajet
                         </div>
                 @endif
                 <div class="max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:py-24 lg:px-8">

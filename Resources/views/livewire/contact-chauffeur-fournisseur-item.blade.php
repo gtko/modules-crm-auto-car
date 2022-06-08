@@ -10,6 +10,9 @@
     <td class="py-4 whitespace-nowrap text-sm text-center">
         {{ $contact->phone ?? ''}}
     </td>
+    <td class="py-4 whitespace-nowrap text-sm text-center">
+        {{ $contact->trajet_index ?? '1'}}
+    </td>
     <td class="whitespace-nowrap text-sm text-right">
         <span>
             <button wire:click="removeContact()" title="delete">

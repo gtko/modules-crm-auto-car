@@ -5,6 +5,7 @@ namespace Modules\CrmAutoCar\Http\Controllers;
 use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\FournisseurRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\ContactFournisseurRepositoryContract;
+use Modules\CrmAutoCar\Contracts\Repositories\DemandeFournisseurRepositoryContract;
 use Modules\CrmAutoCar\Models\Brand;
 use Modules\DevisAutoCar\Entities\DevisPrice;
 use Modules\DevisAutoCar\Entities\DevisTrajetPrice;
@@ -25,24 +26,16 @@ class FeuilleRouteController
         }
 
 
-        $fournisseurs = app(FournisseurRepositoryContract::class)->newQuery()
-            ->whereHas('devis', function($query) use ($devis) {
-                $query->where('id', $devis->id);
-            })
-            ->get();
+        $fournisseurs = app(DemandeFournisseurRepositoryContract::class)->getDemandeByDevis($devis);
 
         $fournisseur_astreinte = $fournisseurs->first()->astreinte;
 
         $chauffeurs = app(ContactFournisseurRepositoryContract::class)->newQuery()
-            ->whereHas('fournisseur', function($query) use ($devis, $fournisseurs) {
-                $query->whereIn('id', $fournisseurs->pluck('id'));
-                $query->whereHas('devis', function($query) use ($devis){
-                    $query->where('id', $devis->id);
-                });
-            })
+            ->whereIn('fournisseur_id',  $fournisseurs->pluck('user_id'))
+            ->where('devi_id', $devis->id)
             ->get();
 
-//        dd($chauffeurs);
+
 
         return view('crmautocar::feuille-route', compact('devis', 'brand', 'price', 'fournisseur_astreinte', 'chauffeurs'));
     }

@@ -27,7 +27,7 @@ class StatFournisseurDatatableQuery
             ->with('devis.dossier.client')
             ->where(function($query){
                 $query->has('fournisseur')
-                ->where('status', '=', EnumStatusDemandeFournisseur::STATUS_BPA)
+//                ->where('status', '=', EnumStatusDemandeFournisseur::STATUS_BPA)
                 ->whereHas('devis', function (Builder $query) {
                     $query->has('dossier');
                     $query->whereNotBetween("id",[3585,22564]);
@@ -38,7 +38,7 @@ class StatFournisseurDatatableQuery
     public function getTableFilters(): array
     {
         $filters = [
-         /*   MultiSelectFilter::make('status')
+            MultiSelectFilter::make('status')
                 ->options([
                     EnumStatusDemandeFournisseur::STATUS_BPA => 'BPA',
                     EnumStatusDemandeFournisseur::STATUS_VALIDATE => 'Validé',
@@ -46,7 +46,8 @@ class StatFournisseurDatatableQuery
                     EnumStatusCancel::STATUS_CANCELED => 'Annulé',
                     EnumStatusCancel::STATUS_CANCELLER => 'Remboursement',
                 ])
-                ->column('status'),*/
+                ->default(EnumStatusDemandeFournisseur::STATUS_BPA)
+                ->column('status'),
 
             MultiSelectFilter::make('fournisseur')
                 ->options(function (): array {
