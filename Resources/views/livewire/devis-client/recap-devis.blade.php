@@ -17,18 +17,32 @@
                     </tr>
                   @endforeach
             @else
-                @if($price->getTrajets()->count() > 0 || $price instanceof Modules\DevisAutoCar\Entities\DevisTrajetPrice)
-                <tr class="border border-gray-600 border-collapse w-full">
-                    <th scope="row" class=" text-left p-3 text-gray-600">
-                        Transport en Autocar
-                    </th>
-                    <td class="w-1/3 text-right pr-4 font-bold text-base border border-gray-600 border-collapse">
-                        @marge($price->getPriceHT())€
-                    </td>
-                </tr>
+                @if($trajet)
+                    @if($price->getTrajets()->count() > 0 || $price instanceof Modules\DevisAutoCar\Entities\DevisTrajetPrice)
+                    <tr class="border border-gray-600 border-collapse w-full">
+                        <th scope="row" class=" text-left p-3 text-gray-600">
+                            Transport en Autocar
+                        </th>
+                        <td class="w-1/3 text-right pr-4 font-bold text-base border border-gray-600 border-collapse">
+                            @marge($price->getPriceHT())€
+                        </td>
+                    </tr>
+                    @endif
+                @else
+                    @foreach($price->getTrajetsPrices() as $index => $trajetPrice)
+                        <tr class="border border-gray-600 border-collapse w-full">
+                            <th scope="row" class=" text-left p-3 text-gray-600 whitespace-nowrap">
+                                Transport en Autocar @if($price->getTrajets()->count() > 1) #{{$index+1}} @endif
+                            </th>
+                            <td class="w-1/3 text-right pr-4 font-bold text-base border border-gray-600 border-collapse">
+                                @marge($trajetPrice->getPriceHT())€
+                            </td>
+                        </tr>
+                    @endforeach
                 @endif
 
             @endif
+
             @if(method_exists($price,"getLines"))
                 @foreach($price->getLines() as $line)
                         <tr class="border border-gray-600 border-collapse w-full">
@@ -56,7 +70,7 @@
                 <tr class="bg-gray-200 w-full">
                     <th scope="row"
                         class="w-1/3 text-left p-3 text-gray-600 border border-gray-600 border-collapse">
-                        TVA 10 %
+                        TVA
                     </th>
 
                     <td class="text-right pr-4 font-bold text-base border border-gray-600 border-collapse">
@@ -75,7 +89,7 @@
     @if(!$sidebar)
 
         <div class="flex-col flex no-print" style="display:flex;flex-direction:column;font-size: 12px">
-
+            * La tva sur le transport en autocar est de 10% <br>
             @if(!empty(($devis->data['trajets'] ?? [])))
                 <span>* Le prix ne comprend pas les élements suivants qui resteront à votre charge :
                      @if (($trajet['peages'] ?? null) === 'non_compris')

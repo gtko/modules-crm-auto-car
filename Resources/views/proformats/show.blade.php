@@ -114,11 +114,13 @@
                                             <tr>
                                                 <th>Description</th>
                                                 <th class="text-center">Qtité</th>
-                                                <th class="text-center">Prix</th>
-                                                <th class="text-right">Total</th>
+                                                <th class="text-center">Prix HT</th>
+                                                <th class="text-center">TVA</th>
+                                                <th class="text-right">Total TTC</th>
                                             </tr>
                                             </thead>
                                             <tbody>
+
                                             @foreach(($proformat->devis->data['trajets'] ?? []) as $idTrajet => $trajet)
                                                 @php
                                                     $brand = app(Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract::class)->getDefault();
@@ -135,16 +137,39 @@
                                                     <td class="text-center">1</td>
                                                     <td class="text-center text-nowrap">@marge($priceTrajet->getPriceHT())€
                                                     </td>
-                                                    <td class="text-right text-nowrap">@marge($priceTrajet->getPriceHT())€
+                                                    <td>
+                                                        @marge($priceTrajet->getPriceTVA())€ <small>({{$priceTrajet->getTauxTVA()}}%)</small>
+                                                    </td>
+                                                    <td class="text-right text-nowrap">@marge($priceTrajet->getPriceTTC())€
                                                     </td>
                                                 </tr>
                                             @endforeach
+
+
+                                            @if(method_exists($price,"getLines"))
+                                                @foreach($price->getLines() as $line)
+                                                    <tr class="border border-gray-600 border-collapse w-full">
+                                                        <td>
+                                                            {{$line->getLine()}}
+                                                        </td>
+                                                        <td class="text-center">{{$line->getQte()}}</td>
+                                                        <td class="text-center text-nowrap">   @marge($line->getPriceHT())€
+                                                        </td>
+                                                        <td>
+                                                            @marge($line->getPriceTVA())€ <small>({{$line->getTauxTVA()}}%)</small>
+                                                        </td>
+                                                        <td class="text-right text-nowrap">   @marge($line->getPriceTTC())€
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @endif
+
                                             <tr>
                                                 <td colspan="3" class="text-end">Montant total (HT)</td>
                                                 <td class="text-right text-nowrap">@marge($price->getPriceHT())€</td>
                                             </tr>
                                             <tr>
-                                                <td colspan="3" class="text-end">TVA 10 %</td>
+                                                <td colspan="3" class="text-end">TVA</td>
                                                 <td class="text-right text-nowrap">@marge($price->getPriceTVA())</td>
                                             </tr>
                                             <tr>

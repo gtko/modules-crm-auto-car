@@ -107,7 +107,6 @@
                         <livewire:crmautocar::devis-client.recap-devis
                             :devis="$devis"
                             :brand="$brand"
-                            :trajet-id="0"
                             :class="'bg-white p-4 grid notcut justify-items-stretch border border-2 border-gray-400'"
                         />
                     @endif
