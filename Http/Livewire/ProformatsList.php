@@ -158,10 +158,6 @@ class ProformatsList extends Component
             $filter->byCreatedAt($this->dateStart, $this->dateEnd);
         }
 
-
-
-
-
         $repStats->setQuery($filter->query());
         [$totalVente, $totalAchat, $totalMarge, $totalEncaissement,$salaireDiff, $isBalanced] = [
             $repStats->getTotalVente($this->dateStart, $this->dateEnd),
@@ -261,8 +257,7 @@ class ProformatsList extends Component
                 EnumStatusDemandeFournisseur::STATUS_VALIDATE => 'Valide',
                 EnumStatusDemandeFournisseur::STATUS_BPA => 'Bpa',
                 EnumStatusDemandeFournisseur::STATUS_REFUSED => 'Refuser',
-                EnumStatusCancel::STATUS_CANCELLER => 'Avoir',
-                EnumStatusCancel::STATUS_CANCELED => 'Annulé',
+                EnumStatusCancel::STATUS_CANCELED => 'Annuler',
             ]
         ]);
     }
