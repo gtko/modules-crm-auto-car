@@ -3,10 +3,12 @@
 namespace Modules\CrmAutoCar\Filters;
 
 use Carbon\Carbon;
+use Illuminate\Database\Query\Builder;
 use Modules\BaseCore\Contracts\Entities\UserEntity;
 use Modules\CoreCRM\Enum\StatusTypeEnum;
 use Modules\CoreCRM\Models\Commercial;
 use Modules\CrmAutoCar\Contracts\Repositories\ProformatsRepositoryContract;
+use Modules\CrmAutoCar\Models\Traits\EnumStatusCancel;
 use Modules\CrmAutoCar\Models\Traits\EnumStatusDemandeFournisseur;
 
 class ProformatFilterQuery
@@ -38,6 +40,29 @@ class ProformatFilterQuery
                 $query->whereNotBetween("id", [3585, 22564]);
             });
         });
+    }
+
+    public function ignoreAnnuler(){
+
+        $this->query->whereNotIn('status',[EnumStatusCancel::STATUS_CANCELED, EnumStatusCancel::STATUS_CANCELLER]);
+    }
+
+    public function withoutFrs($status = 'aucun'){
+        if($status !== 'aucun') {
+            $this->query->whereHas('devis', function ($query) use ($status) {
+                $query->whereHas('demandeFournisseurs', function ($query) use ($status) {
+                    $query->where('status', $status);
+                });
+            });
+        }else{
+            $this->query->whereHas('devis', function (\Illuminate\Database\Eloquent\Builder $query) {
+                $query->doesntHave('demandeFournisseurs');
+                $query->whereDoesntHave('demandeFournisseurs', function($query){
+                    $query->where('status', EnumStatusDemandeFournisseur::STATUS_BPA);
+                    $query->orwhere('status', EnumStatusDemandeFournisseur::STATUS_VALIDATE);
+                });
+            });
+        }
     }
 
     public function byCommercial(?Commercial $commercial = null)

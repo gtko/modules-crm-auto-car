@@ -18,6 +18,8 @@ use Modules\CrmAutoCar\Contracts\Repositories\StatistiqueReservationRepositoryCo
 use Modules\CrmAutoCar\Filters\ProformatFilterQuery;
 use Modules\CrmAutoCar\Models\Proformat;
 use Laravel\Octane\Facades\Octane;
+use Modules\CrmAutoCar\Models\Traits\EnumStatusCancel;
+use Modules\CrmAutoCar\Models\Traits\EnumStatusDemandeFournisseur;
 use Modules\CrmAutoCar\Services\SortableComponent;
 
 class ProformatsList extends Component
@@ -36,13 +38,15 @@ class ProformatsList extends Component
     public $infovoyage;
     public $margeEdited;
     public $ignoreoldcrm;
+    public $statusFrs;
+    public $canceled;
 
     public $dateStart;
     public $dateEnd;
 
     public $toinvoice;
 
-    public $queryString = ['mois', 'gestionnaire','ignoreoldcrm', 'commercialSelect','toinvoice','order', 'direction', 'paid', 'margeEnd', 'contact', 'infovoyage', 'margeEdited', 'dateStart', 'dateEnd'];
+    public $queryString = ['canceled', 'statusFrs', 'mois', 'gestionnaire','ignoreoldcrm', 'commercialSelect','toinvoice','order', 'direction', 'paid', 'margeEnd', 'contact', 'infovoyage', 'margeEdited', 'dateStart', 'dateEnd'];
 
     public $listeners = [
         'proformats.refresh' => '$refresh',
@@ -140,8 +144,14 @@ class ProformatsList extends Component
 
         if($this->ignoreoldcrm === 'oui') $filter->ignoreOldCrm();
 
-//        dd($filter->query()->toSql(), $this->margeEnd);
 
+        if($this->canceled !== 'oui'){
+            $filter->ignoreAnnuler();
+        }
+
+        if($this->statusFrs) {
+            $filter->withoutFrs($this->statusFrs);
+        }
 
         if($this->margeEdited === 'oui') $filter->byMargeEdited($this->dateStart, $this->dateEnd);
         else{
@@ -247,6 +257,13 @@ class ProformatsList extends Component
             'salaireDiff' => $salaireDiff,
             'byMois' => $byMois,
             'isBalanced' => $isBalanced,
+            'statusForFrs' => [
+                EnumStatusDemandeFournisseur::STATUS_VALIDATE => 'Valide',
+                EnumStatusDemandeFournisseur::STATUS_BPA => 'Bpa',
+                EnumStatusDemandeFournisseur::STATUS_REFUSED => 'Refuser',
+                EnumStatusCancel::STATUS_CANCELLER => 'Avoir',
+                EnumStatusCancel::STATUS_CANCELED => 'Annulé',
+            ]
         ]);
     }
 }

@@ -133,6 +133,22 @@
                         <option value="oui">Ignorer</option>
                     </x-basecore::inputs.select>
                 </div>
+                <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+                    <x-basecore::inputs.select name="statusFrs" wire:model="statusFrs">
+                        <option value="" default>Status du Fournisseur</option>
+                        <option value="aucun">Aucun</option>
+                        @foreach($statusForFrs as $status => $label)
+                            <option value="{{$status}}">{{$label}}</option>
+                        @endforeach
+                    </x-basecore::inputs.select>
+                </div>
+
+                <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
+                    <x-basecore::inputs.select name="canceled" wire:model="canceled">
+                        <option value="" default>Voir les annuler</option>
+                        <option value="oui">Oui</option>
+                    </x-basecore::inputs.select>
+                </div>
             </div>
         </div>
 
