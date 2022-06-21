@@ -256,8 +256,6 @@ class ProformatsList extends Component
             'statusForFrs' => [
                 EnumStatusDemandeFournisseur::STATUS_VALIDATE => 'Valide',
                 EnumStatusDemandeFournisseur::STATUS_BPA => 'Bpa',
-                EnumStatusDemandeFournisseur::STATUS_REFUSED => 'Refuser',
-                EnumStatusCancel::STATUS_CANCELED => 'Annuler',
             ]
         ]);
     }

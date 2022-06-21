@@ -2,6 +2,8 @@
 
 
 use Illuminate\Support\Facades\Route;
+use Modules\CoreCRM\Services\FlowCRM;
+use Modules\CrmAutoCar\Flow\Attributes\ClientDossierAddTag;
 use Modules\CrmAutoCar\Http\Controllers\BrandController;
 use Modules\CrmAutoCar\Http\Controllers\CentralAutoCarDevisController;
 use Modules\CrmAutoCar\Http\Controllers\ClientController;
@@ -24,11 +26,24 @@ use Modules\CrmAutoCar\Http\Controllers\TagController;
 use Modules\CrmAutoCar\Http\Controllers\TemplateController;
 use Modules\CrmAutoCar\Http\Controllers\ValidationInformationVoyageController;
 use Modules\CrmAutoCar\Http\Controllers\VuePlateauController;
+use Modules\CrmAutoCar\Models\Dossier;
 use Modules\CrmAutoCar\Models\Proformat;
+use Modules\CrmAutoCar\Models\Tag;
 use Modules\CrmAutoCar\Models\Traits\EnumStatusCancel;
 use Modules\CrmAutoCar\View\Components\Cgv;
 use Modules\CrmAutoCar\View\Components\DevisClient\Index;
 
+
+Route::get('/test/workflow', function(){
+
+
+    $dossier = Dossier::find(24);
+    $tag = Tag::find(1);
+    $user = Auth::user();
+    app(FlowCRM::class)->add($dossier, new ClientDossierAddTag($dossier, $tag, $user));
+
+
+});
 
 Route::get('/utils/cancel-with-marge', function () {
 
@@ -54,7 +69,7 @@ Route::get('/utils/cancel-with-marge', function () {
 
 });
 
-Route::get('/utils/blanced', function () {
+Route::get('/utils/blanced/{fix?}', function ($fix = false) {
 
     $proformats = Proformat::whereIn('status',[EnumStatusCancel::STATUS_CANCELED] )
         ->get();
@@ -72,13 +87,30 @@ Route::get('/utils/blanced', function () {
                 $proformat->number . " == " . $proformat->total,
                 ($proformat->canceled->number ?? 0) . " == " . ($proformat->canceled->total ?? 0)
             );
+
+            //on fix le problème directement
+            if($fix){
+                if($proformat->total > 0) {
+                    $proformat->canceled->total = 0 - $proformat->total;
+                }else{
+                    $proformat->canceled->total = abs($proformat->total);
+                }
+                dump('FIXED -- ' . $proformat->canceled->number . ' => ' . $proformat->canceled->total);
+                $proformat->canceled->save();
+            }
+
         }
 
     }
 
-    dd($proformats);
 
-});
+    return <<<HTML
+    <a href="/utils/blanced/true">Fixer le problème</a>
+
+HTML;
+
+
+})->name('balanced');
 
 Route::middleware(['secure.devis'])->group(function () {
     Route::get('/devis/{devis}/{token}', [Index::class, 'index'])->name('devis-view');

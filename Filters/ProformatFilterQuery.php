@@ -56,7 +56,6 @@ class ProformatFilterQuery
             });
         }else{
             $this->query->whereHas('devis', function (\Illuminate\Database\Eloquent\Builder $query) {
-                $query->doesntHave('demandeFournisseurs');
                 $query->whereDoesntHave('demandeFournisseurs', function($query){
                     $query->where('status', EnumStatusDemandeFournisseur::STATUS_BPA);
                     $query->orwhere('status', EnumStatusDemandeFournisseur::STATUS_VALIDATE);
