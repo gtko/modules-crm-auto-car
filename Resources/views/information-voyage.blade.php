@@ -58,7 +58,7 @@
     </style>
 
     <div class="flex flex-col">
-        @foreach(($devis->data['trajets'] ?? []) as $trajet)
+        @foreach(($devis->data['validate'] ?? []) as $index => $trajet)
 
             <div class="h-full w-full h-screen flex flex-col justify-between">
             <div class="max-w-7xl w-full mx-auto pt-16 px-8 pb-16">
@@ -74,22 +74,25 @@
                     </div>
                 </div>
 
+
+                {{json_encode($trajet)}}
+
                         <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8">
                             <div class="text-center">
                                 <h2 class="text-base font-semibold text-bleu tracking-wide uppercase">{{ \Carbon\Carbon::createFromTimeString($trajet['aller_date_depart'])->translatedFormat('l d F Y') ?? ''}}</h2>
-                                @if(($trajet['aller_point_depart'] ?? false) && !($trajet['retour_point_depart'] ?? false))
+                                @if(($trajet['aller_date_depart'] ?? false) && !($trajet['retour_date_depart'] ?? false))
                                     <p class="mt-1 text-2xl font-extrabold text-gray-900 sm:text-3xl sm:tracking-tight lg:text-4xl">
                                         Transfert Aller.
                                     </p>
                                 @endif
 
-                                @if(!($trajet['aller_point_depart'] ?? false) && ($trajet['retour_point_depart'] ?? false))
+                                @if(!($trajet['aller_date_depart'] ?? false) && ($trajet['retour_date_depart'] ?? false))
                                     <p class="mt-1 text-2xl font-extrabold text-gray-900 sm:text-3xl sm:tracking-tight lg:text-4xl">
                                         Transfert Retour.
                                     </p>
                                 @endif
 
-                                @if(($trajet['aller_point_depart'] ?? false) && ($trajet['retour_point_depart'] ?? false))
+                                @if(($trajet['aller_date_depart'] ?? false) && ($trajet['retour_date_depart'] ?? false))
                                     <p class="mt-1 text-2xl font-extrabold text-gray-900 sm:text-3xl sm:tracking-tight lg:text-4xl">
                                         Transfert Aller/Retour.
                                     </p>
@@ -209,7 +212,7 @@
                                     <div class="flex-1 border-t-2 border-gray-200"></div>
                                 </div>
                                 <p class="mt-8 space-y-5 lg:space-y-0 lg:grid lg:grid-cols-2 lg:gap-x-8 lg:gap-y-5">
-                                    {{ $trajet['commentaire'] ?? 'Aucun commentaire'}}
+                                    {{ $devis->data['trajets'][$index]['commentaire'] ?? 'Aucun commentaire'}}
                                 </p>
                             </div>
                             <div class="mt-8">
