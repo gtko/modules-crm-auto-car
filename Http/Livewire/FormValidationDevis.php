@@ -87,26 +87,25 @@ class FormValidationDevis extends Component
     {
         $data = $this->devis->data;
         $keys = ['trajets', 'validate' ];
-
-        foreach ($data['trajets'] as $id =>  $trajet)
-        {
-            foreach ($keys as $key)
-            {
-                Arr::set($data, "$key.$id.aller_date_depart", $this->validate[$id]['aller_date_depart']);
-                Arr::set($data, "$key.$id.aller_pax", $this->validate[$id]['aller_pax']);
-                Arr::set($data, "$key.$id.addresse_ramassage", $this->validate[$id]['addresse_ramassage']);
-                Arr::set($data, "$key.$id.addresse_destination", $this->validate[$id]['addresse_destination']);
-                Arr::set($data, "$key.$id.retour_date_depart", $this->validate[$id]['retour_date_depart']);
-                Arr::set($data, "$key.$id.retour_pax", $this->validate[$id]['retour_pax']);
-                Arr::set($data, "$key.$id.addresse_ramassage_retour", $this->validate[$id]['addresse_ramassage_retour']);
-                Arr::set($data, "$key.$id.addresse_destination_retour", $this->validate[$id]['addresse_destination_retour']);
-                Arr::set($data, "$key.$id.contact_nom", $this->validate[$id]['contact_nom']);
-                Arr::set($data, "$key.$id.contact_prenom", $this->validate[$id]['contact_prenom']);
-                Arr::set($data, "$key.$id.tel_1", $this->validate[$id]['tel_1']);
-                Arr::set($data, "$key.$id.tel_2", $this->validate[$id]['tel_2']);
-                Arr::set($data, "$key.$id.information_complementaire", $this->validate[$id]['information_complementaire']);
-            }
-        }
+//        foreach ($data['trajets'] as $id =>  $trajet)
+//        {
+//            foreach ($keys as $key)
+//            {
+//                Arr::set($data, "$key.$id.aller_date_depart", $this->validate[$id]['aller_date_depart']);
+//                Arr::set($data, "$key.$id.aller_pax", $this->validate[$id]['aller_pax']);
+//                Arr::set($data, "$key.$id.addresse_ramassage", $this->validate[$id]['addresse_ramassage']);
+//                Arr::set($data, "$key.$id.addresse_destination", $this->validate[$id]['addresse_destination']);
+//                Arr::set($data, "$key.$id.retour_date_depart", $this->validate[$id]['retour_date_depart']);
+//                Arr::set($data, "$key.$id.retour_pax", $this->validate[$id]['retour_pax']);
+//                Arr::set($data, "$key.$id.addresse_ramassage_retour", $this->validate[$id]['addresse_ramassage_retour']);
+//                Arr::set($data, "$key.$id.addresse_destination_retour", $this->validate[$id]['addresse_destination_retour']);
+//                Arr::set($data, "$key.$id.contact_nom", $this->validate[$id]['contact_nom']);
+//                Arr::set($data, "$key.$id.contact_prenom", $this->validate[$id]['contact_prenom']);
+//                Arr::set($data, "$key.$id.tel_1", $this->validate[$id]['tel_1']);
+//                Arr::set($data, "$key.$id.tel_2", $this->validate[$id]['tel_2']);
+//                Arr::set($data, "$key.$id.information_complementaire", $this->validate[$id]['information_complementaire']);
+//            }
+//        }
         Arr::set($data, "validated", true);
 
         app(DevisRepositoryContract::class)->updateData($this->devis, $data);

@@ -1,13 +1,6 @@
 <div class="{{$class}} mb-4 w-full">
-    @if($devi->hasCancel())
-        <span class="btn btn-danger mt-4 w-full text-white text-2xl">
-                    Devis annulé
-            </span>
-        <p class="text-red-600 text-center mt-2 text-normal">
-            le devis a été annulé.
-        </p>
-    @else
-        @if (!$devi->validate)
+
+        @if (!$devi->validateWithoutCancel)
             <div class="no-print">
                 <div class="flex justify-between items-start mt-4">
                     <label class="inline-flex items-center pr-2">
@@ -30,9 +23,9 @@
                     Devis validé
             </span>
             <p class="text-green-600 text-center mt-2 text-normal">
-                le devis #{{$devi->ref}} a été validé le {{$devi->updated_at->format('d/m/Y H:i')}}
-                par {{$devi->data['nom_validation'] ?? ''}} {{$devi->data['prenom_validation'] ?? ''}} {{$devi->data['ip_validation'] ?? '--'}}
+                le devis #{{$devi->ref}} a été validé le {{$devi->proformat->created_at->format('d/m/Y H:i')}}
+                par {{$devi->data['nom_validation'] ?? ''}} {{$devi->data['prenom_validation'] ?? ''}}
+{{--                {{$devi->data['ip_validation'] ?? '--'}}--}}
             </p>
         @endif
-    @endif
 </div>
