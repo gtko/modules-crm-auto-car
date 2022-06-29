@@ -14,7 +14,10 @@ class StatistiqueV2 extends Component
     public $bureau = '';
     public $badge = '';
 
-    public $queryString = ['debut', 'fin'];
+    public $tab = 'horaire';
+
+    public $queryString = ['debut', 'fin', 'tab'];
+
 
     public function mount(){
 

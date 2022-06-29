@@ -81,10 +81,10 @@ Route::get('/utils/blanced/{fix?}', function ($fix = false) {
         $total = $proformat->total + ($proformat->canceled->total ?? 0);
         if($total != 0) {
             dump(
-                $proformat->devis->dossier->ref,
-                $proformat->number ?? 0,
-                "Total => " . $total,
-                $proformat->number . " == " . $proformat->total,
+                "Ref" . $proformat->devis->dossier->ref ." " .
+                $proformat->number ?? 0 . "
+                Total => " . $total . " " .
+                $proformat->number . " == " . $proformat->total . " "
                 ($proformat->canceled->number ?? 0) . " == " . ($proformat->canceled->total ?? 0)
             );
 
