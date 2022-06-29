@@ -106,6 +106,11 @@ class FormValidationDevis extends Component
 //                Arr::set($data, "$key.$id.information_complementaire", $this->validate[$id]['information_complementaire']);
 //            }
 //        }
+
+        $data['validate'] = $this->validate;
+
+
+
         Arr::set($data, "validated", true);
 
         app(DevisRepositoryContract::class)->updateData($this->devis, $data);
