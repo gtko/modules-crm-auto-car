@@ -59,6 +59,12 @@ class BlockFournisseurItem extends Component
 
         $this->emit('update');
 
+        $proforma = $this->devi->proformat;
+        if($proforma && !$proforma->acceptation_date) {
+            $proforma->acceptation_date = now();
+            $proforma->save();
+        }
+
         return redirect(route('dossiers.show', [$this->devi->dossier->client, $this->devi->dossier]))
             ->with('success', 'Fournisseur validé');
     }
@@ -82,11 +88,7 @@ class BlockFournisseurItem extends Component
 
             $demandRep->update($this->demande, ['status' => EnumStatusDemandeFournisseur::STATUS_VALIDATE]);
 
-            $proforma = $this->devi->proformat;
-            if($proforma && !$proforma->acceptation_date) {
-                $proforma->acceptation_date = now();
-                $proforma->save();
-            }
+
 
             $prix = (float) $this->demande->prix;
             (new FlowCRM())->add($this->devi->dossier, new ClientDossierDemandeFournisseurValidate(Auth::user(), $this->devi, $this->fourni, $prix));

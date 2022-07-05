@@ -11,6 +11,7 @@ use Modules\BaseCore\Repositories\AbstractRepository;
 use Modules\CrmAutoCar\Contracts\Repositories\StatistiqueReservationRepositoryContract;
 use Modules\CrmAutoCar\Models\Proformat;
 use Modules\CrmAutoCar\Models\Traits\EnumStatusCancel;
+use Modules\CrmAutoCar\Models\Traits\EnumStatusDemandeFournisseur;
 
 class StatistiqueReservationRepository extends AbstractRepository implements StatistiqueReservationRepositoryContract
 {
@@ -63,6 +64,18 @@ class StatistiqueReservationRepository extends AbstractRepository implements Sta
     {
         return $this->getQueryCached($dateStart, $dateEnd)->sum(function($item) use ($dateEnd){
             return $item->price->getMargeHT($dateEnd);
+        });
+    }
+
+    public function getTotalMargeHTDefinitive(?Carbon $dateStart = null, ?Carbon $dateEnd = null): float
+    {
+        return $this->getQueryCached($dateStart, $dateEnd)
+            ->sum(function($item) use ($dateEnd){
+                if($item->price->achatValidated()) {
+                    return $item->price->getMargeHT($dateEnd);
+                }
+
+                return 0;
         });
     }
 

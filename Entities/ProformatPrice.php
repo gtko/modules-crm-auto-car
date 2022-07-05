@@ -136,6 +136,11 @@ class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
         return $marge;
     }
 
+
+    public function getLastMargeFixed(){
+        return $this->repository->getLastMargeObject($this->proformat, $limit);
+    }
+
     public function getMargeHT(?Carbon $limit = null)
     {
         if($this->margeEdited()){
@@ -161,7 +166,7 @@ class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
 
     public function getSalaireDiff(?Carbon $limit = null){
 
-        return $this->getMargeHT($limit) - $this->getMargeOriginHT();
+        return  $this->getMargeHT($limit) - $this->getMargeOriginHT(true);
     }
 
 }

@@ -24,27 +24,32 @@
     <div>
         <div class="col-span-12 xl:mt-8 mt-2">
             <div class="grid grid-cols-12 xl:grid-cols-10 gap-4 mt-2 xl:mt-5">
-                <div class="col-span-4 xl:col-span-2">
+                <div class="col-span-3 xl:col-span-2">
                     <x-crmautocar::widget title="Ventes">
                         @marge($totalVente)€
                     </x-crmautocar::widget>
                 </div>
-                <div class="col-span-4 xl:col-span-2">
+                <div class="col-span-3 xl:col-span-2">
                     <x-crmautocar::widget title="Achats">
                         @marge($totalAchat)€
                     </x-crmautocar::widget>
                 </div>
-                <div class="col-span-4 xl:col-span-2">
+                <div class="col-span-3 xl:col-span-2">
                     <x-crmautocar::widget title="Marge HT" class="text-green-600">
                         @marge($totalMarge)€
                     </x-crmautocar::widget>
                 </div>
-                <div class="col-span-4 xl:col-span-2">
+                <div class="col-span-3 xl:col-span-2">
+                    <x-crmautocar::widget title="Marge HT Définitve" class="text-green-600">
+                        @marge($totalMargeDefinitive)€
+                    </x-crmautocar::widget>
+                </div>
+                <div class="col-span-3 xl:col-span-2">
                     <x-crmautocar::widget title="A encaisser" class="text-blue-600">
                         @marge($totalEncaissement)€
                     </x-crmautocar::widget>
                 </div>
-                <div class="col-span-4 xl:col-span-2">
+                <div class="col-span-3 xl:col-span-2">
                     <x-crmautocar::widget title="Salaire Diff" class="text-red-600">
                         @marge($salaireDiff)€
                     </x-crmautocar::widget>
