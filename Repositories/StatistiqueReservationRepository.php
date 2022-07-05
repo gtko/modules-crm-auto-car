@@ -107,8 +107,7 @@ class StatistiqueReservationRepository extends AbstractRepository implements Sta
 
     public function isBalanced():bool
     {
-        return Proformat::
-        whereIn('status',[EnumStatusCancel::STATUS_CANCELED, EnumStatusCancel::STATUS_CANCELLER] )
+        return Proformat::whereIn('status',[EnumStatusCancel::STATUS_CANCELED, EnumStatusCancel::STATUS_CANCELLER] )
             ->sum('total') === 0;
     }
 

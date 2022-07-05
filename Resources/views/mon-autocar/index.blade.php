@@ -61,7 +61,7 @@
             </div>
             <div class="border border-black p-4">
                 <div class="text-xl grid grid-cols-2">
-                    <div class="font-extrabold">Devis N°{{ $devis->ref - 31984 }}</div>
+                    <div class="font-extrabold">Devis N°{{ $devis->getNumStartRef() - 31984 }}</div>
                     <div>L'ASIE,
                         le {{ \Carbon\Carbon::createFromTimeString($devis->created_at ?? '')->translatedFormat('l d F Y') }}</div>
                 </div>

@@ -36,7 +36,7 @@
 <table class="body-wrap">
     <tr>
         <td class="container">
-            <img src="{{asset('/assets/logos/autocar-location.png')}}" alt="Auto car location" height="90">
+            <img src="{{asset('/assets/logos/autocar-location.png')}}" alt="logo" height="90">
         </td>
     </tr>
     <tr>
@@ -49,7 +49,7 @@
                 </tr>
                 <tr>
                     <td class="content">
-                        {!! $content !!}
+                        {!! nl2br($content) !!}
                     </td>
                 </tr>
             </table>

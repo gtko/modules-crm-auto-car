@@ -74,17 +74,36 @@ Route::get('/utils/blanced/{fix?}', function ($fix = false) {
     $proformats = Proformat::whereIn('status',[EnumStatusCancel::STATUS_CANCELED] )
         ->get();
 
+    $balance =  Proformat::whereIn('status',[EnumStatusCancel::STATUS_CANCELED, EnumStatusCancel::STATUS_CANCELLER] )
+            ->sum('total');
+
+    dump('Balance : ' , $balance);
+
+    $canceleds = Proformat::whereIn('status',[EnumStatusCancel::STATUS_CANCELLER] )
+        ->get();
+
+    foreach($canceleds as $canceled){
+
+        $proformats = Proformat::where('cancel_id', $canceled->id)
+            ->first();
+
+        if($proformats){
+            if ($proformats->total + $canceled->total != 0) {
+                dump($proformats, $canceled);
+            }
+        }else{
+            dump('orpheline : ', $canceled->number);
+        }
+    }
 
     foreach($proformats as $proformat){
-
-
         $total = $proformat->total + ($proformat->canceled->total ?? 0);
         if($total != 0) {
             dump(
                 "Ref" . $proformat->devis->dossier->ref ." " .
-                $proformat->number ?? 0 . "
-                Total => " . $total . " " .
-                $proformat->number . " == " . $proformat->total . " "
+                ($proformat->number ?? 0) .
+                " Total => " . $total . " " .
+                $proformat->number . " == " . $proformat->total . " " .
                 ($proformat->canceled->number ?? 0) . " == " . ($proformat->canceled->total ?? 0)
             );
 

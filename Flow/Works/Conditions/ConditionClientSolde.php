@@ -7,6 +7,7 @@ use Modules\CoreCRM\Flow\Works\Params\WorkFlowParams;
 use Modules\CrmAutoCar\Flow\Works\Params\ParamsNombreJours;
 use Modules\CrmAutoCar\Flow\Works\Params\ParamsSoldeSelect;
 use Modules\CrmAutoCar\Flow\Works\Params\ParamsTypePaiementSelect;
+use Modules\CrmAutoCar\Models\Proformat;
 
 class ConditionClientSolde extends WorkFlowCondition
 {
@@ -18,11 +19,26 @@ class ConditionClientSolde extends WorkFlowCondition
 
     public function getValue()
     {
+
         $data = $this->event->getData();
-        /** @var \Modules\CrmAutoCar\Entities\ProformatPrice $price */
-        $price =  $data['proformat']->price;
-        if($price->paid() >= $price->getPriceTTC()) return 'complet';
-        if($price->paid() === 0) return 'aucun';
+
+        $dossier = $data['dossier'];
+        $proformats = Proformat::whereHas('devis', function($query) use ($dossier){
+            $query->where('dossier_id', $dossier->id);
+        })->get();
+
+        $total = $proformats->sum('total');
+        $totalPaid = 0;
+
+        foreach($proformats as $proformat){
+            $statusProformat = 'partiel';
+            /** @var \Modules\CrmAutoCar\Entities\ProformatPrice $price */
+            $price = $proformat->price;
+            $totalPaid += $price->paid();
+        }
+
+        if($total === $totalPaid) return "complet";
+        if($totalPaid === 0) return "aucun";
 
         return 'partiel';
     }

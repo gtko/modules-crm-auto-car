@@ -397,7 +397,7 @@
             <td></td>
             <td class="container">
                 <div class="content">
-                    <img src="{{asset('/assets/logos/louerunbus.fr.png')}}" alt="Auto car location" height="90">
+                    <img src="{{asset('/assets/logos/louerunbus.fr.png')}}" alt="logo" height="90">
                 </div>
             </td>
             <td></td>
@@ -419,7 +419,7 @@
                                         <td class="body-padding"></td>
                                         <td class="body-padded">
                                             <div>
-                                                {!! $content !!}
+                                                {!! nl2br($content) !!}
                                             </div>
                                         </td>
                                         <td class="body-padding"></td>

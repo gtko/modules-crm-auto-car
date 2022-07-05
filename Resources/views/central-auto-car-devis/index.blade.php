@@ -66,7 +66,7 @@
 
             <div class="grid-cols-3 grid gap-2">
                 <div class="flex flex-col">
-                    <span class="mb-4">Devis n° <span class="font-extrabold">{{ $devis->ref - 14194 }}</span></span>
+                    <span class="mb-4">Devis n° <span class="font-extrabold">{{ $devis->getNumStartRef() - 14194 }}</span></span>
                     <span>Réfèrent : Vanessa Lorant</span>
                     <span>Tel: +33 1 76 39 12 23 </span>
                     <span class="text-sm">Mail : infos@autocars-location.fr</span>

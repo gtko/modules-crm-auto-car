@@ -14,6 +14,7 @@ use Modules\CoreCRM\Flow\Works\Variables\CommercialVariable;
 use Modules\CoreCRM\Flow\Works\Variables\DeviVariable;
 use Modules\CoreCRM\Flow\Works\Variables\DossierVariable;
 use Modules\CrmAutoCar\Flow\Attributes\DevisSendClient;
+use Modules\CrmAutoCar\Flow\Works\Conditions\ConditionConcurentDevis;
 use Modules\CrmAutoCar\Flow\Works\Conditions\ConditionDateDepartDevis;
 use Modules\CrmAutoCar\Flow\Works\Files\CguPdfFiles;
 use Modules\CrmAutoCar\Flow\Works\Files\DevisBrand1PdfFiles;
@@ -50,7 +51,8 @@ class EventDevisSendClient extends WorkFlowEvent
             ConditionCountDossier::class,
             ConditionStatus::class,
             ConditionTag::class,
-            ConditionDateDepartDevis::class
+            ConditionDateDepartDevis::class,
+            ConditionConcurentDevis::class
         ];
     }
 
