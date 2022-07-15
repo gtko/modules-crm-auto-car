@@ -44,14 +44,14 @@
 
     <div class="ml-2 flex flex-col space-y-2 py-2">
         <span class="font-extrabold">Tout changement implique un nouveau devis</span>
-        <span>Nombre de véhicule : <span class="font-extrabold">1</span> car(s) afin de transporter <span
-                class="font-extrabold">30</span> personnes.</span>
-        <span>Planification : <span class="font-extrabold">1</span> Conducteur(s)</span>
+        <span>Nombre de véhicule : <span class="font-extrabold">{{$this->devis->data['nombre_bus'] ?? "1"}}</span> car(s) afin de transporter <span
+                class="font-extrabold">{{$this->devis->data['trajets'][$this->trajetid]['aller_pax'] ?? ""}}</span> personnes.</span>
+        <span>Planification : <span class="font-extrabold">{{$this->devis->data['nombre_chauffeur'] ?? "1"}}</span> Conducteur(s)</span>
         <span class="text-xs pl-16">
-                                       <span class="font-bold">14h00 d’amplitude maximum</span>
-                                       <span>(pour2 conducteurs/car 18h00 d’amplitude maximum),</span>
-                                       <span class="font-bold">celle-ci s’entend départ et retour dépôt.</span>
-                                   </span>
+           <span class="font-bold">14h00 d’amplitude maximum</span>
+           <span>(pour2 conducteurs/car 18h00 d’amplitude maximum),</span>
+           <span class="font-bold">celle-ci s’entend départ et retour dépôt.</span>
+       </span>
     </div>
 
 </div>

@@ -13,6 +13,8 @@ use Livewire\Component;
 use Livewire\WithPagination;
 use Modules\BaseCore\Contracts\Repositories\UserRepositoryContract;
 use Modules\CoreCRM\Contracts\Repositories\CommercialRepositoryContract;
+use Modules\CoreCRM\Contracts\Repositories\DossierRepositoryContract;
+use Modules\CrmAutoCar\Contracts\Repositories\DevisAutocarRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\ProformatsRepositoryContract;
 use Modules\CrmAutoCar\Contracts\Repositories\StatistiqueReservationRepositoryContract;
 use Modules\CrmAutoCar\Filters\ProformatFilterQuery;
@@ -46,7 +48,9 @@ class ProformatsList extends Component
 
     public $toinvoice;
 
-    public $queryString = ['canceled', 'statusFrs', 'mois', 'gestionnaire','ignoreoldcrm', 'commercialSelect','toinvoice','order', 'direction', 'paid', 'margeEnd', 'contact', 'infovoyage', 'margeEdited', 'dateStart', 'dateEnd'];
+    public $search;
+
+    public $queryString = ['search', 'canceled', 'statusFrs', 'mois', 'gestionnaire','ignoreoldcrm', 'commercialSelect','toinvoice','order', 'direction', 'paid', 'margeEnd', 'contact', 'infovoyage', 'margeEdited', 'dateStart', 'dateEnd'];
 
     public $listeners = [
         'proformats.refresh' => '$refresh',
@@ -124,10 +128,12 @@ class ProformatsList extends Component
 //        $filter->byBureau(Auth::user());
 
         if (!Gate::allows('viewAny', Proformat::class)) {
-            $filter->byCommercial(Auth::commercial());
+            $commercial = Auth::commercial();
+
         }else{
-            $filter->byCommercial($this->commercial);
+            $commercial = $this->commercial;
         }
+        $filter->byCommercial($commercial);
 
         $filter->byGestionnaire($this->gestionnaire);
         if($this->paid === 'oui') $filter->paid();
@@ -165,7 +171,7 @@ class ProformatsList extends Component
             $repStats->getTotalMargeHT($this->dateStart, $this->dateEnd),
             $repStats->getTotalMargeHTDefinitive($this->dateStart, $this->dateEnd),
             $repStats->getTotalAEncaisser($this->dateStart, $this->dateEnd),
-            $repStats->getSalaireDiff($this->dateStart, $this->dateEnd),
+            $repStats->getSalaireDiff($commercial, $this->dateStart->copy()->submonth(), $this->dateEnd->copy()->submonth()),
             $repStats->isBalanced(),
         ];
 
@@ -237,6 +243,19 @@ class ProformatsList extends Component
                 }, $direction);
             },
         ]);
+
+
+        if(!empty($this->search)){
+            $query->where(function($query){
+                $query->where('number', 'LIKE', "%".$this->search."%");
+                $query->orWhereHas('devis', function($query){
+                    app(DevisAutocarRepositoryContract::class)->searchQuery($query, $this->search);
+                    $query->orWhereHas('dossier', function($query){
+                        app(DossierRepositoryContract::class)->searchQuery($query, $this->search);
+                    });
+                });
+            });
+        }
 
         $proformats = $query
             ->paginate(50);

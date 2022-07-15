@@ -62,8 +62,7 @@
             <div class="border border-black p-4">
                 <div class="text-xl grid grid-cols-2">
                     <div class="font-extrabold">Devis N°{{ $devis->getNumStartRef() - 31984 }}</div>
-                    <div>L'ASIE,
-                        le {{ \Carbon\Carbon::createFromTimeString($devis->created_at ?? '')->translatedFormat('l d F Y') }}</div>
+                    <div>le {{ \Carbon\Carbon::createFromTimeString($devis->created_at ?? '')->translatedFormat('l d F Y') }}</div>
                 </div>
                 <span class="pt-8 block">
                     Suite à votre demande, nous vous prions de bien vouloir trouver-ci dessous nos conditions pour votre projet de déplacement :
@@ -71,7 +70,7 @@
 
                 @foreach(($devis->data['trajets'] ?? []) as $index => $trajet)
                     <div class="border border-black bg-gray-400 text-xl font-extrabold uppercase text-center p-2 mt-4">
-                        Voyage n°{{$index + 1}} - destination : {{ $trajet['aller_point_depart']  }}
+                        Voyage n°{{$index + 1}} - destination : {{ $trajet['aller_distance']['destination_formatted'] ?? '' }}
                     </div>
                     <div class="border border-black mt-1 p-2 text-md space-y-4">
                         <div class="font-extrabold">
@@ -105,7 +104,7 @@
                             <span class="ml-1">
                                  :
                                 {{ \Carbon\Carbon::createFromTimeString($trajet['aller_date_depart'] ?? '')->translatedFormat('l d F Y à H:i') }}
-                                de {{ $trajet['aller_distance']['origin_formatted'] }}
+                                de {{ $trajet['aller_distance']['origin_formatted'] }} -> {{ $trajet['aller_distance']['destination_formatted'] ?? '' }}
                             </span>
                         </div>
 
@@ -116,7 +115,7 @@
                             </span>
                             <span class="ml-1"> :
                                 {{ \Carbon\Carbon::createFromTimeString($trajet['retour_date_depart'] ?? '')->translatedFormat('l d F Y à H:i') }}
-                                de {{ $trajet['aller_distance']['origin_formatted'] }}
+                                de {{ $trajet['retour_distance']['origin_formatted'] }} -> {{ $trajet['retour_distance']['destination_formatted'] }}
                             </span>
                         </div>
                         @endif

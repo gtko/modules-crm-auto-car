@@ -1,7 +1,10 @@
 <?php
 
 
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
+use Modules\BaseCore\Contracts\Services\PdfContract;
+use Modules\CoreCRM\Actions\Devis\GenerateLinkDevis;
 use Modules\CoreCRM\Services\FlowCRM;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDossierAddTag;
 use Modules\CrmAutoCar\Http\Controllers\BrandController;
@@ -27,21 +30,38 @@ use Modules\CrmAutoCar\Http\Controllers\TemplateController;
 use Modules\CrmAutoCar\Http\Controllers\ValidationInformationVoyageController;
 use Modules\CrmAutoCar\Http\Controllers\VuePlateauController;
 use Modules\CrmAutoCar\Models\Dossier;
+use Modules\CrmAutoCar\Models\Marge;
 use Modules\CrmAutoCar\Models\Proformat;
 use Modules\CrmAutoCar\Models\Tag;
 use Modules\CrmAutoCar\Models\Traits\EnumStatusCancel;
 use Modules\CrmAutoCar\View\Components\Cgv;
 use Modules\CrmAutoCar\View\Components\DevisClient\Index;
+use Modules\DevisAutoCar\Models\Devi;
 
 
-Route::get('/test/workflow', function(){
+Route::get('/test/pdf', function(){
+    $pdfService = app(PdfContract::class);
+    $pdfService->setUrl(route('cgv'));
 
+    return $pdfService->downloadPdf('cgv.pdf');
 
-    $dossier = Dossier::find(24);
-    $tag = Tag::find(1);
-    $user = Auth::user();
-    app(FlowCRM::class)->add($dossier, new ClientDossierAddTag($dossier, $tag, $user));
+});
 
+Route::get('/fixe-date', function(){
+
+    $start = Carbon::createFromFormat('Y-m-d', '2022-06-30')->startOfDay();
+    $end = Carbon::createFromFormat('Y-m-d', '2022-06-30')->endOfDay();
+    $newdate = Carbon::createFromFormat('Y-m-d', '2022-07-01')->startOfDay()->addMinutes(10);
+
+    $marges = Marge::whereBetween('created_at', [$start, $end])->get();
+
+    \Illuminate\Support\Facades\DB::beginTransaction();
+    foreach($marges as $marge){
+        $marge->created_at = $newdate;
+        $marge->updated_at = $newdate;
+        $marge->save();
+    }
+    \Illuminate\Support\Facades\DB::commit();
 
 });
 

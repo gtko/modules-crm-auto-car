@@ -53,9 +53,9 @@ class Paytweak
         /* Connect to hello */
         $this->reset();
         $result = $this->get('hello');
-        $this->generateUserToken($result["Paytweak-Security-Token"]);
+        $this->generateUserToken($result["Paytweak-Security-Token"] ?? 'empty');
         $result = $this->get('verify');
-        $this->token_key = $result['Paytweak-Work-Token'];
+        $this->token_key = $result['Paytweak-Work-Token'] ?? 'empty';
     }
 
     public function disconnect(){

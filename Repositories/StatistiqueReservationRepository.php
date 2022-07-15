@@ -16,7 +16,7 @@ use Modules\CrmAutoCar\Models\Traits\EnumStatusDemandeFournisseur;
 class StatistiqueReservationRepository extends AbstractRepository implements StatistiqueReservationRepositoryContract
 {
 
-    protected function getQueryCached(?Carbon $dateStart = null, ?Carbon $dateEnd = null):Collection
+    protected function getQueryCached(?Carbon $dateStart = null, ?Carbon $dateEnd = null, $keyForce = ""):Collection
     {
         $key = 'reservation_all';
 
@@ -28,7 +28,7 @@ class StatistiqueReservationRepository extends AbstractRepository implements Sta
             $key .= '_' . $dateEnd->format('d-m-y-h-i-s');
         }
 
-        return Cache::remember($key, 1, function() use ($dateStart, $dateEnd){
+        return Cache::driver('array')->remember($key . $keyForce, 1, function() use ($dateStart, $dateEnd){
             $query =  $this->newQuery()->with('payments', 'devis.dossier');
             if($dateStart && $dateEnd){
                 $query->dateReservation($dateStart->startOfDay()->startOfMonth(), $dateEnd->endOfDay()->endOfMonth());
@@ -38,6 +38,7 @@ class StatistiqueReservationRepository extends AbstractRepository implements Sta
             return $query->has('devis')->get();
         });
     }
+
 
     public function getTotalVente(?Carbon $dateStart = null, ?Carbon $dateEnd = null): float
     {
@@ -97,9 +98,21 @@ class StatistiqueReservationRepository extends AbstractRepository implements Sta
         return $query;
     }
 
-    public function getSalaireDiff(?Carbon $dateStart = null, ?Carbon $dateEnd = null): float
+    public function getSalaireDiff($commercial = null, ?Carbon $dateStart = null, ?Carbon $dateEnd = null): float
     {
-        return $this->getQueryCached($dateStart, $dateEnd)->sum(function($item) use ($dateEnd){
+        $query =  $this->getModel()->query()->with('payments', 'devis.dossier');
+        if($commercial) {
+            $query->hasCommercial($commercial);
+        }
+
+        if($dateStart && $dateEnd){
+            $query->dateReservation($dateStart->startOfDay()->startOfMonth(), $dateEnd->endOfDay()->endOfMonth());
+        }
+
+        $collect =  $query->has('devis')->get();
+
+
+        return $collect->sum(function($item) use ($dateEnd){
             return $item->price->getSalaireDiff($dateEnd);
         });
     }

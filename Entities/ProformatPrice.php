@@ -166,7 +166,7 @@ class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
 
     public function getSalaireDiff(?Carbon $limit = null){
 
-        return  $this->getMargeHT($limit) - $this->getMargeOriginHT(true);
+        return  $this->getMargeOriginHT(true) -  $this->getMargeHT($limit);
     }
 
 }

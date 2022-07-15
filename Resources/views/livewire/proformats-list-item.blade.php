@@ -1,6 +1,19 @@
 <tr class="{{$class}} @if($proformat->hasCancel()) filter bg-gray-300 grayscale @endif">
     <td class="whitespace-nowrap px-2 py-3 text-sm font-medium ">
         {{$proformat->number}}
+        <div class="flex flex-col">
+            <small>
+                <a href="{{route('dossiers.show', [$proformat->devis->dossier->client, $proformat->devis->dossier])}}">
+                    dossier:{{$proformat->devis->dossier->ref}}
+                </a>
+            </small>
+            <small>
+                <a href="{{route('devis.show', [$proformat->devis->dossier->client, $proformat->devis->dossier, $proformat->devis])}}">
+                    devis:{{$proformat->devis->ref}}
+                </a>
+
+            </small>
+        </div>
     </td>
     @if($proformat->devis->dossier ?? false)
     <td class="px-2 py-3 text-sm">

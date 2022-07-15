@@ -59,6 +59,11 @@
 
         <div class="col-span-12 mt-8">
             <div class="grid grid-cols-12 gap-6 mt-5">
+
+                <div class="col-span-12 ">
+                    <x-basecore::inputs.text name="search" wire:model="search" placeholder="Chercher une proforma ... " />
+                </div>
+
                 <div class="col-span-12 sm:col-span-6 xl:col-span-3 intro-y">
                     <x-basecore::inputs.select name="mois" wire:model="mois">
                         <option value="" default>Choisissez un mois</option>

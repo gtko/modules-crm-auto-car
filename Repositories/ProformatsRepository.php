@@ -9,9 +9,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Modules\BaseCore\Contracts\Entities\UserEntity;
+use Modules\BaseCore\Contracts\Repositories\PersonneRepositoryContract;
+use Modules\BaseCore\Helpers\HasInterface;
 use Modules\BaseCore\Repositories\AbstractRepository;
 use Modules\CoreCRM\Contracts\Entities\DevisEntities;
 use Modules\CoreCRM\Contracts\Repositories\DevisRepositoryContract;
+use Modules\CoreCRM\Contracts\Repositories\DossierRepositoryContract;
 use Modules\CoreCRM\Enum\StatusTypeEnum;
 use Modules\CoreCRM\Models\Commercial;
 use Modules\CrmAutoCar\Contracts\Repositories\BrandsRepositoryContract;
@@ -101,14 +104,14 @@ class ProformatsRepository extends AbstractRepository implements ProformatsRepos
 
     }
 
-    public function getLastMargeObject(Proformat $proformat, ?Carbon $limit = null): Marge
+    public function getLastMargeObject(Proformat $proformat, ?Carbon $limit = null): ?Marge
     {
         $marges = $proformat->marges;
         if($limit){
             $marges = $marges->where('created_at', '<=', $limit->endOfDay());
         }
 
-        return $marges->last();
+        return $marges->last() ?? null;
     }
 
     public function getLastMarge(Proformat $proformat, ?Carbon $limit = null): float
