@@ -9,15 +9,12 @@ class CguPdfFiles extends \Modules\CoreCRM\Flow\Works\Files\WorkFlowFiles
 
     public function content(): string
     {
-        $pdfService = app(PdfContract::class);
-        $pdfService->setUrl(route('cgv'));
-
-        return $pdfService->getContentPdf();
+        return Storage::get('cgl.pdf');
     }
 
     public function filename(): string
     {
-        return 'cgv.pdf';
+        return 'cgl.pdf';
     }
 
     public function mimetype(): string
@@ -27,7 +24,7 @@ class CguPdfFiles extends \Modules\CoreCRM\Flow\Works\Files\WorkFlowFiles
 
     public function name(): string
     {
-        return 'CGV PDF';
+        return 'CGL PDF';
     }
 
     public function description(): string
