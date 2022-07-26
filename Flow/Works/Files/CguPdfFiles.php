@@ -2,9 +2,10 @@
 
 namespace Modules\CrmAutoCar\Flow\Works\Files;
 
-use Modules\BaseCore\Contracts\Services\PdfContract;
+use Illuminate\Support\Facades\Storage;
+use Modules\CoreCRM\Flow\Works\Files\WorkFlowFiles;
 
-class CguPdfFiles extends \Modules\CoreCRM\Flow\Works\Files\WorkFlowFiles
+class CguPdfFiles extends WorkFlowFiles
 {
 
     public function content(): string

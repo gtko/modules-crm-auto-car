@@ -40,11 +40,7 @@ use Modules\DevisAutoCar\Models\Devi;
 
 
 Route::get('/test/pdf', function(){
-    $pdfService = app(PdfContract::class);
-    $pdfService->setUrl(route('cgv'));
-
-    return $pdfService->downloadPdf('cgv.pdf');
-
+   dd(Storage::get('cgl.pdf'));
 });
 
 Route::get('/fixe-date', function(){
