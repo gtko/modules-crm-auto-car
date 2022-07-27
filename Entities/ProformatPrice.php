@@ -39,6 +39,12 @@ class ProformatPrice extends \Modules\DevisAutoCar\Entities\DevisPrice
         });
     }
 
+    public function achatBPA(){
+        $demandes = $this->proformat->devis->demandeFournisseurs;
+
+        return $demandes->whereIn('status', EnumStatusDemandeFournisseur::STATUS_BPA)->count() > 0;
+    }
+
     public function achatValidated(){
         $demandes = $this->proformat->devis->demandeFournisseurs;
 

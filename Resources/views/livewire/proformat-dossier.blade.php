@@ -16,6 +16,7 @@
                     <th class="whitespace-nowrap">Accepté</th>
                     <th class="whitespace-nowrap">Total</th>
                     <th class="whitespace-nowrap">Marge HT</th>
+                    <th class="whitespace-nowrap">Salaire DIFF </th>
                     <th class="whitespace-nowrap">Payé</th>
                     <th class="whitespace-nowrap">Reste</th>
                     <th class="whitespace-nowrap">Actions</th>

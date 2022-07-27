@@ -69,6 +69,9 @@
         @marge($proformat->price->getMargeHT())€
     </td>
     <td class="border-b dark:border-dark-5">
+        @marge($proformat->price->getSalaireDiff())€
+    </td>
+    <td class="border-b dark:border-dark-5">
         {{ $proformat->price->paid()}}€
     </td>
     <td class="border-b dark:border-dark-5">
