@@ -13,9 +13,9 @@ use Modules\CrmAutoCar\Flow\Attributes\ClientDossierDevisValidation;
 class FormValidationDevis extends Component
 {
     public $devis;
-    public $validate;
-    public $initiale;
-    public $delta;
+    public array $validate = [];
+    public array $initiale = [];
+    public array $delta = [];
     public $data;
 
     public function mount($devi_id)
@@ -67,7 +67,7 @@ class FormValidationDevis extends Component
 
             $this->delta = [];
             foreach ($this->devis->data['trajets'] ?? [] as $id => $trajetValid) {
-                $this->delta [$id] = [];
+                $this->delta[$id] = [];
                 foreach ($this->validate[$id] as $key => $value) {
                     $this->delta[$id][$key] = $this->validate[$id][$key] === $this->initiale[$id][$key];
                 }
@@ -86,30 +86,7 @@ class FormValidationDevis extends Component
     public function valider()
     {
         $data = $this->devis->data;
-        $keys = ['trajets', 'validate' ];
-//        foreach ($data['trajets'] as $id =>  $trajet)
-//        {
-//            foreach ($keys as $key)
-//            {
-//                Arr::set($data, "$key.$id.aller_date_depart", $this->validate[$id]['aller_date_depart']);
-//                Arr::set($data, "$key.$id.aller_pax", $this->validate[$id]['aller_pax']);
-//                Arr::set($data, "$key.$id.addresse_ramassage", $this->validate[$id]['addresse_ramassage']);
-//                Arr::set($data, "$key.$id.addresse_destination", $this->validate[$id]['addresse_destination']);
-//                Arr::set($data, "$key.$id.retour_date_depart", $this->validate[$id]['retour_date_depart']);
-//                Arr::set($data, "$key.$id.retour_pax", $this->validate[$id]['retour_pax']);
-//                Arr::set($data, "$key.$id.addresse_ramassage_retour", $this->validate[$id]['addresse_ramassage_retour']);
-//                Arr::set($data, "$key.$id.addresse_destination_retour", $this->validate[$id]['addresse_destination_retour']);
-//                Arr::set($data, "$key.$id.contact_nom", $this->validate[$id]['contact_nom']);
-//                Arr::set($data, "$key.$id.contact_prenom", $this->validate[$id]['contact_prenom']);
-//                Arr::set($data, "$key.$id.tel_1", $this->validate[$id]['tel_1']);
-//                Arr::set($data, "$key.$id.tel_2", $this->validate[$id]['tel_2']);
-//                Arr::set($data, "$key.$id.information_complementaire", $this->validate[$id]['information_complementaire']);
-//            }
-//        }
-
         $data['validate'] = $this->validate;
-
-
 
         Arr::set($data, "validated", true);
 
