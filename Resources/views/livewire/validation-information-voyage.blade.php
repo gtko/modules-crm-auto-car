@@ -31,7 +31,7 @@
                             <hr class="text-bleu mb-3">
                             <h5 class="my-2 pl-2 font-bold text-xl">
                                 Aller
-                                <sm class="text-sm text-red-600 ml-2">(Merci de préciser l'adresse exact)</sm>
+                                <sm class="text-sm text-red-600 ml-2">(Merci de préciser l'adresse exacte)</sm>
                             </h5>
                             <div class="grid grid-cols-2">
                                 <x-basecore::inputs.group class="w-full">
@@ -55,7 +55,7 @@
                             </div>
                             <hr class="text-bleu my-3">
                             <h5 class="my-2 pl-2 font-bold text-xl">
-                                Retour  <sm class="text-sm text-red-600 ml-2">(Merci de préciser l'adresse exact)</sm>
+                                Retour  <sm class="text-sm text-red-600 ml-2">(Merci de préciser l'adresse exacte)</sm>
                             </h5>
                             <div class="grid grid-cols-2">
                                 <x-basecore::inputs.group class="w-full">
