@@ -111,7 +111,7 @@ class ProformatFilterQuery
         });
     }
 
-    public function byMargeEdited(?Carbon $dateStart = null,?Carbon $dateEnd = null)
+    public function byMargeEdited(?Carbon $dateStart = null,?Carbon $dateEnd = null, $salaireDiffOnly = true)
     {
         if(!$dateStart){
             $dateStart = Carbon::now()->startOfMonth();
@@ -122,9 +122,28 @@ class ProformatFilterQuery
         }
 
 
-        $this->query->whereHas('marges', function($query) use ($dateStart,$dateEnd){
+        $proformats = $this->query->whereHas('marges', function($query) use ($dateStart,$dateEnd){
             $query->whereBetween('created_at',[$dateStart,$dateEnd]);
         });
+
+        if($salaireDiffOnly){
+            $resultat = $proformats->get()->filter(function($item){
+                return round($item->price->getSalaireDiff(), 2) != 0;
+            });
+
+            $this->query->whereIn('id', $resultat->pluck('id')->toArray());
+        }
+
+    }
+
+    public function salaireDiff()
+    {
+        $proformats = $this->query->has('marges')->get();
+        $proformats = $proformats->filter(function($item){
+            return $item->price->getSalaireDiff() > 0 || $item->price->getSalaireDiff() < 0;
+        });
+
+        $this->query->whereIn('id', $proformats->pluck('id')->toArray());
 
     }
 
