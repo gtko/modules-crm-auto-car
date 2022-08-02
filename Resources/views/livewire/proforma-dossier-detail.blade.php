@@ -75,7 +75,7 @@
         {{ $proformat->price->paid()}}€
     </td>
     <td class="border-b dark:border-dark-5">
-        {{ $proformat->price->remains()}}€
+        {{ $proformat->price->remainsWithOver()}}€
     </td>
     <td class="border-b dark:border-dark-5">
         <div class="flex justify-between items-center">
