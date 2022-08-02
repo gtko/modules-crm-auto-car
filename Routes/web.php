@@ -5,7 +5,9 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
 use Modules\BaseCore\Contracts\Services\PdfContract;
 use Modules\CoreCRM\Actions\Devis\GenerateLinkDevis;
+use Modules\CoreCRM\Contracts\Repositories\FournisseurRepositoryContract;
 use Modules\CoreCRM\Services\FlowCRM;
+use Modules\CrmAutoCar\Contracts\Repositories\DecaissementRepositoryContract;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDossierAddTag;
 use Modules\CrmAutoCar\Http\Controllers\BrandController;
 use Modules\CrmAutoCar\Http\Controllers\CentralAutoCarDevisController;
@@ -29,6 +31,7 @@ use Modules\CrmAutoCar\Http\Controllers\TagController;
 use Modules\CrmAutoCar\Http\Controllers\TemplateController;
 use Modules\CrmAutoCar\Http\Controllers\ValidationInformationVoyageController;
 use Modules\CrmAutoCar\Http\Controllers\VuePlateauController;
+use Modules\CrmAutoCar\Models\DemandeFournisseur;
 use Modules\CrmAutoCar\Models\Dossier;
 use Modules\CrmAutoCar\Models\Marge;
 use Modules\CrmAutoCar\Models\Proformat;
@@ -40,7 +43,32 @@ use Modules\DevisAutoCar\Models\Devi;
 
 
 Route::get('/test/pdf', function(){
-   dd(Storage::get('cgl.pdf'));
+
+    $dossier = Dossier::find("25948");
+
+    $rep = app(DecaissementRepositoryContract::class);
+    $decaissements  = $rep->getByDossier($dossier);
+
+
+    $demandeFournisseur = DemandeFournisseur::whereHas('devis', function($query) use ($dossier){
+        $query->whereHas('dossier', function($query) use ($dossier){
+            $query->where('id', $dossier->id);
+        });
+    })->where('status', 'bpa');
+
+    $total = $demandeFournisseur->sum('prix');
+    $payer = $decaissements->sum('payer') ?? 0.00;
+
+    if($payer > 0 && $payer < $total){
+        return 'partiel';
+    }
+
+    if($payer == $total){
+        return 'complet';
+    }
+
+    return 'aucun';
+
 });
 
 Route::get('/fixe-date', function(){

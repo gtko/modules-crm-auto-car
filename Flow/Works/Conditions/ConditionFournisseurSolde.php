@@ -9,7 +9,9 @@ use Modules\CrmAutoCar\Contracts\Repositories\DecaissementRepositoryContract;
 use Modules\CrmAutoCar\Flow\Works\Params\ParamsNombreJours;
 use Modules\CrmAutoCar\Flow\Works\Params\ParamsSoldeSelect;
 use Modules\CrmAutoCar\Flow\Works\Params\ParamsTypePaiementSelect;
+use Modules\CrmAutoCar\Models\DemandeFournisseur;
 use Modules\CrmAutoCar\Models\Dossier;
+use Modules\DevisAutoCar\Models\Devi;
 
 class ConditionFournisseurSolde extends WorkFlowCondition
 {
@@ -27,27 +29,13 @@ class ConditionFournisseurSolde extends WorkFlowCondition
         $rep = app(DecaissementRepositoryContract::class);
         $decaissements  = $rep->getByDossier($dossier);
 
+        $demandeFournisseur = DemandeFournisseur::whereHas('devis', function($query) use ($dossier){
+            $query->whereHas('dossier', function($query) use ($dossier){
+                $query->where('id', $dossier->id);
+            });
+        })->where('status', 'bpa');
 
-        $rep = app(FournisseurRepositoryContract::class)->newQuery()
-            ->with('devis', function($query) use ($dossier){
-                $query->whereHas('dossier', function($query) use ($dossier){
-                    $query->where('id', $dossier->id);
-                });
-            })
-            ->whereHas('devis' , function($query) use ($dossier){
-                $query->whereHas('dossier', function($query) use ($dossier){
-                    $query->where('id', $dossier->id);
-                });
-                $query->where('bpa', true);
-            })->get();
-
-        $total = 0;
-        foreach($rep as $fournisseur){
-            $total += $fournisseur->devis->map(function($devis){
-                return $devis->pivot->prix ?? null;
-            })->sum();
-        }
-
+        $total = $demandeFournisseur->sum('prix');
         $payer = $decaissements->sum('payer') ?? 0.00;
 
         if($payer > 0 && $payer < $total){
