@@ -60,6 +60,17 @@ class Dossier extends \Modules\CoreCRM\Models\Dossier
         return $this->data['lieu_arrivee'] ?? null;
     }
 
+    public function getPaxDepAttribute(){
+        return $this->data['pax_dep'] ?? null;
+    }
+
+    public function getPaxRetAttribute(){
+        return $this->data['pax_ret'] ?? null;
+    }
+
+    public function getTypeTrajetAttribute(){
+        return $this->data['type_trajet'] ?? null;
+    }
     /**
      * @return bool
      */

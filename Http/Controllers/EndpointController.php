@@ -3,6 +3,7 @@
 namespace Modules\CrmAutoCar\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Modules\BaseCore\Actions\Url\SignePayloadUrl;
 use Modules\BaseCore\Contracts\Personnes\CreatePersonneContract;
 use Modules\BaseCore\Http\Requests\PersonneStoreRequest;
@@ -96,6 +97,8 @@ class EndpointController
             'pax_ret' => $request->pax_ret,
             'type_trajet' => $request->type_trajet,
         ] + $request->all());
+
+        Log::channel('endpoint')->info('New Lead => ' . print_r($formatRequest->toArray(), true));
 
         $dossier = (new CreateClient())->create($formatRequest, $commercial, $source, $status);
         $dossier->data = $formatRequest->all();
