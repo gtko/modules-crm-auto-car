@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Modules\BaseCore\Contracts\Services\PdfContract;
 use Modules\CoreCRM\Actions\Devis\GenerateLinkDevis;
 use Modules\CoreCRM\Contracts\Repositories\FournisseurRepositoryContract;
+use Modules\CoreCRM\Flow\Works\WorkflowKernel;
 use Modules\CoreCRM\Services\FlowCRM;
 use Modules\CrmAutoCar\Contracts\Repositories\DecaissementRepositoryContract;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDossierAddTag;
@@ -42,32 +43,13 @@ use Modules\CrmAutoCar\View\Components\DevisClient\Index;
 use Modules\DevisAutoCar\Models\Devi;
 
 
-Route::get('/test/pdf', function(){
+Route::get('/test/greg', function(){
 
-    $dossier = Dossier::find("25948");
-
-    $rep = app(DecaissementRepositoryContract::class);
-    $decaissements  = $rep->getByDossier($dossier);
-
-
-    $demandeFournisseur = DemandeFournisseur::whereHas('devis', function($query) use ($dossier){
-        $query->whereHas('dossier', function($query) use ($dossier){
-            $query->where('id', $dossier->id);
-        });
-    })->where('status', 'bpa');
-
-    $total = $demandeFournisseur->sum('prix');
-    $payer = $decaissements->sum('payer') ?? 0.00;
-
-    if($payer > 0 && $payer < $total){
-        return 'partiel';
-    }
-
-    if($payer == $total){
-        return 'complet';
-    }
-
-    return 'aucun';
+   $kernelEvents = app(WorkflowKernel::class)->getEvents();
+    $kernelEvents = collect($kernelEvents)->map(function($class){
+        return new ($class);
+    });
+   dd($kernelEvents);
 
 });
 
