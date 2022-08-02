@@ -101,11 +101,6 @@ class ListFormulaire extends Component implements Tables\Contracts\HasTable
                 ->sortable(['data->lieu_depart'])
                 ->searchable()
                 ->toggleable(true),
-            Tables\Columns\TextColumn::make('pax_dep')
-                ->label("PAX dep")
-                ->sortable(['data->pax_dep'])
-                ->searchable()
-                ->toggleable(true),
             Tables\Columns\TextColumn::make('date_arrive')
                 ->label("Date d'arrivée")
                 ->sortable()
@@ -116,14 +111,14 @@ class ListFormulaire extends Component implements Tables\Contracts\HasTable
                 ->sortable(['data->lieu_arrivee'])
                 ->searchable()
                 ->toggleable(true),
-            Tables\Columns\TextColumn::make('pax_ret')
-                ->label("PAX Ret")
-                ->sortable(['data->pax_ret'])
+            Tables\Columns\TextColumn::make('pax_dep')
+                ->label("PAX")
+                ->sortable(['data->personnes'])
                 ->searchable()
                 ->toggleable(true),
             Tables\Columns\TextColumn::make('type_trajet')
                 ->label("Type")
-                ->sortable(['data->type_trajet'])
+                ->sortable(['data->type'])
                 ->searchable()
                 ->toggleable(true),
 

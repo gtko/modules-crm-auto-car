@@ -61,15 +61,15 @@ class Dossier extends \Modules\CoreCRM\Models\Dossier
     }
 
     public function getPaxDepAttribute(){
-        return $this->data['pax_dep'] ?? null;
+        return $this->data['personnes'] ?? null;
     }
 
     public function getPaxRetAttribute(){
-        return $this->data['pax_ret'] ?? null;
+        return $this->data['personnes'] ?? null;
     }
 
     public function getTypeTrajetAttribute(){
-        return $this->data['type_trajet'] ?? null;
+        return $this->data['type'] ?? null;
     }
     /**
      * @return bool

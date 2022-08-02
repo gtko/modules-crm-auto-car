@@ -117,6 +117,16 @@ class ListDossier extends Component implements Tables\Contracts\HasTable
                 ->sortable(['data->lieu_depart'])
                 ->searchable()
                 ->toggleable(true),
+            Tables\Columns\TextColumn::make('pax_dep')
+                ->label('PAX')
+                ->sortable(['data->personnes'])
+                ->searchable()
+                ->toggleable(true),
+            Tables\Columns\TextColumn::make('type_trajet')
+                ->label('Type')
+                ->sortable(['data->type'])
+                ->searchable()
+                ->toggleable(true),
 
             DateVoyageColumn::make('devis')
                 ->label('Date du voyage')
