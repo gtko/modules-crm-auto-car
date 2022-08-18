@@ -88,8 +88,6 @@ class BlockFournisseurItem extends Component
 
             $demandRep->update($this->demande, ['status' => EnumStatusDemandeFournisseur::STATUS_VALIDATE]);
 
-
-
             $prix = (float) $this->demande->prix;
             (new FlowCRM())->add($this->devi->dossier, new ClientDossierDemandeFournisseurValidate(Auth::user(), $this->devi, $this->fourni, $prix));
 
