@@ -39,7 +39,9 @@ class EndpointController
                 $query->whereHas('emails', function($query) use ($request){
                     $query->where('email', '=', $request->commercial_email);
                 });
-            })->first();
+            })
+                ->where('enabled', true)
+                ->first();
 
 
             if(!$commercial){
@@ -53,7 +55,7 @@ class EndpointController
 
         foreach ($dossierExistant as $item) {
             if($item->status->type === StatusTypeEnum::TYPE_WIN){
-                $commercial = Commercial::where('id', $item->commercial->id)->first();
+                $commercial = Commercial::where('id', $item->commercial->id)->where('enabled', true)->first();
                 break;
             }
         }
