@@ -4,6 +4,7 @@ namespace Modules\CrmAutoCar\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Modules\BaseCore\Actions\FormatPhoneNumber;
 use Modules\BaseCore\Actions\Url\SignePayloadUrl;
 use Modules\BaseCore\Contracts\Personnes\CreatePersonneContract;
 use Modules\BaseCore\Http\Requests\PersonneStoreRequest;
@@ -89,8 +90,8 @@ class EndpointController
             'city' => $request->ville,
             'code_zip' => $request->code_postal,
             'country_id' => $request->pays,
-            'email' => [$request->email],
-            'phone' => [$request->tel],
+            'email' => [$request->email], 
+            'phone' => [(new FormatPhoneNumber())->format($request->tel)],
             'date_depart' => $request->date_dep,
             'lieu_depart' => $request->depart,
             'date_arrivee' => $request->date_ret,
