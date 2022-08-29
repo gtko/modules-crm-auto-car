@@ -24,7 +24,7 @@ class ConditionConcurentDevis extends \Modules\CoreCRM\Flow\Works\Conditions\Wor
 
         $total = $trajets['brands'][$this->getValueTarget()] ?? 0;
 
-        app(WorkflowLog::class)->SetSubMessage("Prix de la brand ".$this->getValueTarget()." " . print_r($total, true));
+        app(WorkflowLog::class)->SetSubMessage("Prix de la brand ".$this->getValueTarget()." " . print_r($total, true)."€");
 
         if($total > 0) return $this->getValueTarget();
 
