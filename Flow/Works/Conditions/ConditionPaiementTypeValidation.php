@@ -37,6 +37,6 @@ class ConditionPaiementTypeValidation extends WorkFlowCondition
 
     public function describe(): string
     {
-        return 'Type de paiement quei est réalisé';
+        return 'Type de paiement qui est réalisé';
     }
 }

@@ -74,6 +74,7 @@ use Modules\CrmAutoCar\Flow\Works\Events\EventSendInformationVoyageMailClient;
 use Modules\CrmAutoCar\Flow\Works\Events\EventSendInformationVoyageMailFournisseur;
 use Modules\CrmAutoCar\Flow\Works\Events\EventSendInvoice;
 use Modules\CrmAutoCar\Flow\Works\Events\EventSendProformat;
+use Modules\CrmAutoCar\Flow\Works\Events\EventSheduleCrmAutocar;
 use Modules\CrmAutoCar\Http\Livewire\Datatable\StatFournisseurDatatableQuery;
 use Modules\CrmAutoCar\Models\Client;
 use Modules\CrmAutoCar\Notifications\ClientDevisExterneValidationNotification;
@@ -261,7 +262,8 @@ class CrmAutoCarServiceProvider extends ServiceProvider
             EventSendInformationVoyageMailClient::class,
             EventSendContactChauffeurToClient::class,
             EventCreateInvoiceClient::class,
-            EventClientDossierFideliser::class
+            EventClientDossierFideliser::class,
+            EventSheduleCrmAutocar::class
         ]);
 
         app(TemplateMailService::class)
