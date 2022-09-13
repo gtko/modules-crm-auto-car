@@ -7,8 +7,10 @@ use Modules\BaseCore\Contracts\Services\PdfContract;
 use Modules\CoreCRM\Actions\Devis\GenerateLinkDevis;
 use Modules\CoreCRM\Contracts\Repositories\FournisseurRepositoryContract;
 use Modules\CoreCRM\Flow\Works\WorkflowKernel;
+use Modules\CoreCRM\Models\Flow;
 use Modules\CoreCRM\Services\FlowCRM;
 use Modules\CrmAutoCar\Contracts\Repositories\DecaissementRepositoryContract;
+use Modules\CrmAutoCar\Contracts\Repositories\TagsRepositoryContract;
 use Modules\CrmAutoCar\Flow\Attributes\ClientDossierAddTag;
 use Modules\CrmAutoCar\Http\Controllers\BrandController;
 use Modules\CrmAutoCar\Http\Controllers\CentralAutoCarDevisController;
@@ -44,13 +46,34 @@ use Modules\DevisAutoCar\Models\Devi;
 
 
 Route::get('/test/greg', function(){
+    $name = 'facture-emise.csv';
+    $headers = [
+        'Content-Disposition' => 'attachment; filename='. $name,
+    ];
+    return response()->stream(function(){
+        $file = fopen('php://output', 'w+');
+        fputcsv($file, ['ref', 'name', 'status']);
+        $data = Dossier::whereHas('tags', function($query){
+            $query->where('tags.id', 11);
+        })->get();
 
-   $kernelEvents = app(WorkflowKernel::class)->getEvents();
-    $kernelEvents = collect($kernelEvents)->map(function($class){
-        return new ($class);
-    });
-   dd($kernelEvents);
+        foreach ($data as  $value) {
 
+            fputcsv($file, [
+                $value->ref,
+                $value->client->format_name,
+                $value->status->label,
+            ]);
+        }
+        $blanks = array("\t","\t","\t");
+        fputcsv($file, $blanks);
+        $blanks = array("\t","\t","\t");
+        fputcsv($file, $blanks);
+        $blanks = array("\t","\t","\t");
+        fputcsv($file, $blanks);
+
+        fclose($file);
+    }, 200, $headers);
 });
 
 Route::get('/fixe-date', function(){

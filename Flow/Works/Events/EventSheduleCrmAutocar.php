@@ -10,6 +10,7 @@ use Modules\CoreCRM\Flow\Works\Conditions\ConditionStatus;
 use Modules\CoreCRM\Flow\Works\Conditions\ConditionTag;
 use Modules\CoreCRM\Flow\Works\Events\EventShedule;
 use Modules\CoreCRM\Flow\Works\Variables\DossierVariable;
+use Modules\CoreCRM\Flow\Works\Variables\FournisseurVariable;
 use Modules\CoreCRM\Flow\Works\Variables\UserVariable;
 use Modules\CrmAutoCar\Flow\Works\Conditions\ConditionClientSolde;
 use Modules\CrmAutoCar\Flow\Works\Conditions\ConditionClientTypeValidation;
