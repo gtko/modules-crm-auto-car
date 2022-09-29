@@ -11,6 +11,8 @@ class ListDetail extends Component
 
     public function mount($dossier, $resa = false)
     {
+        $dossier->load('status', 'commercial.personne', 'followers.personne', 'client.personne', 'tags', 'devis');
+
         $this->dossier = $dossier;
         $this->resa = $resa;
     }

@@ -38,7 +38,7 @@
                 @if (($this->devis->data['trajets'][$this->trajetid]['peages'] ?? null ) == 'non_compris')
                         <span>Péages</span>
                 @endif
-            </div>
+            </div> 
         </div>
     </div>
 

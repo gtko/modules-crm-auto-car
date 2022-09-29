@@ -36,7 +36,7 @@
                             </th>
                             <td class="w-1/3 text-right pr-4 font-bold text-base border border-gray-600 border-collapse">
                                 @marge($trajetPrice->getPriceHT())€
-                            </td>
+                            </td> 
                         </tr>
                     @endforeach
                 @endif

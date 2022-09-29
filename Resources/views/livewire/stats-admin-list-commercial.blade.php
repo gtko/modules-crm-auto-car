@@ -52,7 +52,7 @@
                         @icon('spinner', null, 'h-16 w-16 animate-spin')
                         <div class="text-xl mt-4">Chargement des statistiques de l'utilisateur</div>
                     </div>
-                </div>
+                </div> 
             </x-slot>
                         <livewire:crmautocar::stats-admin-card :filtre="$this->filtre" :key="'admin_card'.$this->key"/>
             <livewire:crmautocar::stat-admin-client-list :filtre="$this->filtre" :key="'client_list'.$this->key"/>

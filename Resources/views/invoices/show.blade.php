@@ -125,7 +125,7 @@
                                                 <td class="text-right text-nowrap">@marge($price->getPriceHT())€</td>
                                             </tr>
                                             <tr>
-                                                <td colspan="3" class="text-end">TVA</td>
+                                                <td colspan="3" class="text-end">TVA 10 %</td>
                                                 <td class="text-right text-nowrap">@marge($price->getPriceTVA())</td>
                                             </tr>
                                             <tr>

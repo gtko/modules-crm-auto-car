@@ -26,6 +26,6 @@
                 le devis #{{$devi->ref}} a été validé le {{$devi->proformat->created_at->format('d/m/Y H:i')}}
                 par {{$devi->data['nom_validation'] ?? ''}} {{$devi->data['prenom_validation'] ?? ''}}
 {{--                {{$devi->data['ip_validation'] ?? '--'}}--}}
-            </p>
+            </p>  
         @endif
 </div>
