@@ -24,6 +24,7 @@ class StatEtatPlateau extends Component
             $query->where('name', 'commercial');
         })
             ->with('personne')
+            ->where('enabled', true)
             ->select('id','personne_id',
                ...$select
             )

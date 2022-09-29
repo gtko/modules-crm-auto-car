@@ -17,14 +17,31 @@ class ConditionDateDepartDevis extends \Modules\CoreCRM\Flow\Works\Conditions\Wo
     public function getValue()
     {
         $data = $this->event->getData();
-        $trajets = collect($data['devis']->data['trajets']);
+        if($data['devis']->validate) {
+            $trajets = collect($data['devis']->data['trajets']);
 
-        //on cherche le plus petit nombre de jours
-        $jours = $trajets->map(function($item) {
-            return ['diff' => now()->diffInDays(Carbon::parse($item['aller_date_depart']))];
-        });
+            //on cherche le plus petit nombre de jours
+            $jours = $trajets->map(function ($item) {
+                $depart = Carbon::parse($item['aller_date_depart']);
+                if($depart->greaterThan(now())) {
+                    return ['diff' => now()->diffInHours($depart)];
+                }
 
-        return $jours->min('diff');
+                return 24*365*50;
+            });
+
+            // 24 / 24 = 1
+            // 26 / 24 = 1,08
+            // 48 / 24 = 2
+            // 47 / 24 = 1,96
+            // 49 / 24 = 2,04 NON
+            // 50 / 24 = 2,08 NON
+
+
+            return $jours->min('diff') / 24;
+        }
+
+        return 365*50;
     }
 
     public function name(): string

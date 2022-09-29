@@ -55,6 +55,7 @@ class StatsAdminListCommercial extends Component
 
         $this->commercials = $repCommercial
             ->newquery()
+            ->where('enabled', true)
             ->role(['commercial', 'Résa', 'manager']);
 
             if($this->filtre['bureau']){
