@@ -16,37 +16,39 @@ class StatistiqueV2 extends Component
 
     public $tab = 'horaire';
 
-    public $queryString = ['debut', 'fin', 'tab'];
+    public $queryString = ['debut', 'fin', 'tab', 'bureau'];
 
 
-    public function mount(){
+    public function mount()
+    {
 
-        if(!$this->debut) {
+        if (!$this->debut) {
             $this->debut = now()->startOfMonth()->format('Y-m-d');
         }
 
-        if(!$this->fin) {
+        if (!$this->fin) {
             $this->fin = now()->endOfMonth()->format('Y-m-d');
         }
 
         $this->bureau = '';
         $this->badge = '';
-
     }
 
 
-    public function getKeyProperty(){
+    public function getKeyProperty()
+    {
         return  md5(json_encode($this->filtre));
     }
 
-    public function getFiltreProperty(){
+    public function getFiltreProperty()
+    {
 
         $date = $this->debut && $this->fin;
         $filtre =  [
             'bureau' => $this->bureau,
         ];
 
-        if($date){
+        if ($date) {
             $filtre['debut'] = $this->debut;
             $filtre['fin'] = $this->fin;
         }
