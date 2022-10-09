@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Select;
 use Filament\Tables;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -48,11 +49,11 @@ class ListDossier extends Component implements Tables\Contracts\HasTable
     {
         $query = $this->repository->newQuery();
 
-        if(
+        if (
             !\Auth::user()->isSuperAdmin() &&
             !\Auth::user()->can('changeCommercial', \Modules\CrmAutoCar\Models\Proformat::class)
         ) {
-            $query->where(function($query) {
+            $query->where(function ($query) {
                 $query->where('commercial_id', \Auth::user()->id)
                     ->orWhereHas('followers', function ($query) {
                         $query->where('user_id', \Auth::user()->id);
@@ -72,7 +73,7 @@ class ListDossier extends Component implements Tables\Contracts\HasTable
                 ->rounded(true),
             BureauColumn::make('commercial.roles')
                 ->label('Bureau')
-                ->toggleable(\Auth::user()->isSuperAdmin(),isToggledHiddenByDefault: true),
+                ->toggleable(\Auth::user()->isSuperAdmin(), isToggledHiddenByDefault: true),
 
             Tables\Columns\TextColumn::make('ref')
                 ->label('Ref')
@@ -135,7 +136,7 @@ class ListDossier extends Component implements Tables\Contracts\HasTable
 
             Tables\Columns\ImageColumn::make('commercial.avatar_url')
                 ->label('Commercial')
-                ->tooltip(fn(Model $record): string => "{$record->commercial->format_name}")
+                ->tooltip(fn (Model $record): string => "{$record->commercial->format_name}")
                 ->rounded()
                 ->sortable()
                 ->searchable()
@@ -159,10 +160,10 @@ class ListDossier extends Component implements Tables\Contracts\HasTable
         if (filled($sortCol = $this->getTableSortColumn()) && filled($sortDir = $this->getTableSortDirection())) {
 
             $ordersBy = [
-                'date_depart' => function($query, $direction) {
+                'date_depart' => function ($query, $direction) {
                     return $query->orderByRaw("STR_TO_DATE(json_unquote(json_extract(data, '$.date_depart')), '%d/%c/%Y') $direction");
                 },
-                'date_arrive' => function($query, $direction) {
+                'date_arrive' => function ($query, $direction) {
                     return $query->orderByRaw("STR_TO_DATE(json_unquote(json_extract(data, '$.date_arrive')), '%d/%c/%Y') $direction");
                 },
                 'created_at' => function ($query, $direction) {
@@ -276,7 +277,6 @@ class ListDossier extends Component implements Tables\Contracts\HasTable
 
                 return $query;
             }
-
         }
 
         return $query;
@@ -298,7 +298,7 @@ class ListDossier extends Component implements Tables\Contracts\HasTable
 
     protected function getTableRecordUrlUsing(): \Closure
     {
-        return fn(Model $record): string => route('dossiers.show', ['client' => $record->client, 'dossier' => $record]);
+        return fn (Model $record): string => route('dossiers.show', ['client' => $record->client, 'dossier' => $record]);
     }
 
     protected function getTableFiltersFormColumns(): int
@@ -306,7 +306,8 @@ class ListDossier extends Component implements Tables\Contracts\HasTable
         return 4;
     }
 
-    protected function getDefaultStatusProperty(){
+    protected function getDefaultStatusProperty()
+    {
         return ['4'];
     }
 
@@ -315,11 +316,11 @@ class ListDossier extends Component implements Tables\Contracts\HasTable
         $filters = [
 
             Tables\Filters\MultiSelectFilter::make('status')
-                ->options(fn() => Status::all()->pluck('label', 'id'))
+                ->options(fn () => Status::all()->pluck('label', 'id'))
                 ->column('status_id')
                 ->default($this->getDefaultStatusProperty()),
             Tables\Filters\MultiSelectFilter::make('tag')
-                ->options(fn() => Tag::all()->pluck('label', 'id'))
+                ->options(fn () => Tag::all()->pluck('label', 'id'))
                 ->query(function ($query, $data) {
                     if (count($data['values']) > 0) {
                         return $query->whereHas('tags', function (Builder $query) use ($data) {
@@ -335,7 +336,7 @@ class ListDossier extends Component implements Tables\Contracts\HasTable
                     return $query
                         ->when(
                             $data['depart'],
-                            function(Builder $query, $date){
+                            function (Builder $query, $date) {
                                 $dateStart = Carbon::parse($date)->startOfDay();
                                 $collection = $query->with('devis')->get();
                                 $dossierIds = $collection->filter(function ($item) use ($dateStart) {
@@ -366,7 +367,7 @@ class ListDossier extends Component implements Tables\Contracts\HasTable
                     return $query
                         ->when(
                             $data['retour'],
-                            function(Builder $query, $date){
+                            function (Builder $query, $date) {
                                 $dateRetour = Carbon::parse($date)->startOfDay();
 
                                 $collection = $query->with('devis')->get();
@@ -393,9 +394,9 @@ class ListDossier extends Component implements Tables\Contracts\HasTable
         ];
 
 
-        if(\Auth::user()->isSuperAdmin()){
+        if (\Auth::user()->isSuperAdmin()) {
             $filters[] = Tables\Filters\SelectFilter::make('bureaux')
-                ->options(fn() => Role::whereIn('id', config('crmautocar.bureaux_ids'))->pluck('name', 'id'))
+                ->options(fn () => Role::whereIn('id', config('crmautocar.bureaux_ids'))->pluck('name', 'id'))
                 ->query(function (Builder $query, $data) {
                     if ($data['value'] ?? false) {
                         return $query->whereHas('commercial', function (Builder $query) use ($data) {
@@ -406,11 +407,10 @@ class ListDossier extends Component implements Tables\Contracts\HasTable
                         });
                     }
                 });
-
         }
 
 
-        if(
+        if (
             \Auth::user()->isSuperAdmin() ||
             \Auth::user()->can('changeCommercial', \Modules\CrmAutoCar\Models\Proformat::class)
         ) {
@@ -422,11 +422,11 @@ class ListDossier extends Component implements Tables\Contracts\HasTable
                         $query->where('user_id', \Auth::user()->id);
                     })));
 
-            $filters[] = Tables\Filters\MultiSelectFilter::make('commercial')
-                    ->options(fn() => Commercial::all()->pluck('format_name', 'id'))
+            $filters[] = SelectFilter::make('commercial')
+                ->options(fn () => Commercial::role('commercial')->get()->pluck('format_name', 'id'))
                 ->query(function ($query, $data) {
-                    if (count($data['values']) > 0) {
-                        return $query->whereIn('commercial_id', $data['values']);
+                    if ($data['value'] ?? false) {
+                        return $query->where('commercial_id', $data['value']);
                     }
                 });
         }
@@ -442,40 +442,40 @@ class ListDossier extends Component implements Tables\Contracts\HasTable
                 return $query
                     ->when(
                         $data['created_from'],
-                        fn(Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+                        fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
                     )
                     ->when(
                         $data['created_until'],
-                        fn(Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+                        fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
                     );
             });
 
         $filters[] = Tables\Filters\Filter::make('date_signature')
-                ->form([
-                    DatePicker::make('signate_from')->label('Signé après'),
-                    DatePicker::make('signate_until')->label('Signé avant'),
-                ])
-                ->query(function (Builder $query, array $data): Builder {
-                    return $query
-                        ->when(
-                            $data['signate_from'],
-                            fn(Builder $query, $date): Builder => $query->whereHas('devis', function (Builder $query) use ($date) {
-                                $query->whereHas('proformat', function (Builder $query) use ($date) {
-                                    $dateStart = Carbon::parse($date)->startOfDay();
-                                    $query->whereDate('created_at', '>=', $dateStart);
-                                });
-                            }),
-                        )
-                        ->when(
-                            $data['signate_until'],
-                            fn(Builder $query, $date): Builder => $query->whereHas('devis', function (Builder $query) use ($date) {
-                                $query->whereHas('proformat', function (Builder $query) use ($date) {
-                                    $dateEnd = Carbon::parse($date)->endOfDay();
-                                    $query->whereDate('created_at', '<=', $dateEnd);
-                                });
-                            }),
-                        );
-                });
+            ->form([
+                DatePicker::make('signate_from')->label('Signé après'),
+                DatePicker::make('signate_until')->label('Signé avant'),
+            ])
+            ->query(function (Builder $query, array $data): Builder {
+                return $query
+                    ->when(
+                        $data['signate_from'],
+                        fn (Builder $query, $date): Builder => $query->whereHas('devis', function (Builder $query) use ($date) {
+                            $query->whereHas('proformat', function (Builder $query) use ($date) {
+                                $dateStart = Carbon::parse($date)->startOfDay();
+                                $query->whereDate('created_at', '>=', $dateStart);
+                            });
+                        }),
+                    )
+                    ->when(
+                        $data['signate_until'],
+                        fn (Builder $query, $date): Builder => $query->whereHas('devis', function (Builder $query) use ($date) {
+                            $query->whereHas('proformat', function (Builder $query) use ($date) {
+                                $dateEnd = Carbon::parse($date)->endOfDay();
+                                $query->whereDate('created_at', '<=', $dateEnd);
+                            });
+                        }),
+                    );
+            });
 
         return $filters;
     }
@@ -485,7 +485,7 @@ class ListDossier extends Component implements Tables\Contracts\HasTable
         return [
             Tables\Actions\IconButtonAction::make('edit')
                 ->label('Voir le dossier')
-                ->url(fn(Dossier $record): string => route('dossiers.show', [$record->client, $record]))
+                ->url(fn (Dossier $record): string => route('dossiers.show', [$record->client, $record]))
                 ->icon('heroicon-o-eye')
         ];
     }
@@ -507,5 +507,4 @@ class ListDossier extends Component implements Tables\Contracts\HasTable
     {
         return view('crmautocar::livewire.datatable.list-dossier');
     }
-
 }
