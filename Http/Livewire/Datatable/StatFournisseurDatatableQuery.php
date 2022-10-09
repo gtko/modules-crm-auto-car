@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\MultiSelectFilter;
+use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\CrmAutoCar\Contracts\Repositories\DemandeFournisseurRepositoryContract;
 use Modules\CrmAutoCar\Models\Fournisseur;
@@ -25,22 +26,21 @@ class StatFournisseurDatatableQuery
     {
         return $this->repository->newQuery()
             ->with('devis.dossier.client')
-            ->where(function($query){
+            ->where(function ($query) {
                 $query->has('fournisseur')
 //                ->where('status', '=', EnumStatusDemandeFournisseur::STATUS_BPA)
                 ->whereHas('devis', function (Builder $query) {
-                    $query->whereHas('dossier', function($query){
-                        $query->whereNotBetween("id",[3585,22564]);
+                    $query->whereHas('dossier', function ($query) {
+                        $query->whereNotBetween("id", [3585,22564]);
                     });
                 });
-
             });
     }
 
     public function getTableFilters(): array
     {
         $filters = [
-            MultiSelectFilter::make('status')
+            SelectFilter::make('status')
                 ->options([
                     EnumStatusDemandeFournisseur::STATUS_BPA => 'BPA',
                     EnumStatusDemandeFournisseur::STATUS_VALIDATE => 'Validé',
@@ -49,13 +49,13 @@ class StatFournisseurDatatableQuery
                     EnumStatusCancel::STATUS_CANCELLER => 'Remboursement',
                 ])
                 ->default(EnumStatusDemandeFournisseur::STATUS_BPA)
-                ->column('status'),
+                ->attribute('status'),
 
             MultiSelectFilter::make('fournisseur')
                 ->options(function (): array {
                     return Fournisseur::all()->pluck('company', 'id')->toArray();
                 })
-                ->column('user_id'),
+                ->attribute('user_id'),
 
             Filter::make('depart')
                 ->form([
@@ -65,7 +65,7 @@ class StatFournisseurDatatableQuery
                     return $query
                         ->when(
                             $data['depart'],
-                            function(Builder $query, $date){
+                            function (Builder $query, $date) {
                                 $dateStart = Carbon::parse($date)->startOfDay();
                                 $collection = $query->with('devis')->get();
                                 $demandeIDs = $collection->filter(function ($item) use ($dateStart) {
@@ -98,11 +98,11 @@ class StatFournisseurDatatableQuery
                 return $query
                     ->when(
                         $data['created_from'],
-                        fn(Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+                        fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
                     )
                     ->when(
                         $data['created_until'],
-                        fn(Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+                        fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
                     );
             });
         return $filters;
