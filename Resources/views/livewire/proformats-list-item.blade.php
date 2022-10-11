@@ -1,5 +1,5 @@
 <tr class="{{$class}} @if($proformat->hasCancel()) filter bg-gray-300 grayscale @endif">
-    <td class="whitespace-nowrap px-2 py-3 text-sm font-medium ">
+    <td class="px-2 py-3 text-sm font-medium whitespace-nowrap ">
         {{$proformat->number}}
         <div class="flex flex-col">
             <small>
@@ -41,27 +41,7 @@
         </div>
     </td>
 
-    <td class="whitespace-nowrap px-2 py-3 text-sm">
-       <div class="flex justify-between">
-           <a target='_blank' href='{{route('dossiers.show', [$proformat->devis->dossier->client,$proformat->devis->dossier])}}' class="rounded-full cursor-pointer p-1 hover:bg-gray-300 mr-2">
-               @icon('edit')
-           </a>
-           <span class="rounded-full cursor-pointer p-1 hover:bg-gray-300 mr-2
-               @if(!($proformat->devis->data['validated'] ?? false)) text-red-600 @else text-green-600 @endif">
-               @icon('bus')
-           </span>
-           <span class="rounded-full cursor-pointer p-1 hover:bg-gray-300 mr-2
-               @if($proformat->price->paid() === 0 || $proformat->price->remains() > 0) text-red-600 @else text-green-600 @endif">
-               @icon('cash')
-           </span>
-           <span class="rounded-full cursor-pointer p-1 hover:bg-gray-300 mr-2
-               @if(($proformat->contactFournisseurs()->count() ?? 0) === 0) text-red-600 @else text-green-600 @endif">
-               @icon('phone')
-           </span>
-       </div>
-    </td>
-
-    <td class="whitespace-nowrap px-2 py-3 text-sm text-gray-500">
+    <td class="px-2 py-3 text-sm text-gray-500 whitespace-nowrap">
         <div class="flex flex-col">
             <div class="whitespace-nowrap">PV : @marge($price->getPriceVenteTTC())€</div>
             <div class="whitespace-nowrap">PA : @marge($price->getPriceAchat())€</div>
@@ -69,7 +49,7 @@
         </div>
     </td>
 
-    <td class="whitespace-nowrap px-2 py-3 text-sm">
+    <td class="px-2 py-3 text-sm whitespace-nowrap">
         <div class="flex items-center">
             @if(!$editMargeActive)
                 <span wire:click="editMarge()" class="@if($price->achatValidated()) text-green-600 @else text-gray-600 @endif">
@@ -79,15 +59,15 @@
             @else
                 <input type="number" wire:model.defer="marge" wire:keyup.enter="storeMarge" wire:keyup.escape="closeMarge"/>
                 <span wire:click="storeMarge"  class="ml-2 cursor-pointer hover:text-blue-600">@icon('checkCircle', null, 'mr-2')</span>
-                <span wire:click="closeMarge"  class="ml-1 cursor-pointer text-red-200 hover:text-red-600">@icon('close', null, '')</span>
+                <span wire:click="closeMarge"  class="ml-1 text-red-200 cursor-pointer hover:text-red-600">@icon('close', null, '')</span>
             @endif
 
         </div>
     </td>
-    <td class="whitespace-nowrap px-2 py-3 text-sm">
+    <td class="px-2 py-3 text-sm whitespace-nowrap">
         @marge($price->getSalaireDiff())€
     </td>
-    <td class="whitespace-nowrap px-2 py-3 text-sm">
+    <td class="px-2 py-3 text-sm whitespace-nowrap">
         <div class="flex flex-col">
         @forelse($proformat->devis->demandeFournisseurs->whereIn('status', [
             Modules\CrmAutoCar\Models\Traits\EnumStatusDemandeFournisseur::STATUS_BPA,
@@ -97,16 +77,16 @@
     ])->where('prix', '!=', 0) as $demande)
             @switch($demande->status)
                 @case(\Modules\CrmAutoCar\Models\Traits\EnumStatusDemandeFournisseur::STATUS_BPA)
-                    <div class="whitespace-nowrap text-blue-500">
+                    <div class="text-blue-500 whitespace-nowrap">
                         @break
                 @case(\Modules\CrmAutoCar\Models\Traits\EnumStatusDemandeFournisseur::STATUS_VALIDATE)
-                    <div class="whitespace-nowrap text-green-500">
+                    <div class="text-green-500 whitespace-nowrap">
                 @break
                 @case(\Modules\CrmAutoCar\Models\Traits\EnumStatusDemandeFournisseur::STATUS_VALIDATE)
-                    <div class="whitespace-nowrap text-red-700">
+                    <div class="text-red-700 whitespace-nowrap">
                 @break
                 @default()
-                    <div class="whitespace-nowrap text-red-500">
+                    <div class="text-red-500 whitespace-nowrap">
                 @break
             @endswitch
                     {{$demande->fournisseur->data['company'] ??' N/A'}}
@@ -117,25 +97,25 @@
         </div>
     </td>
 
-    <td class="whitespace-nowrap px-2 py-3 text-sm">
+    <td class="px-2 py-3 text-sm whitespace-nowrap">
         @if(!is_string($proformat->devis->date_depart))
         {{$proformat->devis->date_depart->format('d/m/Y H:i') ?? 'N/A'}}
         @else
             {{$proformat->devis->date_depart}}
         @endif
     </td>
-    <td class="whitespace-nowrap px-2 py-3 text-sm">
+    <td class="px-2 py-3 text-sm whitespace-nowrap">
         @if(!is_string($proformat->devis->date_retour))
             {{$proformat->devis->date_retour->format('d/m/Y H:i') ?? 'N/A'}}
         @else
             {{$proformat->devis->date_retour}}
         @endif
     </td>
-    <td class="whitespace-nowrap px-2 py-3 text-sm">
+    <td class="px-2 py-3 text-sm whitespace-nowrap">
         @if($proformat->devis->isMultiple)
-            <span class="text-blue-800 bg-blue-200 py-1 px-3 rounded-full">Oui ({{count($proformat->devis->data['trajets'])}})</span>
+            <span class="px-3 py-1 text-blue-800 bg-blue-200 rounded-full">Oui ({{count($proformat->devis->data['trajets'])}})</span>
         @else
-            <span class="text-gray-800 bg-gray-200 py-1 px-3 rounded-full">Non</span>
+            <span class="px-3 py-1 text-gray-800 bg-gray-200 rounded-full">Non</span>
         @endif
     </td>
     <td class="whitespace-nowrap px-2 py-3 text-sm  @if($price->remains() == 0) text-green-500 @else text-red-800 @endif">
@@ -143,7 +123,7 @@
     </td>
 
     <td class="relative whitespace-nowrap">
-        <div class="flex justify-center items-center">
+        <div class="flex items-center justify-center">
             <a class="flex items-center cursor-pointer" target="_blank" href="{{route('dossiers.show', [$proformat->devis->dossier->client, $proformat->devis->dossier])}}">
                 @icon('edit', null, 'mr-2')
             </a>

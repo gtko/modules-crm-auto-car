@@ -1,18 +1,18 @@
 <div>
 
     @if(!$isBalanced)
-        <div class="rounded-md bg-red-50 p-4 mt-4 shadow-lg">
+        <div class="p-4 mt-4 rounded-md shadow-lg bg-red-50">
             <div class="flex">
                 <div class="flex-shrink-0">
                     <!-- Heroicon name: solid/x-circle -->
-                    <svg class="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <svg class="w-5 h-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
                         <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
                     </svg>
                 </div>
                 <div class="ml-3">
                     <h3 class="text-sm font-medium text-red-800">Erreur dans la balance</h3>
                     <div class="mt-2 text-sm text-red-700">
-                        <ul role="list" class="list-disc pl-5 space-y-1">
+                        <ul role="list" class="pl-5 space-y-1 list-disc">
                             <li>Certaines proformas annulées ne sont plus à l'équilibres</li>
                             <li>Contacter l'administrateur pour une correction manuel</li>
                         </ul>
@@ -22,8 +22,8 @@
         </div>
     @endif
     <div>
-        <div class="col-span-12 xl:mt-8 mt-2">
-            <div class="grid grid-cols-12 xl:grid-cols-10 gap-4 mt-2 xl:mt-5">
+        <div class="col-span-12 mt-2 xl:mt-8">
+            <div class="grid grid-cols-12 gap-4 mt-2 xl:grid-cols-10 xl:mt-5">
                 <div class="col-span-3 xl:col-span-2">
                     <x-crmautocar::widget title="Ventes">
                         @marge($totalVente)€
@@ -171,10 +171,10 @@
         </div>
 
         <div class="col-span-12 mt-6">
-            <div class="block sm:flex items-center h-10">
-                <h2 class="text-lg font-medium truncate mr-5">Réservations</h2>
+            <div class="items-center block h-10 sm:flex">
+                <h2 class="mr-5 text-lg font-medium truncate">Réservations</h2>
             </div>
-            <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-4 lg:-mx-4">
+            <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-4 lg:-mx-4">
                 <div class="inline-block min-w-full py-2 align-middle">
                     <div class="overflow-hidden shadow-sm ring-1 ring-black ring-opacity-5">
                     <table class="min-w-full divide-y divide-gray-300">
@@ -194,7 +194,6 @@
                                 >
                                     Client
                                 </x-crmautocar::colsort>
-                                <th class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90">Etat</th>
                                 <th class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90">PV / PA</th>
                                 <th class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90">Marge HT</th>
                                 <th class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90">Salaire Diff</th>
@@ -230,14 +229,14 @@
                                 <th class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90"></th>
                             </tr>
                         </thead>
-                        <tbody wire:loading.remove class="divide-y divide-gray-200 bg-white">
+                        <tbody wire:loading.remove class="bg-white divide-y divide-gray-200">
                             @forelse($proformats as $proformat)
                                 <livewire:crmautocar::proformats-list-item :key="$proformat->id" :ref="$proformat->id" :proformat="$proformat"/>
                             @empty
                                 <tr>
                                     <td colspan="11" class="p-5">
                                         <h3 class="text-lg text-gray-600">
-                                            <div class="flex justify-start items-center">
+                                            <div class="flex items-center justify-start">
                                                 @icon('empty', null, 'mr-2')
                                                 Aucune réservation trouvée
                                             </div>
@@ -249,8 +248,8 @@
                         <tbody wire:loading>
                             <tr>
                                 <td colspan="11">
-                                    <div class="text-lg text-gray-600 w-full p-5">
-                                        <div class="flex justify-start items-center w-full">
+                                    <div class="w-full p-5 text-lg text-gray-600">
+                                        <div class="flex items-center justify-start w-full">
                                             @icon('spinner', null, 'animate-spin mr-2')
                                             Chargement ...
                                         </div>
@@ -274,7 +273,6 @@
                             >
                                 Client
                             </x-crmautocar::colsort>
-                            <th class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90">Etat</th>
                             <th class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90">PV / PA</th>
                             <th class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90">Marge HT</th>
                             <th class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90">Salaire Diff</th>
