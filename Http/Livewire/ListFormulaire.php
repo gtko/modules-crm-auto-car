@@ -302,7 +302,7 @@ class ListFormulaire extends Component implements Tables\Contracts\HasTable
                             $countDossierByDay = $commercialRepo->countClientByDays($commercial);
                             $countDossierByMounth = $commercialRepo->countClientByMounth($commercial);
                             return [
-                                'label' => $commercial->format_name . ' (' . $countDossierByDay . ' / ' . $countDossierByMounth . ')',
+                                'label' => $commercial->getIsActifAttribute() ? $commercial->format_name . ' (' . $countDossierByDay . ' / ' . $countDossierByMounth . ') - En Ligne' : $commercial->format_name . ' (' . $countDossierByDay . ' / ' . $countDossierByMounth . ') - Hors Ligne',
                                 'id' => $commercial->id,
                             ];
                         })->pluck('label', 'id');
