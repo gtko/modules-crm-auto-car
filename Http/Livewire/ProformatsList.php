@@ -242,6 +242,17 @@ class ProformatsList extends Component
 
                 }, $direction);
             },
+            'signer_at' => function($query, $direction){
+                $query->orderBy(function($query){
+                    $query
+                        ->select('proformats.created_at')
+                        ->from('devis')
+                        ->join('proformats', 'devis.id', '=', 'proformats.devis_id')
+                        ->whereColumn('devis.dossier_id','dossiers.id')
+                        ->orderBy('proformats.created_at', 'asc')
+                        ->limit(1);
+                }, $direction);
+            },
         ]);
 
 

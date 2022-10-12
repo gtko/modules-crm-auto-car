@@ -218,6 +218,13 @@
                                 >
                                     Date Retour
                                 </x-crmautocar::colsort>
+                                <x-crmautocar::colsort wire:click="sort('signer_at')"
+                                       class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90"
+                                       :active="$order === 'signer_at'"
+                                       :sort="$direction"
+                                >
+                                    Signer le
+                                </x-crmautocar::colsort>
                                 <th class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90">Multiple dest</th>
                                 <x-crmautocar::colsort wire:click="sort('encaisser')"
                                                        class="px-3 py-3.5 text-left text-sm font-semibold text-gray-90"
@@ -296,6 +303,13 @@
                                                    :sort="$direction"
                             >
                                 Date Retour
+                            </x-crmautocar::colsort>
+                            <x-crmautocar::colsort wire:click="sort('signer_at')"
+                                                    class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90"
+                                                    :active="$order === 'signer_at'"
+                                                    :sort="$direction"
+                            >
+                                Signer le
                             </x-crmautocar::colsort>
                             <th class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90">Multiple dest</th>
                             <x-crmautocar::colsort wire:click="sort('encaisser')"

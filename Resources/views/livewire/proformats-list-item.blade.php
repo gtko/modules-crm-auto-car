@@ -112,6 +112,13 @@
         @endif
     </td>
     <td class="px-2 py-3 text-sm whitespace-nowrap">
+        @if(!is_string($proformat->devis->signer_at))
+            {{$proformat->devis->signer_at->format('d/m/Y H:i') ?? 'N/A'}}
+        @else
+            {{$proformat->devis->signer_at}}
+        @endif
+    </td>
+    <td class="px-2 py-3 text-sm whitespace-nowrap">
         @if($proformat->devis->isMultiple)
             <span class="px-3 py-1 text-blue-800 bg-blue-200 rounded-full">Oui ({{count($proformat->devis->data['trajets'])}})</span>
         @else
