@@ -6,16 +6,16 @@
         }
     </style>
 
-    <div class="bg-white h-full w-full h-screen flex flex-col justify-between" style="font-family: 'Lato', sans-serif;">
+    <div class="flex flex-col justify-between w-full h-full h-screen bg-white" style="font-family: 'Lato', sans-serif;">
         <div>
-            <x-crmautocar::devis-client.header class="shadow py-4 px-4"/>
+            <x-crmautocar::devis-client.header class="px-4 py-4 shadow"/>
             <div
-                class="bg-gray-200 lg:px-12 pt-4 pb-5 max-w-7xl mx-auto sm:px-6 lg:px-8 px-4 lg:grid lg:grid-cols-3 lg:gap-4 ">
-                <div class="print-col-span-3 flex-col flex lg:col-span-2">
+                class="px-4 pt-4 pb-5 mx-auto bg-gray-200 lg:px-12 max-w-7xl sm:px-6 lg:px-8 lg:grid lg:grid-cols-3 lg:gap-4 ">
+                <div class="flex flex-col print-col-span-3 lg:col-span-2">
 
 
                     @if($waiting)
-                        <div class="mb-5 p-4 space-y-6 text-base bg-green-600 text-white">
+                        <div class="p-4 mb-5 space-y-6 text-base text-white bg-green-600">
                             Vos informations ont été prises en compte et sont en attente de validation par nos équipes.<br>
                             Si vous avez des modifications à apporter, vous pouvez modifier le formulaire suivant dès maintenant.<br>
                             <br>
@@ -25,13 +25,13 @@
                         </div>
                     @endif
                     @foreach(($devis->data['trajets'] ?? []) as $idTrajet => $trajet)
-                    <div class="bg-white mb-4 p-4 grid notcut justify-items-stretch border border-gray-400">
+                    <div class="grid p-4 mb-4 bg-white border border-gray-400 notcut justify-items-stretch">
                         <div class="mb-4">
-                            <h5 class="my-2 pl-2 font-bold text-2xl">Informations sur votre voyage @if($multiple) {{$idTrajet+1}} @endif</h5>
-                            <hr class="text-bleu mb-3">
-                            <h5 class="my-2 pl-2 font-bold text-xl">
+                            <h5 class="pl-2 my-2 text-2xl font-bold">Informations sur votre voyage @if($multiple) {{$idTrajet+1}} @endif</h5>
+                            <hr class="mb-3 text-bleu">
+                            <h5 class="pl-2 my-2 text-xl font-bold">
                                 Aller
-                                <sm class="text-sm text-red-600 ml-2">(Merci de préciser l'adresse exacte)</sm>
+                                <sm class="ml-2 text-sm text-red-600">(Merci de préciser l'adresse exacte)</sm>
                             </h5>
                             <div class="grid grid-cols-2">
                                 <x-basecore::inputs.group class="w-full">
@@ -53,26 +53,8 @@
                                 </x-basecore::inputs.group>
 
                             </div>
-                            <hr class="text-bleu my-3">
-                            <h5 class="my-2 pl-2 font-bold text-xl">
-                                Retour  <sm class="text-sm text-red-600 ml-2">(Merci de préciser l'adresse exacte)</sm>
-                            </h5>
-                            <div class="grid grid-cols-2">
-                                <x-basecore::inputs.group class="w-full">
-                                    <x-basecore::inputs.datetime label="Date de retour" name="validate.{{$idTrajet}}.retour_date_depart" wire:model="validate.{{$idTrajet}}.retour_date_depart" placeholder="Date de départ"/>
-                                </x-basecore::inputs.group>
-                                <x-basecore::inputs.group class="w-full">
-                                    <x-basecore::inputs.basic label="Nombre de passagers" name="validate.{{$idTrajet}}.retour_pax" wire:model.lazy="validate.{{$idTrajet}}.retour_pax" placeholder="Nombre de passagers"/>
-                                </x-basecore::inputs.group>
-                                <x-basecore::inputs.group class="col-span-2">
-                                    <x-basecore::inputs.basic class='addressmap' data-trajet="{{$idTrajet}}" data-name="addresse_ramassage_retour" label="Adresse de ramassage" name="validate.{{$idTrajet}}.addresse_ramassage_retour"  wire:model.lazy="validate.{{$idTrajet}}.addresse_ramassage_retour"/>
-                                </x-basecore::inputs.group>
-                                <x-basecore::inputs.group class="col-span-2">
-                                    <x-basecore::inputs.basic class='addressmap' data-trajet="{{$idTrajet}}" data-name="addresse_destination_retour" label="Adresse de destination" name="validate.{{$idTrajet}}.addresse_destination_retour"  wire:model.lazy="validate.{{$idTrajet}}.addresse_destination_retour"/>
-                                </x-basecore::inputs.group>
-                            </div>
-                            <hr class="text-bleu my-3">
-                            <h5 class="my-2 pl-2 font-bold text-xl">Contact sur place</h5>
+                            <hr class="my-3 text-bleu">
+                            <h5 class="pl-2 my-2 text-xl font-bold">Contact sur place</h5>
                             <div class="grid grid-cols-2">
                                 <x-basecore::inputs.group>
                                     <x-basecore::inputs.basic label="Nom" name="validate.{{$idTrajet}}.contact_nom"
@@ -94,8 +76,8 @@
 
                             </div>
 
-                            <hr class="text-bleu my-3">
-                            <h5 class="my-2 pl-2 font-bold text-xl">Informations complémentaire</h5>
+                            <hr class="my-3 text-bleu">
+                            <h5 class="pl-2 my-2 text-xl font-bold">Informations complémentaire</h5>
                             <x-basecore::inputs.group>
                                 <x-basecore::inputs.textarea class='h-48' label="détails" name="validate.{{$idTrajet}}.information_complementaire"
                                                              wire:model.lazy="validate.{{$idTrajet}}.information_complementaire"
@@ -107,13 +89,13 @@ En cas de prise en charge ou d'arrivée au sein d'un aéroport ou d'une gare, no
                     </div>
                     @endforeach
                         @if($devis->data['validated'] ?? false)
-                            <div class="w-full flex justify-center items-center my-5">
-                                <span class="bg-green-600 text-white py-2 px-3 shadow rounded">
+                            <div class="flex items-center justify-center w-full my-5">
+                                <span class="px-3 py-2 text-white bg-green-600 rounded shadow">
                                     Information enregistrée
                                 </span>
                             </div>
                         @else
-                            <div class="w-full flex justify-center items-center my-5">
+                            <div class="flex items-center justify-center w-full my-5">
                                 <button class="btn btn-primary" wire:click="store">
                                     Enregistrer mes informations
                                 </button>
@@ -122,7 +104,7 @@ En cas de prise en charge ou d'arrivée au sein d'un aéroport ou d'une gare, no
 
 
                 </div>
-                <div class="col-span-1 flex flex-col no-print">
+                <div class="flex flex-col col-span-1 no-print">
                     <x-crmautocar::devis-client.client-information
                         :devis="$devis"
                         class="my-6 lg:order-1"
@@ -130,7 +112,7 @@ En cas de prise en charge ou d'arrivée au sein d'un aéroport ou d'une gare, no
 
                     <x-crmautocar::devis-client.conseiller
                         :devis="$devis"
-                        class="bg-white border border-2 border-gray-400 p-4 lg:order-3 mb-6"
+                        class="p-4 mb-6 bg-white border border-2 border-gray-400 lg:order-3"
                     />
 
                     <livewire:crmautocar::devis-client.recap-devis
