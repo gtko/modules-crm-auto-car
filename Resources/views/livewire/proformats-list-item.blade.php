@@ -52,10 +52,13 @@
     <td class="px-2 py-3 text-sm whitespace-nowrap">
         <div class="flex items-center">
             @if(!$editMargeActive)
-                <span wire:click="editMarge()" class="@if($price->achatValidated()) text-green-600 @else text-gray-600 @endif">
+                <span @if(!Auth::user()->hasRole("commercial")) wire:click="editMarge()" @endif class="@if($price->achatValidated()) text-green-600 @else text-gray-600 @endif">
                     @marge($marge)€
                 </span>
-                <span wire:click="editMarge()" class="ml-1 cursor-pointer hover:text-blue-600" >@icon('edit', 14, '')</span>
+
+                @if(!Auth::user()->hasRole("commercial"))
+                    <span wire:click="editMarge()" class="ml-1 cursor-pointer hover:text-blue-600" >@icon('edit', 14, '')</span>
+                @endif
             @else
                 <input type="number" wire:model.defer="marge" wire:keyup.enter="storeMarge" wire:keyup.escape="closeMarge"/>
                 <span wire:click="storeMarge"  class="ml-2 cursor-pointer hover:text-blue-600">@icon('checkCircle', null, 'mr-2')</span>

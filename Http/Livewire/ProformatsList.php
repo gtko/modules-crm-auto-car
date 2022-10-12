@@ -196,6 +196,19 @@ class ProformatsList extends Component
                         ->limit(1);
                 }, $direction);
             },
+            // 'marge' => function($query, $direction){
+            //     $query->orderBy(function($query){
+            //         $query
+            //             ->selectRaw("json_unquote(json_extract(`users`.`data`, '$.company'))")
+            //             ->from('users')
+            //             ->leftJoin('devis', 'proformats.devis_id', '=', 'devis.id')
+            //             ->leftJoin('devi_fournisseurs', 'devi_fournisseurs.user_id', '=', 'users.id')
+            //             ->leftJoin('dossiers', 'dossiers.id', '=', 'devis.dossier_id')
+            //             ->whereColumn('devi_fournisseurs.devi_id','proformats.devis_id')
+            //             ->where('devi_fournisseurs.validate',true)
+            //             ->limit(1);
+            //     }, $direction);
+            // },
             'fournisseur' => function($query, $direction){
                 $query->orderBy(function($query){
                     $query

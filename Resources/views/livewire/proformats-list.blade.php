@@ -195,7 +195,13 @@
                                     Client
                                 </x-crmautocar::colsort>
                                 <th class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90">PV / PA</th>
-                                <th class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90">Marge HT</th>
+                                <x-crmautocar::colsort wire:click="sort('marge')"
+                                                       class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90"
+                                                       :active="$order === 'marge'"
+                                                       :sort="$direction"
+                                >
+                                    Marge HT
+                                </x-crmautocar::colsort>
                                 <th class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90">Salaire Diff</th>
                                 <x-crmautocar::colsort wire:click="sort('fournisseur')"
                                                        class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90"
@@ -281,7 +287,13 @@
                                 Client
                             </x-crmautocar::colsort>
                             <th class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90">PV / PA</th>
-                            <th class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90">Marge HT</th>
+                            <x-crmautocar::colsort wire:click="sort('marge')"
+                                                   class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90"
+                                                   :active="$order === 'marge'"
+                                                   :sort="$direction"
+                            >
+                                Marge HT
+                            </x-crmautocar::colsort>
                             <th class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90">Salaire Diff</th>
                             <x-crmautocar::colsort wire:click="sort('fournisseur')"
                                                    class="whitespace-nowrap px-3 py-3.5 text-left text-sm font-semibold text-gray-90"
